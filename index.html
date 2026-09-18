@@ -113,10 +113,12 @@
   .card .cap{max-width:30ch}
 
   /* футер внутренних страниц */
-  footer{margin-top:clamp(80px,14vh,180px);padding-bottom:40px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;align-items:end}
-  footer .links{display:flex;flex-direction:column;gap:8px}
-  footer .links.mid{flex-direction:row;flex-wrap:wrap;gap:8px 14px}
-  footer .cap{color:var(--mute)}
+  footer{margin-top:clamp(80px,14vh,180px);padding-bottom:28px;line-height:1.35}
+  .fcols{display:grid;grid-template-columns:1.6fr 1fr 1fr auto;gap:24px;align-items:start;padding-top:18px;border-top:1px solid var(--line)}
+  .fcols .cap{color:var(--mute);margin-bottom:4px;display:block}
+  .fline{display:flex;justify-content:space-between;gap:24px;margin-top:40px;color:var(--mute)}
+  .fline nav{display:flex;gap:18px}
+  .fline nav a{color:var(--ink)}
   main[data-tab="home"] ~ footer{display:none}
 
   @media (max-width:820px){
@@ -149,7 +151,9 @@
     .team .t2 .ph{aspect-ratio:3/2;height:auto}
     .ccols{grid-template-columns:1fr;gap:18px}
     .cards{grid-template-columns:1fr}
-    footer{grid-template-columns:1fr;gap:24px}
+    .fcols{grid-template-columns:1fr 1fr;gap:16px 18px;font-size:14px}
+    .fcols > div:first-child{grid-column:1/-1}
+    .fline{flex-direction:column;gap:12px;margin-top:28px}
     .item.has{cursor:pointer}
   }
 </style>
@@ -293,21 +297,15 @@
 </main>
 
 <footer>
-  <div class="links">
-    <span class="cap">Издательство пиццы</span>
-    <span>Москва, переулок Маяковского, 2</span>
-    <span>ежедневно 12:00–22:00</span>
+  <div class="fcols">
+    <div><span class="cap">Адрес</span>Москва, переулок Маяковского, 2<br>вход с торца дома, со стороны Марксистской</div>
+    <div><span class="cap">Ежедневно</span>12:00 – 22:00</div>
+    <div><span class="cap">Телефон</span><a class="u" href="tel:+79670796093">+7 967 079-60-93</a></div>
+    <div><span class="cap">Соцсети</span><a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">Instagram</a><br><span class="u soon" title="Скоро">Telegram</span></div>
   </div>
-  <div class="links mid">
-    <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>
-    <a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">Instagram</a>
-    <span class="u soon" title="Скоро">Telegram</span>
-  </div>
-  <div class="links">
-    <a href="#about" data-go="about">О нас</a>
-    <a href="#menu" data-go="menu">Меню</a>
-    <a href="#book" data-go="book">Забронировать</a>
+  <div class="fline">
     <span class="cap">© Издательство пиццы, 2026</span>
+    <nav class="cap" aria-label="Разделы (подвал)"><a href="#about" data-go="about">О нас</a><a href="#menu" data-go="menu">Меню</a><a href="#book" data-go="book">Забронировать</a></nav>
   </div>
 </footer>
 
