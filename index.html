@@ -13,69 +13,82 @@
     --gut:clamp(16px,2.2vw,40px);
     color-scheme: light;
   }
-  html,body{background:var(--bg);color:var(--ink);overflow-x:hidden}
-  body{margin:0;font:16px/1.1 var(--sans);padding-inline:var(--gut);padding-block:0 40px;-webkit-font-smoothing:antialiased}
+  html,body{background:var(--bg);color:var(--ink);overflow-x:hidden;height:100%}
+  body{margin:0;font:16px/1.1 var(--sans);padding-inline:var(--gut);padding-block:0;-webkit-font-smoothing:antialiased;min-height:100%;display:flex;flex-direction:column}
   *{box-sizing:border-box}
   a{color:inherit;text-decoration:none}
   .u{text-decoration:underline;text-underline-offset:.12em;text-decoration-thickness:1px}
   .cap{font-family:var(--sans);font-size:10px;line-height:1.1;text-transform:uppercase;letter-spacing:.02em}
   .serif{font-family:var(--serif)}
-  /* «condensed» Times: системный Times New Roman + горизонтальное сжатие. В проде — Times New Roman Condensed / Apercu Condensed Pro */
+  /* «condensed» Times: системный Times New Roman + сжатие. В проде — Times New Roman Condensed + Apercu Condensed Pro (как у A-Index) */
   .cond{font-family:var(--serif);display:inline-block;transform:scaleX(.86);transform-origin:left center}
-  .cond.c{transform-origin:center}
   .ph{background:var(--ph);display:flex;align-items:flex-end;padding:8px 10px;position:relative;max-width:100%}
   .ph span{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--mute)}
 
-  /* header */
-  .hdr{display:grid;grid-template-columns:1fr auto 1fr;align-items:start;padding:18px 0 0;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;min-height:110px}
-  .nav{display:flex;gap:26px;padding-top:10px}
+  /* header — как у DFF: слева действия, лого по центру, справа разделы */
+  .hdr{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:18px 0 10px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;flex:0 0 auto}
+  .nav{display:flex;gap:24px;align-items:center}
   .nav.r{justify-content:flex-end}
   .nav a{padding-bottom:2px;border-bottom:1px solid transparent}
   .nav a.on{border-bottom-color:var(--ink)}
-  .nav a:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  .nav a:focus-visible,.pill:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
   .nav .lang{color:var(--mute)}
   .nav .lang b{color:var(--ink);font-weight:400}
+  .pill{border:1px solid var(--ink);border-radius:999px;padding:9px 18px;line-height:1}
+  .pill.on{background:var(--ink);color:var(--bg)}
   .logo{text-align:center;line-height:.8;display:block}
-  .logo .l1{font-family:var(--serif);font-size:clamp(34px,4.6vw,64px);text-transform:uppercase;letter-spacing:-.01em;display:inline-block;transform:scaleX(.82);transform-origin:center}
-  .logo .l2{font-family:var(--serif);font-size:clamp(16px,1.6vw,24px);display:block;margin-top:-.1em;transform:scaleX(.9);transform-origin:center}
+  .logo .l1{font-family:var(--serif);font-size:clamp(30px,4vw,56px);text-transform:uppercase;letter-spacing:-.01em;display:inline-block;transform:scaleX(.82);transform-origin:center}
+  .logo .l2{font-family:var(--serif);font-size:clamp(15px,1.5vw,22px);display:block;margin-top:-.05em;transform:scaleX(.9);transform-origin:center}
 
-  main{view-transition-name:panel}
+  main{view-transition-name:panel;flex:1 1 auto;display:flex;flex-direction:column}
   main section{display:none}
-  main[data-tab="about"] #about, main[data-tab="menu"] #menu, main[data-tab="contacts"] #contacts{display:block}
+  main[data-tab="home"] #home, main[data-tab="about"] #about, main[data-tab="menu"] #menu, main[data-tab="book"] #book{display:block}
+  main[data-tab="home"] #home{display:flex}
   ::view-transition-old(panel){animation:vt-out .16s ease both}
   ::view-transition-new(panel){animation:vt-in .26s ease both}
   @keyframes vt-out{to{opacity:0}}
   @keyframes vt-in{from{opacity:0}}
   @media (prefers-reduced-motion:reduce){::view-transition-old(panel),::view-transition-new(panel){animation:none}}
 
-  /* big numbered paragraphs */
-  .big{font-family:var(--serif);font-size:clamp(26px,3.5vw,52px);line-height:1.08;letter-spacing:-.005em;margin:clamp(56px,11vh,150px) 0 clamp(28px,4vw,56px);max-width:36ch;text-wrap:pretty;transform:scaleX(.88);transform-origin:left top}
+  /* ГЛАВНАЯ — не скроллится: рисунок фасада + инфостроки внизу (как у DFF) */
+  #home{flex-direction:column;justify-content:space-between;min-height:calc(100dvh - 92px)}
+  .facade{flex:1 1 auto;display:flex;align-items:center;justify-content:center;padding:2vh 0}
+  .facade svg{width:min(100%,1180px);height:auto;max-height:62dvh;display:block}
+  .facade .note{position:absolute;right:0;bottom:0}
+  .facade{position:relative}
+  .infobar{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr auto;gap:24px;align-items:end;padding:18px 0 22px;line-height:1.35}
+  .infobar .cap{color:var(--mute);margin-bottom:4px;display:block}
+  .infobar .soc{display:flex;gap:10px;align-items:center}
+  .infobar .soc a{width:36px;height:36px;border:1px solid var(--ink);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:13px}
+  .infobar .ya{border:1px solid #bbb;border-radius:999px;padding:8px 14px;color:var(--mute);display:inline-block}
+
+  /* страницы */
+  .big{font-family:var(--serif);font-size:clamp(26px,3.5vw,52px);line-height:1.08;letter-spacing:-.005em;margin:clamp(40px,8vh,110px) 0 clamp(28px,4vw,56px);max-width:36ch;text-wrap:pretty;transform:scaleX(.88);transform-origin:left top}
   .big sup{font-size:.5em;vertical-align:.7em;margin-right:.25em;line-height:0}
   .big .ph-t{display:inline;background:var(--ph);color:var(--mute);font-style:italic;padding:0 .15em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-  .big + .big{margin-top:0}
-
-  /* horizontal rows with arrow labels (as in A-Index) */
   .row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(260px,1fr);gap:clamp(12px,1.6vw,26px);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:6px}
   .row::-webkit-scrollbar{display:none}
   .row > *{scroll-snap-align:start}
   .tile .ph{aspect-ratio:4/3}
   .tile .lab{font-family:var(--serif);font-size:clamp(20px,2.2vw,32px);text-transform:uppercase;letter-spacing:-.01em;line-height:1;margin:14px 0 0;text-align:center;display:block}
-  .tile .lab .cond{transform:scaleX(.86);transform-origin:center}
-  .tile .lab .arr{font-family:var(--serif);margin-left:.15em}
+  .tile .lab .cond{transform-origin:center}
+  .tile .lab .arr{margin-left:.15em}
   .more{display:flex;justify-content:flex-end;margin-top:14px;font-family:var(--serif);font-size:28px;line-height:1}
-
-  /* small frames — предметы интерьера */
   .frames{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(150px,1fr);gap:clamp(12px,1.6vw,26px);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-top:clamp(28px,4vw,56px)}
   .frames::-webkit-scrollbar{display:none}
   .frame{border:1px solid var(--line);aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:12px 10px;text-align:center;scroll-snap-align:start}
-  .frame .cap{color:var(--ink)}
-  .frame .ph{width:56%;aspect-ratio:1;padding:0;align-items:center;justify-content:center;background:var(--ph)}
+  .frame .ph{width:56%;aspect-ratio:1;padding:0;align-items:center;justify-content:center}
   .frame .name{font-family:var(--serif);font-size:clamp(16px,1.5vw,22px);text-transform:uppercase;line-height:1;display:inline-block;transform:scaleX(.86)}
   .float{float:right;width:clamp(96px,10vw,140px);margin:0 0 12px 24px}
-  .float .frame{aspect-ratio:1}
   .float .name{font-size:14px}
+  .team{display:grid;grid-template-columns:7fr 5fr;gap:clamp(12px,1.6vw,26px);margin-top:clamp(28px,4vw,56px)}
+  .team .ph{aspect-ratio:3/2}
+  .team .t2 .ph{aspect-ratio:auto;height:100%}
+  .team figure{margin:0;display:flex;flex-direction:column}
+  .team figcaption{margin-top:10px;display:flex;justify-content:space-between}
+  .team figcaption .cap{color:var(--mute)}
 
-  /* menu */
+  /* меню */
   .cats{display:flex;flex-wrap:wrap;gap:8px clamp(18px,3vw,44px);margin:0 0 clamp(20px,3vw,40px)}
   .cats button{all:unset;cursor:pointer;font-family:var(--serif);font-size:clamp(20px,2.2vw,32px);text-transform:uppercase;line-height:1;display:inline-block;transform:scaleX(.86);transform-origin:left;color:var(--mute)}
   .cats button.on{color:var(--ink)}
@@ -86,7 +99,7 @@
   .item{display:grid;grid-template-columns:1fr auto;gap:8px 24px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line)}
   .item .nm{font-family:var(--serif);font-size:clamp(20px,2vw,28px);line-height:1;display:inline-block;transform:scaleX(.9);transform-origin:left}
   .item .ds{grid-column:1;color:var(--mute);margin-top:2px}
-  .item .pr{font-family:var(--sans);font-size:14px;color:var(--mute)}
+  .item .pr{font-size:14px;color:var(--mute)}
   .item.has{cursor:none}
   .item.has .pr::after{content:"фото";margin-left:14px;font-size:10px;text-transform:uppercase;opacity:.6}
   .item .thumb{display:none;grid-column:1/-1}
@@ -94,40 +107,42 @@
   .cur{position:fixed;width:240px;aspect-ratio:4/3;pointer-events:none;z-index:99;display:none}
   .cur.on{display:flex}
 
-  /* contacts */
+  /* бронь = контакты + карта */
   .ccols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:clamp(20px,3vw,40px)}
   .ccols .cap{color:var(--mute);margin-bottom:10px}
   .ccols p{margin:0;font-size:16px;line-height:1.35}
   .map{aspect-ratio:21/9;margin-top:clamp(28px,4vw,56px)}
   .cards{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,1.6vw,26px);margin-top:clamp(12px,1.6vw,26px)}
   .card{border:1px solid var(--line);min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;padding:14px 16px}
-  .card.soon .ttl,.card.soon .cap{color:var(--mute)}
   .card.soon{border-color:#bbb}
+  .card.soon .ttl,.card.soon .cap{color:var(--mute)}
   .card .ttl{font-family:var(--serif);font-size:clamp(22px,2.4vw,34px);text-transform:uppercase;line-height:1;display:inline-block;transform:scaleX(.86)}
   .card .cap{max-width:30ch}
 
-  /* footer */
-  footer{margin-top:clamp(80px,14vh,180px);display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;align-items:end}
-  footer .sub{display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding-bottom:6px;max-width:300px}
-  footer .sub .in{flex:1;font-family:var(--serif);font-size:18px;text-transform:uppercase;color:#bbb;transform:scaleX(.86);transform-origin:left}
-  footer .sub .arr{font-family:var(--serif);font-size:24px;line-height:1}
-  footer .cap{color:var(--mute);margin-top:8px}
+  /* футер внутренних страниц */
+  footer{margin-top:clamp(80px,14vh,180px);padding-bottom:40px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;align-items:end}
   footer .links{display:flex;flex-direction:column;gap:8px}
-  footer .links.mid{flex-direction:row;flex-wrap:wrap;gap:8px 14px;align-self:end}
-  .fine{grid-column:1/-1;margin-top:40px;color:var(--ink);display:flex;gap:16px;flex-wrap:wrap}
+  footer .links.mid{flex-direction:row;flex-wrap:wrap;gap:8px 14px}
+  footer .cap{color:var(--mute)}
+  main[data-tab="home"] ~ footer{display:none}
 
   @media (max-width:820px){
-    .hdr{grid-template-columns:1fr;min-height:0;padding-top:14px;gap:12px;text-align:center}
+    .hdr{grid-template-columns:1fr;padding-top:14px;gap:12px;text-align:center}
     .logo{order:-1}
-    .nav{justify-content:center;gap:18px;padding-top:0}
-    .nav.r{justify-content:center}
-    .big{font-size:clamp(24px,7vw,32px);margin:40px 0 24px;max-width:none}
+    .nav,.nav.r{justify-content:center;gap:16px;flex-wrap:wrap}
+    #home{min-height:calc(100dvh - 150px)}
+    .facade svg{max-height:40dvh}
+    .infobar{grid-template-columns:1fr 1fr;gap:14px 18px;padding:12px 0 16px;font-size:14px}
+    .infobar .soc{grid-column:1/-1;justify-content:space-between}
+    .big{font-size:clamp(24px,7vw,32px);margin:36px 0 22px;max-width:none}
     .row{grid-auto-columns:80%}
     .frames{grid-auto-columns:46%}
     .float{width:96px;margin:0 0 8px 14px}
+    .team{grid-template-columns:1fr}
+    .team .t2 .ph{aspect-ratio:3/2;height:auto}
     .ccols{grid-template-columns:1fr;gap:18px}
     .cards{grid-template-columns:1fr}
-    footer{grid-template-columns:1fr;gap:28px}
+    footer{grid-template-columns:1fr;gap:24px}
     .item.has{cursor:pointer}
   }
 </style>
@@ -136,50 +151,139 @@
 <body>
 
 <header class="hdr">
-  <nav class="nav" aria-label="Разделы">
-    <a href="#about" data-go="about" class="on">О нас</a>
+  <nav class="nav" aria-label="Действия">
+    <a class="pill" href="#book" data-go="book">Забронировать стол</a>
     <a href="#menu" data-go="menu">Меню</a>
-    <a href="#contacts" data-go="contacts">Контакты</a>
   </nav>
-  <a class="logo" href="#about" data-go="about" aria-label="Издательство пиццы — на главную"><span class="l1">Издательство</span><span class="l2">пиццы</span></a>
-  <nav class="nav r" aria-label="Действия">
-    <a href="tel:+79670796093">Бронь</a>
+  <a class="logo" href="#home" data-go="home" aria-label="Издательство пиццы — на главную"><span class="l1">Издательство</span><span class="l2">пиццы</span></a>
+  <nav class="nav r" aria-label="Разделы">
+    <a href="#about" data-go="about">О нас</a>
     <a href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">Instagram</a>
     <span class="lang"><b>Ru</b> / En</span>
   </nav>
 </header>
 
-<main data-tab="about">
-  <section id="about">
-    <p class="big"><sup>1</sup>Издательство пиццы — это <span class="ph-t">[два-три предложения о месте: кто, где, зачем сюда идти]</span>, в переулке Маяковского у <a class="u" href="#contacts" data-go="contacts">Марксистской</a>.</p>
+<main data-tab="home">
+  <!-- ГЛАВНАЯ -->
+  <section id="home">
+    <div class="facade" aria-label="Фасад: жилой дом, лестница ко входу, дерево с гирляндой">
+      <svg viewBox="0 0 1200 560" fill="none" stroke="#000" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" role="img" aria-hidden="true">
+        <!-- дом -->
+        <path d="M120 40 L1100 44 L1096 470 L124 468 Z"/>
+        <path d="M128 48 L1092 52 M126 300 L1094 302 M125 384 L1095 386" stroke-opacity=".35"/>
+        <!-- кирпич, намёк -->
+        <g stroke-opacity=".18">
+          <path d="M140 80h60M230 80h70M330 80h50M420 80h80M540 80h40M640 80h70M760 80h50M860 80h70M980 80h60"/>
+          <path d="M170 130h50M260 130h80M380 130h40M470 130h70M590 130h60M700 130h40M790 130h70M900 130h50M1000 130h60"/>
+          <path d="M140 180h70M250 180h50M340 180h80M460 180h40M540 180h70M660 180h50M750 180h80M870 180h40M950 180h80"/>
+          <path d="M160 230h50M250 230h70M360 230h40M440 230h80M560 230h50M660 230h70M770 230h40M850 230h80M970 230h50"/>
+          <path d="M150 340h60M250 340h50M340 340h70M900 340h60M1000 340h50"/>
+          <path d="M160 420h50M260 420h70M900 420h50M990 420h60"/>
+        </g>
+        <!-- окна верхних этажей -->
+        <g>
+          <rect x="200" y="70" width="70" height="90"/><path d="M235 70v90M200 115h70"/>
+          <rect x="380" y="70" width="70" height="90"/><path d="M415 70v90M380 115h70"/>
+          <rect x="560" y="70" width="70" height="90"/><path d="M595 70v90M560 115h70"/>
+          <rect x="740" y="70" width="70" height="90"/><path d="M775 70v90M740 115h70"/>
+          <rect x="920" y="70" width="70" height="90"/><path d="M955 70v90M920 115h70"/>
+          <rect x="200" y="196" width="70" height="90"/><path d="M235 196v90M200 241h70"/>
+          <rect x="380" y="196" width="70" height="90"/><path d="M415 196v90M380 241h70"/>
+          <rect x="740" y="196" width="70" height="90"/><path d="M775 196v90M740 241h70"/>
+          <rect x="920" y="196" width="70" height="90"/><path d="M955 196v90M920 241h70"/>
+          <rect x="880" y="330" width="60" height="70"/><path d="M910 330v70"/>
+          <rect x="1000" y="330" width="60" height="70"/><path d="M1030 330v70"/>
+          <rect x="170" y="330" width="60" height="70"/><path d="M200 330v70"/>
+          <rect x="290" y="330" width="60" height="70"/><path d="M320 330v70"/>
+        </g>
+        <!-- вход: козырёк, дверь, свет -->
+        <path d="M520 250 L680 250 L688 262 L512 262 Z"/>
+        <rect x="556" y="262" width="88" height="126" fill="#000" fill-opacity=".85"/>
+        <path d="M600 262v126" stroke="#fff" stroke-opacity=".5"/>
+        <path d="M548 300 L556 300 M644 300 L652 300" stroke-opacity=".5"/>
+        <!-- площадка и лестница -->
+        <path d="M500 388 L700 388 L700 402 L500 402 Z"/>
+        <path d="M500 402 L480 420 L720 420 L700 402"/>
+        <path d="M480 420 L462 438 L738 438 L720 420"/>
+        <path d="M462 438 L444 456 L756 456 L738 438"/>
+        <path d="M444 456 L426 474 L774 474 L756 456"/>
+        <path d="M426 474 L408 492 L792 492 L774 474"/>
+        <!-- перила -->
+        <path d="M500 330 L500 388 L408 492 M492 338 L492 396 L402 500" stroke-width="1.4"/>
+        <path d="M700 330 L700 388 L792 492 M708 338 L708 396 L798 500" stroke-width="1.4"/>
+        <path d="M500 356 L492 364 M496 380 L488 388 M470 420 L462 428 M448 446 L440 454 M428 470 L420 478"/>
+        <path d="M700 356 L708 364 M704 380 L712 388 M730 420 L738 428 M752 446 L760 454 M772 470 L780 478"/>
+        <!-- бутылки на ступенях -->
+        <g stroke-width="1">
+          <path d="M470 440 v-16 a3 3 0 0 1 6 0 v16 z M470 424 v-6 h6 v6"/>
+          <path d="M452 458 v-16 a3 3 0 0 1 6 0 v16 z M452 442 v-6 h6 v6"/>
+          <path d="M724 440 v-16 a3 3 0 0 1 6 0 v16 z M724 424 v-6 h6 v6"/>
+          <path d="M742 458 v-16 a3 3 0 0 1 6 0 v16 z M742 442 v-6 h6 v6"/>
+        </g>
+        <!-- столик с лимонами и цветами -->
+        <path d="M830 440 L890 440 L896 448 L824 448 Z M834 448 L830 500 M886 448 L890 500 M828 500 L892 500" />
+        <circle cx="850" cy="434" r="5"/><circle cx="860" cy="436" r="5"/><circle cx="855" cy="428" r="5"/>
+        <path d="M876 440 v-14 a2.5 2.5 0 0 1 5 0 v14 M878.5 426 v-10 M878.5 416 c-6 -6 -4 -14 2 -12 M878.5 416 c6 -6 4 -14 -2 -12"/>
+        <!-- дерево слева и гирлянда -->
+        <path d="M300 500 C300 440 296 380 292 330" stroke-width="1.4"/>
+        <path d="M292 330 C250 300 230 250 260 220 C240 190 270 150 310 170 C330 130 390 140 400 180 C440 170 460 220 430 250 C460 280 420 330 380 320 C370 350 320 360 292 330 Z" stroke-opacity=".7"/>
+        <path d="M280 300 c10 -8 20 -4 26 6 M340 250 c8 -10 20 -8 26 2 M370 300 c10 -6 22 -2 24 8 M300 240 c6 -12 18 -12 26 -2" stroke-opacity=".5"/>
+        <path d="M430 250 C480 270 520 280 560 262" stroke-opacity=".6"/>
+        <path d="M400 320 C470 340 540 330 600 300" stroke-opacity=".6"/>
+        <g fill="#000" stroke="none" fill-opacity=".9">
+          <circle cx="450" cy="256" r="2.4"/><circle cx="480" cy="268" r="2.4"/><circle cx="512" cy="276" r="2.4"/><circle cx="542" cy="272" r="2.4"/>
+          <circle cx="430" cy="328" r="2.4"/><circle cx="470" cy="337" r="2.4"/><circle cx="512" cy="337" r="2.4"/><circle cx="556" cy="326" r="2.4"/><circle cx="586" cy="310" r="2.4"/>
+        </g>
+        <!-- земля -->
+        <path d="M60 500 L1140 500" stroke-opacity=".6"/>
+        <path d="M80 520 h60 M180 516 h40 M960 518 h70 M1060 514 h40" stroke-opacity=".3"/>
+      </svg>
+      <span class="cap note" style="color:var(--mute)">фасад карандашом — будет рисунок</span>
+    </div>
+    <div class="infobar">
+      <div><span class="cap">Издательство пиццы</span>Москва, переулок Маяковского, 2<br>вход с торца дома, со стороны Марксистской</div>
+      <div><span class="cap">Ежедневно</span>12:00 – 22:00</div>
+      <div><span class="cap">Столик</span><a class="u" href="tel:+79670796093">+7 967 079-60-93</a><br><a class="u" href="#">Telegram</a></div>
+      <div><span class="ya">доставка — скоро</span></div>
+      <div class="soc"><a href="#" aria-label="Telegram">Tg</a><a href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener" aria-label="Instagram">Ig</a><span class="serif" style="font-style:italic;color:var(--mute);margin-left:6px">yours truly,<br>Стас и Настя</span></div>
+    </div>
+  </section>
 
+  <!-- О НАС -->
+  <section id="about">
+    <p class="big"><sup>1</sup>Издательство пиццы — это <span class="ph-t">[два-три предложения о месте: кто, где, зачем сюда идти]</span>, в переулке Маяковского у <a class="u" href="#book" data-go="book">Марксистской</a>.</p>
     <div class="row">
+      <a class="tile" href="#about"><div class="ph"><span>Лестница ко входу</span></div><span class="lab"><span class="cond">Вход</span><span class="arr">→</span></span></a>
       <a class="tile" href="#about"><div class="ph"><span>Зал</span></div><span class="lab"><span class="cond">Зал</span><span class="arr">→</span></span></a>
       <a class="tile" href="#about"><div class="ph"><span>Печь</span></div><span class="lab"><span class="cond">Печь</span><span class="arr">→</span></span></a>
-      <a class="tile" href="#about"><div class="ph"><span>Стас и Настя</span></div><span class="lab"><span class="cond">Стас и Настя</span><span class="arr">→</span></span></a>
-      <a class="tile" href="#about"><div class="ph"><span>Повар</span></div><span class="lab"><span class="cond">Повар</span><span class="arr">→</span></span></a>
-      <a class="tile" href="#about"><div class="ph"><span>Двор</span></div><span class="lab"><span class="cond">Двор</span><span class="arr">→</span></span></a>
+      <a class="tile" href="#about"><div class="ph"><span>Двор, гирлянда</span></div><span class="lab"><span class="cond">Двор</span><span class="arr">→</span></span></a>
     </div>
     <div class="more" aria-hidden="true">→</div>
 
-    <div class="float"><div class="frame"><span class="cap">Из зала</span><div class="ph"></div><span class="name">Лимон</span></div></div>
-    <p class="big"><sup>2</sup><span class="ph-t">[Концепция в два предложения: шестьдесят процентов Италии, сорок — нашего двора. Что итальянское, что наше.]</span> Смотрите <a class="u" href="#menu" data-go="menu">меню</a>.</p>
+    <div class="float"><div class="frame"><span class="cap">На ступенях</span><div class="ph"></div><span class="name">Бутылка</span></div></div>
+    <p class="big"><sup>2</sup><span class="ph-t">[Концепция: шестьдесят процентов Италии, сорок — нашего двора. Что итальянское, что наше.]</span> Смотрите <a class="u" href="#menu" data-go="menu">меню</a>.</p>
 
-    <div class="frames">
-      <div class="frame"><span class="cap">На столе</span><div class="ph"></div><span class="name">Банка томатов</span></div>
-      <div class="frame"><span class="cap">На окне</span><div class="ph"></div><span class="name">Цветы в бутылке</span></div>
-      <div class="frame"><span class="cap">На столе</span><div class="ph"></div><span class="name">Солонка</span></div>
-      <div class="frame"><span class="cap">В зале</span><div class="ph"></div><span class="name">Стул</span></div>
-      <div class="frame"><span class="cap">На стене</span><div class="ph"></div><span class="name">Фасад карандашом</span></div>
-      <div class="frame"><span class="cap">На баре</span><div class="ph"></div><span class="name">Лимоны</span></div>
+    <div class="team">
+      <figure><div class="ph"><span>Стас и Настя</span></div><figcaption><span>Стас и Настя</span><span class="cap">владельцы</span></figcaption></figure>
+      <figure class="t2"><div class="ph"><span>Повар</span></div><figcaption><span>[Имя]</span><span class="cap">за печью</span></figcaption></figure>
     </div>
 
-    <p class="big"><sup>3</sup>Ежедневно с 12:00 до 22:00. Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a> или в <a class="u" href="#">Telegram</a>. <span class="ph-t">[Доставка — скоро.]</span></p>
+    <div class="frames">
+      <div class="frame"><span class="cap">У входа</span><div class="ph"></div><span class="name">Лимоны</span></div>
+      <div class="frame"><span class="cap">На столике</span><div class="ph"></div><span class="name">Цветы в бутылке</span></div>
+      <div class="frame"><span class="cap">На дереве</span><div class="ph"></div><span class="name">Гирлянда</span></div>
+      <div class="frame"><span class="cap">На столе</span><div class="ph"></div><span class="name">Банка томатов</span></div>
+      <div class="frame"><span class="cap">В зале</span><div class="ph"></div><span class="name">Стул</span></div>
+      <div class="frame"><span class="cap">На столе</span><div class="ph"></div><span class="name">Солонка</span></div>
+    </div>
+
+    <p class="big"><sup>3</sup>Ежедневно с 12:00 до 22:00. Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a> или в <a class="u" href="#">Telegram</a>.</p>
   </section>
 
+  <!-- МЕНЮ -->
   <section id="menu">
     <p class="big"><sup>1</sup>Меню. Наведите на пиццу или десерт — увидите фото. <span class="ph-t">[Одна строка про тесто и печь.]</span></p>
-    <div class="cats" role="tablist">
+    <div class="cats">
       <button type="button" class="on" data-cat="pizza">Пицца и фокачча</button>
       <button type="button" data-cat="starters">Салаты и закуски</button>
       <button type="button" data-cat="desserts">Десерты и выпечка</button>
@@ -218,8 +322,9 @@
     </div>
   </section>
 
-  <section id="contacts">
-    <p class="big"><sup>1</sup>Москва, переулок Маяковского, 2. Вход с торца жилого дома со стороны <span class="u">Марксистской</span>. Ежедневно 12:00–22:00.</p>
+  <!-- ЗАБРОНИРОВАТЬ = контакты + карта -->
+  <section id="book">
+    <p class="big"><sup>1</sup>Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a> или в <a class="u" href="#">Telegram</a>. Мы на переулке Маяковского, 2, вход с торца дома со стороны Марксистской.</p>
     <div class="ccols">
       <div><div class="cap">Адрес</div><p>переулок Маяковского, 2<br>м. Марксистская<br><span class="ph-t serif">[как найти вход]</span></p></div>
       <div><div class="cap">Часы</div><p>Ежедневно 12:00–22:00<br>кухня до <span class="ph-t serif">[время]</span></p></div>
@@ -227,29 +332,29 @@
     </div>
     <div class="ph map"><span>Яндекс.Карты</span></div>
     <div class="cards">
-      <a class="card" href="tel:+79670796093"><span class="cap">Столик</span><span class="ttl">Бронь по телефону</span><span class="cap">Онлайн-бронь появится позже</span></a>
+      <a class="card" href="tel:+79670796093"><span class="cap">Столик</span><span class="ttl">Позвонить</span><span class="cap">Онлайн-бронь появится позже</span></a>
       <div class="card soon"><span class="cap">Скоро</span><span class="ttl">Доставка</span><span class="cap">Пока — в зале и с собой</span></div>
     </div>
   </section>
 </main>
 
 <footer>
-  <div>
-    <div class="sub"><span class="in">E-mail для новостей</span><span class="arr">→</span></div>
-    <div class="cap">○ Согласие на получение рассылки</div>
+  <div class="links">
+    <span class="cap">Издательство пиццы</span>
+    <span>Москва, переулок Маяковского, 2</span>
+    <span>ежедневно 12:00–22:00</span>
   </div>
   <div class="links mid">
-    <span class="cap">Телефон</span><a class="u" href="tel:+79670796093">+7 967 079-60-93</a>
+    <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>
     <a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">Instagram</a>
     <a class="u" href="#">Telegram</a>
   </div>
   <div class="links">
     <a href="#about" data-go="about">О нас</a>
     <a href="#menu" data-go="menu">Меню</a>
-    <a href="#contacts" data-go="contacts">Контакты</a>
-    <a href="#">Политика обработки персональных данных</a>
+    <a href="#book" data-go="book">Забронировать</a>
+    <span class="cap">ИП [фамилия] · ИНН [···]</span>
   </div>
-  <div class="fine cap"><span>ИП [фамилия]</span><span>ИНН [···]</span><span>ОГРНИП [···]</span></div>
 </footer>
 
 <div class="ph cur" id="cur"><span>Фото позиции</span></div>
@@ -258,14 +363,15 @@
   const main = document.querySelector('main');
   const cur = document.getElementById('cur');
   const isTouch = matchMedia('(hover: none)').matches;
+  const TABS = ['home','about','menu','book'];
   function setTab(id){
     main.dataset.tab = id;
     document.querySelectorAll('.nav a[data-go]').forEach(a => a.classList.toggle('on', a.dataset.go === id));
     window.scrollTo({top:0});
   }
   function go(id, push){
-    if (!['about','menu','contacts'].includes(id)) id = 'about';
-    if (push) history.replaceState(null, '', '#' + id);
+    if (!TABS.includes(id)) id = 'home';
+    if (push) history.replaceState(null, '', id === 'home' ? location.pathname : '#' + id);
     if (document.startViewTransition && main.dataset.tab !== id) document.startViewTransition(() => setTab(id));
     else setTab(id);
   }
