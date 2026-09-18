@@ -53,6 +53,7 @@
   .acts{justify-content:center;align-items:baseline;gap:28px;padding:6px 0 10px}
   /* Меню/Забронировать в шапке — только вне главной (на главной они под фасадом) */
   .hdr .hx{display:none}
+  .h-book .short{display:none}
   body:has(main:not([data-tab="home"])) .hdr .hx{display:inline-block}
   .infobar{display:grid;grid-template-columns:1.6fr 1fr 1fr auto;gap:24px;align-items:end;padding:18px 0 22px;line-height:1.35}
   .infobar .cap{color:var(--mute);margin-bottom:4px;display:block}
@@ -117,9 +118,20 @@
   main[data-tab="home"] ~ footer{display:none}
 
   @media (max-width:820px){
-    .hdr{padding-top:14px;gap:10px;font-size:14px}
-    .hdr .nav{flex-direction:column;align-items:flex-start;gap:6px}
-    .hdr .nav.r{align-items:flex-end}
+    /* мобильная шапка: слева Меню/Бронь, по центру лого, справа О нас/Ru·En */
+    .hdr{padding-top:14px;gap:6px 10px;font-size:14px;grid-template-areas:"menu logo about" "book logo lang"}
+    .hdr .nav{display:contents}
+    .hdr .hx{display:inline-block}
+    .h-menu{grid-area:menu}.h-book{grid-area:book}.h-about{grid-area:about}.h-lang{grid-area:lang}
+    .h-menu,.h-book{justify-self:start}.h-about,.h-lang{justify-self:end}
+    .logo{grid-area:logo}
+    .h-book .full{display:none}.h-book .short{display:inline}
+    .acts{display:none}
+    /* главная на мобилке — как было: О нас слева, Ru/En справа, кнопки под фасадом */
+    body:has(main[data-tab="home"]) .hdr{grid-template-areas:"about logo lang"}
+    body:has(main[data-tab="home"]) .hdr .hx{display:none}
+    body:has(main[data-tab="home"]) .h-about{justify-self:start}
+    body:has(main[data-tab="home"]) .acts{display:flex}
     .logo .l1{font-size:clamp(26px,8vw,34px)}
     .acts{gap:20px;padding:4px 0 8px}
     .facade img{max-height:46dvh}
@@ -142,13 +154,13 @@
 
 <header class="hdr">
   <nav class="nav" aria-label="Разделы">
-    <a href="#about" data-go="about">О нас</a>
-    <a class="hx" href="#menu" data-go="menu">Меню</a>
-    <a class="hx" href="#book" data-go="book">Забронировать</a>
+    <a class="h-about" href="#about" data-go="about">О нас</a>
+    <a class="hx h-menu" href="#menu" data-go="menu">Меню</a>
+    <a class="hx h-book" href="#book" data-go="book"><span class="full">Забронировать</span><span class="short">Бронь</span></a>
   </nav>
   <a class="logo" href="#home" data-go="home" aria-label="Издательство пиццы — на главную"><span class="l1">Издательство</span><span class="l2">пиццы</span></a>
   <nav class="nav r" aria-label="Язык">
-    <span class="lang"><b>Ru</b> / En</span>
+    <span class="lang h-lang"><b>Ru</b> / En</span>
   </nav>
 </header>
 
