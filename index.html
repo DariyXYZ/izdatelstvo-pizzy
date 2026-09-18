@@ -22,7 +22,7 @@
   .serif{font-family:var(--serif)}
   /* «condensed» Times: системный Times New Roman + сжатие. В проде — Times New Roman Condensed + Apercu Condensed Pro (как у A-Index) */
   .cond{font-family:var(--serif);display:inline-block;transform:scaleX(.86);transform-origin:left center}
-  .ph{background:var(--ph);display:flex;align-items:flex-end;padding:8px 10px;position:relative;max-width:100%}
+  .ph{background:var(--ph);display:flex;align-items:center;justify-content:center;text-align:center;padding:8px 10px;position:relative;max-width:100%}
   .ph span{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--mute)}
 
   /* header — как у DFF: слева действия, лого по центру, справа разделы */
@@ -40,15 +40,10 @@
   .logo .l1{font-family:var(--serif);font-size:clamp(30px,4vw,56px);text-transform:uppercase;letter-spacing:-.01em;display:inline-block;transform:scaleX(.82);transform-origin:center}
   .logo .l2{font-family:var(--serif);font-size:clamp(15px,1.5vw,22px);display:block;margin-top:-.05em;transform:scaleX(.9);transform-origin:center}
 
-  main{view-transition-name:panel;flex:1 1 auto;display:flex;flex-direction:column}
+  main{flex:1 1 auto;display:flex;flex-direction:column}
   main section{display:none}
   main[data-tab="home"] #home, main[data-tab="about"] #about, main[data-tab="menu"] #menu, main[data-tab="book"] #book{display:block}
   main[data-tab="home"] #home{display:flex}
-  ::view-transition-old(panel){animation:vt-out .16s ease both}
-  ::view-transition-new(panel){animation:vt-in .26s ease both}
-  @keyframes vt-out{to{opacity:0}}
-  @keyframes vt-in{from{opacity:0}}
-  @media (prefers-reduced-motion:reduce){::view-transition-old(panel),::view-transition-new(panel){animation:none}}
 
   /* ГЛАВНАЯ — не скроллится: рисунок фасада + инфостроки внизу (как у DFF) */
   #home{flex-direction:column;justify-content:space-between;min-height:calc(100dvh - 92px)}
@@ -64,7 +59,6 @@
   /* страницы */
   .big{font-family:var(--serif);font-size:clamp(26px,3.5vw,52px);line-height:1.08;letter-spacing:-.005em;margin:clamp(40px,8vh,110px) 0 clamp(28px,4vw,56px);max-width:36ch;text-wrap:pretty;transform:scaleX(.88);transform-origin:left top}
   .big sup{font-size:.5em;vertical-align:.7em;margin-right:.25em;line-height:0}
-  .big .ph-t{display:inline;background:var(--ph);color:var(--mute);font-style:italic;padding:0 .15em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
   .row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(260px,1fr);gap:clamp(12px,1.6vw,26px);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:6px}
   .row::-webkit-scrollbar{display:none}
   .row > *{scroll-snap-align:start}
@@ -95,7 +89,6 @@
   .item .ds{grid-column:1;color:var(--mute);margin-top:2px}
   .item .pr{font-size:14px;color:var(--mute)}
   .item.has{cursor:none}
-  .item.has .pr::after{content:"фото";margin-left:14px;font-size:10px;text-transform:uppercase;opacity:.6}
   .item .thumb{display:none;grid-column:1/-1}
   .item.open .thumb{display:flex;aspect-ratio:3/2;margin:6px 0 4px}
   .cur{position:fixed;width:240px;aspect-ratio:4/3;pointer-events:none;z-index:99;display:none}
@@ -105,7 +98,10 @@
   .ccols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:clamp(20px,3vw,40px)}
   .ccols .cap{color:var(--mute);margin-bottom:10px}
   .ccols p{margin:0;font-size:16px;line-height:1.35}
-  .map{aspect-ratio:21/9;margin-top:clamp(28px,4vw,56px)}
+  /* виджет Яндекс Карт рисует рекламу внизу — контейнер ниже iframe на --ad, лишнее обрезается */
+  .map{--ad:210px;aspect-ratio:21/9;min-height:320px;margin-top:clamp(28px,4vw,56px);position:relative;overflow:hidden;filter:grayscale(1)}
+  .map iframe{position:absolute;inset:0;width:100%;height:calc(100% + var(--ad));border:0;display:block}
+  .maplink{margin:10px 0 0}
   .cards{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,1.6vw,26px);margin-top:clamp(12px,1.6vw,26px)}
   .card{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
   .card.soon .ttl,.card.soon .cap{color:var(--mute)}
@@ -145,7 +141,7 @@
 
 <header class="hdr">
   <nav class="nav" aria-label="Разделы">
-    <a href="#about" data-go="about">О нас</a>
+    <a href="#about" data-go="about">О нас</a>
     <a class="hx" href="#menu" data-go="menu">Меню</a>
     <a class="hx" href="#book" data-go="book">Забронировать</a>
   </nav>
@@ -164,96 +160,123 @@
       <a href="#menu" data-go="menu">Меню</a>
     </nav>
     <div class="infobar">
-      <div><span class="cap">Адрес</span>Москва, переулок Маяковского, 2<br>вход с торца дома, со стороны Марксистской</div>
+      <div><span class="cap">Адрес</span>Москва, переулок Маяковского, 2<br>вход с торца дома, со стороны Марксистской</div>
       <div><span class="cap">Ежедневно</span>12:00 – 22:00</div>
-      <div><span class="cap">Телефон</span><a class="u" href="tel:+79670796093">+7 967 079-60-93</a></div>
+      <div><span class="cap">Телефон</span><a class="u" href="tel:+79670796093">+7 967 079-60-93</a></div>
       <div><span class="cap">Соцсети</span><a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">Instagram</a><br><a class="u" href="#">Telegram</a></div>
     </div>
   </section>
 
   <!-- О НАС -->
   <section id="about">
-    <p class="big"><sup>1</sup>Издательство пиццы — это <span class="ph-t">[два-три предложения о месте: кто, где, зачем сюда идти]</span>, в переулке Маяковского у <a class="u" href="#book" data-go="book">Марксистской</a>.</p>
+    <p class="big"><sup>1</sup>Издательство пиццы — маленькая пиццерия в переулке Маяковского, у <a class="u" href="#book" data-go="book">Марксистской</a>. Вход с торца жилого дома: по лестнице мимо бутылок с цветами, под деревом с гирляндой.</p>
     <div class="row">
-      <div class="tile"><div class="ph"><span>Лестница ко входу</span></div><span class="lab"><span class="cond">Вход</span></span></div>
+      <div class="tile"><div class="ph"><span>Лестница ко входу</span></div><span class="lab"><span class="cond">Вход</span></span></div>
       <div class="tile"><div class="ph"><span>Зал</span></div><span class="lab"><span class="cond">Зал</span></span></div>
       <div class="tile"><div class="ph"><span>Печь</span></div><span class="lab"><span class="cond">Печь</span></span></div>
       <div class="tile"><div class="ph"><span>Двор, гирлянда</span></div><span class="lab"><span class="cond">Двор</span></span></div>
     </div>
 
-    <p class="big"><sup>2</sup><span class="ph-t">[Концепция: шестьдесят процентов Италии, сорок — нашего двора. Что итальянское, что наше.]</span> Смотрите <a class="u" href="#menu" data-go="menu">меню</a>.</p>
+    <p class="big"><sup>2</sup>Шестьдесят процентов Италии, сорок — нашего двора. Тесто, печь и томаты — оттуда. Лестница, стулья и банки на подоконнике — отсюда. Смотрите <a class="u" href="#menu" data-go="menu">меню</a>.</p>
 
     <div class="team">
-      <figure><div class="ph"><span>Стас и Настя</span></div><figcaption><span>Стас и Настя</span><span class="cap">владельцы</span></figcaption></figure>
-      <figure class="t2"><div class="ph"><span>Повар</span></div><figcaption><span>[Имя]</span><span class="cap">за печью</span></figcaption></figure>
+      <figure><div class="ph"><span>Стас и Настя</span></div><figcaption><span>Стас и Настя</span><span class="cap">владельцы</span></figcaption></figure>
+      <figure class="t2"><div class="ph"><span>Повар</span></div><figcaption><span>Повар</span><span class="cap">за печью</span></figcaption></figure>
     </div>
 
     <div class="frames">
-      <div class="frame"><span class="cap">У входа</span><div class="ph"></div><span class="name">Лимоны</span></div>
-      <div class="frame"><span class="cap">На столике</span><div class="ph"></div><span class="name">Цветы в бутылке</span></div>
-      <div class="frame"><span class="cap">На дереве</span><div class="ph"></div><span class="name">Гирлянда</span></div>
-      <div class="frame"><span class="cap">На столе</span><div class="ph"></div><span class="name">Банка томатов</span></div>
-      <div class="frame"><span class="cap">В зале</span><div class="ph"></div><span class="name">Стул</span></div>
-      <div class="frame"><span class="cap">На столе</span><div class="ph"></div><span class="name">Солонка</span></div>
+      <div class="frame"><span class="cap">У входа</span><div class="ph"></div><span class="name">Лимоны</span></div>
+      <div class="frame"><span class="cap">На столике</span><div class="ph"></div><span class="name">Цветы в бутылке</span></div>
+      <div class="frame"><span class="cap">На дереве</span><div class="ph"></div><span class="name">Гирлянда</span></div>
+      <div class="frame"><span class="cap">На столе</span><div class="ph"></div><span class="name">Банка томатов</span></div>
+      <div class="frame"><span class="cap">В зале</span><div class="ph"></div><span class="name">Стул</span></div>
+      <div class="frame"><span class="cap">На столе</span><div class="ph"></div><span class="name">Солонка</span></div>
     </div>
 
-    <p class="big"><sup>3</sup>Ежедневно с 12:00 до 22:00. Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a> или в <a class="u" href="#">Telegram</a>.</p>
+    <p class="big"><sup>3</sup>Ежедневно с 12:00 до 22:00. Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a> или в <a class="u" href="#">Telegram</a>.</p>
   </section>
 
   <!-- МЕНЮ -->
   <section id="menu">
-    <p class="big"><sup>1</sup>Меню. Наведите на пиццу или десерт — увидите фото. <span class="ph-t">[Одна строка про тесто и печь.]</span></p>
+    <p class="big"><sup>1</sup>Меню. Наведите на позицию — увидите фото. Тесто ставим накануне, пиццу печём при вас.</p>
     <div class="cats">
-      <button type="button" class="on" data-cat="pizza">Пицца и фокачча</button>
-      <button type="button" data-cat="starters">Салаты и закуски</button>
-      <button type="button" data-cat="desserts">Десерты и выпечка</button>
+      <button type="button" class="on" data-cat="pizza">Пицца и фокачча</button>
+      <button type="button" data-cat="starters">Салаты и закуски</button>
+      <button type="button" data-cat="desserts">Десерты и выпечка</button>
       <button type="button" data-cat="drinks">Напитки</button>
     </div>
     <div class="list on" data-list="pizza">
-      <div class="item has"><span class="nm">[Название]</span><span class="pr">···</span><span class="ds cap">[состав в одну строку]</span><div class="ph thumb"><span>Фото позиции</span></div></div>
-      <div class="item has"><span class="nm">[Название]</span><span class="pr">···</span><span class="ds cap">[состав в одну строку]</span><div class="ph thumb"><span>Фото позиции</span></div></div>
-      <div class="item has"><span class="nm">[Название подлиннее]</span><span class="pr">···</span><span class="ds cap">[состав в одну строку]</span><div class="ph thumb"><span>Фото позиции</span></div></div>
-      <div class="item has"><span class="nm">[Название]</span><span class="pr">···</span><span class="ds cap">[состав в одну строку]</span><div class="ph thumb"><span>Фото позиции</span></div></div>
-      <div class="item has"><span class="nm">[Название]</span><span class="pr">···</span><span class="ds cap">[состав в одну строку]</span><div class="ph thumb"><span>Фото позиции</span></div></div>
-      <div class="item has"><span class="nm">[Название подлиннее]</span><span class="pr">···</span><span class="ds cap">[состав в одну строку]</span><div class="ph thumb"><span>Фото позиции</span></div></div>
-      <div class="item"><span class="nm">[Фокачча]</span><span class="pr">···</span><span class="ds cap">[состав]</span></div>
-      <div class="item"><span class="nm">[Фокачча]</span><span class="pr">···</span><span class="ds cap">[состав]</span></div>
+      <div class="item has"><span class="nm">Маргарита</span><span class="pr">600</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Пепперони</span><span class="pr">750</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Четыре сыра</span><span class="pr">750</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Капрезе</span><span class="pr">650</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">С ветчиной, грибами, оливками и артишоками</span><span class="pr">800</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">С мортаделлой и артишоками</span><span class="pr">750</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Страчателла с пармой</span><span class="pr">900</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">С баклажанами и копчёным скаморца</span><span class="pr">650</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Трюфельная кальцоне</span><span class="pr">700</span><span class="ds cap">с грибами и ветчиной</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Грибная</span><span class="pr">750</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Груша с горгонзолой</span><span class="pr">700</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Острая диавола</span><span class="pr">800</span><span class="ds cap">ндуя, спьяната калабра, чили</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">С креветками, цукини, миндалём и рикоттой</span><span class="pr">750</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">С анчоусами, печёным перцем и страчателлой</span><span class="pr">750</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Четыре мяса</span><span class="pr">900</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Фокачча лёгкая</span><span class="pr">300</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Фокачча сытная</span><span class="pr">300</span><div class="ph thumb"><span>Фото позиции</span></div></div>
     </div>
     <div class="list" data-list="starters">
-      <div class="item"><span class="nm">[Салат]</span><span class="pr">··· / ···</span><span class="ds cap">[состав]</span></div>
-      <div class="item"><span class="nm">[Салат]</span><span class="pr">··· / ···</span><span class="ds cap">[состав]</span></div>
-      <div class="item"><span class="nm">[Закуска]</span><span class="pr">···</span><span class="ds cap">[состав]</span></div>
-      <div class="item"><span class="nm">[Закуска]</span><span class="pr">···</span><span class="ds cap">[состав]</span></div>
-      <div class="item"><span class="nm">[Закуска]</span><span class="pr">···</span><span class="ds cap">[состав]</span></div>
+      <div class="item has"><span class="nm">Цезарь</span><span class="pr">550 / 650</span><span class="ds cap">с курицей / с креветками</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Томатный салат</span><span class="pr">550 / 650</span><span class="ds cap">красный лук, базилик, бальзамик — без страчателлы / со страчателлой</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Артишоки маринованные</span><span class="pr">500</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Вяленые томаты</span><span class="pr">450</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Оливки и пикантный перчик</span><span class="pr">500</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Сыр</span><span class="pr">850</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Мясо</span><span class="pr">850</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Перчики, фаршированные рикоттой</span><span class="pr">500</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Пепероната</span><span class="pr">600</span><span class="ds cap">соус ромеско, страчателла, анчоусы</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Капрезе с песто</span><span class="pr">650</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Взбитая рикотта</span><span class="pr">650</span><span class="ds cap">печёные черри, песто, фокачча</span><div class="ph thumb"><span>Фото позиции</span></div></div>
     </div>
     <div class="list" data-list="desserts">
-      <div class="item has"><span class="nm">[Десерт]</span><span class="pr">···</span><span class="ds cap">[состав]</span><div class="ph thumb"><span>Фото позиции</span></div></div>
-      <div class="item has"><span class="nm">[Десерт]</span><span class="pr">···</span><span class="ds cap">[состав]</span><div class="ph thumb"><span>Фото позиции</span></div></div>
-      <div class="item has"><span class="nm">[Десерт]</span><span class="pr">···</span><span class="ds cap">[состав]</span><div class="ph thumb"><span>Фото позиции</span></div></div>
-      <div class="item"><span class="nm">[Выпечка]</span><span class="pr">···</span><span class="ds cap">[состав]</span></div>
-      <div class="item"><span class="nm">[Выпечка]</span><span class="pr">···</span><span class="ds cap">[состав]</span></div>
+      <div class="item has"><span class="nm">Тирамису банановый</span><span class="pr">650</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Кростата с клубникой</span><span class="pr">650</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Чизкейк фисташка с малиной</span><span class="pr">650</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Мороженое</span><span class="pr">220</span><span class="ds cap">ванильное / шоколадное</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Круассан миндальный</span><span class="pr">400</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Улитка с изюмом и фисташками</span><span class="pr">350</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Булочка с корицей</span><span class="pr">350</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Шоколадный круассан</span><span class="pr">400</span><div class="ph thumb"><span>Фото позиции</span></div></div>
     </div>
     <div class="list" data-list="drinks">
-      <div class="item"><span class="nm">[Кофе]</span><span class="pr">··· / ···</span><span class="ds cap">[объём]</span></div>
-      <div class="item"><span class="nm">[Кофе]</span><span class="pr">··· / ···</span><span class="ds cap">[объём]</span></div>
-      <div class="item"><span class="nm">[Чай]</span><span class="pr">···</span><span class="ds cap">[объём]</span></div>
-      <div class="item"><span class="nm">[Лимонад]</span><span class="pr">···</span><span class="ds cap">[объём]</span></div>
-      <div class="item"><span class="nm">[Пиво]</span><span class="pr">···</span><span class="ds cap">[объём]</span></div>
+      <div class="item has"><span class="nm">Капучино</span><span class="pr">250 / 350</span><span class="ds cap">200 / 300 мл</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Латте</span><span class="pr">250 / 350</span><span class="ds cap">200 / 300 мл</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Американо</span><span class="pr">220 / 320</span><span class="ds cap">200 / 300 мл</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Эспрессо</span><span class="pr">250 / 350</span><span class="ds cap">одинарный / двойной</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Ристретто</span><span class="pr">250</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Порция молока</span><span class="pr">100</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Чай зелёный</span><span class="pr">350</span><span class="ds cap">500 мл</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Чай чёрный</span><span class="pr">350</span><span class="ds cap">500 мл</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Coca-Cola</span><span class="pr">300</span><span class="ds cap">330 мл</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">S.Pellegrino</span><span class="pr">500</span><span class="ds cap">750 мл</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Limonata S.Pellegrino</span><span class="pr">300</span><span class="ds cap">330 мл</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Пиво безалкогольное</span><span class="pr">500</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Пиво</span><span class="pr">550</span><span class="ds cap">в ассортименте</span><div class="ph thumb"><span>Фото позиции</span></div></div>
     </div>
   </section>
 
   <!-- ЗАБРОНИРОВАТЬ = контакты + карта -->
   <section id="book">
-    <p class="big"><sup>1</sup>Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a> или в <a class="u" href="#">Telegram</a>. Мы на переулке Маяковского, 2, вход с торца дома со стороны Марксистской.</p>
+    <p class="big"><sup>1</sup>Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a> или в <a class="u" href="#">Telegram</a>. Мы на переулке Маяковского, 2, вход с торца дома со стороны Марксистской.</p>
     <div class="ccols">
-      <div><div class="cap">Адрес</div><p>переулок Маяковского, 2<br>м. Марксистская<br><span class="ph-t serif">[как найти вход]</span></p></div>
-      <div><div class="cap">Часы</div><p>Ежедневно 12:00–22:00<br>кухня до <span class="ph-t serif">[время]</span></p></div>
-      <div><div class="cap">Связь</div><p><a class="u" href="tel:+79670796093">+7 967 079-60-93</a><br><a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">@pizza.izdat</a><br><a class="u" href="#">Telegram</a></p></div>
+      <div><div class="cap">Адрес</div><p>переулок Маяковского, 2<br>м. Марксистская<br>вход с торца дома, со стороны Марксистской — по лестнице</p></div>
+      <div><div class="cap">Часы</div><p>Ежедневно 12:00–22:00</p></div>
+      <div><div class="cap">Связь</div><p><a class="u" href="tel:+79670796093">+7 967 079-60-93</a><br><a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">@pizza.izdat</a><br><a class="u" href="#">Telegram</a></p></div>
     </div>
-    <div class="ph map"><span>Яндекс.Карты</span></div>
+    <div class="map"><iframe src="https://yandex.ru/map-widget/v1/?oid=115760984562&ol=biz&z=16" title="Издательство пиццы на Яндекс Картах" loading="lazy" allowfullscreen></iframe></div>
+    <p class="maplink"><a class="u" href="https://yandex.ru/maps/org/izdatelstvo_pitstsy/115760984562/" target="_blank" rel="noopener">Открыть в Яндекс Картах</a></p>
     <div class="cards">
       <a class="card" href="tel:+79670796093"><span class="cap">Столик</span><span class="ttl">Позвонить</span><span class="cap">Онлайн-бронь появится позже</span></a>
-      <div class="card soon"><span class="cap">Скоро</span><span class="ttl">Доставка</span><span class="cap">Пока — в зале и с собой</span></div>
+      <div class="card soon"><span class="cap">Скоро</span><span class="ttl">Доставка</span><span class="cap">Пока — в зале и с собой</span></div>
     </div>
   </section>
 </main>
@@ -265,15 +288,15 @@
     <span>ежедневно 12:00–22:00</span>
   </div>
   <div class="links mid">
-    <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>
+    <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>
     <a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">Instagram</a>
     <a class="u" href="#">Telegram</a>
   </div>
   <div class="links">
-    <a href="#about" data-go="about">О нас</a>
+    <a href="#about" data-go="about">О нас</a>
     <a href="#menu" data-go="menu">Меню</a>
     <a href="#book" data-go="book">Забронировать</a>
-    <span class="cap">ИП [фамилия] · ИНН [···]</span>
+    <span class="cap">© Издательство пиццы, 2026</span>
   </div>
 </footer>
 
@@ -292,8 +315,7 @@
   function go(id, push){
     if (!TABS.includes(id)) id = 'home';
     if (push) history.replaceState(null, '', id === 'home' ? location.pathname : '#' + id);
-    if (document.startViewTransition && main.dataset.tab !== id) document.startViewTransition(() => setTab(id));
-    else setTab(id);
+    setTab(id);
   }
   document.querySelectorAll('[data-go]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); go(a.dataset.go, true); }));
   window.addEventListener('hashchange', () => go(location.hash.slice(1), false));
