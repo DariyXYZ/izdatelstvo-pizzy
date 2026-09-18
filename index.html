@@ -55,9 +55,12 @@
   .facade{flex:1 1 auto;display:flex;align-items:center;justify-content:center;padding:2vh 0}
   .facade svg{width:min(100%,1180px);height:auto;max-height:62dvh;display:block}
   .facade{position:relative}
-  .infobar{display:grid;grid-template-columns:1.6fr 1fr 1fr auto;gap:24px;align-items:end;padding:18px 0 22px;line-height:1.35}
+  .acts{justify-content:center;align-items:baseline;gap:28px;padding:6px 0 10px}
+  /* Меню/Забронировать в шапке — только вне главной (на главной они под фасадом) */
+  .hdr .hx{display:none}
+  body:has(main:not([data-tab="home"])) .hdr .hx{display:inline-block}
+  .infobar{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:24px;align-items:end;padding:18px 0 22px;line-height:1.35}
   .infobar .cap{color:var(--mute);margin-bottom:4px;display:block}
-  .infobar .ya{border:1px solid #bbb;border-radius:999px;padding:8px 14px;color:var(--mute);display:inline-block}
 
   /* страницы */
   .big{font-family:var(--serif);font-size:clamp(26px,3.5vw,52px);line-height:1.08;letter-spacing:-.005em;margin:clamp(40px,8vh,110px) 0 clamp(28px,4vw,56px);max-width:36ch;text-wrap:pretty;transform:scaleX(.88);transform-origin:left top}
@@ -124,10 +127,11 @@
   main[data-tab="home"] ~ footer{display:none}
 
   @media (max-width:820px){
-    .hdr{grid-template-columns:1fr;padding-top:14px;gap:12px;text-align:center}
-    .logo{order:-1}
-    .nav,.nav.r{justify-content:center;gap:16px;flex-wrap:wrap}
-    #home{min-height:calc(100dvh - 150px)}
+    .hdr{padding-top:14px;gap:10px;font-size:14px}
+    .hdr .nav{flex-direction:column;align-items:flex-start;gap:6px}
+    .hdr .nav.r{align-items:flex-end}
+    .logo .l1{font-size:clamp(26px,8vw,34px)}
+    .acts{gap:20px;padding:4px 0 8px}
     .facade svg{max-height:40dvh}
     .infobar{grid-template-columns:1fr 1fr;gap:14px 18px;padding:12px 0 16px;font-size:14px}
     .infobar > div:first-child{grid-column:1/-1}
@@ -148,14 +152,14 @@
 <body>
 
 <header class="hdr">
-  <nav class="nav" aria-label="Действия">
-    <a class="pill" href="#book" data-go="book">Забронировать стол</a>
-    <a href="#menu" data-go="menu">Меню</a>
+  <nav class="nav" aria-label="Разделы">
+    <a href="#about" data-go="about">О нас</a>
+    <a class="hx" href="#menu" data-go="menu">Меню</a>
+    <a class="hx" href="#book" data-go="book">Забронировать</a>
+    <a href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">Instagram</a>
   </nav>
   <a class="logo" href="#home" data-go="home" aria-label="Издательство пиццы — на главную"><span class="l1">Издательство</span><span class="l2">пиццы</span></a>
-  <nav class="nav r" aria-label="Разделы">
-    <a href="#about" data-go="about">О нас</a>
-    <a href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">Instagram</a>
+  <nav class="nav r" aria-label="Язык">
     <span class="lang"><b>Ru</b> / En</span>
   </nav>
 </header>
@@ -236,11 +240,14 @@
         <path d="M80 520 h60 M180 516 h40 M960 518 h70 M1060 514 h40" stroke-opacity=".3"/>
       </svg>
     </div>
+    <nav class="nav acts" aria-label="Действия">
+      <a class="pill" href="#book" data-go="book">Забронировать стол</a>
+      <a href="#menu" data-go="menu">Меню</a>
+    </nav>
     <div class="infobar">
-      <div><span class="cap">Издательство пиццы</span>Москва, переулок Маяковского, 2<br>вход с торца дома, со стороны Марксистской</div>
+      <div><span class="cap">Адрес</span>Москва, переулок Маяковского, 2<br>вход с торца дома, со стороны Марксистской</div>
       <div><span class="cap">Ежедневно</span>12:00 – 22:00</div>
-      <div><span class="cap">Столик</span><a class="u" href="tel:+79670796093">+7 967 079-60-93</a><br><a class="u" href="#">Telegram</a></div>
-      <div><span class="ya">доставка — скоро</span></div>
+      <div><span class="cap">Связь</span><a class="u" href="tel:+79670796093">+7 967 079-60-93</a><br><a class="u" href="#">Telegram</a></div>
     </div>
   </section>
 
