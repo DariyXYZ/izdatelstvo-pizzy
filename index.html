@@ -54,12 +54,9 @@
   #home{flex-direction:column;justify-content:space-between;min-height:calc(100dvh - 92px)}
   .facade{flex:1 1 auto;display:flex;align-items:center;justify-content:center;padding:2vh 0}
   .facade svg{width:min(100%,1180px);height:auto;max-height:62dvh;display:block}
-  .facade .note{position:absolute;right:0;bottom:0}
   .facade{position:relative}
-  .infobar{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr auto;gap:24px;align-items:end;padding:18px 0 22px;line-height:1.35}
+  .infobar{display:grid;grid-template-columns:1.6fr 1fr 1fr auto;gap:24px;align-items:end;padding:18px 0 22px;line-height:1.35}
   .infobar .cap{color:var(--mute);margin-bottom:4px;display:block}
-  .infobar .soc{display:flex;gap:10px;align-items:center}
-  .infobar .soc a{width:36px;height:36px;border:1px solid var(--ink);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:13px}
   .infobar .ya{border:1px solid #bbb;border-radius:999px;padding:8px 14px;color:var(--mute);display:inline-block}
 
   /* страницы */
@@ -133,7 +130,7 @@
     #home{min-height:calc(100dvh - 150px)}
     .facade svg{max-height:40dvh}
     .infobar{grid-template-columns:1fr 1fr;gap:14px 18px;padding:12px 0 16px;font-size:14px}
-    .infobar .soc{grid-column:1/-1;justify-content:space-between}
+    .infobar > div:first-child{grid-column:1/-1}
     .big{font-size:clamp(24px,7vw,32px);margin:36px 0 22px;max-width:none}
     .row{grid-auto-columns:80%}
     .frames{grid-auto-columns:46%}
@@ -238,14 +235,12 @@
         <path d="M60 500 L1140 500" stroke-opacity=".6"/>
         <path d="M80 520 h60 M180 516 h40 M960 518 h70 M1060 514 h40" stroke-opacity=".3"/>
       </svg>
-      <span class="cap note" style="color:var(--mute)">фасад карандашом — будет рисунок</span>
     </div>
     <div class="infobar">
       <div><span class="cap">Издательство пиццы</span>Москва, переулок Маяковского, 2<br>вход с торца дома, со стороны Марксистской</div>
       <div><span class="cap">Ежедневно</span>12:00 – 22:00</div>
       <div><span class="cap">Столик</span><a class="u" href="tel:+79670796093">+7 967 079-60-93</a><br><a class="u" href="#">Telegram</a></div>
       <div><span class="ya">доставка — скоро</span></div>
-      <div class="soc"><a href="#" aria-label="Telegram">Tg</a><a href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener" aria-label="Instagram">Ig</a><span class="serif" style="font-style:italic;color:var(--mute);margin-left:6px">yours truly,<br>Стас и Настя</span></div>
     </div>
   </section>
 
