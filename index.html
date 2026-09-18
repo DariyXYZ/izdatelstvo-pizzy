@@ -58,7 +58,7 @@
   /* Меню/Забронировать в шапке — только вне главной (на главной они под фасадом) */
   .hdr .hx{display:none}
   body:has(main:not([data-tab="home"])) .hdr .hx{display:inline-block}
-  .infobar{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:24px;align-items:end;padding:18px 0 22px;line-height:1.35}
+  .infobar{display:grid;grid-template-columns:1.6fr 1fr 1fr auto;gap:24px;align-items:end;padding:18px 0 22px;line-height:1.35}
   .infobar .cap{color:var(--mute);margin-bottom:4px;display:block}
 
   /* страницы */
@@ -126,7 +126,7 @@
     .logo .l1{font-size:clamp(26px,8vw,34px)}
     .acts{gap:20px;padding:4px 0 8px}
     .facade img{max-height:46dvh}
-    .infobar{grid-template-columns:1fr 1fr;gap:14px 18px;padding:12px 0 16px;font-size:14px}
+    .infobar{grid-template-columns:auto auto auto;justify-content:space-between;gap:14px 18px;padding:12px 0 16px;font-size:14px}
     .infobar > div:first-child{grid-column:1/-1}
     .big{font-size:clamp(24px,7vw,32px);margin:36px 0 22px;max-width:none}
     .row{grid-auto-columns:80%}
@@ -148,7 +148,6 @@
     <a href="#about" data-go="about">О нас</a>
     <a class="hx" href="#menu" data-go="menu">Меню</a>
     <a class="hx" href="#book" data-go="book">Забронировать</a>
-    <a href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">Instagram</a>
   </nav>
   <a class="logo" href="#home" data-go="home" aria-label="Издательство пиццы — на главную"><span class="l1">Издательство</span><span class="l2">пиццы</span></a>
   <nav class="nav r" aria-label="Язык">
@@ -167,7 +166,8 @@
     <div class="infobar">
       <div><span class="cap">Адрес</span>Москва, переулок Маяковского, 2<br>вход с торца дома, со стороны Марксистской</div>
       <div><span class="cap">Ежедневно</span>12:00 – 22:00</div>
-      <div><span class="cap">Связь</span><a class="u" href="tel:+79670796093">+7 967 079-60-93</a><br><a class="u" href="#">Telegram</a></div>
+      <div><span class="cap">Телефон</span><a class="u" href="tel:+79670796093">+7 967 079-60-93</a></div>
+      <div><span class="cap">Соцсети</span><a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">Instagram</a><br><a class="u" href="#">Telegram</a></div>
     </div>
   </section>
 
