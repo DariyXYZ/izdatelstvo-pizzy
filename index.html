@@ -85,8 +85,11 @@
   .team figcaption .cap{color:var(--mute)}
 
   /* меню */
-  .cats{display:flex;flex-wrap:wrap;gap:8px clamp(18px,3vw,44px);margin:0 0 clamp(20px,3vw,40px)}
-  .cats button{all:unset;cursor:pointer;font-family:var(--serif);font-size:clamp(20px,2.2vw,32px);text-transform:uppercase;line-height:1;display:inline-block;transform:scaleX(.86);transform-origin:left;color:var(--mute)}
+  /* меню: две колонки — слева пицца|десерты, справа закуски|напитки, каждая переключается сама */
+  .mcols{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(28px,5vw,80px);align-items:start}
+  #menu .big{margin-bottom:clamp(56px,8vw,120px)}
+  .cats{display:flex;flex-wrap:wrap;gap:8px clamp(18px,2.4vw,36px);margin:0 0 clamp(20px,3vw,40px)}
+  .cats button{all:unset;cursor:pointer;font-family:var(--serif);font-size:clamp(18px,1.8vw,27px);text-transform:uppercase;line-height:1;display:inline-block;transform:scaleX(.86);transform-origin:left;color:var(--mute)}
   .cats button.on{color:var(--ink);text-decoration:underline;text-underline-offset:.12em;text-decoration-thickness:1px}
   .cats button:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
   .list{display:none;border-top:1px solid var(--line)}
@@ -157,6 +160,8 @@
     .team .t2 .ph{aspect-ratio:3/2;height:auto}
     .ccols{grid-template-columns:1fr;gap:18px}
     .cards{grid-template-columns:1fr}
+    .mcols{grid-template-columns:1fr;gap:40px 0}
+    #menu .big{margin-bottom:40px}
     .fcols{grid-template-columns:1fr 1fr;gap:16px 18px;font-size:14px}
     .fcols > div:first-child{grid-column:1/-1}
     .fline{flex-direction:column;gap:12px;margin-top:28px}
@@ -220,12 +225,12 @@
   <!-- МЕНЮ -->
   <section id="menu">
     <div class="bl"><figure class="sk" style="--w:104px;--dy:2.2em;--dx:14vw;--mx:start"><div class="ph"><span>Стул-моноблок</span></div></figure><p class="big"><sup>1</sup>Свежий тираж. Наведите на позицию — увидите фото. Тесто ставим накануне, печём при вас.</p></div>
-    <div class="cats">
-      <button type="button" class="on" data-cat="pizza">Пицца и фокачча</button>
-      <button type="button" data-cat="starters">Салаты и закуски</button>
-      <button type="button" data-cat="desserts">Десерты и выпечка</button>
-      <button type="button" data-cat="drinks">Напитки</button>
-    </div>
+    <div class="mcols">
+      <div class="mcol">
+        <div class="cats">
+          <button type="button" class="on" data-cat="pizza">Пицца и фокачча</button>
+          <button type="button" data-cat="desserts">Десерты и выпечка</button>
+        </div>
     <div class="list on" data-list="pizza">
       <div class="item has"><span class="nm">Маргарита</span><span class="pr">600</span><div class="ph thumb"><span>Фото позиции</span></div></div>
       <div class="item has"><span class="nm">Пепперони</span><span class="pr">750</span><div class="ph thumb"><span>Фото позиции</span></div></div>
@@ -245,7 +250,23 @@
       <div class="item has"><span class="nm">Фокачча лёгкая</span><span class="pr">300</span><div class="ph thumb"><span>Фото позиции</span></div></div>
       <div class="item has"><span class="nm">Фокачча сытная</span><span class="pr">300</span><div class="ph thumb"><span>Фото позиции</span></div></div>
     </div>
-    <div class="list" data-list="starters">
+    <div class="list" data-list="desserts">
+      <div class="item has"><span class="nm">Тирамису банановый</span><span class="pr">650</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Кростата с клубникой</span><span class="pr">650</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Чизкейк фисташка с малиной</span><span class="pr">650</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Мороженое</span><span class="pr">220</span><span class="ds cap">ванильное / шоколадное</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Круассан миндальный</span><span class="pr">400</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Улитка с изюмом и фисташками</span><span class="pr">350</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Булочка с корицей</span><span class="pr">350</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Шоколадный круассан</span><span class="pr">400</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+    </div>
+      </div>
+      <div class="mcol">
+        <div class="cats">
+          <button type="button" class="on" data-cat="starters">Салаты и закуски</button>
+          <button type="button" data-cat="drinks">Напитки</button>
+        </div>
+    <div class="list on" data-list="starters">
       <div class="item has"><span class="nm">Цезарь</span><span class="pr">550 / 650</span><span class="ds cap">с курицей / с креветками</span><div class="ph thumb"><span>Фото позиции</span></div></div>
       <div class="item has"><span class="nm">Томатный салат</span><span class="pr">550 / 650</span><span class="ds cap">красный лук, базилик, бальзамик — без страчателлы / со страчателлой</span><div class="ph thumb"><span>Фото позиции</span></div></div>
       <div class="item has"><span class="nm">Артишоки маринованные</span><span class="pr">500</span><div class="ph thumb"><span>Фото позиции</span></div></div>
@@ -257,16 +278,6 @@
       <div class="item has"><span class="nm">Пепероната</span><span class="pr">600</span><span class="ds cap">соус ромеско, страчателла, анчоусы</span><div class="ph thumb"><span>Фото позиции</span></div></div>
       <div class="item has"><span class="nm">Капрезе с песто</span><span class="pr">650</span><div class="ph thumb"><span>Фото позиции</span></div></div>
       <div class="item has"><span class="nm">Взбитая рикотта</span><span class="pr">650</span><span class="ds cap">печёные черри, песто, фокачча</span><div class="ph thumb"><span>Фото позиции</span></div></div>
-    </div>
-    <div class="list" data-list="desserts">
-      <div class="item has"><span class="nm">Тирамису банановый</span><span class="pr">650</span><div class="ph thumb"><span>Фото позиции</span></div></div>
-      <div class="item has"><span class="nm">Кростата с клубникой</span><span class="pr">650</span><div class="ph thumb"><span>Фото позиции</span></div></div>
-      <div class="item has"><span class="nm">Чизкейк фисташка с малиной</span><span class="pr">650</span><div class="ph thumb"><span>Фото позиции</span></div></div>
-      <div class="item has"><span class="nm">Мороженое</span><span class="pr">220</span><span class="ds cap">ванильное / шоколадное</span><div class="ph thumb"><span>Фото позиции</span></div></div>
-      <div class="item has"><span class="nm">Круассан миндальный</span><span class="pr">400</span><div class="ph thumb"><span>Фото позиции</span></div></div>
-      <div class="item has"><span class="nm">Улитка с изюмом и фисташками</span><span class="pr">350</span><div class="ph thumb"><span>Фото позиции</span></div></div>
-      <div class="item has"><span class="nm">Булочка с корицей</span><span class="pr">350</span><div class="ph thumb"><span>Фото позиции</span></div></div>
-      <div class="item has"><span class="nm">Шоколадный круассан</span><span class="pr">400</span><div class="ph thumb"><span>Фото позиции</span></div></div>
     </div>
     <div class="list" data-list="drinks">
       <div class="item has"><span class="nm">Капучино</span><span class="pr">250 / 350</span><span class="ds cap">200 / 300 мл</span><div class="ph thumb"><span>Фото позиции</span></div></div>
@@ -282,6 +293,8 @@
       <div class="item has"><span class="nm">Limonata S.Pellegrino</span><span class="pr">300</span><span class="ds cap">330 мл</span><div class="ph thumb"><span>Фото позиции</span></div></div>
       <div class="item has"><span class="nm">Пиво безалкогольное</span><span class="pr">500</span><div class="ph thumb"><span>Фото позиции</span></div></div>
       <div class="item has"><span class="nm">Пиво</span><span class="pr">550</span><span class="ds cap">в ассортименте</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+    </div>
+      </div>
     </div>
   </section>
 
@@ -337,8 +350,9 @@
   go(location.hash.slice(1), false);
 
   document.querySelectorAll('.cats button').forEach(b => b.addEventListener('click', () => {
-    document.querySelectorAll('.cats button').forEach(x => x.classList.toggle('on', x === b));
-    document.querySelectorAll('.list').forEach(l => l.classList.toggle('on', l.dataset.list === b.dataset.cat));
+    const col = b.closest('.mcol');
+    col.querySelectorAll('.cats button').forEach(x => x.classList.toggle('on', x === b));
+    col.querySelectorAll('.list').forEach(l => l.classList.toggle('on', l.dataset.list === b.dataset.cat));
   }));
 
   document.querySelectorAll('.item.has').forEach(r => {
