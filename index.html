@@ -37,7 +37,8 @@
   .nav a.on{border-bottom-color:var(--ink)}
   .nav a:focus-visible,.pill:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
   .nav .lang{color:var(--mute)}
-  .nav .lang b{color:var(--ink);font-weight:400}
+  .nav .lang a{color:var(--mute)}
+  .nav .lang a.on{color:var(--ink)}
   .nav a.pill{border:1px solid var(--ink);border-radius:999px;padding:9px 18px;line-height:1;white-space:nowrap}
   .nav a.pill.on{background:var(--ink);color:var(--bg)}
   .logo{text-align:center;line-height:.8;display:block}
@@ -87,7 +88,12 @@
   /* меню */
   /* меню: две колонки — слева пицца|десерты, справа закуски|напитки, каждая переключается сама */
   .mcols{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(28px,5vw,80px);align-items:start}
-  #menu .big{margin-bottom:clamp(56px,8vw,120px)}
+  #menu .big{margin-bottom:14px}
+  .hint{color:var(--mute);margin:0 0 clamp(56px,8vw,120px)}
+  /* подсказка — под текстом, кружок тянется на обе строки грида */
+  .bl .big{grid-column:1}.bl .hint{grid-column:1;grid-row:2}.bl .sk{grid-column:2;grid-row:1/span 2}
+  .hint .tap{display:none}
+  @media (hover:none){.hint .hov{display:none}.hint .tap{display:inline}}
   .cats{display:flex;flex-wrap:wrap;gap:8px clamp(18px,2.4vw,36px);margin:0 0 clamp(20px,3vw,40px)}
   .cats button{all:unset;cursor:pointer;font-family:var(--serif);font-size:clamp(18px,1.8vw,27px);text-transform:uppercase;line-height:1;display:inline-block;transform:scaleX(.86);transform-origin:left;color:var(--mute)}
   .cats button.on{color:var(--ink);text-decoration:underline;text-underline-offset:.12em;text-decoration-thickness:1px}
@@ -119,12 +125,15 @@
   .card .cap{max-width:30ch}
 
   /* футер внутренних страниц */
-  footer{margin-top:clamp(80px,14vh,180px);padding-bottom:28px;line-height:1.35}
-  .fcols{display:grid;grid-template-columns:1.6fr 1fr 1fr auto;gap:24px;align-items:start;padding-top:18px;border-top:1px solid var(--line)}
-  .fcols .cap{color:var(--mute);margin-bottom:4px;display:block}
-  .fline{display:flex;justify-content:space-between;gap:24px;margin-top:40px;color:var(--mute)}
+  /* подвал — чёрная плитка с расшивкой, как на стенах в кафе (и на Марксистской) */
+  footer{--tile:28px;--grout:rgba(255,255,255,.16);margin:clamp(80px,14vh,180px) calc(-1 * var(--gut)) 0;padding:28px var(--gut) 28px;line-height:1.35;color:#fff;background-color:#0b0b0b;
+    background-image:linear-gradient(var(--grout) 1px,transparent 1px),linear-gradient(90deg,var(--grout) 1px,transparent 1px);background-size:var(--tile) var(--tile);background-position:0 0}
+  .fcols{display:grid;grid-template-columns:1.6fr 1fr 1fr auto;gap:24px;align-items:start}
+  .fcols .cap{color:rgba(255,255,255,.55);margin-bottom:4px;display:block}
+  footer .soon{color:rgba(255,255,255,.55)}
+  .fline{display:flex;justify-content:space-between;gap:24px;margin-top:40px;color:rgba(255,255,255,.55)}
   .fline nav{display:flex;gap:18px}
-  .fline nav a{color:var(--ink)}
+  .fline nav a{color:#fff}
   main[data-tab="home"] ~ footer{display:none}
 
   @media (max-width:820px){
@@ -159,13 +168,18 @@
     .team{clear:both}
     .team .t2 .ph{aspect-ratio:3/2;height:auto}
     .ccols{grid-template-columns:1fr;gap:18px}
+    /* min-height + aspect-ratio давали min-width 746px и горизонтальный скролл */
+    .map{aspect-ratio:4/3;min-height:0}
     .cards{grid-template-columns:1fr}
     .mcols{grid-template-columns:1fr;gap:40px 0}
-    #menu .big{margin-bottom:40px}
+    #menu .big{margin-bottom:10px}
+    .hint{margin-bottom:40px}
     .fcols{grid-template-columns:1fr 1fr;gap:16px 18px;font-size:14px}
     .fcols > div:first-child{grid-column:1/-1}
     .fline{flex-direction:column;gap:12px;margin-top:28px}
     .item.has{cursor:pointer}
+    .cats{flex-wrap:nowrap;gap:14px}
+    .cats button{font-size:clamp(14px,4.2vw,18px);white-space:nowrap}
   }
 </style>
 <style>[hidden]{display:none!important}</style>
@@ -180,7 +194,7 @@
   </nav>
   <a class="logo" href="#home" data-go="home" aria-label="Издательство пиццы — на главную"><span class="l1">Издательство</span><span class="l2">пиццы</span></a>
   <nav class="nav r" aria-label="Язык">
-    <span class="lang h-lang"><b>Ru</b> / En</span>
+    <span class="lang h-lang"><a href="#" data-lang="ru" class="on">Ru</a> / <a href="#" data-lang="en">En</a></span>
   </nav>
 </header>
 
@@ -193,7 +207,7 @@
       <a href="#menu" data-go="menu">Меню</a>
     </nav>
     <div class="infobar">
-      <div><span class="cap">Адрес</span>Москва, переулок Маяковского, 2<br>вход с торца дома, со стороны Марксистской</div>
+      <div data-i18n="addr"><span class="cap">Адрес</span>Москва, переулок Маяковского, 2<br>вход с торца дома, со стороны Марксистской</div>
       <div><span class="cap">Ежедневно</span>12:00 – 22:00</div>
       <div><span class="cap">Телефон</span><a class="u" href="tel:+79670796093">+7 967 079-60-93</a></div>
       <div><span class="cap">Соцсети</span><a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">Instagram</a><br><span class="u soon" title="Скоро">Telegram</span></div>
@@ -202,7 +216,7 @@
 
   <!-- О НАС -->
   <section id="about">
-    <div class="bl"><figure class="sk" style="--w:118px;--dy:-.6em;--dx:2vw;--mx:end"><div class="ph"><span>Лимоны</span></div></figure><p class="big"><sup>1</sup>Издаём пиццу на Таганке. Каждый день — свежий тираж. Редакция — в переулке Маяковского, у <a class="u" href="#book" data-go="book">Марксистской</a>, вход с торца дома: по лестнице мимо бутылок с цветами, под деревом с гирляндой.</p></div>
+    <div class="bl"><figure class="sk" style="--w:118px;--dy:-.6em;--dx:2vw;--mx:end"><div class="ph"><span>Лимоны</span></div></figure><p data-i18n="about1" class="big"><sup>1</sup>Издаём пиццу на Таганке. Каждый день — свежий тираж. Редакция — в переулке Маяковского, у <a class="u" href="#book" data-go="book">Марксистской</a>, вход с торца дома: по лестнице мимо бутылок с цветами, под деревом с гирляндой.</p></div>
     <div class="row">
       <div class="tile"><div class="ph"><span>Лестница ко входу</span></div><span class="lab"><span class="cond">Вход</span></span></div>
       <div class="tile"><div class="ph"><span>Зал</span></div><span class="lab"><span class="cond">Зал</span></span></div>
@@ -210,7 +224,7 @@
       <div class="tile"><div class="ph"><span>Двор, гирлянда</span></div><span class="lab"><span class="cond">Двор</span></span></div>
     </div>
 
-    <div class="bl"><figure class="sk" style="--w:156px;--dy:6em;--dx:9vw;--mx:start"><div class="ph"><span>Банки друг на друге</span></div></figure><p class="big"><sup>2</sup>Редакция — Стас и Настя. Томаты и тесто — из Италии, лестница и банки на подоконнике — из нашего двора. Весь тираж — в <a class="u" href="#menu" data-go="menu">меню</a>.</p></div>
+    <div class="bl"><figure class="sk" style="--w:156px;--dy:6em;--dx:9vw;--mx:start"><div class="ph"><span>Банки друг на друге</span></div></figure><p data-i18n="about2" class="big"><sup>2</sup>Редакция — Стас и Настя. Томаты и тесто — из Италии, лестница и банки на подоконнике — из нашего двора. Весь тираж — в <a class="u" href="#menu" data-go="menu">меню</a>.</p></div>
 
     <figure class="sk l" style="--w:110px;--dx:7vw"><div class="ph"><span>Лайтбокс</span></div></figure>
     <div class="team">
@@ -219,12 +233,12 @@
     </div>
 
 
-    <div class="bl"><figure class="sk" style="--w:132px;--dy:-1.4em;--dx:1vw;--mx:end"><div class="ph"><span>Цветы в бутылке</span></div></figure><p class="big"><sup>3</sup>Выходим ежедневно с 12:00 до 22:00. Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. Подписка не нужна — просто приходите.</p></div>
+    <div class="bl"><figure class="sk" style="--w:132px;--dy:-1.4em;--dx:1vw;--mx:end"><div class="ph"><span>Цветы в бутылке</span></div></figure><p data-i18n="about3" class="big"><sup>3</sup>Выходим ежедневно с 12:00 до 22:00. Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. Подписка не нужна — просто приходите.</p></div>
   </section>
 
   <!-- МЕНЮ -->
   <section id="menu">
-    <div class="bl"><figure class="sk" style="--w:104px;--dy:2.2em;--dx:14vw;--mx:start"><div class="ph"><span>Стул-моноблок</span></div></figure><p class="big"><sup>1</sup>Свежий тираж. Наведите на позицию — увидите фото. Тесто ставим накануне, печём при вас.</p></div>
+    <div class="bl"><figure class="sk" style="--w:104px;--dy:2.2em;--dx:14vw;--mx:start"><div class="ph"><span>Стул-моноблок</span></div></figure><p data-i18n="menu1" class="big"><sup>1</sup>Свежий тираж. Тесто ставим накануне, печём при вас.</p><p class="hint cap"><span class="hov" data-i18n="hint-hov">Наведите на позицию — увидите фото</span><span class="tap" data-i18n="hint-tap">Нажмите на позицию — увидите фото</span></p></div>
     <div class="mcols">
       <div class="mcol">
         <div class="cats">
@@ -300,13 +314,13 @@
 
   <!-- ЗАБРОНИРОВАТЬ = контакты + карта -->
   <section id="book">
-    <div class="bl"><figure class="sk" style="--w:144px;--dy:3.5em;--dx:5vw;--mx:end"><div class="ph"><span>Лимон с цифрой 11</span></div></figure><p class="big"><sup>1</sup>Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. Редакция — переулок Маяковского, 2, вход с торца дома со стороны Марксистской.</p></div>
+    <div class="bl"><figure class="sk" style="--w:144px;--dy:3.5em;--dx:5vw;--mx:end"><div class="ph"><span>Лимон с цифрой 11</span></div></figure><p data-i18n="book1" class="big"><sup>1</sup>Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. Редакция — переулок Маяковского, 2, вход с торца дома со стороны Марксистской.</p></div>
     <div class="ccols">
-      <div><div class="cap">Адрес</div><p>переулок Маяковского, 2<br>м. Марксистская<br>вход с торца дома, со стороны Марксистской — по лестнице</p></div>
+      <div><div class="cap">Адрес</div><p data-i18n="addr2">переулок Маяковского, 2<br>м. Марксистская<br>вход с торца дома, со стороны Марксистской — по лестнице</p></div>
       <div><div class="cap">Часы</div><p>Ежедневно 12:00–22:00</p></div>
-      <div><div class="cap">Связь</div><p><a class="u" href="tel:+79670796093">+7 967 079-60-93</a><br><a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">@pizza.izdat</a><br><span class="u soon" title="Скоро">Telegram</span></p></div>
+      <div><div class="cap">Связь</div><p data-i18n="contact"><a class="u" href="tel:+79670796093">+7 967 079-60-93</a><br><a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">@pizza.izdat</a><br><span class="u soon" title="Скоро">Telegram</span></p></div>
     </div>
-    <div class="map"><iframe src="https://yandex.ru/map-widget/v1/?oid=115760984562&ol=biz&z=16" title="Издательство пиццы на Яндекс Картах" loading="lazy" allowfullscreen></iframe></div>
+    <div class="map"><iframe src="https://yandex.ru/map-widget/v1/?ll=37.659627%2C55.739559&z=16&pt=37.659627%2C55.739559%2Cpm2blm" title="Издательство пиццы на Яндекс Картах" loading="lazy" allowfullscreen></iframe></div>
     <p class="maplink"><a class="u" href="https://yandex.ru/maps/org/izdatelstvo_pitstsy/115760984562/" target="_blank" rel="noopener">Открыть в Яндекс Картах</a></p>
     <div class="cards">
       <a class="card" href="tel:+79670796093"><span class="cap">Столик</span><span class="ttl">Позвонить</span><span class="cap">Онлайн-бронь появится позже</span></a>
@@ -317,7 +331,7 @@
 
 <footer>
   <div class="fcols">
-    <div><span class="cap">Адрес</span>Москва, переулок Маяковского, 2<br>вход с торца дома, со стороны Марксистской</div>
+    <div data-i18n="addr"><span class="cap">Адрес</span>Москва, переулок Маяковского, 2<br>вход с торца дома, со стороны Марксистской</div>
     <div><span class="cap">Ежедневно</span>12:00 – 22:00</div>
     <div><span class="cap">Телефон</span><a class="u" href="tel:+79670796093">+7 967 079-60-93</a></div>
     <div><span class="cap">Соцсети</span><a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">Instagram</a><br><span class="u soon" title="Скоро">Telegram</span></div>
@@ -361,6 +375,61 @@
     r.addEventListener('mouseleave', () => cur.classList.remove('on'));
     r.addEventListener('mousemove', e => { cur.style.left = (e.clientX + 18) + 'px'; cur.style.top = (e.clientY + 18) + 'px'; });
   });
+
+  /* Ru/En: словарь по тексту для «листьев» + html-блоки по data-i18n; RU запоминается при старте, чтобы вернуть */
+  const EN_HTML = {
+    addr:'<span class="cap">Address</span>Moscow, Mayakovskogo lane, 2<br>entrance from the end of the building, Marksistskaya side',
+    about1:'<sup>1</sup>We publish pizza in Taganka. Every day is a fresh print run. The editorial office is in Mayakovskogo lane, by <a class="u" href="#book" data-go="book">Marksistskaya</a>, entrance from the end of the building: up the stairs, past bottles with flowers, under a tree with string lights.',
+    about2:'<sup>2</sup>The editors are Stas and Nastya. Tomatoes and dough come from Italy; the stairs and the jars on the windowsill come from our yard. The full print run is in the <a class="u" href="#menu" data-go="menu">menu</a>.',
+    about3:'<sup>3</sup>Out daily from 12:00 to 22:00. Tables by phone: <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. No subscription needed, just come by.',
+    menu1:'<sup>1</sup>Fresh print run. The dough is made the day before and baked in front of you.',
+    'hint-hov':'Hover over an item to see a photo','hint-tap':'Tap an item to see a photo',
+    book1:'<sup>1</sup>Tables by phone: <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. The editorial office: Mayakovskogo lane, 2, entrance from the end of the building, Marksistskaya side.',
+    addr2:'Mayakovskogo lane, 2<br>Marksistskaya metro<br>entrance from the end of the building, Marksistskaya side, up the stairs',
+    contact:'<a class="u" href="tel:+79670796093">+7 967 079-60-93</a><br><a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">@pizza.izdat</a><br><span class="u soon" title="Soon">Telegram</span>'
+  };
+  const EN_TEXT = {
+    'О нас':'About','Меню':'Menu','Забронировать':'Book a table','Бронь':'Book','Забронировать стол':'Book a table',
+    'Адрес':'Address','Ежедневно':'Daily','Телефон':'Phone','Соцсети':'Social','Часы':'Hours','Связь':'Contact','Ежедневно 12:00–22:00':'Daily 12:00–22:00',
+    'Вход':'Entrance','Зал':'Room','Печь':'Oven','Двор':'Yard','Стас и Настя':'Stas and Nastya','владельцы':'owners','Повар':'Chef','за печью':'at the oven',
+    'Пицца и фокачча':'Pizza & focaccia','Десерты и выпечка':'Desserts & pastry','Салаты и закуски':'Salads & starters','Напитки':'Drinks','Фото позиции':'Photo',
+    'Маргарита':'Margherita','Пепперони':'Pepperoni','Четыре сыра':'Four cheese','Капрезе':'Caprese','С ветчиной, грибами, оливками и артишоками':'Ham, mushrooms, olives & artichokes',
+    'С мортаделлой и артишоками':'Mortadella & artichokes','Страчателла с пармой':'Stracciatella & Parma ham','С баклажанами и копчёным скаморца':'Eggplant & smoked scamorza',
+    'Трюфельная кальцоне':'Truffle calzone','с грибами и ветчиной':'mushrooms & ham','Грибная':'Mushroom','Груша с горгонзолой':'Pear & gorgonzola','Острая диавола':'Spicy diavola',
+    'ндуя, спьяната калабра, чили':'nduja, spianata calabra, chili','С креветками, цукини, миндалём и рикоттой':'Shrimp, zucchini, almond & ricotta',
+    'С анчоусами, печёным перцем и страчателлой':'Anchovies, roasted pepper & stracciatella','Четыре мяса':'Four meats','Фокачча лёгкая':'Focaccia, light','Фокачча сытная':'Focaccia, hearty',
+    'Тирамису банановый':'Banana tiramisu','Кростата с клубникой':'Strawberry crostata','Чизкейк фисташка с малиной':'Pistachio & raspberry cheesecake','Мороженое':'Ice cream',
+    'ванильное / шоколадное':'vanilla / chocolate','Круассан миндальный':'Almond croissant','Улитка с изюмом и фисташками':'Raisin & pistachio swirl','Булочка с корицей':'Cinnamon bun','Шоколадный круассан':'Chocolate croissant',
+    'Цезарь':'Caesar','с курицей / с креветками':'chicken / shrimp','Томатный салат':'Tomato salad','красный лук, базилик, бальзамик — без страчателлы / со страчателлой':'red onion, basil, balsamic — without / with stracciatella',
+    'Артишоки маринованные':'Marinated artichokes','Вяленые томаты':'Sun-dried tomatoes','Оливки и пикантный перчик':'Olives & spicy peppers','Сыр':'Cheese','Мясо':'Meat',
+    'Перчики, фаршированные рикоттой':'Peppers stuffed with ricotta','Пепероната':'Peperonata','соус ромеско, страчателла, анчоусы':'romesco, stracciatella, anchovies','Капрезе с песто':'Caprese with pesto',
+    'Взбитая рикотта':'Whipped ricotta','печёные черри, песто, фокачча':'roasted cherry tomatoes, pesto, focaccia',
+    'Капучино':'Cappuccino','Латте':'Latte','Американо':'Americano','Эспрессо':'Espresso','одинарный / двойной':'single / double','Ристретто':'Ristretto','Порция молока':'Milk, portion',
+    'Чай зелёный':'Green tea','Чай чёрный':'Black tea','200 / 300 мл':'200 / 300 ml','500 мл':'500 ml','330 мл':'330 ml','750 мл':'750 ml','Пиво безалкогольное':'Non-alcoholic beer','Пиво':'Beer','в ассортименте':'assorted',
+    'Открыть в Яндекс Картах':'Open in Yandex Maps','Столик':'Table','Позвонить':'Call','Онлайн-бронь появится позже':'Online booking coming later','Скоро':'Soon','Доставка':'Delivery','Пока — в зале и с собой':'For now: dine in and takeaway',
+    '© Издательство пиццы, 2026':'© Pizza Publishing House, 2026',
+    'Лимоны':'Lemons','Лестница ко входу':'Stairs to the entrance','Двор, гирлянда':'Yard, string lights','Банки друг на друге':'Stacked jars','Лайтбокс':'Lightbox','Цветы в бутылке':'Flowers in a bottle','Стул-моноблок':'Monobloc chair','Лимон с цифрой 11':'Lemon with the number 11'
+  };
+  const RU = new Map();
+  const norm = t => t.replace(/ /g,' ').trim();
+  const leaves = [...document.querySelectorAll('body *')].filter(el => el.childNodes.length === 1 && el.firstChild.nodeType === 3 && EN_TEXT[norm(el.textContent)] !== undefined && !el.closest('[data-i18n]'));
+  leaves.forEach(el => RU.set(el, el.textContent));
+  const blocks = [...document.querySelectorAll('[data-i18n]')];
+  blocks.forEach(el => RU.set(el, el.innerHTML));
+  function bindGo(root){ root.querySelectorAll('[data-go]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); go(a.dataset.go, true); })); }
+  function setLang(lang){
+    const en = lang === 'en';
+    leaves.forEach(el => el.textContent = en ? EN_TEXT[norm(RU.get(el))] : RU.get(el));
+    blocks.forEach(el => { el.innerHTML = en ? EN_HTML[el.dataset.i18n] : RU.get(el); bindGo(el); });
+    document.querySelectorAll('.soon[title]').forEach(el => el.title = en ? 'Soon' : 'Скоро');
+    document.documentElement.lang = lang;
+    document.title = en ? 'Pizza Publishing House' : 'Издательство пиццы';
+    document.querySelectorAll('[data-lang]').forEach(a => a.classList.toggle('on', a.dataset.lang === lang));
+    try { localStorage.setItem('lang', lang); } catch (e) {}
+  }
+  document.querySelectorAll('[data-lang]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); setLang(a.dataset.lang); }));
+  let saved = 'ru'; try { saved = localStorage.getItem('lang') || 'ru'; } catch (e) {}
+  if (saved === 'en') setLang('en');
 </script>
 
 </body>
