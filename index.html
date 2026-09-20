@@ -10,7 +10,7 @@
     --bg:#ffffff; --ink:#000000; --mute:#8a8a8a; --ph:#ececec; --line:#000;
     --serif:"Times New Roman","Tinos",Times,serif;
     --sans:"Sofia Sans Condensed","Apercu Condensed Pro","Arial Narrow",sans-serif;
-    --gut:clamp(16px,2.2vw,40px);
+    --gut:clamp(16px,2.2vw,40px); --g:clamp(12px,1.6vw,26px);
     color-scheme: light;
   }
   html,body{background:var(--bg);color:var(--ink);overflow-x:hidden;height:100%}
@@ -72,7 +72,7 @@
   /* страницы */
   .big{font-family:var(--serif);font-size:clamp(26px,2.9vw,42px);line-height:1.08;letter-spacing:-.005em;margin:clamp(40px,8vh,110px) 0 clamp(28px,4vw,56px);max-width:36ch;text-wrap:pretty;transform:scaleX(.88);transform-origin:left top}
   .big sup{font-size:.5em;vertical-align:.7em;margin-right:.25em;line-height:0}
-  .row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(260px,1fr);gap:clamp(12px,1.6vw,26px);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:6px}
+  .row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(260px,1fr);gap:var(--g);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:6px}
   .row::-webkit-scrollbar{display:none}
   .row > *{scroll-snap-align:start}
   .tile .ph{aspect-ratio:4/3}
@@ -84,8 +84,11 @@
   .sk .ph{aspect-ratio:1;border-radius:50%;padding:10px}
   .sk .ph span{font-size:12px}
   .bl .sk{order:2;margin-top:calc(clamp(40px,8vh,110px) + var(--dy,0em));margin-left:var(--dx,0px)}
-  .sk.l{float:left;margin:0 clamp(20px,3vw,40px) 12px var(--dx,0px)}
-  .team{display:grid;grid-template-columns:7fr 5fr;gap:clamp(12px,1.6vw,26px);margin-top:clamp(28px,4vw,56px)}
+  /* сетка страниц: 8 колонок, шаг --g; ряд фото = 4×2 кол., команда = 5 + 3 кол. (граница на линии сетки) */
+  .team{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:var(--g);margin-top:clamp(28px,4vw,56px)}
+  .team .sk.l{grid-column:1;justify-self:end;margin:0}
+  .team .t1{grid-column:2/6}
+  .team .t2{grid-column:6/9}
   .team .ph{aspect-ratio:3/2}
   .team .t2 .ph{aspect-ratio:auto;height:100%}
   .team figure{margin:0;display:flex;flex-direction:column}
@@ -118,14 +121,14 @@
   .cur.on{display:flex}
 
   /* бронь = контакты + карта */
-  .ccols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:clamp(20px,3vw,40px)}
+  .ccols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--g);margin-top:clamp(20px,3vw,40px)}
   .ccols .cap{color:var(--mute);margin-bottom:10px}
   .ccols p{margin:0;font-size:16px;line-height:1.35}
   /* виджет Яндекс Карт рисует рекламу внизу — контейнер ниже iframe на --ad, лишнее обрезается */
   .map{--ad:210px;aspect-ratio:21/9;min-height:320px;margin-top:clamp(28px,4vw,56px);position:relative;overflow:hidden;filter:grayscale(1)}
   .map iframe{position:absolute;inset:0;width:100%;height:calc(100% + var(--ad));border:0;display:block}
   .maplink{margin:10px 0 0}
-  .cards{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,1.6vw,26px);margin-top:clamp(12px,1.6vw,26px)}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:var(--g);margin-top:var(--g)}
   .card{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
   .card.soon .ttl,.card.soon .cap{color:var(--mute)}
   .card .ttl{font-family:var(--serif);font-size:clamp(22px,2.4vw,34px);text-transform:uppercase;line-height:1;display:inline-block;transform:scaleX(.86);transform-origin:left}
@@ -175,7 +178,8 @@
     .bl{display:block}
     .sk{width:calc(var(--w,128px) * .72)}
     .bl .sk{float:right;margin:36px 0 8px 14px;shape-outside:circle(50%)}
-    .sk.l{float:right;margin:0 0 14px 14px}
+    .team .sk.l,.team .t1,.team .t2{grid-column:auto}
+    .team .sk.l{justify-self:end;margin:0}
     .team{clear:both}
     .team .t2 .ph{aspect-ratio:3/2;height:auto}
     .ccols{grid-template-columns:1fr;gap:18px}
@@ -238,11 +242,11 @@
       <div class="tile"><div class="ph"><span>Двор, гирлянда</span></div><span class="lab"><span class="cond">Двор</span></span></div>
     </div>
 
-    <div class="bl"><figure class="sk" style="--w:156px;--dy:6em;--dx:9vw;--mx:start"><div class="ph"><span>Банки друг на друге</span></div></figure><p data-i18n="about2" class="big"><sup>2</sup>Редакция — Стас и Настя. Томаты и тесто — из Италии, лестница и банки на подоконнике — из нашего двора. Весь тираж — в <a class="u" href="#menu" data-go="menu">меню</a>.</p></div>
+    <div class="bl"><figure class="sk" style="--w:156px;--dy:6em;--dx:9vw;--mx:start"><div class="ph"><span>Банки друг на друге</span></div></figure><p data-i18n="about2" class="big"><sup>2</sup>Редакцию ведут владельцы. Томаты и тесто — из Италии, лестница и банки на подоконнике — из нашего двора. Весь тираж — в <a class="u" href="#menu" data-go="menu">меню</a>.</p></div>
 
-    <figure class="sk l" style="--w:110px;--dx:7vw"><div class="ph"><span>Лайтбокс</span></div></figure>
     <div class="team">
-      <figure><div class="ph"><span>Стас и Настя</span></div><figcaption><span>Стас и Настя</span><span class="cap">владельцы</span></figcaption></figure>
+      <figure class="sk l" style="--w:110px"><div class="ph"><span>Лайтбокс</span></div></figure>
+      <figure class="t1"><div class="ph"><span>Владельцы</span></div><figcaption><span>Владельцы</span><span class="cap">редакция</span></figcaption></figure>
       <figure class="t2"><div class="ph"><span>Повар</span></div><figcaption><span>Повар</span><span class="cap">за печью</span></figcaption></figure>
     </div>
 
@@ -415,7 +419,7 @@
   const EN_HTML = {
     addr:'<span class="cap">Address</span>Moscow, Mayakovskogo lane, 2<br>entrance from the end of the building, Marksistskaya side',
     about1:'<sup>1</sup>We publish pizza in Taganka. Every day is a fresh print run. The editorial office is in Mayakovskogo lane, by <a class="u" href="#book" data-go="book">Marksistskaya</a>, entrance from the end of the building: up the stairs, past bottles with flowers, under a tree with string lights.',
-    about2:'<sup>2</sup>The editors are Stas and Nastya. Tomatoes and dough come from Italy; the stairs and the jars on the windowsill come from our yard. The full print run is in the <a class="u" href="#menu" data-go="menu">menu</a>.',
+    about2:'<sup>2</sup>The editorial office is run by the owners. Tomatoes and dough come from Italy; the stairs and the jars on the windowsill come from our yard. The full print run is in the <a class="u" href="#menu" data-go="menu">menu</a>.',
     about3:'<sup>3</sup>Out daily from 12:00 to 22:00. Tables by phone: <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. No subscription needed, just come by.',
     menu1:'<sup>1</sup>Fresh print run. The dough is made the day before and baked in front of you.',
     'hint-hov':'Hover over an item to see a photo','hint-tap':'Tap an item to see a photo',
@@ -430,7 +434,7 @@
   const EN_TEXT = {
     'О нас':'About','Меню':'Menu','Забронировать':'Book a table','Бронь':'Book','Забронировать стол':'Book a table',
     'Адрес':'Address','Ежедневно':'Daily','Телефон':'Phone','Соцсети':'Social','Часы':'Hours','Связь':'Contact','Ежедневно 12:00–22:00':'Daily 12:00–22:00',
-    'Вход':'Entrance','Зал':'Room','Печь':'Oven','Двор':'Yard','Стас и Настя':'Stas and Nastya','владельцы':'owners','Повар':'Chef','за печью':'at the oven',
+    'Вход':'Entrance','Зал':'Room','Печь':'Oven','Двор':'Yard','Владельцы':'Owners','редакция':'editorial office','Повар':'Chef','за печью':'at the oven',
     'Пицца и фокачча':'Pizza & focaccia','Десерты и выпечка':'Desserts & pastry','Салаты и закуски':'Salads & starters','Напитки':'Drinks','Фото позиции':'Photo',
     'Маргарита':'Margherita','Пепперони':'Pepperoni','Четыре сыра':'Four cheese','Капрезе':'Caprese','С ветчиной, грибами, оливками и артишоками':'Ham, mushrooms, olives & artichokes',
     'С мортаделлой и артишоками':'Mortadella & artichokes','Страчателла с пармой':'Stracciatella & Parma ham','С баклажанами и копчёным скаморца':'Eggplant & smoked scamorza',
