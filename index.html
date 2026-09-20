@@ -138,12 +138,13 @@
   .fcols{display:grid;grid-template-columns:1.6fr 1fr 1fr auto;gap:24px;align-items:start}
   .fcols .cap{color:rgba(255,255,255,.55);margin-bottom:4px;display:block}
   footer .soon{color:rgba(255,255,255,.55)}
-  .fline{display:flex;justify-content:space-between;gap:24px;margin-top:24px;color:rgba(255,255,255,.55)}
-  .fline nav{display:flex;gap:18px}
-  .fline nav a{color:#fff}
-  .legal{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:22px;padding-top:14px;border-top:1px solid rgba(255,255,255,.16);color:rgba(255,255,255,.55);font-size:11px;line-height:1.3}
+  /* реквизиты (ч. 2 ст. 10 149-ФЗ) слева, навигация + © справа, в две строки на одном уровне */
+  .legal{display:grid;grid-template-columns:1fr auto;gap:24px;margin-top:22px;padding-top:14px;border-top:1px solid rgba(255,255,255,.16);color:rgba(255,255,255,.55);font-size:11px;line-height:1.3}
+  .legal p{margin:0 0 6px;display:flex;flex-wrap:wrap;gap:6px 18px}
+  .legal .lr{text-align:right}
+  .legal .lr nav{display:flex;justify-content:flex-end;gap:18px;margin-bottom:6px}
+  .legal .lr nav a{color:#fff;text-decoration:none}
   .legal a{color:#fff;text-decoration:underline;text-underline-offset:.12em}
-  .legal .meta{flex-basis:100%}
   main[data-tab="home"] ~ footer{display:none}
 
   @media (max-width:820px){
@@ -185,10 +186,10 @@
     #menu .big{margin-bottom:10px}
     .hint{margin-bottom:40px}
     footer{padding:24px var(--gut) calc(24px + env(safe-area-inset-bottom,0px) + var(--fit,0px));--tile:24px}
-    .legal{margin-top:18px}
+    .legal{margin-top:18px;grid-template-columns:1fr}
+    .legal .lr{display:none}
     .fcols{grid-template-columns:auto auto auto;justify-content:space-between;gap:12px 14px;font-size:14px}
     .fcols > div:first-child{grid-column:1/-1}
-    .fline{gap:12px;margin-top:16px;align-items:baseline}
     .item.has{cursor:pointer}
     .cats{flex-wrap:nowrap;gap:14px}
     .cats button{font-size:clamp(14px,4.2vw,18px);white-space:nowrap}
@@ -362,15 +363,15 @@
     <div><span class="cap">Телефон</span><a class="u" href="tel:+79670796093">+7 967 079-60-93</a></div>
     <div><span class="cap">Соцсети</span><a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">Instagram*</a></div>
   </div>
-  <div class="fline">
-    <span class="cap">© Издательство пиццы, 2026</span>
-    <nav class="cap" aria-label="Разделы (подвал)"><a href="#about" data-go="about">О нас</a><a href="#menu" data-go="menu">Меню</a><a href="#book" data-go="book">Забронировать</a></nav>
-  </div>
   <div class="legal cap">
-    <span data-i18n="owner">[ИП / ООО — уточнить] · ОГРН [уточнить] · [юр. адрес — уточнить]</span>
-    <span>[e-mail — уточнить]</span>
-    <a href="#privacy" data-go="privacy">Политика конфиденциальности</a>
-    <span class="meta" data-i18n="meta2">* Instagram принадлежит Meta, признанной экстремистской организацией в РФ</span>
+    <div class="ll">
+      <p><span data-i18n="owner">[ИП / ООО — уточнить] · ОГРН [уточнить] · [юр. адрес — уточнить]</span><span>[e-mail — уточнить]</span><a href="#privacy" data-go="privacy">Политика конфиденциальности</a></p>
+      <p data-i18n="meta2">* Instagram принадлежит Meta, признанной экстремистской организацией в РФ</p>
+    </div>
+    <div class="lr">
+      <nav aria-label="Разделы (подвал)"><a href="#about" data-go="about">О нас</a><a href="#menu" data-go="menu">Меню</a><a href="#book" data-go="book">Забронировать</a></nav>
+      <p>© Издательство пиццы, 2026</p>
+    </div>
   </div>
 </footer>
 
