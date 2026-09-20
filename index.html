@@ -87,6 +87,9 @@
   .bl{display:grid;grid-template-columns:auto auto;justify-content:start;align-items:start;column-gap:clamp(8px,2vw,32px)}
   .sk{margin:0;width:var(--w,128px);flex:0 0 auto}
   .sk .ph{aspect-ratio:1;border-radius:50%;padding:10px}
+  /* формы под предмет: лайтбокс — скруглённый прямоугольник, бутылка — высокая узкая */
+  .sk.box .ph{aspect-ratio:4/3;border-radius:12px}
+  .sk.tall .ph{aspect-ratio:1/2.6;border-radius:6px}
   .sk .ph span{font-size:12px}
   .bl .sk{order:2;margin-top:calc(clamp(40px,8vh,110px) + var(--dy,0em));margin-left:var(--dx,0px)}
   /* сетка страниц: 8 колонок, шаг --g; ряд фото = 4×2 кол., команда = 5 + 3 кол. (граница на линии сетки) */
@@ -184,6 +187,7 @@
     .bl{display:block}
     .sk{width:calc(var(--w,128px) * .72)}
     .bl .sk{float:right;margin:36px 0 8px 14px;shape-outside:circle(50%)}
+    .bl .sk.tall{shape-outside:none}
     .team .sk.l,.team .t1,.team .t2{grid-column:auto}
     .team .sk.l{justify-self:end;margin:0}
     .team{clear:both}
@@ -252,13 +256,13 @@
     <div class="bl"><figure class="sk" style="--w:156px;--dy:6em;--dx:9vw;--mx:start"><div class="ph"><span>Банки друг на друге</span></div></figure><p data-i18n="about2" class="big"><sup>2</sup>Редакцию ведут владельцы. Томаты и тесто — из Италии, лестница и банки на подоконнике — из нашего двора. Весь тираж — в <a class="u" href="#menu" data-go="menu">меню</a>.</p></div>
 
     <div class="team">
-      <figure class="sk l" style="--w:110px"><div class="ph"><span>Лайтбокс</span></div></figure>
+      <figure class="sk l box" style="--w:150px"><div class="ph"><span>Лайтбокс</span></div></figure>
       <figure class="t1"><div class="ph"><span>Владельцы</span></div><figcaption><span>Владельцы</span><span class="cap">редакция</span></figcaption></figure>
       <figure class="t2"><div class="ph"><span>Повар</span></div><figcaption><span>Повар</span><span class="cap">за печью</span></figcaption></figure>
     </div>
 
 
-    <div class="bl"><figure class="sk" style="--w:132px;--dy:-1.4em;--dx:1vw;--mx:end"><div class="ph"><span>Цветы в бутылке</span></div></figure><p data-i18n="about3" class="big"><sup>3</sup>Выходим ежедневно с 12:00 до 22:00. Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. Подписка не нужна — просто приходите.</p></div>
+    <div class="bl"><figure class="sk tall" style="--w:64px;--dy:-1.4em;--dx:1vw;--mx:end"><div class="ph"><span>Цветы в бутылке</span></div></figure><p data-i18n="about3" class="big"><sup>3</sup>Выходим ежедневно с 12:00 до 22:00. Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. Подписка не нужна — просто приходите.</p></div>
   </section>
 
   <!-- МЕНЮ -->
