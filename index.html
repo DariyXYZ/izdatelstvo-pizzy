@@ -177,7 +177,7 @@
     .acts{gap:20px;padding:4px 0 8px}
     .facade img{max-height:46dvh}
     .infobar{grid-template-columns:auto auto auto;justify-content:space-between;gap:14px 18px;padding:12px 0 16px;font-size:14px}
-    .infobar > div{grid-column:auto}
+    .infobar > div:nth-child(n){grid-column:auto}
     .infobar > div:first-child{grid-column:1/-1}
     .big{font-size:clamp(20px,5.6vw,26px);margin:36px 0 22px;max-width:none}
     .row{grid-auto-columns:80%}
@@ -203,7 +203,7 @@
     .legal{margin-top:18px;grid-template-columns:1fr}
     .legal .lr{display:none}
     .fcols{grid-template-columns:auto auto auto;justify-content:space-between;gap:12px 14px;font-size:14px}
-    .fcols > div{grid-column:auto}
+    .fcols > div:nth-child(n){grid-column:auto}
     .fcols > div:first-child{grid-column:1/-1}
     .item.has{cursor:pointer}
     .cats{flex-wrap:nowrap;gap:14px}
