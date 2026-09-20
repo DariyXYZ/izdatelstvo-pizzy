@@ -126,12 +126,12 @@
 
   /* футер внутренних страниц */
   /* подвал — чёрная плитка с расшивкой, как на стенах в кафе (и на Марксистской) */
-  footer{--tile:28px;--grout:rgba(255,255,255,.16);margin:clamp(80px,14vh,180px) calc(-1 * var(--gut)) 0;padding:28px var(--gut) 28px;line-height:1.35;color:#fff;background-color:#0b0b0b;
+  footer{--tile:28px;--grout:rgba(255,255,255,.16);margin:clamp(80px,14vh,180px) calc(-1 * var(--gut)) 0;padding:20px var(--gut) 20px;line-height:1.35;color:#fff;background-color:#0b0b0b;
     background-image:linear-gradient(var(--grout) 1px,transparent 1px),linear-gradient(90deg,var(--grout) 1px,transparent 1px);background-size:var(--tile) var(--tile);background-position:0 0}
   .fcols{display:grid;grid-template-columns:1.6fr 1fr 1fr auto;gap:24px;align-items:start}
   .fcols .cap{color:rgba(255,255,255,.55);margin-bottom:4px;display:block}
   footer .soon{color:rgba(255,255,255,.55)}
-  .fline{display:flex;justify-content:space-between;gap:24px;margin-top:40px;color:rgba(255,255,255,.55)}
+  .fline{display:flex;justify-content:space-between;gap:24px;margin-top:24px;color:rgba(255,255,255,.55)}
   .fline nav{display:flex;gap:18px}
   .fline nav a{color:#fff}
   main[data-tab="home"] ~ footer{display:none}
@@ -174,9 +174,10 @@
     .mcols{grid-template-columns:1fr;gap:40px 0}
     #menu .big{margin-bottom:10px}
     .hint{margin-bottom:40px}
-    .fcols{grid-template-columns:1fr 1fr;gap:16px 18px;font-size:14px}
+    footer{padding-block:16px;--tile:24px}
+    .fcols{grid-template-columns:auto auto auto;justify-content:space-between;gap:12px 14px;font-size:14px}
     .fcols > div:first-child{grid-column:1/-1}
-    .fline{flex-direction:column;gap:12px;margin-top:28px}
+    .fline{gap:12px;margin-top:16px;align-items:baseline}
     .item.has{cursor:pointer}
     .cats{flex-wrap:nowrap;gap:14px}
     .cats button{font-size:clamp(14px,4.2vw,18px);white-space:nowrap}
@@ -334,7 +335,7 @@
     <div data-i18n="addr"><span class="cap">Адрес</span>Москва, переулок Маяковского, 2<br>вход с торца дома, со стороны Марксистской</div>
     <div><span class="cap">Ежедневно</span>12:00 – 22:00</div>
     <div><span class="cap">Телефон</span><a class="u" href="tel:+79670796093">+7 967 079-60-93</a></div>
-    <div><span class="cap">Соцсети</span><a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">Instagram</a><br><span class="u soon" title="Скоро">Telegram</span></div>
+    <div><span class="cap">Соцсети</span><a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">Instagram</a></div>
   </div>
   <div class="fline">
     <span class="cap">© Издательство пиццы, 2026</span>
