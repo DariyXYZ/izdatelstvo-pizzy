@@ -121,9 +121,9 @@
   .item{display:grid;grid-template-columns:1fr auto;gap:8px 24px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line)}
   .item .nm{font-family:var(--serif);font-size:clamp(20px,2vw,28px);line-height:1;display:inline-block;transform:scaleX(.9);transform-origin:left}
   .item .ds{grid-column:1;color:var(--mute);margin-top:2px}
-  .item .pr{font-size:14px;color:var(--mute)}
+  .item .pr{font-family:var(--serif);font-size:clamp(20px,2vw,28px);line-height:1;color:var(--ink)}
   /* КБЖУ на порцию — ориентировочно, из data-kbju, рендерится JS с учётом языка */
-  .item .kb{grid-column:1;font-size:9px;color:var(--mute);letter-spacing:.03em;margin-top:2px}
+  .item .kb{grid-column:1;font-size:14px;text-transform:none;letter-spacing:0;color:var(--mute);margin-top:2px}
   .item.has{cursor:none}
   .item .thumb{display:none;grid-column:1/-1}
   .item.open .thumb{display:flex;aspect-ratio:3/2;margin:6px 0 4px}
