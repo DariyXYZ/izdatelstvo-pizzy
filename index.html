@@ -37,8 +37,8 @@
   .nav a.on{border-bottom-color:var(--ink)}
   .nav a:focus-visible,.pill:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
   .nav .lang{color:var(--mute)}
-  .nav .lang a{color:var(--mute)}
-  .nav .lang a.on{color:var(--ink)}
+  .nav .lang{color:var(--mute);padding:6px 0;margin:-6px 0}
+  .nav .lang [data-lang].on{color:var(--ink)}
   .nav a.pill{border:1px solid var(--ink);border-radius:999px;padding:9px 18px;line-height:1;white-space:nowrap}
   .nav a.pill.on{background:var(--ink);color:var(--bg)}
   .logo{text-align:center;line-height:.8;display:block}
@@ -218,9 +218,7 @@
     .fcols > div:nth-child(n){grid-column:auto}
     .fcols > div:first-child{grid-column:1/-1}
     .item.has{cursor:pointer}
-    /* на мобилке КБЖУ не держит вторую колонку — уходит строкой вниз вправо */
-    .item .nm,.item .ds,.item .pr{grid-row:auto}
-    .item .kb{grid-column:1/-1;grid-row:auto}
+    .item .kb{font-size:12px}
     .cats button{font-size:clamp(20px,5.6vw,26px);white-space:nowrap}
   }
 </style>
@@ -236,7 +234,7 @@
   </nav>
   <a class="logo" href="#home" data-go="home" aria-label="Издательство пиццы — на главную"><span class="l1">Издательство</span><span class="l2">пиццы</span></a>
   <nav class="nav r" aria-label="Язык">
-    <span class="lang h-lang"><a href="#" data-lang="ru" class="on">Ru</a> / <a href="#" data-lang="en">En</a></span>
+    <a class="lang h-lang" href="#" role="button" aria-label="Переключить язык"><span data-lang="ru" class="on">Ru</span> / <span data-lang="en">En</span></a>
   </nav>
 </header>
 
@@ -513,7 +511,7 @@
     document.querySelectorAll('[data-lang]').forEach(a => a.classList.toggle('on', a.dataset.lang === lang));
     try { localStorage.setItem('lang', lang); } catch (e) {}
   }
-  document.querySelectorAll('[data-lang]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); setLang(a.dataset.lang); }));
+  document.querySelector('.lang').addEventListener('click', e => { e.preventDefault(); setLang(document.documentElement.lang === 'en' ? 'ru' : 'en'); });
   function fitTiles(){
     foot.style.setProperty('--fit','0px');
     if (!foot.offsetHeight) return;
