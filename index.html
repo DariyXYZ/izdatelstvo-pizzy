@@ -186,7 +186,9 @@
     .bl{grid-template-columns:1fr;row-gap:0}
     /* мобилка: кружок справа от текста, текст обтекает */
     .bl{display:block}
-    .sk{width:calc(var(--w,128px) * .72)}
+    .sk{width:calc(var(--w,128px) * .64)}
+    /* переносы «для компа» на мобилке не нужны */
+    .big br{display:none}
     .bl .sk{float:right;margin:36px 0 8px 14px;shape-outside:circle(50%)}
     .bl .sk.tall{shape-outside:none}
     .team .sk.l,.team .t1,.team .t2{grid-column:auto}
@@ -246,7 +248,7 @@
 
   <!-- О НАС -->
   <section id="about">
-    <div class="bl"><figure class="sk" style="--w:118px;--dy:-.6em;--dx:2vw;--mx:end"><div class="ph"><span>Лимоны</span></div></figure><p data-i18n="about1" class="big"><sup>1</sup>Издаём пиццу на Таганке.<br>Каждый день — свежий тираж. Редакция — в переулке Маяковского, у <a class="u" href="#book" data-go="book">Марксистской</a>, вход с торца дома: по лестнице мимо бутылок с цветами, под деревом с гирляндой.</p></div>
+    <div class="bl"><figure class="sk" style="--w:118px;--dy:-.6em;--dx:2vw;--mx:end"><div class="ph"><span>Лимоны</span></div></figure><p data-i18n="about1" class="big"><sup>1</sup>Издаём пиццу на Таганке.<br> Каждый день — свежий тираж. Редакция — в переулке Маяковского, у <a class="u" href="#book" data-go="book">Марксистской</a>, вход с торца дома: по лестнице мимо бутылок с цветами, под деревом с гирляндой.</p></div>
     <div class="row">
       <div class="tile"><div class="ph"><span>Лестница ко входу</span></div><span class="lab"><span class="cond">Вход</span></span></div>
       <div class="tile"><div class="ph"><span>Зал</span></div><span class="lab"><span class="cond">Зал</span></span></div>
@@ -254,7 +256,7 @@
       <div class="tile"><div class="ph"><span>Двор, гирлянда</span></div><span class="lab"><span class="cond">Двор</span></span></div>
     </div>
 
-    <div class="bl"><figure class="sk" style="--w:156px;--dy:6em;--dx:9vw;--mx:start"><div class="ph"><span>Банки друг на друге</span></div></figure><p data-i18n="about2" class="big"><sup>2</sup>Редакцию ведут владельцы. Томаты и тесто — из Италии, лестница и банки на подоконнике — из нашего двора. Весь тираж — в <a class="u" href="#menu" data-go="menu">меню</a>.</p></div>
+    <div class="bl"><figure class="sk" style="--w:156px;--dy:6em;--dx:9vw;--mx:start"><div class="ph"><span>Банки друг на друге</span></div></figure><p data-i18n="about2" class="big"><sup>2</sup>Редакцию ведут владельцы. Томаты и тесто — из Италии, лестница и банки на подоконнике — из нашего двора. Весь тираж — в <a class="u" href="#menu" data-go="menu">меню</a>.</p></div>
 
     <div class="team">
       <figure class="sk l box" style="--w:150px"><div class="ph"><span>Лайтбокс</span></div></figure>
@@ -263,7 +265,7 @@
     </div>
 
 
-    <div class="bl"><figure class="sk tall" style="--w:64px;--dy:-1.4em;--dx:1vw;--mx:end"><div class="ph"><span>Цветы в бутылке</span></div></figure><p data-i18n="about3" class="big"><sup>3</sup>Выходим ежедневно с 12:00 до 22:00. Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. Подписка не нужна — просто приходите.</p></div>
+    <div class="bl"><figure class="sk tall" style="--w:64px;--dy:-1.4em;--dx:1vw;--mx:end"><div class="ph"><span>Цветы в бутылке</span></div></figure><p data-i18n="about3" class="big"><sup>3</sup>Выходим ежедневно с 12:00 до 22:00. Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. Подписка не нужна — просто приходите.</p></div>
   </section>
 
   <!-- МЕНЮ -->
@@ -312,7 +314,7 @@
         </div>
     <div class="list on" data-list="starters">
       <div class="item has"><span class="nm">Цезарь</span><span class="pr">550 / 650</span><span class="ds cap">с курицей / с креветками</span><div class="ph thumb"><span>Фото позиции</span></div></div>
-      <div class="item has"><span class="nm">Томатный салат</span><span class="pr">550 / 650</span><span class="ds cap">красный лук, базилик, бальзамик — без страчателлы / со страчателлой</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has"><span class="nm">Томатный салат</span><span class="pr">550 / 650</span><span class="ds cap">красный лук, базилик, бальзамик — без страчателлы / со страчателлой</span><div class="ph thumb"><span>Фото позиции</span></div></div>
       <div class="item has"><span class="nm">Артишоки маринованные</span><span class="pr">500</span><div class="ph thumb"><span>Фото позиции</span></div></div>
       <div class="item has"><span class="nm">Вяленые томаты</span><span class="pr">450</span><div class="ph thumb"><span>Фото позиции</span></div></div>
       <div class="item has"><span class="nm">Оливки и пикантный перчик</span><span class="pr">500</span><div class="ph thumb"><span>Фото позиции</span></div></div>
@@ -344,9 +346,9 @@
 
   <!-- ЗАБРОНИРОВАТЬ = контакты + карта -->
   <section id="book">
-    <div class="bl"><figure class="sk" style="--w:144px;--dy:3.5em;--dx:5vw;--mx:end"><div class="ph"><span>Лимон с цифрой 11</span></div></figure><p data-i18n="book1" class="big"><sup>1</sup>Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. Редакция — переулок Маяковского, 2, вход с торца дома со стороны Марксистской.</p></div>
+    <div class="bl"><figure class="sk" style="--w:144px;--dy:3.5em;--dx:5vw;--mx:end"><div class="ph"><span>Лимон с цифрой 11</span></div></figure><p data-i18n="book1" class="big"><sup>1</sup>Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. Редакция — переулок Маяковского, 2, вход с торца дома со стороны Марксистской.</p></div>
     <div class="ccols">
-      <div><div class="cap">Адрес</div><p data-i18n="addr2">переулок Маяковского, 2<br>м. Марксистская<br>вход с торца дома, со стороны Марксистской — по лестнице</p></div>
+      <div><div class="cap">Адрес</div><p data-i18n="addr2">переулок Маяковского, 2<br>м. Марксистская<br>вход с торца дома, со стороны Марксистской — по лестнице</p></div>
       <div><div class="cap">Часы</div><p>Ежедневно 12:00–22:00</p></div>
       <div><div class="cap">Связь</div><p data-i18n="contact"><a class="u" href="tel:+79670796093">+7 967 079-60-93</a><br><a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">@pizza.izdat</a>*</p></div>
     </div>
@@ -354,7 +356,7 @@
     <p class="maplink"><a class="u" href="https://yandex.ru/maps/org/izdatelstvo_pitstsy/115760984562/" target="_blank" rel="noopener">Открыть в Яндекс Картах</a></p>
     <div class="cards">
       <a class="card" href="tel:+79670796093"><span class="cap">Столик</span><span class="ttl">Позвонить</span><span class="cap">Онлайн-бронь появится позже</span></a>
-      <div class="card soon"><span class="cap">Скоро</span><span class="ttl">Доставка</span><span class="cap">Пока — в зале и с собой</span></div>
+      <div class="card soon"><span class="cap">Скоро</span><span class="ttl">Доставка</span><span class="cap">Пока — в зале и с собой</span></div>
     </div>
   </section>
 
