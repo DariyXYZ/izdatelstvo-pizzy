@@ -203,7 +203,12 @@
     /* min-height + aspect-ratio давали min-width 746px и горизонтальный скролл */
     .map{aspect-ratio:4/3;min-height:0}
     .cards{grid-template-columns:1fr}
-    .mcols{grid-template-columns:1fr;gap:40px 0}
+    /* мобилка: 4 категории столбиком, под ними один список (колонки схлопнуты через display:contents) */
+    .mcols{display:flex;flex-direction:column;gap:0}
+    .mcol{display:contents}
+    .cats{order:1;flex-direction:column;align-items:flex-start;gap:12px;margin:0 0 12px}
+    .mcol:last-child .cats{margin-bottom:28px}
+    .list{order:2}
     #menu .big{margin-bottom:10px}
     .hint{margin-bottom:40px}
     footer{padding:24px var(--gut) calc(24px + env(safe-area-inset-bottom,0px) + var(--fit,0px));--tile:24px}
@@ -216,8 +221,7 @@
     /* на мобилке КБЖУ не держит вторую колонку — уходит строкой вниз вправо */
     .item .nm,.item .ds,.item .pr{grid-row:auto}
     .item .kb{grid-column:1/-1;grid-row:auto}
-    .cats{flex-wrap:nowrap;gap:14px}
-    .cats button{font-size:clamp(14px,4.2vw,18px);white-space:nowrap}
+    .cats button{font-size:clamp(20px,5.6vw,26px);white-space:nowrap}
   }
 </style>
 <style>[hidden]{display:none!important}</style>
@@ -423,11 +427,20 @@
   window.addEventListener('hashchange', () => go(location.hash.slice(1), false));
   go(location.hash.slice(1), false);
 
-  document.querySelectorAll('.cats button').forEach(b => b.addEventListener('click', () => {
-    const col = b.closest('.mcol');
-    col.querySelectorAll('.cats button').forEach(x => x.classList.toggle('on', x === b));
-    col.querySelectorAll('.list').forEach(l => l.classList.toggle('on', l.dataset.list === b.dataset.cat));
-  }));
+  /* десктоп: в каждой колонке своя активная категория; мобилка: одна на все четыре */
+  const mobile = matchMedia('(max-width:820px)');
+  function pickCat(b){
+    const scope = mobile.matches ? document.querySelector('.mcols') : b.closest('.mcol');
+    scope.querySelectorAll('.cats button').forEach(x => x.classList.toggle('on', x === b));
+    scope.querySelectorAll('.list').forEach(l => l.classList.toggle('on', l.dataset.list === b.dataset.cat));
+  }
+  document.querySelectorAll('.cats button').forEach(b => b.addEventListener('click', () => pickCat(b)));
+  function resetCats(){
+    if (mobile.matches) pickCat(document.querySelector('.cats button'));
+    else document.querySelectorAll('.mcol').forEach(c => pickCat(c.querySelector('.cats button')));
+  }
+  mobile.addEventListener('change', resetCats);
+  resetCats();
 
   document.querySelectorAll('.item.has').forEach(r => {
     if (isTouch) { r.addEventListener('click', () => r.classList.toggle('open')); return; }
