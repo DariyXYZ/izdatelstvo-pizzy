@@ -103,7 +103,7 @@
   .team figcaption{margin-top:10px;display:flex;justify-content:space-between}
   .team figcaption .cap{color:var(--mute)}
 
-  /* меню = лента снимков + полное меню отдельным PDF (владельцы меняют файл сами) */
+  /* меню = лента снимков + полное меню отдельным файлом (владельцы меняют его сами) */
   #menu .big{margin-bottom:14px}
   .hint{color:var(--mute);margin:0 0 clamp(28px,4vw,52px)}
   /* подсказка — под текстом, кружок тянется на обе строки грида */
@@ -123,7 +123,7 @@
   .fc:hover figcaption,.fc:focus-visible figcaption{color:var(--ink)}
   .fc:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 
-  /* оверлеи поверх сайта: снимок крупно и меню-PDF */
+  /* оверлеи поверх сайта: снимок крупно и полное меню */
   .ov{position:fixed;inset:0;z-index:200;background:var(--bg);display:none;flex-direction:column;
       padding:calc(14px + env(safe-area-inset-top,0px)) var(--gut) calc(14px + env(safe-area-inset-bottom,0px))}
   .ov.on{display:flex}
@@ -144,11 +144,17 @@
   .lb .kb{color:var(--mute);margin:0 0 20px}
   .lb .il{color:var(--mute);display:block;margin-bottom:6px}
   .lb .ing{font-family:var(--serif);font-size:clamp(20px,2vw,28px);line-height:1.15;display:inline-block;transform:scaleX(.88);transform-origin:left top;margin:0 0 22px;max-width:30ch}
-  .lb .nav2{display:flex;gap:22px;color:var(--mute)}
-  .lb .nav2 button{all:unset;cursor:pointer;text-transform:uppercase;font-size:10px;letter-spacing:.02em}
-  .lb .nav2 button:hover{color:var(--ink)}
-  .lb .nav2 button:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-  /* PDF грузим только при открытии, чтобы не тянуть файл на каждой загрузке страницы */
+  /* листалка — строкой внизу оверлея: две тонкие стрелки и счётчик между ними */
+  .lbfoot{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px;
+          border-top:1px solid var(--line);padding-top:14px;margin-top:clamp(18px,3vw,32px)}
+  .lbfoot .num{color:var(--mute)}
+  .ar{all:unset;cursor:pointer;display:flex;align-items:center;padding:10px 0;color:var(--ink)}
+  .ar svg{width:clamp(48px,6vw,86px);height:10px;overflow:visible;transition:transform .25s ease}
+  .ar[data-step="1"] svg{transform:scaleX(-1)}
+  .ar:hover svg{transform:translateX(-6px)}
+  .ar[data-step="1"]:hover svg{transform:scaleX(-1) translateX(-6px)}
+  .ar:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+  /* файл меню грузим только при открытии, чтобы не тянуть его на каждой загрузке страницы */
   .pdfv .in{padding-top:0}
   .pdfv iframe{width:100%;height:100%;border:0;display:block;background:var(--ph)}
   .pdfmiss{display:none;font-family:var(--serif);font-style:italic;color:var(--mute);padding:clamp(40px,10vh,120px) 0;text-align:center}
@@ -304,10 +310,10 @@
 
   <!-- МЕНЮ -->
   <section id="menu">
-    <div class="bl"><figure class="sk" style="--w:104px;--dy:2.2em;--dx:14vw;--mx:start"><div class="ph"><span>Стул-моноблок</span></div></figure><p data-i18n="menu1" class="big"><sup>1</sup>Свежий тираж. Тесто ставим накануне, печём при вас.</p><p class="hint cap"><span data-i18n="hint-feed">Нажмите на снимок — откроется крупно, с составом и КБЖУ. Цены и полный список — в меню PDF</span></p></div>
+    <div class="bl"><figure class="sk" style="--w:104px;--dy:2.2em;--dx:14vw;--mx:start"><div class="ph"><span>Стул-моноблок</span></div></figure><p data-i18n="menu1" class="big"><sup>1</sup>Свежий тираж. Тесто ставим накануне, печём при вас.</p><p class="hint cap"><span data-i18n="hint-feed">Нажмите на снимок — откроется крупно, с составом и КБЖУ. Цены и все позиции — в полном меню</span></p></div>
     <div class="mbar">
-      <button class="btn" type="button" id="pdfbtn">Меню (PDF)</button>
-      <span class="cap">Полное меню с ценами. Редакция обновляет файл — лента остаётся как есть</span>
+      <button class="btn" type="button" id="pdfbtn">Полное меню</button>
+      <span class="cap">Все позиции и цены — одним листом</span>
     </div>
     <div class="feed">
       <figure class="fc" tabindex="0" role="button" data-nm="Маргарита" data-kbju="890,34,30,118" data-ing="томаты сан-марцано, фиор ди латте, базилик, оливковое масло" data-ing-en="San Marzano tomatoes, fior di latte, basil, olive oil" style="--ar:4/5"><div class="ph"><span>Фото позиции</span></div><figcaption class="cap">Маргарита</figcaption></figure>
@@ -384,7 +390,7 @@
 
 <!-- снимок крупно -->
 <div class="ov lb" id="lb" role="dialog" aria-modal="true" aria-label="Снимок позиции" hidden>
-  <div class="ovtop"><span class="cap"><span data-i18n="lbtop">Лента</span> <span class="num"></span></span>
+  <div class="ovtop"><span class="cap" data-i18n="lbtop">Лента</span>
     <span class="r"><button class="x" type="button" data-close>Закрыть</button></span></div>
   <div class="in">
     <div class="im"><div class="ph"><span>Фото позиции</span></div></div>
@@ -393,17 +399,21 @@
       <p class="kb cap"></p>
       <span class="il cap" data-i18n="ing-label">Состав</span>
       <p class="ing"></p>
-      <div class="nav2"><button type="button" data-step="-1">← Раньше</button><button type="button" data-step="1">Дальше →</button></div>
     </div>
+  </div>
+  <div class="lbfoot">
+    <button class="ar" type="button" data-step="-1" aria-label="Предыдущий снимок"><svg viewBox="0 0 86 10" aria-hidden="true" focusable="false"><path d="M86 5H1M8 1 1 5l7 4" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/></svg></button>
+    <span class="num cap"></span>
+    <button class="ar" type="button" data-step="1" aria-label="Следующий снимок"><svg viewBox="0 0 86 10" aria-hidden="true" focusable="false"><path d="M86 5H1M8 1 1 5l7 4" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/></svg></button>
   </div>
 </div>
 
-<!-- меню-PDF поверх сайта -->
-<div class="ov pdfv" id="pdfv" role="dialog" aria-modal="true" aria-label="Меню, PDF" hidden>
-  <div class="ovtop"><span class="cap" data-i18n="pdftop">Меню · PDF</span>
-    <span class="r"><a class="u" id="pdfout" href="menu.pdf" target="_blank" rel="noopener">Открыть файлом</a><button class="x" type="button" data-close>Закрыть</button></span></div>
+<!-- полное меню поверх сайта -->
+<div class="ov pdfv" id="pdfv" role="dialog" aria-modal="true" aria-label="Полное меню" hidden>
+  <div class="ovtop"><span class="cap" data-i18n="pdftop">Меню</span>
+    <span class="r"><a class="u" id="pdfout" href="menu.pdf" target="_blank" rel="noopener">Открыть отдельно</a><button class="x" type="button" data-close>Закрыть</button></span></div>
   <div class="in"><iframe id="pdff" title="Меню" src="about:blank"></iframe>
-    <p class="pdfmiss" data-i18n="pdfmiss">Файл меню пока не загружен. Пришлите PDF — положим сюда.</p></div>
+    <p class="pdfmiss" data-i18n="pdfmiss">Меню скоро появится здесь. Пока спросите нас в зале или позвоните.</p></div>
 </div>
 
 <script>
@@ -439,7 +449,7 @@
     lb.querySelector('.ttl').textContent = (en && EN_TEXT[norm(c.dataset.nm)]) || c.dataset.nm;
     lb.querySelector('.kb').textContent = kbLine(c.dataset.kbju, en);
     lb.querySelector('.ing').textContent = (en && c.dataset.ingEn) || c.dataset.ing;
-    lb.querySelector('.num').textContent = '· ' + String(lbi + 1).padStart(2, '0') + ' / ' + cards.length;
+    lb.querySelector('.num').textContent = String(lbi + 1).padStart(2, '0') + ' / ' + cards.length;
     lb.style.setProperty('--ar', getComputedStyle(c).getPropertyValue('--ar') || '4/5');
     const img = c.querySelector('img');
     lb.querySelector('.im').innerHTML = img
@@ -453,10 +463,10 @@
     c.addEventListener('click', () => openLb(i));
     c.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLb(i); } });
   });
-  lb.querySelectorAll('[data-step]').forEach(btn =>
+  lb.querySelectorAll('.ar').forEach(btn =>
     btn.addEventListener('click', () => openLb(lbi + (+btn.dataset.step))));
 
-  /* меню-PDF поверх сайта: файл подтягиваем при открытии, владельцы меняют menu.pdf в репозитории */
+  /* полное меню поверх сайта: файл подтягиваем при открытии, владельцы меняют menu.pdf в репозитории */
   const pdfv = document.getElementById('pdfv'), pdff = document.getElementById('pdff');
   const PDF = 'menu.pdf';
   document.getElementById('pdfbtn').addEventListener('click', async () => {
@@ -485,9 +495,9 @@
     about2:'<sup>2</sup>The editors are Nastya and Stas. Italian tomatoes and dough, our own string lights and jars. The full print run is collected in the <a class="u" href="#menu" data-go="menu">menu</a>.',
     about3:'<sup>3</sup>Out daily from 12:00 to 22:00. Tables by phone: <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. We look forward to seeing you!',
     menu1:'<sup>1</sup>Fresh print run. The dough is made the day before and baked in front of you.',
-    'hint-feed':'Tap a photo to see it large, with ingredients and nutrition. Prices and the full list are in the menu&nbsp;PDF',
-    lbtop:'Feed',pdftop:'Menu · PDF','ing-label':'Ingredients',
-    pdfmiss:'The menu file is not uploaded yet. Send the PDF and it will live here.',
+    'hint-feed':'Tap a photo to see it large, with ingredients and nutrition. Prices and every dish are in the full menu',
+    lbtop:'Feed',pdftop:'Menu','ing-label':'Ingredients',
+    pdfmiss:'The menu will be here soon. For now, ask us in the room or give us a call.',
     meta:'* Instagram belongs to Meta, designated an extremist organisation in Russia',meta2:'* Instagram belongs to Meta, designated an extremist organisation in Russia',
     owner:'[Sole trader / LLC — TBC] · OGRN [TBC] · [registered address — TBC]',
     priv0:'<sup>§</sup>Privacy policy',
@@ -516,8 +526,8 @@
     'Чай зелёный':'Green tea','Чай чёрный':'Black tea','200 / 300 мл':'200 / 300 ml','500 мл':'500 ml','330 мл':'330 ml','750 мл':'750 ml','Пиво безалкогольное':'Non-alcoholic beer','Пиво':'Beer','в ассортименте':'assorted',
     'Открыть в Яндекс Картах':'Open in Yandex Maps','Столик':'Table','Позвонить':'Call','Онлайн-бронь появится позже':'Online booking coming later','Скоро':'Soon','Доставка':'Delivery','Пока — в зале и с собой':'For now: dine in and takeaway',
     '© Издательство пиццы, 2026':'© Pizza Publishing House, 2026','Политика конфиденциальности':'Privacy policy','[e-mail — уточнить]':'[e-mail — TBC]','Instagram*':'Instagram*',
-    'Меню (PDF)':'Menu (PDF)','Полное меню с ценами. Редакция обновляет файл — лента остаётся как есть':'The full menu with prices. The editors update the file; the feed stays as it is',
-    'Закрыть':'Close','Открыть файлом':'Open the file','← Раньше':'← Previous','Дальше →':'Next →',
+    'Полное меню':'Full menu','Все позиции и цены — одним листом':'Every dish and every price, on one sheet',
+    'Закрыть':'Close','Открыть отдельно':'Open separately',
     'Лимоны':'Lemons','Лестница ко входу':'Stairs to the entrance','Двор, гирлянда':'Yard, string lights','Банки друг на друге':'Stacked jars','Лайтбокс':'Lightbox','Цветы в бутылке':'Flowers in a bottle','Стул-моноблок':'Monobloc chair','Лимон с цифрой 11':'Lemon with the number 11'
   };
   const RU = new Map();
@@ -532,6 +542,8 @@
     leaves.forEach(el => el.textContent = en ? EN_TEXT[norm(RU.get(el))] : RU.get(el));
     blocks.forEach(el => { el.innerHTML = en ? EN_HTML[el.dataset.i18n] : RU.get(el); bindGo(el); });
     document.querySelectorAll('.soon[title]').forEach(el => el.title = en ? 'Soon' : 'Скоро');
+    document.querySelectorAll('.ar').forEach(b => { const fwd = b.dataset.step === '1';
+      b.setAttribute('aria-label', en ? (fwd ? 'Next photo' : 'Previous photo') : (fwd ? 'Следующий снимок' : 'Предыдущий снимок')); });
     document.documentElement.lang = lang;
     document.title = en ? 'Pizza Publishing House' : 'Издательство пиццы';
     document.querySelectorAll('[data-lang]').forEach(a => a.classList.toggle('on', a.dataset.lang === lang));
