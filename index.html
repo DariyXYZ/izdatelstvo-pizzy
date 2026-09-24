@@ -134,16 +134,16 @@
   .x{all:unset;cursor:pointer;font-family:var(--sans);font-size:16px;text-transform:uppercase;letter-spacing:.02em}
   .x:focus-visible,.ov .u:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
   .ov .in{flex:1 1 auto;min-height:0;overflow:auto;padding:clamp(18px,3vw,40px) 0 0}
-  .lb .in{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(240px,1fr);gap:clamp(20px,4vw,64px);align-items:start}
+  .lb .in{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(240px,1fr);gap:clamp(20px,4vw,64px);align-items:start;align-content:start}
   /* снимок вписывается по высоте оверлея, ширина считается из пропорции */
   .lb .im{display:flex;align-items:flex-start}
   .lb .im .ph,.lb .im img{width:auto;height:min(calc(100dvh - 160px),76vh);max-width:100%}
   .lb .im .ph{aspect-ratio:var(--ar,4/5)}
   .lb .im img{display:block;object-fit:cover}
-  .lb .ttl{font-family:var(--serif);font-size:clamp(28px,3.4vw,48px);line-height:1;display:inline-block;transform:scaleX(.9);transform-origin:left;margin:0 0 16px}
+  .lb .ttl{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.9vw,42px);line-height:1.08;letter-spacing:-.005em;display:inline-block;transform:scaleX(.88);transform-origin:left top;margin:0 0 16px}
   .lb .kb{color:var(--mute);margin:0 0 20px}
   .lb .il{color:var(--mute);display:block;margin-bottom:6px}
-  .lb .ing{font-family:var(--serif);font-size:clamp(18px,1.7vw,26px);line-height:1.15;display:inline-block;transform:scaleX(.9);transform-origin:left;margin:0 0 22px;max-width:30ch}
+  .lb .ing{font-family:var(--serif);font-size:clamp(20px,2vw,28px);line-height:1.15;display:inline-block;transform:scaleX(.88);transform-origin:left top;margin:0 0 22px;max-width:30ch}
   .lb .nav2{display:flex;gap:22px;color:var(--mute)}
   .lb .nav2 button{all:unset;cursor:pointer;text-transform:uppercase;font-size:10px;letter-spacing:.02em}
   .lb .nav2 button:hover{color:var(--ink)}
@@ -243,8 +243,8 @@
     .fcols > div:nth-child(n){grid-column:auto}
     .fcols > div:first-child{grid-column:1/-1}
     .ov{padding-left:var(--gut);padding-right:var(--gut)}
-    .lb .ttl{font-size:clamp(24px,7vw,34px);margin-bottom:10px}
-    .lb .ing{font-size:clamp(17px,4.6vw,22px)}
+    .lb .ttl{font-size:clamp(20px,5.6vw,26px);margin-bottom:10px}
+    .lb .ing{font-size:clamp(18px,4.8vw,22px)}
   }
 </style>
 <style>[hidden]{display:none!important}</style>
@@ -384,7 +384,7 @@
 
 <!-- снимок крупно -->
 <div class="ov lb" id="lb" role="dialog" aria-modal="true" aria-label="Снимок позиции" hidden>
-  <div class="ovtop"><span class="cap" data-i18n="lbtop">Лента · снимок</span>
+  <div class="ovtop"><span class="cap"><span data-i18n="lbtop">Лента</span> <span class="num"></span></span>
     <span class="r"><button class="x" type="button" data-close>Закрыть</button></span></div>
   <div class="in">
     <div class="im"><div class="ph"><span>Фото позиции</span></div></div>
@@ -439,6 +439,7 @@
     lb.querySelector('.ttl').textContent = (en && EN_TEXT[norm(c.dataset.nm)]) || c.dataset.nm;
     lb.querySelector('.kb').textContent = kbLine(c.dataset.kbju, en);
     lb.querySelector('.ing').textContent = (en && c.dataset.ingEn) || c.dataset.ing;
+    lb.querySelector('.num').textContent = '· ' + String(lbi + 1).padStart(2, '0') + ' / ' + cards.length;
     lb.style.setProperty('--ar', getComputedStyle(c).getPropertyValue('--ar') || '4/5');
     const img = c.querySelector('img');
     lb.querySelector('.im').innerHTML = img
@@ -485,7 +486,7 @@
     about3:'<sup>3</sup>Out daily from 12:00 to 22:00. Tables by phone: <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. We look forward to seeing you!',
     menu1:'<sup>1</sup>Fresh print run. The dough is made the day before and baked in front of you.',
     'hint-feed':'Tap a photo to see it large, with ingredients and nutrition. Prices and the full list are in the menu&nbsp;PDF',
-    lbtop:'Feed · photo',pdftop:'Menu · PDF','ing-label':'Ingredients',
+    lbtop:'Feed',pdftop:'Menu · PDF','ing-label':'Ingredients',
     pdfmiss:'The menu file is not uploaded yet. Send the PDF and it will live here.',
     meta:'* Instagram belongs to Meta, designated an extremist organisation in Russia',meta2:'* Instagram belongs to Meta, designated an extremist organisation in Russia',
     owner:'[Sole trader / LLC — TBC] · OGRN [TBC] · [registered address — TBC]',
