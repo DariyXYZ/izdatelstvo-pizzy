@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Издательство пиццы — вариант Б «Тираж»</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Martian+Mono:wght@300;400;600&family=Prata&display=swap">
+<style>
+  :root{
+    --bg:#f7f6f3; --ink:#0d0d0d; --mute:#8d8d8d; --acc:#ffd400; --ph:#e8e6e1;
+    --grotesk:"Unbounded","Arial Black",sans-serif;
+    --mono:"Martian Mono","Courier New",monospace;
+    --serif:"Prata",Georgia,serif;
+    --gut:clamp(12px,2.4vw,40px);
+    --dash:repeating-linear-gradient(to right,var(--ink) 0 4px,transparent 4px 9px);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);overflow-x:hidden}
+  body{font:12px/1.5 var(--mono);padding-inline:var(--gut);-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--acc)}
+
+  .m{font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase}
+  .mute{color:var(--mute)}
+  .dash{height:1px;background-image:var(--dash);margin:0}
+  .ph{background:var(--ph);display:flex;align-items:center;justify-content:center;text-align:center;padding:10px}
+  .ph span{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+
+  /* ===== навигация в скобках ===== */
+  .nav{display:flex;flex-wrap:wrap;justify-content:center;gap:2px clamp(4px,1.2vw,22px);padding:14px 0 12px}
+  .nav a{padding:4px 6px}
+  .nav a::before{content:"( "}
+  .nav a::after{content:" )"}
+  .nav a:hover{background:var(--acc)}
+
+  /* ===== шапка: выходные данные и логотип во всю ширину ===== */
+  .head{text-align:center;padding:clamp(16px,3vw,34px) 0 0}
+  .head p{margin:0 0 5px}
+  .wordmark{display:flex;align-items:baseline;justify-content:center;gap:.06em;margin:clamp(10px,2vw,22px) 0 0}
+  .wordmark b{font-family:var(--grotesk);font-weight:900;font-size:12vw;line-height:.82;
+              letter-spacing:-.045em;text-transform:uppercase;white-space:nowrap;display:block}
+  .wordmark sup{font-family:var(--mono);font-size:clamp(9px,1.1vw,15px);top:-1.1em;position:relative}
+  .subword{font-family:var(--serif);font-size:clamp(20px,4.6vw,72px);line-height:1;text-align:center;
+           margin-top:-.09em;letter-spacing:.01em}
+  .subword em{background:var(--acc);font-style:normal;padding:0 .18em}
+
+  /* ===== блоки с нумерацией ( 01 ) ===== */
+  .sec{padding:clamp(26px,4vw,64px) 0 0}
+  .num{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding-bottom:9px}
+  .num h2{font-family:var(--grotesk);font-weight:700;font-size:clamp(15px,1.9vw,26px);margin:0;
+          letter-spacing:-.02em;text-transform:uppercase}
+  .num .n::before{content:"( "}
+  .num .n::after{content:" )"}
+
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,2.6vw,46px);align-items:start;padding-top:clamp(14px,2vw,26px)}
+  .say{font-family:var(--serif);font-size:clamp(20px,2.7vw,40px);line-height:1.14;margin:0 0 .6em;text-wrap:pretty}
+  .say mark{background:var(--acc);padding:0 .1em}
+  .list{display:grid;gap:7px}
+  .list div{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(13,13,13,.14);padding-bottom:6px}
+
+  /* ===== плитка снимков с номерами ===== */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:clamp(8px,1.2vw,18px);padding-top:clamp(14px,2vw,26px)}
+  .card{position:relative;cursor:pointer}
+  .card .ph{aspect-ratio:var(--ar,1/1)}
+  .card .tag{display:flex;justify-content:space-between;gap:10px;padding-top:6px}
+  .card:hover .ph{background:var(--acc)}
+  .card:hover .tag{color:var(--ink)}
+  .card .idx{color:var(--mute)}
+
+  /* ===== бегущая лента ===== */
+  .tape{margin:clamp(26px,4vw,60px) calc(-1 * var(--gut)) 0;background:var(--ink);color:var(--bg);overflow:hidden;padding:9px 0}
+  .tape .row{display:flex;width:max-content;animation:run 38s linear infinite}
+  .tape span{padding:0 18px;white-space:nowrap}
+  .tape b{color:var(--acc);font-weight:400}
+  @keyframes run{to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion:reduce){.tape .row{animation:none}}
+
+  /* ===== кнопка ===== */
+  .btn{display:inline-block;border:1px solid var(--ink);padding:13px 22px;margin-top:16px}
+  .btn::before{content:"( "}
+  .btn::after{content:" )"}
+  .btn:hover{background:var(--acc)}
+
+  /* ===== подвал ===== */
+  footer{margin-top:clamp(30px,4.6vw,72px);padding:16px 0 30px}
+  .fc{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding-top:14px}
+  .fc b{display:block;font-weight:400;color:var(--mute);margin-bottom:6px}
+  .fend{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;padding-top:22px}
+
+  @media (max-width:860px){
+    .two{grid-template-columns:1fr}
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .fc{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:520px){
+    .nav{gap:2px 4px;font-size:10px}
+    .m,body{font-size:10.5px}
+    .subword{font-size:clamp(22px,8vw,40px)}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav m">
+  <a href="#">Главная</a><a href="#pro">О нас</a><a href="#feed">Тираж</a>
+  <a href="#menu">Меню</a><a href="#cont">Столик</a><a href="#">Ru / En</a>
+</nav>
+<hr class="dash">
+
+<header class="head">
+  <p class="m mute">Пиццерия · Москва · Таганка</p>
+  <p class="m">Ежедневно 12:00–22:00 · переулок Маяковского, 2 · +7 967 079-60-93</p>
+  <div class="wordmark"><b data-fit>Издательство</b><sup>®</sup></div>
+  <div class="subword"><em>пиццы</em></div>
+</header>
+
+<section class="sec" id="pro">
+  <hr class="dash">
+  <div class="num m"><h2>Что это</h2><span class="n">01</span></div>
+  <hr class="dash">
+  <div class="two">
+    <div>
+      <p class="say">Издаём пиццу на Таганке. Каждый день — <mark>свежий тираж</mark>.</p>
+      <p class="m mute">Тесто ставим накануне, печём при вас. Томаты и мука — из Италии; лестница, стулья и банки на подоконнике — из нашего двора. Редакция — Настя и Стас, за печью — повар. Подписка не нужна, просто приходите.</p>
+      <a class="btn m" href="#menu">Полное меню</a>
+    </div>
+    <div class="list m">
+      <div><span>Тираж</span><span>Ежедневно, 12:00–22:00</span></div>
+      <div><span>Редакция</span><span>Пер. Маяковского, 2</span></div>
+      <div><span>Вход</span><span>С торца, со стороны Марксистской</span></div>
+      <div><span>Метро</span><span>Марксистская</span></div>
+      <div><span>Столик</span><span>+7 967 079-60-93</span></div>
+      <div><span>Доставка</span><span class="mute">Скоро</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="feed">
+  <hr class="dash">
+  <div class="num m"><h2>Тираж</h2><span class="n">02</span></div>
+  <hr class="dash">
+  <div class="grid">
+    <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><span>Фото позиции</span></div><div class="tag m"><span>Маргарита</span><span class="idx">01</span></div></figure>
+    <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><span>Фото позиции</span></div><div class="tag m"><span>Пепперони</span><span class="idx">02</span></div></figure>
+    <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><span>Фото позиции</span></div><div class="tag m"><span>Четыре сыра</span><span class="idx">03</span></div></figure>
+    <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><span>Фото позиции</span></div><div class="tag m"><span>Диавола</span><span class="idx">04</span></div></figure>
+    <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><span>Фото позиции</span></div><div class="tag m"><span>Страчателла с пармой</span><span class="idx">05</span></div></figure>
+    <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><span>Фото позиции</span></div><div class="tag m"><span>Трюфельная кальцоне</span><span class="idx">06</span></div></figure>
+    <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><span>Фото позиции</span></div><div class="tag m"><span>Груша с горгонзолой</span><span class="idx">07</span></div></figure>
+    <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><span>Фото позиции</span></div><div class="tag m"><span>Взбитая рикотта</span><span class="idx">08</span></div></figure>
+    <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><span>Фото позиции</span></div><div class="tag m"><span>Тирамису банановый</span><span class="idx">09</span></div></figure>
+    <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><span>Фото позиции</span></div><div class="tag m"><span>Кростата с клубникой</span><span class="idx">10</span></div></figure>
+    <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><span>Фото позиции</span></div><div class="tag m"><span>Капрезе с песто</span><span class="idx">11</span></div></figure>
+    <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><span>Фото позиции</span></div><div class="tag m"><span>Капучино</span><span class="idx">12</span></div></figure>
+  </div>
+</section>
+
+<div class="tape m">
+  <div class="row">
+    <span>Свежий тираж каждый день</span><span><b>✳</b></span><span>Ежедневно 12:00–22:00</span><span><b>✳</b></span>
+    <span>Переулок Маяковского, 2</span><span><b>✳</b></span><span>Тесто ставим накануне</span><span><b>✳</b></span>
+    <span>Свежий тираж каждый день</span><span><b>✳</b></span><span>Ежедневно 12:00–22:00</span><span><b>✳</b></span>
+    <span>Переулок Маяковского, 2</span><span><b>✳</b></span><span>Тесто ставим накануне</span><span><b>✳</b></span>
+  </div>
+</div>
+
+<section class="sec" id="menu">
+  <hr class="dash">
+  <div class="num m"><h2>Меню</h2><span class="n">03</span></div>
+  <hr class="dash">
+  <div class="two">
+    <div class="list m">
+      <div><span>Маргарита</span><span>600</span></div>
+      <div><span>Пепперони</span><span>750</span></div>
+      <div><span>Четыре сыра</span><span>750</span></div>
+      <div><span>Страчателла с пармой</span><span>900</span></div>
+      <div><span>Острая диавола</span><span>800</span></div>
+      <div><span>Четыре мяса</span><span>900</span></div>
+      <div><span>Фокачча лёгкая</span><span>300</span></div>
+    </div>
+    <div class="list m">
+      <div><span>Цезарь</span><span>550 / 650</span></div>
+      <div><span>Взбитая рикотта</span><span>650</span></div>
+      <div><span>Тирамису банановый</span><span>650</span></div>
+      <div><span>Кростата с клубникой</span><span>650</span></div>
+      <div><span>Капучино</span><span>250 / 350</span></div>
+      <div><span>Чай зелёный</span><span>350</span></div>
+      <div><span>Пиво</span><span>550</span></div>
+    </div>
+  </div>
+  <a class="btn m" href="#">Полное меню</a>
+</section>
+
+<section class="sec" id="cont">
+  <hr class="dash">
+  <div class="num m"><h2>Столик</h2><span class="n">04</span></div>
+  <hr class="dash">
+  <div class="two">
+    <div>
+      <p class="say">Столик — по телефону <mark>+7 967 079-60-93</mark>. Редакция открыта ежедневно с двенадцати до десяти.</p>
+      <a class="btn m" href="tel:+79670796093">Позвонить</a>
+    </div>
+    <figure style="margin:0">
+      <div class="ph" style="aspect-ratio:3/2"><span>Карта: переулок Маяковского, 2</span></div>
+      <p class="m mute" style="margin:7px 0 0">Вход с торца дома, со стороны Марксистской — по лестнице.</p>
+    </figure>
+  </div>
+</section>
+
+<footer>
+  <hr class="dash">
+  <div class="fc m">
+    <div><b>Адрес</b>Переулок Маяковского, 2<br>м. Марксистская</div>
+    <div><b>Часы</b>Ежедневно<br>12:00–22:00</div>
+    <div><b>Телефон</b>+7 967 079-60-93</div>
+    <div><b>Соцсети</b>Instagram<sup>*</sup><br><span class="mute">Telegram — скоро</span></div>
+  </div>
+  <div class="fend m mute">
+    <span>© Издательство пиццы, 2026</span>
+    <span>* Instagram принадлежит Meta, признанной экстремистской организацией в РФ</span>
+  </div>
+</footer>
+
+
+<script>
+  /* мастхед набирается ровно по ширине полосы: подбираем кегль под реальную ширину слова */
+  function fitWord(el, min, max){
+    const box = el.parentElement;
+    let lo = min, hi = max;
+    for (let i = 0; i < 22; i++){
+      const mid = (lo + hi) / 2;
+      el.style.fontSize = mid + 'px';
+      (el.scrollWidth > box.clientWidth ? hi = mid : lo = mid);
+    }
+    el.style.fontSize = lo + 'px';
+  }
+  function fitAll(){ document.querySelectorAll('[data-fit]').forEach(el => fitWord(el, 20, 460)); }
+  addEventListener('resize', fitAll);
+  document.fonts.ready.then(fitAll);
+  fitAll();
+</script>
+</body>
+</html>

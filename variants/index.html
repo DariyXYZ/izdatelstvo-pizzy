@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Издательство пиццы — варианты вёрстки</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;900&family=Martian+Mono:wght@400&display=swap">
+<style>
+  :root{--bg:#fff;--ink:#111;--mute:#8a8a8a;--line:#111}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 "Martian Mono",monospace;
+       padding:clamp(18px,5vw,64px);-webkit-font-smoothing:antialiased}
+  h1{font-family:"Playfair Display",serif;font-weight:900;font-size:clamp(30px,5vw,64px);
+     line-height:1;margin:0 0 6px;letter-spacing:-.02em}
+  .sub{color:var(--mute);font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin:0 0 clamp(24px,4vw,52px)}
+  ul{list-style:none;margin:0;padding:0;display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+  li{background:var(--bg)}
+  a{display:grid;grid-template-columns:auto 1fr auto;gap:10px 20px;align-items:baseline;
+    padding:clamp(16px,2.4vw,28px);color:inherit;text-decoration:none}
+  a:hover{background:#111;color:#fff}
+  .n{color:var(--mute);font-size:11px}
+  a:hover .n,a:hover .d{color:rgba(255,255,255,.6)}
+  .t{font-family:"Playfair Display",serif;font-size:clamp(18px,2.2vw,28px);letter-spacing:-.01em}
+  .d{color:var(--mute);font-size:11px;text-transform:uppercase;letter-spacing:.06em;text-align:right}
+  @media (max-width:640px){a{grid-template-columns:auto 1fr}.d{grid-column:1/-1;text-align:left}}
+  footer{color:var(--mute);font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-top:clamp(24px,4vw,52px)}
+</style>
+</head>
+<body>
+  <h1>Издательство пиццы</h1>
+  <p class="sub">Варианты вёрстки на согласование · 25 сентября 2026</p>
+  <ul>
+    <li><a href="a-polosa.html"><span class="n">01</span><span class="t">Вариант А — «Полоса»</span>
+      <span class="d">Playfair Display · Old Standard TT · Oswald</span></a></li>
+    <li><a href="b-tirazh.html"><span class="n">02</span><span class="t">Вариант Б — «Тираж»</span>
+      <span class="d">Unbounded · Martian Mono · Prata</span></a></li>
+    <li><a href="../index.html"><span class="n">00</span><span class="t">Текущий сайт</span>
+      <span class="d">Times · Sofia Sans Condensed</span></a></li>
+  </ul>
+  <footer>Фотографии — серые заглушки, ждём съёмку. Тексты и цены настоящие.</footer>
+</body>
+</html>
