@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Martian+Mono:wght@300;400;600&family=Prata&display=swap">
 <style>
   :root{
-    --bg:#f7f6f3; --ink:#0d0d0d; --mute:#8d8d8d; --acc:#ffd400; --ph:#e8e6e1;
+    --bg:#ffffff; --ink:#0d0d0d; --mute:#8d8d8d; --acc:#ffd400; --hair:#dcdcdc;
     --grotesk:"Unbounded","Arial Black",sans-serif;
     --mono:"Martian Mono","Courier New",monospace;
     --serif:"Prata",Georgia,serif;
@@ -25,8 +25,11 @@
   .m{font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase}
   .mute{color:var(--mute)}
   .dash{height:1px;background-image:var(--dash);margin:0}
-  .ph{background:var(--ph);display:flex;align-items:center;justify-content:center;text-align:center;padding:10px}
+  /* лист под рисунок: белое поле в тонкой рамке — серая заливка забивала бы лёгкую линию */
+  .ph{background:var(--bg);border:1px solid var(--hair);display:flex;align-items:center;justify-content:center;
+      text-align:center;padding:14px;transition:border-color .2s ease}
   .ph span{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+  .ph svg{width:58%;height:auto;display:block;color:var(--ink)}
 
   /* ===== навигация в скобках ===== */
   .nav{display:flex;flex-wrap:wrap;justify-content:center;gap:2px clamp(4px,1.2vw,22px);padding:14px 0 12px}
@@ -57,6 +60,7 @@
   .two{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,2.6vw,46px);align-items:start;padding-top:clamp(14px,2vw,26px)}
   .say{font-family:var(--serif);font-size:clamp(20px,2.7vw,40px);line-height:1.14;margin:0 0 .6em;text-wrap:pretty}
   .say mark{background:var(--acc);padding:0 .1em}
+  .say mark.tel{white-space:nowrap}
   .list{display:grid;gap:7px}
   .list div{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(13,13,13,.14);padding-bottom:6px}
 
@@ -65,15 +69,17 @@
   .card{position:relative;cursor:pointer}
   .card .ph{aspect-ratio:var(--ar,1/1)}
   .card .tag{display:flex;justify-content:space-between;gap:10px;padding-top:6px}
-  .card:hover .ph{background:var(--acc)}
-  .card:hover .tag{color:var(--ink)}
+  .card:hover .ph{border-color:var(--ink)}
+  .card:hover .idx{color:var(--ink)}
   .card .idx{color:var(--mute)}
 
   /* ===== бегущая лента ===== */
-  .tape{margin:clamp(26px,4vw,60px) calc(-1 * var(--gut)) 0;background:var(--ink);color:var(--bg);overflow:hidden;padding:9px 0}
+  .tape{margin:clamp(26px,4vw,60px) calc(-1 * var(--gut)) 0;overflow:hidden;padding:10px 0;position:relative}
+  .tape::before,.tape::after{content:"";position:absolute;left:0;right:0;height:1px;background-image:var(--dash)}
+  .tape::before{top:0}.tape::after{bottom:0}
   .tape .row{display:flex;width:max-content;animation:run 38s linear infinite}
   .tape span{padding:0 18px;white-space:nowrap}
-  .tape b{color:var(--acc);font-weight:400}
+  .tape b{color:var(--ink);font-weight:400;font-size:1.15em;line-height:0}
   @keyframes run{to{transform:translateX(-50%)}}
   @media (prefers-reduced-motion:reduce){.tape .row{animation:none}}
 
@@ -142,8 +148,8 @@
   <div class="num m"><h2>Тираж</h2><span class="n">02</span></div>
   <hr class="dash">
   <div class="grid">
-    <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><span>Фото позиции</span></div><div class="tag m"><span>Маргарита</span><span class="idx">01</span></div></figure>
-    <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><span>Фото позиции</span></div><div class="tag m"><span>Пепперони</span><span class="idx">02</span></div></figure>
+    <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="50" cy="50" r="38"/><circle cx="50" cy="50" r="31"/><circle cx="39" cy="41" r="4"/><circle cx="61" cy="38" r="3.4"/><circle cx="56" cy="59" r="4.6"/><circle cx="38" cy="61" r="3"/><path d="M50 19v62" stroke-dasharray="3 5"/><path d="M19 50h62" stroke-dasharray="3 5"/></svg></div><div class="tag m"><span>Маргарита</span><span class="idx">01</span></div></figure>
+    <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M50 14 84 80c-22 8-46 8-68 0L50 14Z"/><path d="M27 72c14 5 32 5 46 0"/><circle cx="50" cy="45" r="4"/><circle cx="41" cy="61" r="3.4"/><circle cx="60" cy="62" r="3.8"/></svg></div><div class="tag m"><span>Пепперони</span><span class="idx">02</span></div></figure>
     <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><span>Фото позиции</span></div><div class="tag m"><span>Четыре сыра</span><span class="idx">03</span></div></figure>
     <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><span>Фото позиции</span></div><div class="tag m"><span>Диавола</span><span class="idx">04</span></div></figure>
     <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><span>Фото позиции</span></div><div class="tag m"><span>Страчателла с пармой</span><span class="idx">05</span></div></figure>
@@ -153,7 +159,7 @@
     <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><span>Фото позиции</span></div><div class="tag m"><span>Тирамису банановый</span><span class="idx">09</span></div></figure>
     <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><span>Фото позиции</span></div><div class="tag m"><span>Кростата с клубникой</span><span class="idx">10</span></div></figure>
     <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><span>Фото позиции</span></div><div class="tag m"><span>Капрезе с песто</span><span class="idx">11</span></div></figure>
-    <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><span>Фото позиции</span></div><div class="tag m"><span>Капучино</span><span class="idx">12</span></div></figure>
+    <figure class="card" style="--ar:4/5;margin:0"><div class="ph"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M26 40h44v18a22 22 0 0 1-44 0V40Z"/><path d="M70 45h6a9 9 0 0 1 0 17h-6"/><path d="M16 83h68"/><path d="M41 31c0-4 4-5 4-9s-4-5-4-9"/><path d="M55 31c0-4 4-5 4-9s-4-5-4-9"/></svg></div><div class="tag m"><span>Капучино</span><span class="idx">12</span></div></figure>
   </div>
 </section>
 
@@ -199,7 +205,7 @@
   <hr class="dash">
   <div class="two">
     <div>
-      <p class="say">Столик — по телефону <mark>+7 967 079-60-93</mark>. Редакция открыта ежедневно с двенадцати до десяти.</p>
+      <p class="say">Столик — по телефону <mark class="tel">+7 967 079-60-93</mark>. Редакция открыта ежедневно с двенадцати до десяти.</p>
       <a class="btn m" href="tel:+79670796093">Позвонить</a>
     </div>
     <figure style="margin:0">
