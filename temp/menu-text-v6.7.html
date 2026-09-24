@@ -1,0 +1,166 @@
+<!-- АРХИВ: текстовое меню сайта «Издательство пиццы», v6.7 (снято 2026-09-24).
+     Причина: меню переехало в PDF (владельцы меняют файл сами), а раздел «Меню» стал лентой снимков.
+     Здесь лежит рабочий вариант целиком — разметка, CSS (десктоп + мобилка) и JS, — чтобы вернуть одним куском.
+     Цены актуальны на 2026-09-18 (с клипборда, см. раздел «Меню» в хабе Obsidian). -->
+
+<!-- ===== 1. РАЗМЕТКА: <section id="menu"> ===== -->
+  <section id="menu">
+    <div class="bl"><figure class="sk" style="--w:104px;--dy:2.2em;--dx:14vw;--mx:start"><div class="ph"><span>Стул-моноблок</span></div></figure><p data-i18n="menu1" class="big"><sup>1</sup>Свежий тираж. Тесто ставим накануне, печём при вас.</p><p class="hint cap"><span class="hov" data-i18n="hint-hov">Наведите на позицию — увидите фото. КБЖУ — на порцию, ориентировочно</span><span class="tap" data-i18n="hint-tap">Нажмите на позицию — увидите фото. КБЖУ — на порцию, ориентировочно</span></p></div>
+    <div class="mcols">
+      <div class="mcol">
+        <div class="cats">
+          <button type="button" class="on" data-cat="pizza">Пицца и фокачча</button>
+          <button type="button" data-cat="desserts">Десерты и выпечка</button>
+        </div>
+    <div class="list on" data-list="pizza">
+      <div class="item has" data-kbju="890,34,30,118"><span class="nm">Маргарита</span><span class="pr">600</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="1050,42,48,112"><span class="nm">Пепперони</span><span class="pr">750</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="1120,50,58,98"><span class="nm">Четыре сыра</span><span class="pr">750</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="920,38,34,112"><span class="nm">Капрезе</span><span class="pr">650</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="980,42,38,114"><span class="nm">С ветчиной, грибами, оливками и артишоками</span><span class="pr">800</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="1010,40,44,110"><span class="nm">С мортаделлой и артишоками</span><span class="pr">750</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="1080,48,50,104"><span class="nm">Страчателла с пармой</span><span class="pr">900</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="950,36,40,112"><span class="nm">С баклажанами и копчёным скаморца</span><span class="pr">650</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="1150,46,52,118"><span class="nm">Трюфельная кальцоне</span><span class="pr">700</span><span class="ds cap">с грибами и ветчиной</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="900,34,32,116"><span class="nm">Грибная</span><span class="pr">750</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="1020,36,42,124"><span class="nm">Груша с горгонзолой</span><span class="pr">700</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="1100,44,54,108"><span class="nm">Острая диавола</span><span class="pr">800</span><span class="ds cap">ндуя, спьяната калабра, чили</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="980,44,38,110"><span class="nm">С креветками, цукини, миндалём и рикоттой</span><span class="pr">750</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="960,42,40,106"><span class="nm">С анчоусами, печёным перцем и страчателлой</span><span class="pr">750</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="1180,56,58,104"><span class="nm">Четыре мяса</span><span class="pr">900</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="520,14,16,80"><span class="nm">Фокачча лёгкая</span><span class="pr">300</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="680,20,28,84"><span class="nm">Фокачча сытная</span><span class="pr">300</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+    </div>
+    <div class="list" data-list="desserts">
+      <div class="item has" data-kbju="420,8,22,48"><span class="nm">Тирамису банановый</span><span class="pr">650</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="380,6,16,54"><span class="nm">Кростата с клубникой</span><span class="pr">650</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="450,9,28,40"><span class="nm">Чизкейк фисташка с малиной</span><span class="pr">650</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="210,4,10,26"><span class="nm">Мороженое</span><span class="pr">220</span><span class="ds cap">ванильное / шоколадное</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="430,9,24,44"><span class="nm">Круассан миндальный</span><span class="pr">400</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="390,8,16,54"><span class="nm">Улитка с изюмом и фисташками</span><span class="pr">350</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="360,7,14,52"><span class="nm">Булочка с корицей</span><span class="pr">350</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="400,7,22,44"><span class="nm">Шоколадный круассан</span><span class="pr">400</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+    </div>
+      </div>
+      <div class="mcol">
+        <div class="cats">
+          <button type="button" class="on" data-cat="starters">Салаты и закуски</button>
+          <button type="button" data-cat="drinks">Напитки</button>
+        </div>
+    <div class="list on" data-list="starters">
+      <div class="item has" data-kbju="480,28,30,22"><span class="nm">Цезарь</span><span class="pr">550 / 650</span><span class="ds cap">с курицей / с креветками</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="260,8,18,16"><span class="nm">Томатный салат</span><span class="pr">550 / 650</span><span class="ds cap">красный лук, базилик, бальзамик — без страчателлы / со страчателлой</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="180,3,14,10"><span class="nm">Артишоки маринованные</span><span class="pr">500</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="220,4,16,14"><span class="nm">Вяленые томаты</span><span class="pr">450</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="190,2,17,6"><span class="nm">Оливки и пикантный перчик</span><span class="pr">500</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="520,30,42,4"><span class="nm">Сыр</span><span class="pr">850</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="480,34,36,2"><span class="nm">Мясо</span><span class="pr">850</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="260,12,18,10"><span class="nm">Перчики, фаршированные рикоттой</span><span class="pr">500</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="340,12,24,16"><span class="nm">Пепероната</span><span class="pr">600</span><span class="ds cap">соус ромеско, страчателла, анчоусы</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="420,18,32,10"><span class="nm">Капрезе с песто</span><span class="pr">650</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="460,18,28,32"><span class="nm">Взбитая рикотта</span><span class="pr">650</span><span class="ds cap">печёные черри, песто, фокачча</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+    </div>
+    <div class="list" data-list="drinks">
+      <div class="item has" data-kbju="120,6,6,10"><span class="nm">Капучино</span><span class="pr">250 / 350</span><span class="ds cap">200 / 300 мл</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="150,8,7,12"><span class="nm">Латте</span><span class="pr">250 / 350</span><span class="ds cap">200 / 300 мл</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="5,0,0,1"><span class="nm">Американо</span><span class="pr">220 / 320</span><span class="ds cap">200 / 300 мл</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="5,0,0,1"><span class="nm">Эспрессо</span><span class="pr">250 / 350</span><span class="ds cap">одинарный / двойной</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="3,0,0,0"><span class="nm">Ристретто</span><span class="pr">250</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="60,3,3,5"><span class="nm">Порция молока</span><span class="pr">100</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="2,0,0,0"><span class="nm">Чай зелёный</span><span class="pr">350</span><span class="ds cap">500 мл</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="2,0,0,0"><span class="nm">Чай чёрный</span><span class="pr">350</span><span class="ds cap">500 мл</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="140,0,0,35"><span class="nm">Coca-Cola</span><span class="pr">300</span><span class="ds cap">330 мл</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="0,0,0,0"><span class="nm">S.Pellegrino</span><span class="pr">500</span><span class="ds cap">750 мл</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="130,0,0,32"><span class="nm">Limonata S.Pellegrino</span><span class="pr">300</span><span class="ds cap">330 мл</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="80,1,0,18"><span class="nm">Пиво безалкогольное</span><span class="pr">500</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+      <div class="item has" data-kbju="220,2,0,16"><span class="nm">Пиво</span><span class="pr">550</span><span class="ds cap">в ассортименте</span><div class="ph thumb"><span>Фото позиции</span></div></div>
+    </div>
+      </div>
+    </div>
+  </section>
+
+<!-- ===== 2. CSS: основной блок (стоял после /* о нас */) ===== -->
+<style>
+  /* меню */
+  /* меню: две колонки — слева пицца|десерты, справа закуски|напитки, каждая переключается сама */
+  .mcols{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(28px,5vw,80px);align-items:start}
+  #menu .big{margin-bottom:14px}
+  .hint{color:var(--mute);margin:0 0 clamp(56px,8vw,120px)}
+  /* подсказка — под текстом, кружок тянется на обе строки грида */
+  .bl .big{grid-column:1}.bl .hint{grid-column:1;grid-row:2}.bl .sk{grid-column:2;grid-row:1/span 2}
+  .hint .tap{display:none}
+  @media (hover:none){.hint .hov{display:none}.hint .tap{display:inline}}
+  .cats{display:flex;flex-wrap:wrap;gap:8px clamp(18px,2.4vw,36px);margin:0 0 clamp(20px,3vw,40px)}
+  .cats button{all:unset;cursor:pointer;font-family:var(--serif);font-size:clamp(18px,1.8vw,27px);text-transform:uppercase;line-height:1;display:inline-block;transform:scaleX(.86);transform-origin:left;color:var(--mute)}
+  .cats button.on{color:var(--ink);text-decoration:underline;text-underline-offset:.12em;text-decoration-thickness:1px}
+  .cats button:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  .list{display:none;border-top:1px solid var(--line)}
+  .list.on{display:block}
+  /* название тянется на 2 ряда, справа цена (ряд 1) + КБЖУ (ряд 2): двухстрочное название не растит блок */
+  .item{display:grid;grid-template-columns:1fr auto;gap:6px 24px;align-items:start;padding:12px 0;border-bottom:1px solid var(--line)}
+  .item .nm{grid-row:1/3;font-family:var(--serif);font-size:clamp(20px,2vw,28px);line-height:1;display:inline-block;transform:scaleX(.9);transform-origin:left}
+  .item:has(.ds) .nm{grid-row:1}
+  .item .ds{grid-column:1;grid-row:2;color:var(--mute);margin-top:2px;font-size:14px;text-transform:none;letter-spacing:0}
+  .item .pr{grid-row:1;font-family:var(--serif);font-size:clamp(20px,2vw,28px);line-height:1;color:var(--ink);justify-self:end}
+  /* КБЖУ на порцию — ориентировочно, из data-kbju, рендерится JS с учётом языка */
+  .item .kb{grid-column:2;grid-row:2;justify-self:end;text-align:right;white-space:nowrap;font-size:14px;text-transform:none;letter-spacing:0;color:var(--mute);margin-top:2px}
+  .item.has{cursor:none}
+  .item .thumb{display:none;grid-column:1/-1}
+  .item.open .thumb{display:flex;aspect-ratio:3/2;margin:6px 0 4px}
+  .cur{position:fixed;width:240px;aspect-ratio:4/3;pointer-events:none;z-index:99;display:none}
+  .cur.on{display:flex}
+</style>
+
+<!-- ===== 3. CSS: мобильные правила (внутри @media (max-width:820px)) ===== -->
+<style>
+@media (max-width:820px){
+    /* мобилка: 4 категории столбиком, под ними один список (колонки схлопнуты через display:contents) */
+    .mcols{display:flex;flex-direction:column;gap:0}
+    .mcol{display:contents}
+    .cats{order:1;flex-direction:column;align-items:flex-start;gap:12px;margin:0 0 12px}
+    .mcol:last-child .cats{margin-bottom:28px}
+    .list{order:2}
+    #menu .big{margin-bottom:10px}
+    .hint{margin-bottom:40px}
+    footer{padding:24px var(--gut) calc(24px + env(safe-area-inset-bottom,0px) + var(--fit,0px));--tile:24px}
+    .legal{margin-top:18px;grid-template-columns:1fr}
+    .legal .lr{display:none}
+    .fcols{grid-template-columns:auto auto auto;justify-content:space-between;gap:12px 14px;font-size:14px}
+    .fcols > div:nth-child(n){grid-column:auto}
+    .fcols > div:first-child{grid-column:1/-1}
+    .item.has{cursor:pointer}
+    .item .kb{font-size:12px}
+    .cats button{font-size:clamp(20px,5.6vw,26px);white-space:nowrap}
+}
+</style>
+
+<!-- ===== 4. JS: категории, курсор-фото, тап-раскрытие ===== -->
+<script>
+  /* десктоп: в каждой колонке своя активная категория; мобилка: одна на все четыре */
+  const mobile = matchMedia('(max-width:820px)');
+  function pickCat(b){
+    const scope = mobile.matches ? document.querySelector('.mcols') : b.closest('.mcol');
+    scope.querySelectorAll('.cats button').forEach(x => x.classList.toggle('on', x === b));
+    scope.querySelectorAll('.list').forEach(l => l.classList.toggle('on', l.dataset.list === b.dataset.cat));
+  }
+  document.querySelectorAll('.cats button').forEach(b => b.addEventListener('click', () => pickCat(b)));
+  function resetCats(){
+    if (mobile.matches) pickCat(document.querySelector('.cats button'));
+    else document.querySelectorAll('.mcol').forEach(c => pickCat(c.querySelector('.cats button')));
+  }
+  mobile.addEventListener('change', resetCats);
+  resetCats();
+
+  document.querySelectorAll('.item.has').forEach(r => {
+    if (isTouch) { r.addEventListener('click', () => r.classList.toggle('open')); return; }
+    r.addEventListener('mouseenter', () => cur.classList.add('on'));
+    r.addEventListener('mouseleave', () => cur.classList.remove('on'));
+    r.addEventListener('mousemove', e => { cur.style.left = (e.clientX + 18) + 'px'; cur.style.top = (e.clientY + 18) + 'px'; });
+  });
+</script>
+
+<!-- ===== 5. Что ещё понадобится при возврате =====
+  - `#cur`: <div class="ph cur" id="cur"><span>Фото позиции</span></div> перед <script> в конце body.
+  - renderKb(en) в setLang(): рендерил .kb из data-kbju по языку (сейчас переписан под ленту).
+  - EN_HTML: ключи 'hint-hov' и 'hint-tap' (сейчас заменены на 'hint-feed').
+-->
