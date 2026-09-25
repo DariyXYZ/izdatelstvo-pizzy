@@ -6,10 +6,17 @@
 <title>Издательство пиццы</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;1,400&family=Sofia+Sans+Condensed:wght@300;400;500&display=swap">
 <style>
+  /* цифры по всему сайту набираются курсивным Times — буквы остаются в своих шрифтах */
+  @font-face{
+    font-family:'Digits';
+    src:local('TimesNewRomanPS-ItalicMT'),local('Tinos-Italic'),local('Georgia-Italic'),local('Times New Roman Italic');
+    font-style:normal;
+    unicode-range:U+0030-0039;
+  }
   :root{
     --bg:#ffffff; --ink:#000000; --mute:#8a8a8a; --ph:#ececec; --line:#000;
-    --serif:"Times New Roman","Tinos",Times,serif;
-    --sans:"Sofia Sans Condensed","Apercu Condensed Pro","Arial Narrow",sans-serif;
+    --serif:'Digits',"Times New Roman","Tinos",Times,serif;
+    --sans:'Digits',"Sofia Sans Condensed","Apercu Condensed Pro","Arial Narrow",sans-serif;
     --gut:clamp(16px,2.2vw,40px); --g:clamp(12px,1.6vw,26px);
     color-scheme: light;
   }
@@ -185,12 +192,13 @@
   .lb .im .ph{aspect-ratio:var(--ar,4/5)}
   .lb .im img{display:block;object-fit:cover}
   .lb .ttl{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.9vw,42px);line-height:1.08;letter-spacing:-.005em;display:inline-block;transform:scaleX(.88);transform-origin:left top;margin:0 0 16px}
-  .lb .kb{color:var(--mute);margin:0 0 20px;display:grid;gap:3px;max-width:34ch}
+  .lb .kb{color:var(--ink);margin:0 0 20px;display:grid;gap:3px}
   .lb .kb .r{display:flex;align-items:baseline;gap:8px}
-  .lb .kb .r i{flex:1 1 auto;border-bottom:1px dotted currentColor;transform:translateY(-3px);opacity:.5}
+  .lb .kb .r i{flex:1 1 auto;border-bottom:1px dotted currentColor;transform:translateY(-3px);opacity:.38}
   .lb .kb .r b{font-weight:400;color:var(--ink)}
   .lb .il{color:var(--mute);display:block;margin-bottom:6px}
-  .lb .ing{font-family:var(--serif);font-size:clamp(20px,2vw,28px);line-height:1.15;display:inline-block;transform:scaleX(.88);transform-origin:left top;margin:0 0 22px;max-width:30ch}
+  .lb .ing{font-family:var(--serif);font-size:clamp(20px,2vw,28px);line-height:1.15;display:inline-block;transform:scaleX(.88);transform-origin:left top;margin:0 0 22px}
+  .lb .tx{max-width:min(100%,430px)}
   /* листалка — строкой внизу оверлея: две тонкие стрелки и счётчик между ними */
   .lbfoot{flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:clamp(14px,2vw,28px);
           border-top:1px dashed var(--line);padding-top:14px;margin-top:clamp(18px,3vw,32px)}
@@ -200,6 +208,12 @@
   .ar[data-step="1"] svg{transform:scaleX(-1)}
   .ar:hover svg{transform:translateX(-3px)}
   .ar[data-step="1"]:hover svg{transform:scaleX(-1) translateX(-3px)}
+  .ar .xm{display:none}
+  .ar.end{color:var(--mute);cursor:default}
+  .ar.end .tip{display:none}
+  .ar.end .xm{display:inline}
+  .ar.end:hover svg,.ar.end[data-step="1"]:hover svg{transform:none}
+  .ar.end[data-step="1"] svg{transform:scaleX(-1)}
   .ar:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
   /* файл меню грузим только при открытии, чтобы не тянуть его на каждой загрузке страницы */
   .pdfv .in{padding-top:0}
@@ -454,9 +468,9 @@
     </div>
   </div>
   <div class="lbfoot">
-    <button class="ar" type="button" data-step="-1" aria-label="Предыдущий снимок"><svg viewBox="0 0 86 10" aria-hidden="true" focusable="false"><path d="M86 5H1M8 1 1 5l7 4" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/></svg></button>
+    <button class="ar" type="button" data-step="-1" aria-label="Предыдущий снимок"><svg viewBox="0 0 54 10" aria-hidden="true" focusable="false"><path class="ln" d="M54 5H1" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/><path class="tip" d="M8 1 1 5l7 4" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/><path class="xm" d="M1 1 8 9M8 1 1 9" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/></svg></button>
     <span class="num cap"></span>
-    <button class="ar" type="button" data-step="1" aria-label="Следующий снимок"><svg viewBox="0 0 86 10" aria-hidden="true" focusable="false"><path d="M86 5H1M8 1 1 5l7 4" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/></svg></button>
+    <button class="ar" type="button" data-step="1" aria-label="Следующий снимок"><svg viewBox="0 0 54 10" aria-hidden="true" focusable="false"><path class="ln" d="M54 5H1" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/><path class="tip" d="M8 1 1 5l7 4" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/><path class="xm" d="M1 1 8 9M8 1 1 9" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/></svg></button>
   </div>
 </div>
 
@@ -474,6 +488,7 @@
   }
   function go(id, push){
     if (!TABS.includes(id)) id = 'home';
+    document.querySelectorAll('.ov.on').forEach(closeOv);   /* смена раздела закрывает открытый снимок */
     if (push) history.replaceState(null, '', id === 'home' ? location.pathname : '#' + id);
     setTab(id);
   }
@@ -504,7 +519,16 @@
   }
   function openOv(el){ el.hidden = false; el.classList.add('on'); document.body.classList.add('lock'); }
   function closeOv(el){ el.classList.remove('on'); el.hidden = true; document.body.classList.remove('lock'); }
-  function openLb(i){ lbi = (i + cards.length) % cards.length; paintLb(); openOv(lb); }
+  function openLb(i){
+    lbi = Math.min(Math.max(i, 0), cards.length - 1);
+    paintLb();
+    lb.querySelectorAll('.ar').forEach(b => {
+      const end = (+b.dataset.step < 0) ? lbi === 0 : lbi === cards.length - 1;
+      b.classList.toggle('end', end);
+      b.disabled = end;
+    });
+    openOv(lb);
+  }
   cards.forEach((c, i) => {
     c.addEventListener('click', () => openLb(i));
     c.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLb(i); } });
@@ -535,8 +559,8 @@
     const open = document.querySelector('.ov.on');
     if (!open) return;
     if (e.key === 'Escape') closeOv(open);
-    if (open === lb && e.key === 'ArrowLeft') openLb(lbi - 1);
-    if (open === lb && e.key === 'ArrowRight') openLb(lbi + 1);
+    if (open === lb && e.key === 'ArrowLeft' && lbi > 0) openLb(lbi - 1);
+    if (open === lb && e.key === 'ArrowRight' && lbi < cards.length - 1) openLb(lbi + 1);
   });
 
   /* Ru/En: словарь по тексту для «листьев» + html-блоки по data-i18n; RU запоминается при старте, чтобы вернуть */
