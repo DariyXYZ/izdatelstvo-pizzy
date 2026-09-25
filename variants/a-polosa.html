@@ -9,99 +9,111 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Oswald:wght@300;400;500&display=swap">
 <style>
   :root{
-    --paper:#f4f1ea; --ink:#141210; --mute:#8b857a; --rule:#141210; --ph:#e3ded2;
+    --paper:#f4f1ea; --ink:#141210; --mute:#8b857a; --rule:#141210; --hair:#cfc8b8;
     --head:"Playfair Display",Georgia,serif;
     --body:"Old Standard TT",Georgia,serif;
     --label:"Oswald","Arial Narrow",sans-serif;
     --gut:clamp(14px,3vw,52px);
   }
   *{box-sizing:border-box}
-  html,body{margin:0;background:var(--paper);color:var(--ink);overflow-x:hidden}
-  body{font:17px/1.42 var(--body);padding-inline:var(--gut);-webkit-font-smoothing:antialiased}
-  a{color:inherit}
-  img{max-width:100%;display:block}
+  html,body{margin:0;background:var(--paper);color:var(--ink);overflow-x:hidden;height:100%}
+  body{font:17px/1.42 var(--body);padding-inline:var(--gut);-webkit-font-smoothing:antialiased;
+       min-height:100%;display:flex;flex-direction:column}
+  a{color:inherit;text-decoration:none}
+  a[href^="tel:"]{white-space:nowrap}
 
   .lbl{font-family:var(--label);font-weight:400;font-size:11px;letter-spacing:.16em;text-transform:uppercase;line-height:1.2}
-  .rule{border:0;border-top:1px solid var(--rule);margin:0}
+  .rule{border:0;border-top:1px solid var(--rule);margin:0;flex:0 0 auto}
   .rule.d{border-top:3px double var(--rule)}
-  .ph{background:var(--ph);display:flex;align-items:center;justify-content:center;text-align:center;padding:10px}
+  .ph{background:var(--paper);border:1px solid var(--hair);display:flex;align-items:center;justify-content:center;
+      text-align:center;padding:12px;transition:border-color .2s ease}
   .ph span{font-family:var(--body);font-style:italic;color:var(--mute);font-size:14px}
   figcaption{font-family:var(--body);font-style:italic;font-size:14px;color:var(--mute);margin-top:7px;line-height:1.25}
 
-  /* ===== мастхед: выходные данные, название, разделы ===== */
-  .mast{padding-top:14px}
+  /* ===== шапка: выходные данные, марка, разделы ===== */
+  .mast{padding-top:12px;flex:0 0 auto;position:sticky;top:0;background:var(--paper);z-index:5}
   .mast .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 18px;color:var(--mute)}
-  .mast h1{font-family:var(--head);font-weight:900;line-height:.84;letter-spacing:-.02em;
-           text-align:center;margin:10px 0 9px;text-transform:uppercase}
-  .mast h1 [data-fit]{display:block;white-space:nowrap;font-size:13vw}
-  .mast h1 em{display:block;font-style:italic;font-weight:400;text-transform:lowercase;
-              font-size:clamp(20px,4.4vw,68px);letter-spacing:.01em;line-height:1;margin-top:.04em}
-  .mast nav{display:flex;flex-wrap:wrap;justify-content:center;gap:10px clamp(16px,3vw,40px);padding:9px 0}
-  .mast nav a{text-decoration:none;padding-bottom:2px;border-bottom:1px solid transparent}
-  .mast nav a:hover{border-bottom-color:var(--ink)}
-  .mast nav .on{border-bottom-color:var(--ink)}
+  .mast nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px clamp(16px,3vw,40px);padding:9px 0}
+  .mast nav a{padding-bottom:2px;border-bottom:1px solid transparent}
+  .mast nav a:hover,.mast nav a.on{border-bottom-color:var(--ink)}
+  .mark{display:block;text-align:center;font-family:var(--head);font-weight:900;text-transform:uppercase;
+        font-size:clamp(15px,1.7vw,22px);letter-spacing:-.01em;line-height:1;padding:8px 0 2px}
+  .mark i{font-style:italic;font-weight:400;text-transform:lowercase;letter-spacing:.01em}
+  body:has(main[data-tab="home"]) .mark{display:none}
+
+  /* ===== вкладки: показывается одна полоса ===== */
+  main{flex:1 1 auto;display:flex;flex-direction:column;min-height:0}
+  main section{display:none}
+  main[data-tab="home"] #home,main[data-tab="about"] #about,
+  main[data-tab="menu"] #menu,main[data-tab="book"] #book{display:flex;flex-direction:column;flex:1 1 auto}
+
+  /* ===== первая полоса: без скролла ===== */
+  #home{padding-top:clamp(6px,1.4vw,16px)}
+  .hero{flex:1 1 auto;display:flex;flex-direction:column;justify-content:center;min-height:0;gap:clamp(10px,1.8vw,22px)}
+  .title{font-family:var(--head);font-weight:900;line-height:.84;letter-spacing:-.02em;
+         text-align:center;text-transform:uppercase;margin:0}
+  .title [data-fit]{display:block;white-space:nowrap;font-size:13vw}
+  .title em{display:block;font-style:italic;font-weight:400;text-transform:lowercase;
+            font-size:clamp(20px,4.4vw,68px);letter-spacing:.01em;line-height:1;margin-top:.04em}
+  .anons{font-family:var(--head);font-weight:400;font-size:clamp(20px,2.6vw,40px);line-height:1.06;
+         text-align:center;margin:0 auto;max-width:22ch;letter-spacing:-.01em;text-wrap:balance}
+  .anons i{font-weight:700}
+  .acts{display:flex;justify-content:center;gap:10px clamp(12px,2vw,26px);flex-wrap:wrap}
+  .infobar{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:12px 22px;
+           border-top:1px solid var(--rule);padding:12px 0 0;flex:0 0 auto}
+  .infobar b{display:block;font-weight:400;color:var(--mute);margin-bottom:4px}
+
+  /* ===== бегущая строка часов ===== */
+  .ticker{margin:12px calc(-1 * var(--gut)) 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+          overflow:hidden;padding:8px 0;flex:0 0 auto}
+  .ticker .row{display:flex;width:max-content;animation:run 46s linear infinite}
+  .ticker span{padding:0 clamp(16px,2.4vw,34px);white-space:nowrap}
+  @keyframes run{to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion:reduce){.ticker .row{animation:none}}
+
+  /* ===== заголовок полосы ===== */
+  .sechead{display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+           border-bottom:1px solid var(--rule);padding:clamp(12px,2vw,24px) 0 8px}
+  .sechead h2{font-family:var(--head);font-weight:700;font-size:clamp(22px,2.6vw,38px);margin:0;letter-spacing:-.01em}
 
   /* ===== передовица ===== */
-  .lead{padding:clamp(22px,3.4vw,44px) 0 0}
-  .lead h2{font-family:var(--head);font-weight:400;font-size:clamp(34px,6.4vw,96px);line-height:1.02;
-           letter-spacing:-.015em;margin:0 0 .34em;max-width:17ch;text-wrap:balance}
-  .lead h2 i{font-weight:700}
-  .cols{display:grid;grid-template-columns:1.08fr .92fr;gap:clamp(18px,3vw,46px);align-items:start}
+  .cols{display:grid;grid-template-columns:1.08fr .92fr;gap:clamp(18px,3vw,46px);align-items:start;padding-top:clamp(14px,2vw,26px)}
   .cols .txt{column-count:2;column-gap:clamp(18px,2.4vw,34px);column-rule:1px solid rgba(20,18,16,.18);
              text-align:justify;hyphens:auto}
   .cols p{margin:0 0 .85em}
   .cols .txt > p:first-child::first-letter{float:left;font-family:var(--head);font-weight:900;
     font-size:4.05em;line-height:.76;padding:.06em .1em 0 0;margin-top:.02em}
   .side figure{margin:0}
-  .side .ph{aspect-ratio:4/5}
+  .side .ph{aspect-ratio:4/3}
 
-  /* ===== бегущая строка часов ===== */
-  .ticker{margin:clamp(26px,4vw,56px) calc(-1 * var(--gut)) 0;border-top:1px solid var(--rule);
-          border-bottom:1px solid var(--rule);overflow:hidden;padding:9px 0}
-  .ticker .row{display:flex;width:max-content;animation:run 46s linear infinite}
-  .ticker span{padding:0 clamp(16px,2.4vw,34px);white-space:nowrap;color:var(--ink)}
-  @keyframes run{to{transform:translateX(-50%)}}
-  @media (prefers-reduced-motion:reduce){.ticker .row{animation:none}}
+  /* ===== лента снимков ===== */
+  .feed{display:grid;grid-template-columns:repeat(auto-fill,minmax(184px,1fr));gap:clamp(12px,1.6vw,22px);padding-top:clamp(12px,1.8vw,22px)}
+  .feed figure{margin:0;cursor:pointer}
+  .feed .ph{aspect-ratio:1}
+  .feed figure:hover .ph{border-color:var(--ink)}
+  .feed .nm{font-family:var(--head);font-size:17px;line-height:1.1;margin-top:7px;display:block}
+  .hint{color:var(--mute);margin:0}
+  .mbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:clamp(12px,1.8vw,20px)}
 
-  /* ===== разворот с лентой снимков ===== */
-  .sec{padding:clamp(30px,4.6vw,72px) 0 0}
-  .sechead{display:flex;align-items:baseline;justify-content:space-between;gap:16px;
-           border-bottom:1px solid var(--rule);padding-bottom:8px;margin-bottom:clamp(16px,2.4vw,30px)}
-  .sechead h3{font-family:var(--head);font-weight:700;font-size:clamp(22px,2.6vw,38px);margin:0;letter-spacing:-.01em}
-  .feed{columns:6 150px;column-gap:clamp(12px,1.6vw,24px)}
-  .feed figure{margin:0 0 clamp(14px,2vw,26px);break-inside:avoid;cursor:pointer}
-  .feed .ph{aspect-ratio:var(--ar,4/5)}
-  .feed figure:hover .ph{outline:1px solid var(--ink);outline-offset:3px}
-  .feed .nm{font-family:var(--head);font-size:17px;line-height:1.1;margin-top:8px;display:block}
-  .feed .kb{color:var(--mute);margin-top:3px}
-
-  /* ===== меню полосой: две колонки с отточием ===== */
-  .menu{columns:2 300px;column-gap:clamp(26px,4vw,72px)}
-  .cat{break-inside:avoid;margin:0 0 clamp(18px,2.4vw,30px)}
-  .cat > .lbl{color:var(--mute);border-bottom:1px solid var(--rule);padding-bottom:5px;margin-bottom:9px;display:block}
-  .it{display:flex;align-items:baseline;gap:8px;padding:3px 0}
-  .it .n{font-family:var(--head);font-size:18px;line-height:1.16}
-  .it .dots{flex:1 1 auto;border-bottom:1px dotted rgba(20,18,16,.55);transform:translateY(-3px)}
-  .it .p{font-family:var(--head);font-size:18px;white-space:nowrap}
-  .it .d{display:block;color:var(--mute);font-style:italic;font-size:14px;line-height:1.2;margin:-1px 0 2px}
   .btn{display:inline-block;font-family:var(--label);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
-       text-decoration:none;border:1px solid var(--ink);padding:12px 24px;margin-top:18px}
+       border:1px solid var(--ink);padding:12px 24px}
   .btn:hover{background:var(--ink);color:var(--paper)}
+  .btn.fill{background:var(--ink);color:var(--paper)}
+  .btn.fill:hover{background:var(--paper);color:var(--ink)}
 
-  /* ===== контакты ===== */
-  .cont{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,3vw,54px);align-items:start}
+  /* ===== забронировать ===== */
+  .cont{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,3vw,54px);align-items:start;padding-top:clamp(14px,2vw,26px)}
   .cont .ph{aspect-ratio:3/2}
   .cont dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:9px 20px}
   .cont dt{color:var(--mute)}
   .cont dd{margin:0}
-  .cont .big{font-family:var(--head);font-size:clamp(24px,3.2vw,44px);line-height:1.06;margin:0 0 .5em;letter-spacing:-.01em}
+  .big{font-family:var(--head);font-size:clamp(24px,3.2vw,44px);line-height:1.06;margin:0 0 .5em;letter-spacing:-.01em}
 
-  /* ===== подвал ===== */
-  footer{margin-top:clamp(36px,5vw,84px);border-top:3px double var(--rule);padding:18px 0 34px}
-  .fcols{display:grid;grid-template-columns:repeat(4,1fr);gap:18px 20px}
-  .fcols .lbl{color:var(--mute);display:block;margin-bottom:6px}
-  .fcols p{margin:0;line-height:1.35}
-  .fline{display:flex;justify-content:space-between;gap:16px;margin-top:22px;color:var(--mute);flex-wrap:wrap}
+  footer{flex:0 0 auto;border-top:3px double var(--rule);padding:14px 0 26px;margin-top:clamp(18px,3vw,44px)}
+  body:has(main[data-tab="home"]) footer{display:none}
+  .fcols{display:grid;grid-template-columns:repeat(4,1fr);gap:16px 20px}
+  .fcols b{display:block;font-weight:400;color:var(--mute);margin-bottom:5px}
+  .fline{display:flex;justify-content:space-between;gap:16px;margin-top:18px;color:var(--mute);flex-wrap:wrap}
 
   @media (max-width:900px){
     .cols{grid-template-columns:1fr}
@@ -109,12 +121,18 @@
     .side{order:-1}
     .cont{grid-template-columns:1fr}
     .fcols{grid-template-columns:1fr 1fr}
+    .infobar{grid-template-columns:1fr 1fr}
+    .infobar > div:first-child{grid-column:1/-1}
+    /* лента листается вбок: столбик из двенадцати снимков — это два экрана прокрутки */
+    .feed{display:flex;gap:10px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
+          margin-inline:calc(-1 * var(--gut));padding-inline:var(--gut);padding-bottom:4px}
+    .feed figure{flex:0 0 min(58%,240px);scroll-snap-align:start}
+    .feed .ph{aspect-ratio:4/5}
   }
   @media (max-width:560px){
     body{font-size:16px}
-    .feed{columns:2 108px}
     .mast .meta{font-size:10px;letter-spacing:.1em}
-    .menu{columns:1}
+    .mast .meta span:nth-child(2){display:none}
   }
 </style>
 </head>
@@ -126,140 +144,124 @@
     <span>Выпуск № 1 · 2026</span>
     <span>Ежедневно 12:00–22:00</span>
   </div>
-  <hr class="rule d" style="margin-top:10px">
-  <h1><span data-fit>Издательство</span><em>пиццы</em></h1>
-  <hr class="rule">
+  <hr class="rule d" style="margin-top:8px">
+  <a class="mark" href="#" data-go="home">Издательство <i>пиццы</i></a>
   <nav class="lbl">
-    <a href="#lead" class="on">Передовица</a>
-    <a href="#feed">Тираж</a>
-    <a href="#menu">Меню</a>
-    <a href="#cont">Забронировать</a>
+    <a href="#about" data-go="about">О нас</a>
+    <a href="#menu" data-go="menu">Меню</a>
+    <a href="#book" data-go="book">Забронировать</a>
     <a href="#">Ru / En</a>
   </nav>
   <hr class="rule d">
 </header>
 
-<section class="lead" id="lead">
-  <h2>Издаём пиццу <i>на Таганке.</i> Каждый день — свежий тираж</h2>
-  <div class="cols">
-    <div class="txt">
-      <p>Редакция стоит в переулке Маяковского, у Марксистской. Вход с торца дома: по лестнице, мимо бутылок с цветами, под деревом с гирляндой. Внутри — печь, стулья-моноблоки и банки на подоконнике.</p>
-      <p>Тесто ставим накануне и печём при вас. Томаты и мука — из Италии, лестница, стулья и банки на подоконнике — из нашего двора. Редакция — Настя и Стас; за печью — повар.</p>
-      <p>Выходим ежедневно с двенадцати до десяти. Столик — по телефону. Подписка не нужна, просто приходите.</p>
+<main data-tab="home">
+
+  <!-- ===== ПЕРВАЯ ПОЛОСА — помещается в экран ===== -->
+  <section id="home">
+    <div class="hero">
+      <h1 class="title"><span data-fit>Издательство</span><em>пиццы</em></h1>
+      <p class="anons">Издаём пиццу <i>на Таганке.</i> Каждый день — свежий тираж</p>
+      <div class="acts">
+        <a class="btn fill" href="#book" data-go="book">Забронировать столик</a>
+        <a class="btn" href="#menu" data-go="menu">Меню</a>
+      </div>
     </div>
-    <div class="side">
-      <figure>
-        <div class="ph"><span>Фасад: дом, лестница, дерево с гирляндой</span></div>
-        <figcaption>Вход с торца дома со стороны Марксистской.</figcaption>
+    <div class="infobar lbl">
+      <div><b>Адрес</b>Переулок Маяковского, 2 · м. Марксистская<br>вход с торца дома, со стороны Марксистской</div>
+      <div><b>Ежедневно</b>12:00–22:00</div>
+      <div><b>Телефон</b><a href="tel:+79670796093">+7 967 079-60-93</a></div>
+      <div><b>Соцсети</b>Instagram<sup>*</sup><br>Telegram — скоро</div>
+    </div>
+    <div class="ticker lbl">
+      <div class="row">
+        <span>Тесто ставим накануне</span><span>✳</span><span>Печём при вас</span><span>✳</span>
+        <span>Свежий тираж каждый день</span><span>✳</span><span>Подписка не нужна</span><span>✳</span>
+        <span>Тесто ставим накануне</span><span>✳</span><span>Печём при вас</span><span>✳</span>
+        <span>Свежий тираж каждый день</span><span>✳</span><span>Подписка не нужна</span><span>✳</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== О НАС ===== -->
+  <section id="about">
+    <div class="sechead">
+      <h2>Передовица</h2>
+      <span class="lbl">Редакция — Настя и Стас</span>
+    </div>
+    <div class="cols">
+      <div class="txt">
+        <p>Редакция стоит в переулке Маяковского, у Марксистской. Вход с торца дома: по лестнице, мимо бутылок с цветами, под деревом с гирляндой. Внутри — печь, стулья-моноблоки и банки на подоконнике.</p>
+        <p>Тесто ставим накануне и печём при вас. Томаты и мука — из Италии, лестница, стулья и банки на подоконнике — из нашего двора. Редакция — Настя и Стас; за печью — повар.</p>
+        <p>Выходим ежедневно с двенадцати до десяти. Столик — по телефону. Подписка не нужна, просто приходите.</p>
+      </div>
+      <div class="side">
+        <figure>
+          <div class="ph"><span>Фасад: дом, лестница, дерево с гирляндой</span></div>
+          <figcaption>Вход с торца дома со стороны Марксистской.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== МЕНЮ = лента снимков ===== -->
+  <section id="menu">
+    <div class="sechead">
+      <h2>Тираж</h2>
+      <span class="lbl">Двенадцать снимков</span>
+    </div>
+    <div class="mbar">
+      <p class="hint lbl">Снимок открывается крупно, с составом и КБЖУ</p>
+      <a class="btn" href="#">Полное меню</a>
+    </div>
+    <div class="feed">
+      <figure><div class="ph"><span>Фото позиции</span></div><span class="nm">Маргарита</span></figure>
+      <figure><div class="ph"><span>Фото позиции</span></div><span class="nm">Пепперони</span></figure>
+      <figure><div class="ph"><span>Фото позиции</span></div><span class="nm">Четыре сыра</span></figure>
+      <figure><div class="ph"><span>Фото позиции</span></div><span class="nm">Диавола</span></figure>
+      <figure><div class="ph"><span>Фото позиции</span></div><span class="nm">Страчателла с пармой</span></figure>
+      <figure><div class="ph"><span>Фото позиции</span></div><span class="nm">Трюфельная кальцоне</span></figure>
+      <figure><div class="ph"><span>Фото позиции</span></div><span class="nm">Груша с горгонзолой</span></figure>
+      <figure><div class="ph"><span>Фото позиции</span></div><span class="nm">Взбитая рикотта</span></figure>
+      <figure><div class="ph"><span>Фото позиции</span></div><span class="nm">Тирамису банановый</span></figure>
+      <figure><div class="ph"><span>Фото позиции</span></div><span class="nm">Кростата с клубникой</span></figure>
+      <figure><div class="ph"><span>Фото позиции</span></div><span class="nm">Капрезе с песто</span></figure>
+      <figure><div class="ph"><span>Фото позиции</span></div><span class="nm">Капучино</span></figure>
+    </div>
+  </section>
+
+  <!-- ===== ЗАБРОНИРОВАТЬ ===== -->
+  <section id="book">
+    <div class="sechead">
+      <h2>Забронировать</h2>
+      <span class="lbl">Столик — по телефону</span>
+    </div>
+    <div class="cont">
+      <div>
+        <p class="big">Редакция — переулок Маяковского, 2, вход с торца дома со стороны Марксистской.</p>
+        <dl class="lbl">
+          <dt>Телефон</dt><dd><a href="tel:+79670796093">+7 967 079-60-93</a></dd>
+          <dt>Часы</dt><dd>Ежедневно 12:00–22:00</dd>
+          <dt>Метро</dt><dd>Марксистская</dd>
+          <dt>Соцсети</dt><dd>@pizza.izdat<sup>*</sup></dd>
+        </dl>
+        <p style="margin:18px 0 0"><a class="btn fill" href="tel:+79670796093">Позвонить</a></p>
+      </div>
+      <figure style="margin:0">
+        <div class="ph"><span>Карта: переулок Маяковского, 2</span></div>
+        <figcaption>Вход не с фасада — обойдите дом со стороны Марксистской.</figcaption>
       </figure>
     </div>
-  </div>
-</section>
+  </section>
 
-<div class="ticker">
-  <div class="row lbl">
-    <span>Ежедневно 12:00–22:00</span><span>✳</span><span>Переулок Маяковского, 2</span><span>✳</span>
-    <span>+7 967 079-60-93</span><span>✳</span><span>Тесто ставим накануне</span><span>✳</span>
-    <span>Свежий тираж каждый день</span><span>✳</span>
-    <span>Ежедневно 12:00–22:00</span><span>✳</span><span>Переулок Маяковского, 2</span><span>✳</span>
-    <span>+7 967 079-60-93</span><span>✳</span><span>Тесто ставим накануне</span><span>✳</span>
-    <span>Свежий тираж каждый день</span><span>✳</span>
-  </div>
-</div>
-
-<section class="sec" id="feed">
-  <div class="sechead">
-    <h3>Тираж</h3>
-    <span class="lbl">Двадцать снимков · состав и КБЖУ по щелчку</span>
-  </div>
-  <div class="feed">
-    <figure style="--ar:4/5"><div class="ph"><span>Фото позиции</span></div><span class="nm">Маргарита</span><span class="kb lbl">890 ккал</span></figure>
-    <figure style="--ar:1/1"><div class="ph"><span>Фото позиции</span></div><span class="nm">Страчателла с пармой</span><span class="kb lbl">1080 ккал</span></figure>
-    <figure style="--ar:3/4"><div class="ph"><span>Фото позиции</span></div><span class="nm">Острая диавола</span><span class="kb lbl">1100 ккал</span></figure>
-    <figure style="--ar:4/5"><div class="ph"><span>Фото позиции</span></div><span class="nm">Пепперони</span><span class="kb lbl">1050 ккал</span></figure>
-    <figure style="--ar:1/1"><div class="ph"><span>Фото позиции</span></div><span class="nm">Четыре сыра</span><span class="kb lbl">1120 ккал</span></figure>
-    <figure style="--ar:5/4"><div class="ph"><span>Фото позиции</span></div><span class="nm">Трюфельная кальцоне</span><span class="kb lbl">1150 ккал</span></figure>
-    <figure style="--ar:4/5"><div class="ph"><span>Фото позиции</span></div><span class="nm">Груша с горгонзолой</span><span class="kb lbl">1020 ккал</span></figure>
-    <figure style="--ar:3/4"><div class="ph"><span>Фото позиции</span></div><span class="nm">Грибная</span><span class="kb lbl">900 ккал</span></figure>
-    <figure style="--ar:1/1"><div class="ph"><span>Фото позиции</span></div><span class="nm">Взбитая рикотта</span><span class="kb lbl">460 ккал</span></figure>
-    <figure style="--ar:5/4"><div class="ph"><span>Фото позиции</span></div><span class="nm">Тирамису банановый</span><span class="kb lbl">420 ккал</span></figure>
-    <figure style="--ar:4/5"><div class="ph"><span>Фото позиции</span></div><span class="nm">Капрезе с песто</span><span class="kb lbl">420 ккал</span></figure>
-    <figure style="--ar:3/4"><div class="ph"><span>Фото позиции</span></div><span class="nm">Капучино</span><span class="kb lbl">120 ккал</span></figure>
-  </div>
-</section>
-
-<section class="sec" id="menu">
-  <div class="sechead">
-    <h3>Полоса меню</h3>
-    <span class="lbl">Цены в рублях · тираж обновляется</span>
-  </div>
-  <div class="menu">
-    <div class="cat">
-      <span class="lbl">Пицца и фокачча</span>
-      <div class="it"><span class="n">Маргарита</span><span class="dots"></span><span class="p">600</span></div>
-      <div class="it"><span class="n">Пепперони</span><span class="dots"></span><span class="p">750</span></div>
-      <div class="it"><span class="n">Четыре сыра</span><span class="dots"></span><span class="p">750</span></div>
-      <div class="it"><span class="n">Страчателла с пармой</span><span class="dots"></span><span class="p">900</span></div>
-      <div class="it"><span class="n">Острая диавола<i class="d">ндуя, спьяната калабра, чили</i></span><span class="dots"></span><span class="p">800</span></div>
-      <div class="it"><span class="n">Груша с горгонзолой</span><span class="dots"></span><span class="p">700</span></div>
-      <div class="it"><span class="n">Четыре мяса</span><span class="dots"></span><span class="p">900</span></div>
-      <div class="it"><span class="n">Фокачча лёгкая</span><span class="dots"></span><span class="p">300</span></div>
-    </div>
-    <div class="cat">
-      <span class="lbl">Салаты и закуски</span>
-      <div class="it"><span class="n">Цезарь<i class="d">с курицей / с креветками</i></span><span class="dots"></span><span class="p">550 / 650</span></div>
-      <div class="it"><span class="n">Томатный салат</span><span class="dots"></span><span class="p">550 / 650</span></div>
-      <div class="it"><span class="n">Артишоки маринованные</span><span class="dots"></span><span class="p">500</span></div>
-      <div class="it"><span class="n">Взбитая рикотта<i class="d">печёные черри, песто, фокачча</i></span><span class="dots"></span><span class="p">650</span></div>
-      <div class="it"><span class="n">Капрезе с песто</span><span class="dots"></span><span class="p">650</span></div>
-    </div>
-    <div class="cat">
-      <span class="lbl">Десерты и выпечка</span>
-      <div class="it"><span class="n">Тирамису банановый</span><span class="dots"></span><span class="p">650</span></div>
-      <div class="it"><span class="n">Кростата с клубникой</span><span class="dots"></span><span class="p">650</span></div>
-      <div class="it"><span class="n">Круассан миндальный</span><span class="dots"></span><span class="p">400</span></div>
-      <div class="it"><span class="n">Булочка с корицей</span><span class="dots"></span><span class="p">350</span></div>
-    </div>
-    <div class="cat">
-      <span class="lbl">Напитки</span>
-      <div class="it"><span class="n">Капучино<i class="d">200 / 300 мл</i></span><span class="dots"></span><span class="p">250 / 350</span></div>
-      <div class="it"><span class="n">Американо</span><span class="dots"></span><span class="p">220 / 320</span></div>
-      <div class="it"><span class="n">Чай зелёный<i class="d">500 мл</i></span><span class="dots"></span><span class="p">350</span></div>
-      <div class="it"><span class="n">Пиво<i class="d">в ассортименте</i></span><span class="dots"></span><span class="p">550</span></div>
-    </div>
-  </div>
-  <a class="btn" href="#">Полное меню</a>
-</section>
-
-<section class="sec" id="cont">
-  <div class="sechead">
-    <h3>Забронировать</h3>
-    <span class="lbl">Столик — по телефону</span>
-  </div>
-  <div class="cont">
-    <div>
-      <p class="big">Редакция — переулок Маяковского, 2, вход с торца дома со стороны Марксистской.</p>
-      <dl>
-        <dt class="lbl">Телефон</dt><dd>+7 967 079-60-93</dd>
-        <dt class="lbl">Часы</dt><dd>Ежедневно 12:00–22:00</dd>
-        <dt class="lbl">Метро</dt><dd>Марксистская</dd>
-        <dt class="lbl">Соцсети</dt><dd>@pizza.izdat<sup>*</sup></dd>
-      </dl>
-      <a class="btn" href="tel:+79670796093">Позвонить</a>
-    </div>
-    <figure style="margin:0">
-      <div class="ph"><span>Карта: переулок Маяковского, 2</span></div>
-      <figcaption>Вход не с фасада — обойдите дом со стороны Марксистской.</figcaption>
-    </figure>
-  </div>
-</section>
+</main>
 
 <footer>
-  <div class="fcols">
-    <div><span class="lbl">Адрес</span><p>переулок Маяковского, 2<br>м. Марксистская</p></div>
-    <div><span class="lbl">Часы</span><p>Ежедневно<br>12:00–22:00</p></div>
-    <div><span class="lbl">Телефон</span><p>+7 967 079-60-93</p></div>
-    <div><span class="lbl">Соцсети</span><p>Instagram<sup>*</sup><br>Telegram — скоро</p></div>
+  <div class="fcols lbl">
+    <div><b>Адрес</b>переулок Маяковского, 2<br>м. Марксистская</div>
+    <div><b>Часы</b>Ежедневно<br>12:00–22:00</div>
+    <div><b>Телефон</b><a href="tel:+79670796093">+7 967 079-60-93</a></div>
+    <div><b>Соцсети</b>Instagram<sup>*</sup><br>Telegram — скоро</div>
   </div>
   <div class="fline lbl">
     <span>© Издательство пиццы, 2026</span>
@@ -267,12 +269,30 @@
   </div>
 </footer>
 
-
 <script>
-  /* мастхед набирается ровно по ширине полосы: подбираем кегль под реальную ширину слова */
-  function fitWord(el, min, max){
+  /* вкладки как на боевом сайте: одна полоса за раз, первая полоса не скроллится */
+  const main = document.querySelector('main');
+  const TABS = ['home','about','menu','book'];
+  function setTab(id){
+    main.dataset.tab = id;
+    document.querySelectorAll('.mast a[data-go]').forEach(a => a.classList.toggle('on', a.dataset.go === id && id !== 'home'));
+    window.scrollTo({top:0});
+    fitAll();
+  }
+  function go(id, push){
+    if (!TABS.includes(id)) id = 'home';
+    if (push) history.replaceState(null, '', id === 'home' ? location.pathname : '#' + id);
+    setTab(id);
+  }
+  document.querySelectorAll('[data-go]').forEach(a =>
+    a.addEventListener('click', e => { e.preventDefault(); go(a.dataset.go, true); }));
+  addEventListener('hashchange', () => go(location.hash.slice(1), false));
+
+  /* мастхед набирается ровно по ширине полосы: кегль во vw для 12 букв всегда мимо */
+  function fitWord(el){
     const box = el.parentElement;
-    let lo = min, hi = max;
+    if (!box.clientWidth) return;
+    let lo = 20, hi = 460;
     for (let i = 0; i < 22; i++){
       const mid = (lo + hi) / 2;
       el.style.fontSize = mid + 'px';
@@ -280,10 +300,12 @@
     }
     el.style.fontSize = lo + 'px';
   }
-  function fitAll(){ document.querySelectorAll('[data-fit]').forEach(el => fitWord(el, 20, 460)); }
+  function fitAll(){ document.querySelectorAll('[data-fit]').forEach(fitWord); }
   addEventListener('resize', fitAll);
   document.fonts.ready.then(fitAll);
-  fitAll();
+
+  go(location.hash.slice(1), false);
 </script>
+
 </body>
 </html>
