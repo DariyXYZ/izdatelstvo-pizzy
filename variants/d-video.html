@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Издательство пиццы — версия с видео</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;1,400&family=Sofia+Sans+Condensed:wght@300;400;500&display=swap">
+<style>
+  :root{
+    --bg:#ffffff; --ink:#000000; --mute:#8a8a8a; --ph:#ececec; --line:#000;
+    --serif:"Times New Roman","Tinos",Times,serif;
+    --sans:"Sofia Sans Condensed","Apercu Condensed Pro","Arial Narrow",sans-serif;
+    --gut:clamp(16px,2.2vw,40px); --g:clamp(12px,1.6vw,26px);
+    color-scheme: light;
+  }
+  html,body{background:var(--bg);color:var(--ink);overflow-x:hidden;height:100%}
+  body{margin:0;font:16px/1.1 var(--sans);padding-inline:var(--gut);padding-block:0;-webkit-font-smoothing:antialiased;min-height:100%;display:flex;flex-direction:column}
+  *{box-sizing:border-box}
+  a{color:inherit;text-decoration:none}
+  a[href^="tel:"]{white-space:nowrap}
+  a,button,.item,.lang{-webkit-tap-highlight-color:transparent}
+  .nav,.cats,.acts,.item.has{-webkit-user-select:none;user-select:none}
+  .u{text-decoration:underline;text-underline-offset:.12em;text-decoration-thickness:1px}
+  .soon{color:var(--mute)}
+  .cap{font-family:var(--sans);font-size:10px;line-height:1.1;text-transform:uppercase;letter-spacing:.02em}
+  .serif{font-family:var(--serif)}
+  /* «condensed» Times: системный Times New Roman + сжатие. В проде — Times New Roman Condensed + Apercu Condensed Pro (как у A-Index) */
+  .cond{font-family:var(--serif);display:inline-block;transform:scaleX(.86);transform-origin:left center}
+  .ph{background:var(--ph);display:flex;align-items:center;justify-content:center;text-align:center;padding:8px 10px;position:relative;max-width:100%}
+  .ph span{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--mute)}
+
+  /* header — как у DFF: слева действия, лого по центру, справа разделы */
+  .hdr{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:18px 0 10px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;flex:0 0 auto}
+  .nav{display:flex;gap:24px;align-items:center}
+  .nav.r{justify-content:flex-end}
+  .nav a{padding-bottom:2px;border-bottom:1px solid transparent}
+  .nav a.on{border-bottom-color:var(--ink)}
+  .nav a:focus-visible,.pill:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  .nav .lang{color:var(--mute)}
+  .nav .lang{color:var(--mute);padding:6px 0;margin:-6px 0}
+  .nav .lang [data-lang].on{color:var(--ink)}
+  .nav a.pill{border:1px solid var(--ink);border-radius:999px;padding:9px 18px;line-height:1;white-space:nowrap}
+  .nav a.pill.on{background:var(--ink);color:var(--bg)}
+  .logo{text-align:center;line-height:.8;display:block}
+  .logo .l1{font-family:var(--serif);font-size:clamp(30px,4vw,56px);text-transform:uppercase;letter-spacing:-.01em;display:inline-block;transform:scaleX(.82);transform-origin:center}
+  .logo .l2{font-family:var(--serif);font-size:clamp(15px,1.5vw,22px);display:block;margin-top:-.05em;transform:scaleX(.9);transform-origin:center}
+
+  main{flex:1 1 auto;display:flex;flex-direction:column}
+  main section{display:none}
+  main[data-tab="home"] #home, main[data-tab="about"] #about, main[data-tab="menu"] #menu, main[data-tab="book"] #book, main[data-tab="privacy"] #privacy{display:block}
+  main[data-tab="home"] #home{display:flex}
+
+  /* ГЛАВНАЯ — не скроллится: рисунок фасада + инфостроки внизу (как у DFF) */
+  #home{flex-direction:column;justify-content:space-between;min-height:calc(100dvh - 92px)}
+  /* главная: съёмка зала во всю площадь экрана, контент поверх нижней трети */
+  #home{position:relative;justify-content:flex-end;gap:0;
+        margin-inline:calc(-1 * var(--gut));padding:0 var(--gut) clamp(14px,2.6vw,26px);
+        min-height:calc(100dvh - 92px);overflow:hidden;color:#fff}
+  .bg{position:absolute;inset:0;z-index:0;background:#0d0d0d}
+  .bg video,.bg img{width:100%;height:100%;object-fit:cover;display:block}
+  /* тёмный градиент снизу: без него белый текст на светлых кадрах пропадает */
+  .bg::after{content:"";position:absolute;inset:0;pointer-events:none;
+             background:linear-gradient(to top,rgba(0,0,0,.76) 0%,rgba(0,0,0,.55) 22%,rgba(0,0,0,.18) 52%,rgba(0,0,0,.04) 78%)}
+  #home > *:not(.bg){position:relative;z-index:1}
+  #home .acts{margin-bottom:clamp(18px,3vw,34px)}
+  #home .nav a{color:#fff}
+  #home .nav a.pill{border-color:#fff}
+  #home .nav a.pill:hover{background:#fff;color:var(--ink)}
+  #home .infobar{border-top-color:rgba(255,255,255,.34)}
+  #home .infobar .cap{color:rgba(255,255,255,.62)}
+  #home .note{color:rgba(255,255,255,.52)}
+  #home .u{text-decoration-color:rgba(255,255,255,.6)}
+  /* чертёж фасада переехал в «О нас» */
+  .draw{margin:clamp(24px,4vw,52px) 0 0;display:flex;justify-content:center}
+  .draw img{max-height:58dvh;max-width:100%;width:auto;height:auto;display:block}
+  .acts{justify-content:center;align-items:baseline;gap:28px;padding:6px 0 10px}
+  /* Меню/Забронировать в шапке — только вне главной (на главной они под фасадом) */
+  .hdr .hx{display:none}
+  .h-book .short{display:none}
+  body:has(main:not([data-tab="home"])) .hdr .hx{display:inline-block}
+  /* инфострока и подвал — по 8-колоночной сетке: адрес 1–3, часы 4–5, телефон 6–7, соцсети 8 */
+  .infobar{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:var(--g);align-items:end;padding:18px 0 22px;line-height:1.35}
+  .infobar > :nth-child(1),.fcols > :nth-child(1){grid-column:1/4}
+  .infobar > :nth-child(2),.fcols > :nth-child(2){grid-column:4/6}
+  .infobar > :nth-child(3),.fcols > :nth-child(3){grid-column:6/8}
+  .infobar > :nth-child(4),.fcols > :nth-child(4){grid-column:8}
+  .infobar .cap{color:var(--mute);margin-bottom:4px;display:block}
+  /* сноска про Meta и реквизиты владельца (ч. 2 ст. 10 149-ФЗ) */
+  .note{color:var(--mute);font-size:11px;line-height:1.3;margin:0 0 14px}
+  .note a{text-decoration:underline;text-underline-offset:.12em}
+  /* политика конфиденциальности */
+  #privacy .txt{max-width:64ch;font-size:16px;line-height:1.4}
+  #privacy .txt p{margin:0 0 1em}
+  #privacy .txt a{text-decoration:underline;text-underline-offset:.12em}
+
+  /* страницы */
+  .big{font-family:var(--serif);font-size:clamp(26px,2.9vw,42px);line-height:1.08;letter-spacing:-.005em;margin:clamp(40px,8vh,110px) 0 clamp(28px,4vw,56px);max-width:36ch;text-wrap:pretty;transform:scaleX(.88);transform-origin:left top}
+  .big sup{font-size:.5em;vertical-align:.7em;margin-right:.25em;line-height:0}
+  .row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(260px,1fr);gap:var(--g);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:6px}
+  .row::-webkit-scrollbar{display:none}
+  .row > *{scroll-snap-align:start}
+  .tile .ph{aspect-ratio:4/3}
+  .tile img,.team img,.fc img,.lb .im img{display:block;width:100%;height:100%;object-fit:cover}
+  .tile figure{margin:0}
+  .tile .im{aspect-ratio:4/3;overflow:hidden;background:var(--ph)}
+  .team .im{aspect-ratio:3/2;overflow:hidden;background:var(--ph)}
+  .team .t2 .im{aspect-ratio:auto;height:100%}
+  .fc .im{aspect-ratio:var(--ar,4/5);overflow:hidden;background:var(--ph)}
+  .lb .im img{height:min(calc(100dvh - 160px),76vh);width:auto;max-width:100%;object-fit:contain}
+  .tile .lab{font-family:var(--serif);font-size:clamp(20px,2.2vw,32px);text-transform:uppercase;letter-spacing:-.01em;line-height:1;margin:14px 0 0;text-align:center;display:block}
+  .tile .lab .cond{transform-origin:center}
+  /* мелкие предметы места (лимоны, банки, стул…) — круглые, раскиданы по страницам с разными сдвигами (--w --dy --dx --mx на самом figure) */
+  .bl{display:grid;grid-template-columns:auto auto;justify-content:start;align-items:start;column-gap:clamp(8px,2vw,32px)}
+  .sk{margin:0;width:var(--w,128px);flex:0 0 auto}
+  .sk .ph{aspect-ratio:1;border-radius:50%;padding:10px}
+  /* формы под предмет: лайтбокс — скруглённый прямоугольник, бутылка — высокая узкая */
+  .sk.box .ph{aspect-ratio:4/3;border-radius:12px}
+  .sk.tall .ph{aspect-ratio:1/2.6;border-radius:6px}
+  .sk .ph span{font-size:12px}
+  .bl .sk{order:2;margin-top:calc(clamp(40px,8vh,110px) + var(--dy,0em));margin-left:var(--dx,0px)}
+  /* сетка страниц: 8 колонок, шаг --g; ряд фото = 4×2 кол., команда = 5 + 3 кол. (граница на линии сетки) */
+  .team{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:var(--g);margin-top:clamp(28px,4vw,56px)}
+  .team .sk.l{grid-column:1;justify-self:end;margin:0}
+  .team .t1{grid-column:2/6}
+  .team .t2{grid-column:6/8}
+  .team .ph{aspect-ratio:3/2}
+  .team .t2 .ph{aspect-ratio:auto;height:100%}
+  .team figure{margin:0;display:flex;flex-direction:column}
+  .team figcaption{margin-top:10px;display:flex;justify-content:space-between}
+  .team figcaption .cap{color:var(--mute)}
+
+  /* меню = лента снимков + полное меню отдельным файлом (владельцы меняют его сами) */
+  #menu .big{margin-bottom:14px}
+  .hint{color:var(--mute);margin:0 0 clamp(28px,4vw,52px)}
+  /* подсказка — под текстом, кружок тянется на обе строки грида */
+  .bl .big{grid-column:1}.bl .hint{grid-column:1;grid-row:2}.bl .sk{grid-column:2;grid-row:1/span 2}
+  /* кнопка-пилюля вне .nav (в .nav свой селектор .nav a.pill — не смешивать) */
+  .btn{all:unset;cursor:pointer;font-family:var(--sans);font-size:16px;line-height:1;white-space:nowrap;border:1px solid var(--ink);border-radius:999px;padding:9px 18px}
+  .btn:hover{background:var(--ink);color:var(--bg)}
+  .btn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  .mbar{display:flex;flex-wrap:wrap;align-items:center;gap:12px clamp(16px,2.2vw,32px);padding-bottom:16px;border-bottom:1px solid var(--line);margin:0 0 clamp(20px,3vw,40px)}
+  .mbar .cap{color:var(--mute);max-width:44ch}
+  /* лента: каменная кладка колонками, порядок сверху вниз внутри колонки */
+  .feed{columns:6 190px;column-gap:var(--g)}
+  .fc{margin:0 0 var(--g);break-inside:avoid;cursor:pointer;display:block;width:100%}
+  .fc .ph{aspect-ratio:var(--ar,4/5);width:100%}
+  .fc img{display:block;width:100%;height:auto}
+  .fc figcaption{margin-top:6px;color:var(--mute)}
+  .fc:hover figcaption,.fc:focus-visible figcaption{color:var(--ink)}
+  .fc:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+
+  /* оверлеи поверх сайта: снимок крупно и полное меню */
+  .ov{position:fixed;inset:0;z-index:200;background:var(--bg);display:none;flex-direction:column;
+      padding:calc(14px + env(safe-area-inset-top,0px)) var(--gut) calc(14px + env(safe-area-inset-bottom,0px))}
+  .ov.on{display:flex}
+  body.lock{overflow:hidden}
+  .ovtop{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--line);flex:0 0 auto}
+  .ovtop .cap{color:var(--mute)}
+  .ovtop .r{display:flex;align-items:center;gap:clamp(12px,2vw,26px)}
+  .x{all:unset;cursor:pointer;font-family:var(--sans);font-size:16px;text-transform:uppercase;letter-spacing:.02em}
+  .x:focus-visible,.ov .u:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  .ov .in{flex:1 1 auto;min-height:0;overflow:auto;padding:clamp(18px,3vw,40px) 0 0}
+  .lb .in{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(240px,1fr);gap:clamp(20px,4vw,64px);align-items:start;align-content:start}
+  /* снимок вписывается по высоте оверлея, ширина считается из пропорции */
+  .lb .im{display:flex;align-items:flex-start}
+  .lb .im .ph,.lb .im img{width:auto;height:min(calc(100dvh - 160px),76vh);max-width:100%}
+  .lb .im .ph{aspect-ratio:var(--ar,4/5)}
+  .lb .im img{display:block;object-fit:cover}
+  .lb .ttl{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.9vw,42px);line-height:1.08;letter-spacing:-.005em;display:inline-block;transform:scaleX(.88);transform-origin:left top;margin:0 0 16px}
+  .lb .kb{color:var(--mute);margin:0 0 20px}
+  .lb .il{color:var(--mute);display:block;margin-bottom:6px}
+  .lb .ing{font-family:var(--serif);font-size:clamp(20px,2vw,28px);line-height:1.15;display:inline-block;transform:scaleX(.88);transform-origin:left top;margin:0 0 22px;max-width:30ch}
+  /* листалка — строкой внизу оверлея: две тонкие стрелки и счётчик между ними */
+  .lbfoot{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px;
+          border-top:1px solid var(--line);padding-top:14px;margin-top:clamp(18px,3vw,32px)}
+  .lbfoot .num{color:var(--mute)}
+  .ar{all:unset;cursor:pointer;display:flex;align-items:center;padding:10px 0;color:var(--ink)}
+  .ar svg{width:clamp(48px,6vw,86px);height:10px;overflow:visible;transition:transform .25s ease}
+  .ar[data-step="1"] svg{transform:scaleX(-1)}
+  .ar:hover svg{transform:translateX(-6px)}
+  .ar[data-step="1"]:hover svg{transform:scaleX(-1) translateX(-6px)}
+  .ar:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+  /* файл меню грузим только при открытии, чтобы не тянуть его на каждой загрузке страницы */
+  .pdfv .in{padding-top:0}
+  .pdfv .in{display:flex;flex-direction:column;align-items:center;gap:12px}
+  .pdfv img{max-height:calc(100dvh - 190px);max-width:100%;width:auto;height:auto;display:block}
+  .pdfv .cap{color:var(--mute);text-align:center;max-width:52ch}
+  .pdfmiss{display:none;font-family:var(--serif);font-style:italic;color:var(--mute);padding:clamp(40px,10vh,120px) 0;text-align:center}
+  .pdfv.miss iframe{display:none}
+  .pdfv.miss .pdfmiss{display:block}
+  .pdfv.miss #pdfout{display:none}
+
+  /* бронь = контакты + карта */
+  .ccols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--g);margin-top:clamp(20px,3vw,40px)}
+  .ccols .cap{color:var(--mute);margin-bottom:10px}
+  .ccols p{margin:0;font-size:16px;line-height:1.35}
+  /* виджет Яндекс Карт рисует рекламу внизу — контейнер ниже iframe на --ad, лишнее обрезается */
+  .map{--ad:210px;aspect-ratio:21/9;min-height:320px;margin-top:clamp(28px,4vw,56px);position:relative;overflow:hidden;filter:grayscale(1)}
+  .map iframe{position:absolute;inset:0;width:100%;height:calc(100% + var(--ad));border:0;display:block}
+  .maplink{margin:10px 0 0}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:var(--g);margin-top:var(--g)}
+  .card{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+  .card.soon .ttl,.card.soon .cap{color:var(--mute)}
+  .card .ttl{font-family:var(--serif);font-size:clamp(22px,2.4vw,34px);text-transform:uppercase;line-height:1;display:inline-block;transform:scaleX(.86);transform-origin:left}
+  .card .cap{max-width:30ch}
+
+  /* футер внутренних страниц */
+  /* подвал — чёрная плитка с расшивкой, как на стенах в кафе (и на Марксистской) */
+  footer{--tile:28px;--grout:rgba(255,255,255,.16);margin:clamp(80px,14vh,180px) calc(-1 * var(--gut)) 0;padding:20px var(--gut) calc(20px + var(--fit,0px));line-height:1.35;color:#fff;background-color:#0b0b0b;
+    background-image:linear-gradient(var(--grout) 1px,transparent 1px),linear-gradient(90deg,var(--grout) 1px,transparent 1px);background-size:var(--tile) var(--tile);background-position:0 0}
+  .fcols{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:var(--g);align-items:start}
+  .fcols .cap{color:rgba(255,255,255,.55);margin-bottom:4px;display:block}
+  footer .soon{color:rgba(255,255,255,.55)}
+  /* реквизиты (ч. 2 ст. 10 149-ФЗ) слева, навигация + © справа, в две строки на одном уровне */
+  .legal{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:var(--g);margin-top:28px;color:rgba(255,255,255,.55);font-size:11px;line-height:1.3}
+  .legal p{margin:0 0 6px;display:flex;flex-wrap:wrap;gap:6px 18px}
+  .legal .ll{grid-column:1/8}
+  .legal .lr{grid-column:8}
+  .legal .lr nav{display:flex;gap:18px;margin-bottom:6px}
+  .legal .lr nav a{color:#fff;text-decoration:none}
+  .legal a{color:#fff;text-decoration:underline;text-underline-offset:.12em}
+  main[data-tab="home"] ~ footer{display:none}
+
+  @media (max-width:820px){
+    /* мобильная шапка: слева Меню/Бронь, по центру лого, справа О нас/Ru·En */
+    .hdr{padding-top:14px;gap:6px 10px;font-size:14px;grid-template-areas:"menu logo about" "book logo lang"}
+    .hdr .nav{display:contents}
+    .hdr .hx{display:inline-block}
+    .h-menu{grid-area:menu}.h-book{grid-area:book}.h-about{grid-area:about}.h-lang{grid-area:lang}
+    .h-menu,.h-book{justify-self:start}.h-about,.h-lang{justify-self:end}
+    .logo{grid-area:logo}
+    .h-book .full{display:none}.h-book .short{display:inline}
+    .acts{display:none}
+    /* главная на мобилке — как было: О нас слева, Ru/En справа, кнопки под фасадом */
+    body:has(main[data-tab="home"]) .hdr{grid-template-areas:"about logo lang"}
+    body:has(main[data-tab="home"]) .hdr .hx{display:none}
+    body:has(main[data-tab="home"]) .h-about{justify-self:start}
+    body:has(main[data-tab="home"]) .acts{display:flex}
+    .logo .l1{font-size:clamp(26px,8vw,34px)}
+    .acts{gap:20px;padding:4px 0 8px}
+    .facade img{max-height:46dvh}
+    .infobar{grid-template-columns:auto auto auto;justify-content:space-between;gap:14px 18px;padding:12px 0 16px;font-size:14px}
+    .infobar > div:nth-child(n){grid-column:auto}
+    .infobar > div:first-child{grid-column:1/-1}
+    .big{font-size:clamp(20px,5.6vw,26px);margin:36px 0 22px;max-width:none}
+    .row{grid-auto-columns:80%}
+    .team{grid-template-columns:1fr}
+    .bl{grid-template-columns:1fr;row-gap:0}
+    /* мобилка: кружок справа от текста, текст обтекает */
+    .bl{display:block}
+    .sk{width:calc(var(--w,128px) * .64)}
+    /* переносы «для компа» на мобилке не нужны */
+    .big br{display:none}
+    .bl .sk{float:right;margin:36px 0 8px 14px;shape-outside:circle(50%)}
+    .bl .sk.tall{shape-outside:none}
+    .team .sk.l,.team .t1,.team .t2{grid-column:auto}
+    .team .sk.l{justify-self:end;margin:0}
+    .team{clear:both}
+    .team .t2 .ph{aspect-ratio:3/2;height:auto}
+    .ccols{grid-template-columns:1fr;gap:18px}
+    /* min-height + aspect-ratio давали min-width 746px и горизонтальный скролл */
+    .map{aspect-ratio:4/3;min-height:0}
+    .cards{grid-template-columns:1fr}
+    /* лента: две колонки, в оверлее снимок над текстом */
+    .feed{columns:2 140px;column-gap:10px}
+    .fc{margin-bottom:10px}
+    .fc figcaption{font-size:12px}
+    .mbar{gap:10px 16px;padding-bottom:14px}
+    .lb .in{grid-template-columns:1fr;gap:18px}
+    .lb .im .ph,.lb .im img{width:100%;height:auto;max-height:46dvh;object-fit:cover}
+    #menu .big{margin-bottom:10px}
+    .hint{margin-bottom:40px}
+    footer{padding:24px var(--gut) calc(24px + env(safe-area-inset-bottom,0px) + var(--fit,0px));--tile:24px}
+    .legal{margin-top:18px;grid-template-columns:1fr}
+    .legal .lr{display:none}
+    .fcols{grid-template-columns:auto auto auto;justify-content:space-between;gap:12px 14px;font-size:14px}
+    .fcols > div:nth-child(n){grid-column:auto}
+    .fcols > div:first-child{grid-column:1/-1}
+    .ov{padding-left:var(--gut);padding-right:var(--gut)}
+    .lb .ttl{font-size:clamp(20px,5.6vw,26px);margin-bottom:10px}
+    .lb .ing{font-size:clamp(18px,4.8vw,22px)}
+  }
+</style>
+<style>[hidden]{display:none!important}</style>
+</head>
+<body>
+
+<header class="hdr">
+  <nav class="nav" aria-label="Разделы">
+    <a class="h-about" href="#about" data-go="about">О нас</a>
+    <a class="hx h-menu" href="#menu" data-go="menu">Меню</a>
+    <a class="hx h-book" href="#book" data-go="book"><span class="full">Забронировать</span><span class="short">Бронь</span></a>
+  </nav>
+  <a class="logo" href="#home" data-go="home" aria-label="Издательство пиццы — на главную"><span class="l1">Издательство</span><span class="l2">пиццы</span></a>
+  <nav class="nav r" aria-label="Язык">
+    <a class="lang h-lang" href="#" role="button" aria-label="Переключить язык"><span data-lang="ru" class="on">Ru</span> / <span data-lang="en">En</span></a>
+  </nav>
+</header>
+
+<main data-tab="home">
+  <!-- ГЛАВНАЯ -->
+  <section id="home">
+    <div class="bg">
+      <video src="../img/video/hall.mp4" poster="../img/video/hall-poster.jpg"
+             autoplay muted loop playsinline preload="metadata"
+             aria-label="Съёмка зала: вечерний свет, выдача, вход со двора"></video>
+    </div>
+    <nav class="nav acts" aria-label="Действия">
+      <a class="pill" href="#book" data-go="book">Забронировать стол</a>
+      <a href="#menu" data-go="menu">Меню</a>
+    </nav>
+    <div class="infobar">
+      <div data-i18n="addr"><span class="cap">Адрес</span>Москва, переулок Маяковского, 2<br>вход с торца дома, со стороны Марксистской</div>
+      <div><span class="cap">Ежедневно</span>12:00 – 22:00</div>
+      <div><span class="cap">Телефон</span><a class="u" href="tel:+79670796093">+7 967 079-60-93</a></div>
+      <div><span class="cap">Соцсети</span><a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">Instagram*</a></div>
+    </div>
+    <p class="note" data-i18n="meta">* Instagram принадлежит Meta, признанной экстремистской организацией в РФ</p>
+  </section>
+
+  <!-- О НАС -->
+  <section id="about">
+    <div class="bl"><figure class="sk" style="--w:118px;--dy:-.6em;--dx:2vw;--mx:end"><div class="ph"><span>Лимоны</span></div></figure><p data-i18n="about1" class="big"><sup>1</sup>Издаём пиццу на Таганке.<br> Каждый день — свежий тираж. Редакция — в переулке Маяковского, у <a class="u" href="#book" data-go="book">Марксистской</a>, вход с торца дома: по лестнице мимо бутылок с цветами, под деревом с гирляндой.</p></div>
+    <div class="row">
+      <div class="tile"><div class="im"><img src="../img/about/vhod.webp" loading="lazy" alt="Вход со двора: лестница, зелень, свет из окон"></div><span class="lab"><span class="cond">Вход</span></span></div>
+      <div class="tile"><div class="im"><img src="../img/about/zal.webp" loading="lazy" alt="Зал: стол у стены, бра, скатерть"></div><span class="lab"><span class="cond">Зал</span></span></div>
+      <div class="tile"><div class="im"><img src="../img/about/pech.webp" loading="lazy" alt="Выдача: повар ставит тарелку на стойку"></div><span class="lab"><span class="cond">Печь</span></span></div>
+      <div class="tile"><div class="im"><img src="../img/about/dvor.webp" loading="lazy" alt="Двор: велосипед с коробкой у лестницы"></div><span class="lab"><span class="cond">Двор</span></span></div>
+    </div>
+
+    <figure class="draw"><img src="../img/facade.webp" width="1400" height="1597" loading="lazy" alt="Чертёж фасада: торец жилого дома, лестница ко входу, дерево с гирляндой"></figure>
+
+    <div class="bl"><figure class="sk" style="--w:156px;--dy:6em;--dx:9vw;--mx:start"><div class="ph"><span>Банки друг на друге</span></div></figure><p data-i18n="about2" class="big"><sup>2</sup>Редакция — Настя и Стас. Итальянские томаты и тесто, наши гирлянды и банки. Весь тираж собран в <a class="u" href="#menu" data-go="menu">меню</a>.</p></div>
+
+    <div class="team">
+      <figure class="sk l box" style="--w:150px"><div class="ph"><span>Лайтбокс</span></div></figure>
+      <figure class="t1"><div class="im"><img src="../img/nastya.webp" loading="lazy" alt="Настя в зале с пиццей на подносе"></div><figcaption><span>Настя</span><span class="cap">редакция</span></figcaption></figure>
+      <figure class="t2"><div class="im"><img src="../img/about/pech.webp" loading="lazy" alt="Повар у выдачи"></div><figcaption><span>Повар</span><span class="cap">за печью</span></figcaption></figure>
+    </div>
+
+
+    <div class="bl"><figure class="sk tall" style="--w:64px;--dy:-1.4em;--dx:1vw;--mx:end"><div class="ph"><span>Цветы в бутылке</span></div></figure><p data-i18n="about3" class="big"><sup>3</sup>Выходим ежедневно с 12:00 до 22:00. Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. Ждём вас!</p></div>
+  </section>
+
+  <!-- МЕНЮ -->
+  <section id="menu">
+    <div class="bl"><figure class="sk" style="--w:104px;--dy:2.2em;--dx:14vw;--mx:start"><div class="ph"><span>Стул-моноблок</span></div></figure><p data-i18n="menu1" class="big"><sup>1</sup>Свежий тираж. Тесто ставим накануне, печём при вас.</p><p class="hint cap"><span data-i18n="hint-feed">Нажмите на снимок — откроется крупно, с составом и КБЖУ.</span></p></div>
+    <div class="mbar">
+      <button class="btn" type="button" id="pdfbtn">Полное меню</button>
+      <span class="cap">Все позиции и цены — снимок печатного меню</span>
+    </div>
+    <div class="feed">
+      <figure class="fc" tabindex="0" role="button" data-nm="Пепперони" data-kbju="1050,42,48,112" data-ing="томаты, моцарелла, пепперони, базилик" data-ing-en="tomatoes, mozzarella, pepperoni, basil" style="--ar:3/4"><div class="im"><img src="../img/feed/pepperoni.webp" width="1000" height="1333" loading="lazy" alt="Пепперони"></div><figcaption class="cap">Пепперони</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Четыре сыра" data-kbju="1120,50,58,98" data-ing="моцарелла, горгонзола, пармезан, скаморца" data-ing-en="mozzarella, gorgonzola, parmesan, scamorza" style="--ar:3/4"><div class="im"><img src="../img/feed/chetyre-syra.webp" width="1000" height="1333" loading="lazy" alt="Четыре сыра"></div><figcaption class="cap">Четыре сыра</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Острая диавола" data-kbju="1100,44,54,108" data-ing="томаты, моцарелла, ндуя, спьяната калабра, чили" data-ing-en="tomatoes, mozzarella, nduja, spianata calabra, chilli" style="--ar:3/4"><div class="im"><img src="../img/feed/diavola.webp" width="1000" height="1333" loading="lazy" alt="Острая диавола"></div><figcaption class="cap">Острая диавола</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Груша с горгонзолой" data-kbju="1020,36,42,124" data-ing="груша, горгонзола, моцарелла, грецкий орех, мёд" data-ing-en="pear, gorgonzola, mozzarella, walnut, honey" style="--ar:3/4"><div class="im"><img src="../img/feed/grusha-gorgonzola.webp" width="1000" height="1333" loading="lazy" alt="Груша с горгонзолой"></div><figcaption class="cap">Груша с горгонзолой</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="С ветчиной, грибами, оливками и артишоками" data-kbju="980,42,38,114" data-ing="томаты, моцарелла, ветчина, грибы, артишоки" data-ing-en="tomatoes, mozzarella, ham, mushrooms, artichokes" style="--ar:3/4"><div class="im"><img src="../img/feed/vetchina-griby-artishoki.webp" width="1000" height="1333" loading="lazy" alt="С ветчиной, грибами, оливками и артишоками"></div><figcaption class="cap">С ветчиной, грибами, оливками и артишоками</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="С мортаделлой и артишоками" data-kbju="1010,40,44,110" data-ing="мортаделла, артишоки, моцарелла, песто" data-ing-en="mortadella, artichokes, mozzarella, pesto" style="--ar:3/4"><div class="im"><img src="../img/feed/mortadella-artishoki.webp" width="1000" height="1333" loading="lazy" alt="С мортаделлой и артишоками"></div><figcaption class="cap">С мортаделлой и артишоками</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Капрезе" data-kbju="920,38,34,112" data-ing="моцарелла, печёные томаты, песто, базилик" data-ing-en="mozzarella, roast tomatoes, pesto, basil" style="--ar:3/4"><div class="im"><img src="../img/feed/caprese.webp" width="1000" height="1333" loading="lazy" alt="Капрезе"></div><figcaption class="cap">Капрезе</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Оливки и пикантный перчик" data-kbju="190,2,17,6" data-ing="оливки, перчик пепперончини" data-ing-en="olives, pepperoncini" style="--ar:3/4"><div class="im"><img src="../img/feed/olivki-perchik.webp" width="1000" height="1333" loading="lazy" alt="Оливки и пикантный перчик"></div><figcaption class="cap">Оливки и пикантный перчик</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Сыр" data-kbju="520,30,42,4" data-ing="сырная тарелка, мёд, гриссини" data-ing-en="cheese board, honey, grissini" style="--ar:3/4"><div class="im"><img src="../img/feed/syr.webp" width="1000" height="1333" loading="lazy" alt="Сыр"></div><figcaption class="cap">Сыр</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Улитка с изюмом и фисташками" data-kbju="390,8,16,54" data-ing="слоёное тесто, изюм, фисташки" data-ing-en="puff pastry, raisins, pistachios" style="--ar:3/4"><div class="im"><img src="../img/feed/ulitka.webp" width="1000" height="1333" loading="lazy" alt="Улитка с изюмом и фисташками"></div><figcaption class="cap">Улитка с изюмом и фисташками</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- ЗАБРОНИРОВАТЬ = контакты + карта -->
+  <section id="book">
+    <div class="bl"><figure class="sk" style="--w:144px;--dy:3.5em;--dx:5vw;--mx:end"><div class="ph"><span>Лимон с цифрой 11</span></div></figure><p data-i18n="book1" class="big"><sup>1</sup>Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. Редакция — переулок Маяковского, 2, вход с торца дома со стороны Марксистской.</p></div>
+    <div class="ccols">
+      <div><div class="cap">Адрес</div><p data-i18n="addr2">переулок Маяковского, 2<br>м. Марксистская<br>вход с торца дома, со стороны Марксистской — по лестнице</p></div>
+      <div><div class="cap">Часы</div><p>Ежедневно 12:00–22:00</p></div>
+      <div><div class="cap">Связь</div><p data-i18n="contact"><a class="u" href="tel:+79670796093">+7 967 079-60-93</a><br><a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">@pizza.izdat</a>*</p></div>
+    </div>
+    <div class="map"><iframe src="https://yandex.ru/map-widget/v1/?ll=37.659627%2C55.739559&z=16&pt=37.659627%2C55.739559%2Cpm2blm" title="Издательство пиццы на Яндекс Картах" loading="lazy" allowfullscreen></iframe></div>
+    <p class="maplink"><a class="u" href="https://yandex.ru/maps/org/izdatelstvo_pitstsy/115760984562/" target="_blank" rel="noopener">Открыть в Яндекс Картах</a></p>
+    <div class="cards">
+      <a class="card" href="tel:+79670796093"><span class="cap">Столик</span><span class="ttl">Позвонить</span><span class="cap">Онлайн-бронь появится позже</span></a>
+      <div class="card soon"><span class="cap">Скоро</span><span class="ttl">Доставка</span><span class="cap">Пока — в зале и с собой</span></div>
+    </div>
+  </section>
+
+  <!-- ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ -->
+  <section id="privacy">
+    <p data-i18n="priv0" class="big"><sup>§</sup>Политика конфиденциальности</p>
+    <div class="txt" data-i18n="priv1">
+      <p>Сайт — информационная страница пиццерии «Издательство пиццы» (Москва, переулок Маяковского, 2). Владелец сайта: [ИП / ООО — уточнить], ОГРН [уточнить], адрес [уточнить], e-mail [уточнить].</p>
+      <p>Сайт не собирает и не хранит персональные данные: на нём нет форм, регистрации, онлайн-заказа, счётчиков и систем аналитики. Собственные cookie сайт не устанавливает. Выбранный язык интерфейса хранится в браузере посетителя (localStorage) и никуда не передаётся.</p>
+      <p>На странице «Забронировать» встроена карта Яндекс Карт. При её загрузке браузер обращается к серверам Яндекса, который может использовать собственные cookie в соответствии со своей <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noopener">политикой конфиденциальности</a>.</p>
+      <p>Страницы сайта отдаются с серверов хостинг-провайдера [уточнить], который получает технические данные запроса (IP-адрес, тип браузера) в объёме, необходимом для показа страницы. Сайт доступа к этим данным не имеет и не обрабатывает их.</p>
+      <p>Столик бронируется по телефону; звонки и переписка происходят вне сайта.</p>
+      <p>Вопросы по этой политике: e-mail [уточнить]. Редакция от 20 сентября 2026 года.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="fcols">
+    <div data-i18n="addr"><span class="cap">Адрес</span>Москва, переулок Маяковского, 2<br>вход с торца дома, со стороны Марксистской</div>
+    <div><span class="cap">Ежедневно</span>12:00 – 22:00</div>
+    <div><span class="cap">Телефон</span><a class="u" href="tel:+79670796093">+7 967 079-60-93</a></div>
+    <div><span class="cap">Соцсети</span><a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">Instagram*</a></div>
+  </div>
+  <div class="legal cap">
+    <div class="ll">
+      <p><span data-i18n="owner">[ИП / ООО — уточнить] · ОГРН [уточнить] · [юр. адрес — уточнить]</span><span>[e-mail — уточнить]</span><a href="#privacy" data-go="privacy">Политика конфиденциальности</a></p>
+      <p data-i18n="meta2">* Instagram принадлежит Meta, признанной экстремистской организацией в РФ</p>
+    </div>
+    <div class="lr">
+      <nav aria-label="Разделы (подвал)"><a href="#about" data-go="about">О нас</a><a href="#menu" data-go="menu">Меню</a><a href="#book" data-go="book">Забронировать</a></nav>
+      <p>© Издательство пиццы, 2026</p>
+    </div>
+  </div>
+</footer>
+
+<!-- снимок крупно -->
+<div class="ov lb" id="lb" role="dialog" aria-modal="true" aria-label="Снимок позиции" hidden>
+  <div class="ovtop"><span class="cap" data-i18n="lbtop">Лента</span>
+    <span class="r"><button class="x" type="button" data-close>Закрыть</button></span></div>
+  <div class="in">
+    <div class="im"><div class="ph"><span>Фото позиции</span></div></div>
+    <div class="tx">
+      <h2 class="ttl"></h2>
+      <p class="kb cap"></p>
+      <span class="il cap" data-i18n="ing-label">Состав</span>
+      <p class="ing"></p>
+    </div>
+  </div>
+  <div class="lbfoot">
+    <button class="ar" type="button" data-step="-1" aria-label="Предыдущий снимок"><svg viewBox="0 0 86 10" aria-hidden="true" focusable="false"><path d="M86 5H1M8 1 1 5l7 4" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/></svg></button>
+    <span class="num cap"></span>
+    <button class="ar" type="button" data-step="1" aria-label="Следующий снимок"><svg viewBox="0 0 86 10" aria-hidden="true" focusable="false"><path d="M86 5H1M8 1 1 5l7 4" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/></svg></button>
+  </div>
+</div>
+
+<!-- полное меню поверх сайта -->
+<div class="ov pdfv" id="pdfv" role="dialog" aria-modal="true" aria-label="Полное меню" hidden>
+  <div class="ovtop"><span class="cap" data-i18n="pdftop">Меню</span>
+    <span class="r"><a class="u" id="pdfout" href="../img/menu-list.webp" target="_blank" rel="noopener">Открыть крупнее</a><button class="x" type="button" data-close>Закрыть</button></span></div>
+  <div class="in">
+    <img src="../img/menu-list.webp" width="960" height="1280" alt="Печатное меню на клипборде">
+    <p class="cap">Печатное меню из зала. Скоро заменим его файлом, который редакция обновляет сама.</p>
+  </div>
+</div>
+
+<script>
+  const main = document.querySelector('main');
+  const foot = document.querySelector('footer');
+  const TABS = ['home','about','menu','book','privacy'];
+  function setTab(id){
+    main.dataset.tab = id;
+    document.querySelectorAll('.nav a[data-go]').forEach(a => a.classList.toggle('on', a.dataset.go === id));
+    window.scrollTo({top:0});
+    if (typeof fitTiles === 'function') fitTiles();
+  }
+  function go(id, push){
+    if (!TABS.includes(id)) id = 'home';
+    if (push) history.replaceState(null, '', id === 'home' ? location.pathname : '#' + id);
+    setTab(id);
+  }
+  document.querySelectorAll('[data-go]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); go(a.dataset.go, true); }));
+  window.addEventListener('hashchange', () => go(location.hash.slice(1), false));
+  go(location.hash.slice(1), false);
+
+  /* лента снимков: карточка -> оверлей с крупным фото, КБЖУ и составом; ← → листают ленту */
+  const cards = [...document.querySelectorAll('.fc')];
+  const lb = document.getElementById('lb');
+  let lbi = -1;
+  function kbLine(d, en){
+    const [k,b,z,u] = d.split(',');
+    return en ? `${k} kcal · P ${b} · F ${z} · C ${u}` : `${k} ккал · Б ${b} · Ж ${z} · У ${u}`;
+  }
+  function paintLb(){
+    if (lbi < 0) return;
+    const c = cards[lbi], en = document.documentElement.lang === 'en';
+    lb.querySelector('.ttl').textContent = (en && EN_TEXT[norm(c.dataset.nm)]) || c.dataset.nm;
+    lb.querySelector('.kb').textContent = kbLine(c.dataset.kbju, en);
+    lb.querySelector('.ing').textContent = (en && c.dataset.ingEn) || c.dataset.ing;
+    lb.querySelector('.num').textContent = String(lbi + 1).padStart(2, '0') + ' / ' + cards.length;
+    lb.style.setProperty('--ar', getComputedStyle(c).getPropertyValue('--ar') || '4/5');
+    const img = c.querySelector('img');
+    lb.querySelector('.im').innerHTML = img ? `<img src="${img.src}" alt="${c.dataset.nm}">` : '';
+  }
+  function openOv(el){ el.hidden = false; el.classList.add('on'); document.body.classList.add('lock'); }
+  function closeOv(el){ el.classList.remove('on'); el.hidden = true; document.body.classList.remove('lock'); }
+  function openLb(i){ lbi = (i + cards.length) % cards.length; paintLb(); openOv(lb); }
+  cards.forEach((c, i) => {
+    c.addEventListener('click', () => openLb(i));
+    c.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLb(i); } });
+  });
+  lb.querySelectorAll('.ar').forEach(btn =>
+    btn.addEventListener('click', () => openLb(lbi + (+btn.dataset.step))));
+
+  /* полное меню поверх сайта: пока это снимок печатного листа из зала */
+  const pdfv = document.getElementById('pdfv');
+  document.getElementById('pdfbtn').addEventListener('click', () => openOv(pdfv));
+
+  document.querySelectorAll('.ov [data-close]').forEach(b =>
+    b.addEventListener('click', () => closeOv(b.closest('.ov'))));
+  document.addEventListener('keydown', e => {
+    const open = document.querySelector('.ov.on');
+    if (!open) return;
+    if (e.key === 'Escape') closeOv(open);
+    if (open === lb && e.key === 'ArrowLeft') openLb(lbi - 1);
+    if (open === lb && e.key === 'ArrowRight') openLb(lbi + 1);
+  });
+
+  /* Ru/En: словарь по тексту для «листьев» + html-блоки по data-i18n; RU запоминается при старте, чтобы вернуть */
+  const EN_HTML = {
+    addr:'<span class="cap">Address</span>Moscow, Mayakovskogo lane, 2<br>entrance from the end of the building, Marksistskaya side',
+    about1:'<sup>1</sup>We publish pizza in Taganka.<br>Every day is a fresh print run. The editorial office is in Mayakovskogo lane, by <a class="u" href="#book" data-go="book">Marksistskaya</a>, entrance from the end of the building: up the stairs, past bottles with flowers, under a tree with string lights.',
+    about2:'<sup>2</sup>The editors are Nastya and Stas. Italian tomatoes and dough, our own string lights and jars. The full print run is collected in the <a class="u" href="#menu" data-go="menu">menu</a>.',
+    about3:'<sup>3</sup>Out daily from 12:00 to 22:00. Tables by phone: <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. We look forward to seeing you!',
+    menu1:'<sup>1</sup>Fresh print run. The dough is made the day before and baked in front of you.',
+    'hint-feed':'Tap a photo to see it large, with ingredients and nutrition.',
+    lbtop:'Feed',pdftop:'Menu','ing-label':'Ingredients',
+        meta:'* Instagram belongs to Meta, designated an extremist organisation in Russia',meta2:'* Instagram belongs to Meta, designated an extremist organisation in Russia',
+    owner:'[Sole trader / LLC — TBC] · OGRN [TBC] · [registered address — TBC]',
+    priv0:'<sup>§</sup>Privacy policy',
+    priv1:'<p>This site is the information page of the Pizza Publishing House pizzeria (Moscow, Mayakovskogo lane, 2). Site owner: [sole trader / LLC — TBC], OGRN [TBC], address [TBC], e-mail [TBC].</p><p>The site does not collect or store personal data: it has no forms, registration, online ordering, counters or analytics. It sets no cookies of its own. The chosen interface language is stored in the visitor\'s browser (localStorage) and is not transmitted anywhere.</p><p>The Book page embeds a Yandex Maps widget. When it loads, the browser contacts Yandex servers, which may use their own cookies under the <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noopener">Yandex privacy policy</a>.</p><p>Pages are served by the hosting provider [TBC], which receives the technical request data (IP address, browser type) needed to serve the page. The site has no access to this data and does not process it.</p><p>Tables are booked by phone; calls and messages happen outside the site.</p><p>Questions about this policy: e-mail [TBC]. Revision of 20 September 2026.</p>',
+    book1:'<sup>1</sup>Tables by phone: <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. The editorial office: Mayakovskogo lane, 2, entrance from the end of the building, Marksistskaya side.',
+    addr2:'Mayakovskogo lane, 2<br>Marksistskaya metro<br>entrance from the end of the building, Marksistskaya side, up the stairs',
+    contact:'<a class="u" href="tel:+79670796093">+7 967 079-60-93</a><br><a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">@pizza.izdat</a>'
+  };
+  const EN_TEXT = {
+    'О нас':'About','Меню':'Menu','Забронировать':'Book a table','Бронь':'Book','Забронировать стол':'Book a table',
+    'Адрес':'Address','Ежедневно':'Daily','Телефон':'Phone','Соцсети':'Social','Часы':'Hours','Связь':'Contact','Ежедневно 12:00–22:00':'Daily 12:00–22:00',
+    'Вход':'Entrance','Зал':'Room','Печь':'Oven','Двор':'Yard','Владельцы':'Owners','редакция':'editorial office','Повар':'Chef','за печью':'at the oven',
+    'Пицца и фокачча':'Pizza & focaccia','Десерты и выпечка':'Desserts & pastry','Салаты и закуски':'Salads & starters','Напитки':'Drinks','Фото позиции':'Photo',
+    'Маргарита':'Margherita','Пепперони':'Pepperoni','Четыре сыра':'Four cheese','Капрезе':'Caprese','С ветчиной, грибами, оливками и артишоками':'Ham, mushrooms, olives & artichokes',
+    'С мортаделлой и артишоками':'Mortadella & artichokes','Страчателла с пармой':'Stracciatella & Parma ham','С баклажанами и копчёным скаморца':'Eggplant & smoked scamorza',
+    'Трюфельная кальцоне':'Truffle calzone','с грибами и ветчиной':'mushrooms & ham','Грибная':'Mushroom','Груша с горгонзолой':'Pear & gorgonzola','Острая диавола':'Spicy diavola',
+    'ндуя, спьяната калабра, чили':'nduja, spianata calabra, chili','С креветками, цукини, миндалём и рикоттой':'Shrimp, zucchini, almond & ricotta',
+    'С анчоусами, печёным перцем и страчателлой':'Anchovies, roasted pepper & stracciatella','Четыре мяса':'Four meats','Фокачча лёгкая':'Focaccia, light','Фокачча сытная':'Focaccia, hearty',
+    'Тирамису банановый':'Banana tiramisu','Кростата с клубникой':'Strawberry crostata','Чизкейк фисташка с малиной':'Pistachio & raspberry cheesecake','Мороженое':'Ice cream',
+    'ванильное / шоколадное':'vanilla / chocolate','Круассан миндальный':'Almond croissant','Улитка с изюмом и фисташками':'Raisin & pistachio swirl','Булочка с корицей':'Cinnamon bun','Шоколадный круассан':'Chocolate croissant',
+    'Цезарь':'Caesar','с курицей / с креветками':'chicken / shrimp','Томатный салат':'Tomato salad','красный лук, базилик, бальзамик — без страчателлы / со страчателлой':'red onion, basil, balsamic — without / with stracciatella',
+    'Артишоки маринованные':'Marinated artichokes','Вяленые томаты':'Sun-dried tomatoes','Оливки и пикантный перчик':'Olives & spicy peppers','Сыр':'Cheese','Мясо':'Meat',
+    'Перчики, фаршированные рикоттой':'Peppers stuffed with ricotta','Пепероната':'Peperonata','соус ромеско, страчателла, анчоусы':'romesco, stracciatella, anchovies','Капрезе с песто':'Caprese with pesto',
+    'Взбитая рикотта':'Whipped ricotta','печёные черри, песто, фокачча':'roasted cherry tomatoes, pesto, focaccia',
+    'Капучино':'Cappuccino','Латте':'Latte','Американо':'Americano','Эспрессо':'Espresso','одинарный / двойной':'single / double','Ристретто':'Ristretto','Порция молока':'Milk, portion',
+    'Чай зелёный':'Green tea','Чай чёрный':'Black tea','200 / 300 мл':'200 / 300 ml','500 мл':'500 ml','330 мл':'330 ml','750 мл':'750 ml','Пиво безалкогольное':'Non-alcoholic beer','Пиво':'Beer','в ассортименте':'assorted',
+    'Открыть в Яндекс Картах':'Open in Yandex Maps','Столик':'Table','Позвонить':'Call','Онлайн-бронь появится позже':'Online booking coming later','Скоро':'Soon','Доставка':'Delivery','Пока — в зале и с собой':'For now: dine in and takeaway',
+    '© Издательство пиццы, 2026':'© Pizza Publishing House, 2026','Политика конфиденциальности':'Privacy policy','[e-mail — уточнить]':'[e-mail — TBC]','Instagram*':'Instagram*',
+    'Полное меню':'Full menu','Все позиции и цены — снимок печатного меню':'Every dish and price — a photo of the printed menu',
+    'Закрыть':'Close','Открыть крупнее':'Open larger',
+    'Лимоны':'Lemons','Лестница ко входу':'Stairs to the entrance','Двор, гирлянда':'Yard, string lights','Банки друг на друге':'Stacked jars','Лайтбокс':'Lightbox','Цветы в бутылке':'Flowers in a bottle','Стул-моноблок':'Monobloc chair','Лимон с цифрой 11':'Lemon with the number 11'
+  };
+  const RU = new Map();
+  const norm = t => t.replace(/ /g,' ').trim();
+  const leaves = [...document.querySelectorAll('body *')].filter(el => el.childNodes.length === 1 && el.firstChild.nodeType === 3 && EN_TEXT[norm(el.textContent)] !== undefined && !el.closest('[data-i18n]'));
+  leaves.forEach(el => RU.set(el, el.textContent));
+  const blocks = [...document.querySelectorAll('[data-i18n]')];
+  blocks.forEach(el => RU.set(el, el.innerHTML));
+  function bindGo(root){ root.querySelectorAll('[data-go]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); go(a.dataset.go, true); })); }
+  function setLang(lang){
+    const en = lang === 'en';
+    leaves.forEach(el => el.textContent = en ? EN_TEXT[norm(RU.get(el))] : RU.get(el));
+    blocks.forEach(el => { el.innerHTML = en ? EN_HTML[el.dataset.i18n] : RU.get(el); bindGo(el); });
+    document.querySelectorAll('.soon[title]').forEach(el => el.title = en ? 'Soon' : 'Скоро');
+    document.querySelectorAll('.ar').forEach(b => { const fwd = b.dataset.step === '1';
+      b.setAttribute('aria-label', en ? (fwd ? 'Next photo' : 'Previous photo') : (fwd ? 'Следующий снимок' : 'Предыдущий снимок')); });
+    document.documentElement.lang = lang;
+    document.title = en ? 'Pizza Publishing House' : 'Издательство пиццы';
+    document.querySelectorAll('[data-lang]').forEach(a => a.classList.toggle('on', a.dataset.lang === lang));
+    paintLb();
+    try { localStorage.setItem('lang', lang); } catch (e) {}
+  }
+  document.querySelector('.lang').addEventListener('click', e => { e.preventDefault(); setLang(document.documentElement.lang === 'en' ? 'ru' : 'en'); });
+  function fitTiles(){
+    foot.style.setProperty('--fit','0px');
+    if (!foot.offsetHeight) return;
+    const tile = parseFloat(getComputedStyle(foot).getPropertyValue('--tile')) || 28, rest = foot.offsetHeight % tile;
+    foot.style.setProperty('--fit', (rest ? tile - rest : 0) + 'px');
+  }
+  window.addEventListener('resize', fitTiles);
+  fitTiles();
+  let saved = 'ru'; try { saved = localStorage.getItem('lang') || 'ru'; } catch (e) {}
+  if (saved === 'en') setLang('en');
+</script>
+
+</body>
+</html>
