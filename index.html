@@ -75,13 +75,14 @@
   #home .nav a{color:#fff}
   #home .nav a.pill{border-color:#fff}
   #home .nav a.pill:hover{background:#fff;color:var(--ink)}
-  #home .infobar{border-top-color:rgba(255,255,255,.34)}
+  #home .infobar{border-top:1px dashed rgba(255,255,255,.34)}
   #home .infobar .cap{color:rgba(255,255,255,.62)}
   #home .note{color:rgba(255,255,255,.52)}
   #home .u{text-decoration-color:rgba(255,255,255,.6)}
   /* чертёж фасада переехал в «О нас» */
   .draw{margin:clamp(10px,1.8vw,22px) 0 clamp(20px,3vw,40px);display:flex;justify-content:center}
   .draw img{max-height:62dvh;max-width:100%;width:auto;height:auto;display:block}
+  .draw-s img{max-height:30dvh}
   /* портрет целиком: вписываем по высоте, ничего не режем */
   .portrait{margin:clamp(28px,4vw,56px) 0 0;display:flex;flex-direction:column;align-items:center}
   .portrait img{max-height:88dvh;max-width:100%;width:auto;height:auto;display:block}
@@ -154,7 +155,7 @@
   /* плашка с кнопкой не уезжает: снимки листаются под ней */
   .mbar{position:sticky;top:var(--hdr,64px);z-index:4;background:var(--bg);
         display:flex;flex-wrap:wrap;align-items:center;gap:12px clamp(16px,2.2vw,32px);
-        padding:10px 0 16px;border-bottom:1px solid var(--line);margin:0 0 clamp(20px,3vw,40px)}
+        padding:10px 0 16px;border-bottom:1px dashed var(--line);margin:0 0 clamp(20px,3vw,40px)}
   .mbar .cap{color:var(--mute);max-width:44ch}
   /* лента: каменная кладка колонками, порядок сверху вниз внутри колонки */
   .feed{columns:6 190px;column-gap:var(--g)}
@@ -162,6 +163,7 @@
   .fc .ph{aspect-ratio:var(--ar,4/5);width:100%}
   .fc img{display:block;width:100%;height:auto}
   .fc figcaption{margin-top:6px;color:var(--mute)}
+  .fc figcaption::before{content:attr(data-n) " · "}
   .fc:hover figcaption,.fc:focus-visible figcaption{color:var(--ink)}
   .fc:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 
@@ -170,7 +172,7 @@
       padding:calc(14px + env(safe-area-inset-top,0px)) var(--gut) calc(14px + env(safe-area-inset-bottom,0px))}
   .ov.on{display:flex}
   body.lock{overflow:hidden}
-  .ovtop{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--line);flex:0 0 auto}
+  .ovtop{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:12px;border-bottom:1px dashed var(--line);flex:0 0 auto}
   .ovtop .cap{color:var(--mute)}
   .ovtop .r{display:flex;align-items:center;gap:clamp(12px,2vw,26px)}
   .x{all:unset;cursor:pointer;font-family:var(--sans);font-size:16px;text-transform:uppercase;letter-spacing:.02em}
@@ -183,18 +185,21 @@
   .lb .im .ph{aspect-ratio:var(--ar,4/5)}
   .lb .im img{display:block;object-fit:cover}
   .lb .ttl{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.9vw,42px);line-height:1.08;letter-spacing:-.005em;display:inline-block;transform:scaleX(.88);transform-origin:left top;margin:0 0 16px}
-  .lb .kb{color:var(--mute);margin:0 0 20px}
+  .lb .kb{color:var(--mute);margin:0 0 20px;display:grid;gap:3px;max-width:34ch}
+  .lb .kb .r{display:flex;align-items:baseline;gap:8px}
+  .lb .kb .r i{flex:1 1 auto;border-bottom:1px dotted currentColor;transform:translateY(-3px);opacity:.5}
+  .lb .kb .r b{font-weight:400;color:var(--ink)}
   .lb .il{color:var(--mute);display:block;margin-bottom:6px}
   .lb .ing{font-family:var(--serif);font-size:clamp(20px,2vw,28px);line-height:1.15;display:inline-block;transform:scaleX(.88);transform-origin:left top;margin:0 0 22px;max-width:30ch}
   /* листалка — строкой внизу оверлея: две тонкие стрелки и счётчик между ними */
-  .lbfoot{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px;
-          border-top:1px solid var(--line);padding-top:14px;margin-top:clamp(18px,3vw,32px)}
+  .lbfoot{flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:clamp(14px,2vw,28px);
+          border-top:1px dashed var(--line);padding-top:14px;margin-top:clamp(18px,3vw,32px)}
   .lbfoot .num{color:var(--mute)}
   .ar{all:unset;cursor:pointer;display:flex;align-items:center;padding:10px 0;color:var(--ink)}
-  .ar svg{width:clamp(48px,6vw,86px);height:10px;overflow:visible;transition:transform .25s ease}
+  .ar svg{width:clamp(34px,3.4vw,54px);height:10px;overflow:visible;transition:transform .18s ease}
   .ar[data-step="1"] svg{transform:scaleX(-1)}
-  .ar:hover svg{transform:translateX(-6px)}
-  .ar[data-step="1"]:hover svg{transform:scaleX(-1) translateX(-6px)}
+  .ar:hover svg{transform:translateX(-3px)}
+  .ar[data-step="1"]:hover svg{transform:scaleX(-1) translateX(-3px)}
   .ar:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
   /* файл меню грузим только при открытии, чтобы не тянуть его на каждой загрузке страницы */
   .pdfv .in{padding-top:0}
@@ -362,22 +367,23 @@
 
   <!-- МЕНЮ -->
   <section id="menu">
+    <figure class="draw draw-s"><img src="img/pizza-draw.webp" width="1600" height="810" loading="lazy" alt="Чертёж: пицца на подносе, поставленном на три банки томатов"></figure>
     <div class="bl"><figure class="sk" style="--w:104px;--dy:2.2em;--dx:14vw;--mx:start"><div class="ph"><span>Стул-моноблок</span></div></figure><p data-i18n="menu1" class="big"><sup>1</sup>Свежий тираж. Тесто ставим накануне, печём при вас.</p><p class="hint cap"><span data-i18n="hint-feed">Нажмите на снимок — откроется крупно, с составом и КБЖУ.</span></p></div>
     <div class="mbar">
       <button class="btn" type="button" id="menubtn" aria-expanded="false" aria-controls="sheet">Полное меню</button>
       <span class="cap">Все позиции и цены — снимок печатного меню</span>
     </div>
     <div class="feed">
-      <figure class="fc" tabindex="0" role="button" data-nm="Пепперони" data-kbju="1050,42,48,112" data-ing="томаты, моцарелла, пепперони, базилик" data-ing-en="tomatoes, mozzarella, pepperoni, basil" style="--ar:3/4"><div class="im"><img src="img/feed/pepperoni.webp" width="1000" height="1333" loading="lazy" alt="Пепперони"></div><figcaption class="cap">Пепперони</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Четыре сыра" data-kbju="1120,50,58,98" data-ing="моцарелла, горгонзола, пармезан, скаморца" data-ing-en="mozzarella, gorgonzola, parmesan, scamorza" style="--ar:3/4"><div class="im"><img src="img/feed/chetyre-syra.webp" width="1000" height="1333" loading="lazy" alt="Четыре сыра"></div><figcaption class="cap">Четыре сыра</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Острая диавола" data-kbju="1100,44,54,108" data-ing="томаты, моцарелла, ндуя, спьяната калабра, чили" data-ing-en="tomatoes, mozzarella, nduja, spianata calabra, chilli" style="--ar:3/4"><div class="im"><img src="img/feed/diavola.webp" width="1000" height="1333" loading="lazy" alt="Острая диавола"></div><figcaption class="cap">Острая диавола</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Груша с горгонзолой" data-kbju="1020,36,42,124" data-ing="груша, горгонзола, моцарелла, грецкий орех, мёд" data-ing-en="pear, gorgonzola, mozzarella, walnut, honey" style="--ar:3/4"><div class="im"><img src="img/feed/grusha-gorgonzola.webp" width="1000" height="1333" loading="lazy" alt="Груша с горгонзолой"></div><figcaption class="cap">Груша с горгонзолой</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="С ветчиной, грибами, оливками и артишоками" data-kbju="980,42,38,114" data-ing="томаты, моцарелла, ветчина, грибы, артишоки" data-ing-en="tomatoes, mozzarella, ham, mushrooms, artichokes" style="--ar:3/4"><div class="im"><img src="img/feed/vetchina-griby-artishoki.webp" width="1000" height="1333" loading="lazy" alt="С ветчиной, грибами, оливками и артишоками"></div><figcaption class="cap">С ветчиной, грибами, оливками и артишоками</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="С мортаделлой и артишоками" data-kbju="1010,40,44,110" data-ing="мортаделла, артишоки, моцарелла, песто" data-ing-en="mortadella, artichokes, mozzarella, pesto" style="--ar:3/4"><div class="im"><img src="img/feed/mortadella-artishoki.webp" width="1000" height="1333" loading="lazy" alt="С мортаделлой и артишоками"></div><figcaption class="cap">С мортаделлой и артишоками</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Капрезе" data-kbju="920,38,34,112" data-ing="моцарелла, печёные томаты, песто, базилик" data-ing-en="mozzarella, roast tomatoes, pesto, basil" style="--ar:3/4"><div class="im"><img src="img/feed/caprese.webp" width="1000" height="1333" loading="lazy" alt="Капрезе"></div><figcaption class="cap">Капрезе</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Оливки и пикантный перчик" data-kbju="190,2,17,6" data-ing="оливки, перчик пепперончини" data-ing-en="olives, pepperoncini" style="--ar:3/4"><div class="im"><img src="img/feed/olivki-perchik.webp" width="1000" height="1333" loading="lazy" alt="Оливки и пикантный перчик"></div><figcaption class="cap">Оливки и пикантный перчик</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Сыр" data-kbju="520,30,42,4" data-ing="сырная тарелка, мёд, гриссини" data-ing-en="cheese board, honey, grissini" style="--ar:3/4"><div class="im"><img src="img/feed/syr.webp" width="1000" height="1333" loading="lazy" alt="Сыр"></div><figcaption class="cap">Сыр</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Улитка с изюмом и фисташками" data-kbju="390,8,16,54" data-ing="слоёное тесто, изюм, фисташки" data-ing-en="puff pastry, raisins, pistachios" style="--ar:3/4"><div class="im"><img src="img/feed/ulitka.webp" width="1000" height="1333" loading="lazy" alt="Улитка с изюмом и фисташками"></div><figcaption class="cap">Улитка с изюмом и фисташками</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Пепперони" data-kbju="1050,42,48,112" data-ing="томаты, моцарелла, пепперони, базилик" data-ing-en="tomatoes, mozzarella, pepperoni, basil" style="--ar:3/4"><div class="im"><img src="img/feed/pepperoni.webp" width="1000" height="1333" loading="lazy" alt="Пепперони"></div><figcaption class="cap" data-n="01">Пепперони</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Четыре сыра" data-kbju="1120,50,58,98" data-ing="моцарелла, горгонзола, пармезан, скаморца" data-ing-en="mozzarella, gorgonzola, parmesan, scamorza" style="--ar:3/4"><div class="im"><img src="img/feed/chetyre-syra.webp" width="1000" height="1333" loading="lazy" alt="Четыре сыра"></div><figcaption class="cap" data-n="02">Четыре сыра</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Острая диавола" data-kbju="1100,44,54,108" data-ing="томаты, моцарелла, ндуя, спьяната калабра, чили" data-ing-en="tomatoes, mozzarella, nduja, spianata calabra, chilli" style="--ar:3/4"><div class="im"><img src="img/feed/diavola.webp" width="1000" height="1333" loading="lazy" alt="Острая диавола"></div><figcaption class="cap" data-n="03">Острая диавола</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Груша с горгонзолой" data-kbju="1020,36,42,124" data-ing="груша, горгонзола, моцарелла, грецкий орех, мёд" data-ing-en="pear, gorgonzola, mozzarella, walnut, honey" style="--ar:3/4"><div class="im"><img src="img/feed/grusha-gorgonzola.webp" width="1000" height="1333" loading="lazy" alt="Груша с горгонзолой"></div><figcaption class="cap" data-n="04">Груша с горгонзолой</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="С ветчиной, грибами, оливками и артишоками" data-kbju="980,42,38,114" data-ing="томаты, моцарелла, ветчина, грибы, артишоки" data-ing-en="tomatoes, mozzarella, ham, mushrooms, artichokes" style="--ar:3/4"><div class="im"><img src="img/feed/vetchina-griby-artishoki.webp" width="1000" height="1333" loading="lazy" alt="С ветчиной, грибами, оливками и артишоками"></div><figcaption class="cap" data-n="05">С ветчиной, грибами, оливками и артишоками</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="С мортаделлой и артишоками" data-kbju="1010,40,44,110" data-ing="мортаделла, артишоки, моцарелла, песто" data-ing-en="mortadella, artichokes, mozzarella, pesto" style="--ar:3/4"><div class="im"><img src="img/feed/mortadella-artishoki.webp" width="1000" height="1333" loading="lazy" alt="С мортаделлой и артишоками"></div><figcaption class="cap" data-n="06">С мортаделлой и артишоками</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Капрезе" data-kbju="920,38,34,112" data-ing="моцарелла, печёные томаты, песто, базилик" data-ing-en="mozzarella, roast tomatoes, pesto, basil" style="--ar:3/4"><div class="im"><img src="img/feed/caprese.webp" width="1000" height="1333" loading="lazy" alt="Капрезе"></div><figcaption class="cap" data-n="07">Капрезе</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Оливки и пикантный перчик" data-kbju="190,2,17,6" data-ing="оливки, перчик пепперончини" data-ing-en="olives, pepperoncini" style="--ar:3/4"><div class="im"><img src="img/feed/olivki-perchik.webp" width="1000" height="1333" loading="lazy" alt="Оливки и пикантный перчик"></div><figcaption class="cap" data-n="08">Оливки и пикантный перчик</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Сыр" data-kbju="520,30,42,4" data-ing="сырная тарелка, мёд, гриссини" data-ing-en="cheese board, honey, grissini" style="--ar:3/4"><div class="im"><img src="img/feed/syr.webp" width="1000" height="1333" loading="lazy" alt="Сыр"></div><figcaption class="cap" data-n="09">Сыр</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Улитка с изюмом и фисташками" data-kbju="390,8,16,54" data-ing="слоёное тесто, изюм, фисташки" data-ing-en="puff pastry, raisins, pistachios" style="--ar:3/4"><div class="im"><img src="img/feed/ulitka.webp" width="1000" height="1333" loading="lazy" alt="Улитка с изюмом и фисташками"></div><figcaption class="cap" data-n="10">Улитка с изюмом и фисташками</figcaption></figure>
     </div>
     <div class="sheet" id="sheet" hidden>
       <img src="img/menu-list.webp" width="960" height="1280" alt="Печатное меню на клипборде">
@@ -479,15 +485,17 @@
   const cards = [...document.querySelectorAll('.fc')];
   const lb = document.getElementById('lb');
   let lbi = -1;
-  function kbLine(d, en){
-    const [k,b,z,u] = d.split(',');
-    return en ? `${k} kcal · P ${b} · F ${z} · C ${u}` : `${k} ккал · Б ${b} · Ж ${z} · У ${u}`;
+  /* КБЖУ строками, как в чеке: подпись, отточие, число */
+  function kbRows(d, en){
+    const v = d.split(',');
+    const labels = en ? ['Kcal','Protein','Fat','Carbs'] : ['Ккал','Белки','Жиры','Углеводы'];
+    return labels.map((l, i) => `<span class="r"><span>${l}</span><i></i><b>${v[i]}</b></span>`).join('');
   }
   function paintLb(){
     if (lbi < 0) return;
     const c = cards[lbi], en = document.documentElement.lang === 'en';
     lb.querySelector('.ttl').textContent = (en && EN_TEXT[norm(c.dataset.nm)]) || c.dataset.nm;
-    lb.querySelector('.kb').textContent = kbLine(c.dataset.kbju, en);
+    lb.querySelector('.kb').innerHTML = kbRows(c.dataset.kbju, en);
     lb.querySelector('.ing').textContent = (en && c.dataset.ingEn) || c.dataset.ing;
     lb.querySelector('.num').textContent = String(lbi + 1).padStart(2, '0') + ' / ' + cards.length;
     lb.style.setProperty('--ar', getComputedStyle(c).getPropertyValue('--ar') || '4/5');
