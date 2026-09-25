@@ -13,8 +13,9 @@
     --gut:clamp(16px,2.2vw,40px); --g:clamp(12px,1.6vw,26px);
     color-scheme: light;
   }
-  html,body{background:var(--bg);color:var(--ink);overflow-x:hidden;height:100%}
-  body{margin:0;font:16px/1.1 var(--sans);padding-inline:var(--gut);padding-block:0;-webkit-font-smoothing:antialiased;min-height:100%;display:flex;flex-direction:column}
+  html{background:var(--bg);overflow-x:hidden}
+  body{background:var(--bg);color:var(--ink)}
+  body{margin:0;font:16px/1.1 var(--sans);padding-inline:var(--gut);padding-block:0;-webkit-font-smoothing:antialiased;min-height:100dvh;display:flex;flex-direction:column}
   *{box-sizing:border-box}
   a{color:inherit;text-decoration:none}
   a[href^="tel:"]{white-space:nowrap}
@@ -52,8 +53,39 @@
 
   /* ГЛАВНАЯ — не скроллится: рисунок фасада + инфостроки внизу (как у DFF) */
   #home{flex-direction:column;justify-content:space-between;min-height:calc(100dvh - 92px)}
-  .facade{flex:1 1 auto;display:flex;align-items:center;justify-content:center;padding:2vh 0}
-  .facade img{max-height:64dvh;max-width:100%;width:auto;height:auto;display:block}
+  /* главная: съёмка зала во всю площадь экрана, контент поверх нижней трети */
+  #home{position:relative;justify-content:flex-end;gap:0;
+        margin-inline:calc(-1 * var(--gut));padding:0 var(--gut) clamp(14px,2.6vw,26px);
+        min-height:calc(100dvh - 92px);color:#fff}
+  /* съёмка держит весь экран, включая полосу под шапкой */
+  .bg{position:fixed;inset:0;z-index:0;background:#0d0d0d}
+  body:has(main[data-tab="home"]) .hdr{background:transparent;color:#fff}
+  body:has(main[data-tab="home"]) .hdr a{color:#fff}
+  body:has(main[data-tab="home"]) .hdr .nav .lang{color:rgba(255,255,255,.62)}
+  body:has(main[data-tab="home"]) .hdr .nav .lang [data-lang].on{color:#fff}
+  body:has(main[data-tab="home"]) .hdr .nav a.on{border-bottom-color:#fff}
+  .bg video,.bg img{width:100%;height:100%;object-fit:cover;display:block}
+  /* тёмный градиент снизу: без него белый текст на светлых кадрах пропадает */
+  /* два слоя: снизу под инфостроку, сверху под шапку. В ролике есть светлые кадры — без них белый текст пропадает */
+  .bg::after{content:"";position:absolute;inset:0;pointer-events:none;
+             background:linear-gradient(to top,rgba(0,0,0,.80) 0%,rgba(0,0,0,.60) 20%,rgba(0,0,0,.30) 48%,rgba(0,0,0,.12) 74%),
+                        linear-gradient(to bottom,rgba(0,0,0,.52) 0%,rgba(0,0,0,.22) 12%,rgba(0,0,0,0) 26%)}
+  #home > *:not(.bg){position:relative;z-index:1}
+  #home .acts{margin-bottom:clamp(18px,3vw,34px)}
+  #home .nav a{color:#fff}
+  #home .nav a.pill{border-color:#fff}
+  #home .nav a.pill:hover{background:#fff;color:var(--ink)}
+  #home .infobar{border-top-color:rgba(255,255,255,.34)}
+  #home .infobar .cap{color:rgba(255,255,255,.62)}
+  #home .note{color:rgba(255,255,255,.52)}
+  #home .u{text-decoration-color:rgba(255,255,255,.6)}
+  /* чертёж фасада переехал в «О нас» */
+  .draw{margin:clamp(10px,1.8vw,22px) 0 clamp(20px,3vw,40px);display:flex;justify-content:center}
+  .draw img{max-height:62dvh;max-width:100%;width:auto;height:auto;display:block}
+  /* портрет целиком: вписываем по высоте, ничего не режем */
+  .portrait{margin:clamp(28px,4vw,56px) 0 0;display:flex;flex-direction:column;align-items:center}
+  .portrait img{max-height:88dvh;max-width:100%;width:auto;height:auto;display:block}
+  .portrait figcaption{margin-top:10px;display:flex;justify-content:space-between;width:100%;max-width:min(100%,62vh)}
   .acts{justify-content:center;align-items:baseline;gap:28px;padding:6px 0 10px}
   /* Меню/Забронировать в шапке — только вне главной (на главной они под фасадом) */
   .hdr .hx{display:none}
@@ -81,6 +113,13 @@
   .row::-webkit-scrollbar{display:none}
   .row > *{scroll-snap-align:start}
   .tile .ph{aspect-ratio:4/3}
+  .tile img,.team img,.fc img,.lb .im img{display:block;width:100%;height:100%;object-fit:cover}
+  .tile figure{margin:0}
+  .tile .im{aspect-ratio:4/3;overflow:hidden;background:var(--ph)}
+  .team .im{aspect-ratio:3/2;overflow:hidden;background:var(--ph)}
+  .team .t2 .im{aspect-ratio:auto;height:100%}
+  .fc .im{aspect-ratio:var(--ar,4/5);overflow:hidden;background:var(--ph)}
+  .lb .im img{height:min(calc(100dvh - 160px),76vh);width:auto;max-width:100%;object-fit:contain}
   .tile .lab{font-family:var(--serif);font-size:clamp(20px,2.2vw,32px);text-transform:uppercase;letter-spacing:-.01em;line-height:1;margin:14px 0 0;text-align:center;display:block}
   .tile .lab .cond{transform-origin:center}
   /* мелкие предметы места (лимоны, банки, стул…) — круглые, раскиданы по страницам с разными сдвигами (--w --dy --dx --mx на самом figure) */
@@ -112,7 +151,10 @@
   .btn{all:unset;cursor:pointer;font-family:var(--sans);font-size:16px;line-height:1;white-space:nowrap;border:1px solid var(--ink);border-radius:999px;padding:9px 18px}
   .btn:hover{background:var(--ink);color:var(--bg)}
   .btn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-  .mbar{display:flex;flex-wrap:wrap;align-items:center;gap:12px clamp(16px,2.2vw,32px);padding-bottom:16px;border-bottom:1px solid var(--line);margin:0 0 clamp(20px,3vw,40px)}
+  /* плашка с кнопкой не уезжает: снимки листаются под ней */
+  .mbar{position:sticky;top:var(--hdr,64px);z-index:4;background:var(--bg);
+        display:flex;flex-wrap:wrap;align-items:center;gap:12px clamp(16px,2.2vw,32px);
+        padding:10px 0 16px;border-bottom:1px solid var(--line);margin:0 0 clamp(20px,3vw,40px)}
   .mbar .cap{color:var(--mute);max-width:44ch}
   /* лента: каменная кладка колонками, порядок сверху вниз внутри колонки */
   .feed{columns:6 190px;column-gap:var(--g)}
@@ -156,7 +198,12 @@
   .ar:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
   /* файл меню грузим только при открытии, чтобы не тянуть его на каждой загрузке страницы */
   .pdfv .in{padding-top:0}
-  .pdfv iframe{width:100%;height:100%;border:0;display:block;background:var(--ph)}
+  /* лист меню встаёт на место ленты и сам не скроллится */
+  .sheet{display:flex;flex-direction:column;align-items:center;gap:12px;padding-top:clamp(6px,1.4vw,14px)}
+  .sheet img{max-height:calc(100dvh - var(--hdr,64px) - 396px);min-height:200px;max-width:100%;width:auto;height:auto;display:block}
+  .sheet .cap{color:var(--mute);text-align:center;max-width:52ch}
+  #menu.sheet-on .feed,#menu.sheet-on .hint,#menu.sheet-on .mbar .cap{display:none}
+  body.menu-open footer{display:none}
   .pdfmiss{display:none;font-family:var(--serif);font-style:italic;color:var(--mute);padding:clamp(40px,10vh,120px) 0;text-align:center}
   .pdfv.miss iframe{display:none}
   .pdfv.miss .pdfmiss{display:block}
@@ -272,7 +319,11 @@
 <main data-tab="home">
   <!-- ГЛАВНАЯ -->
   <section id="home">
-    <div class="facade"><img src="img/facade.webp" width="1400" height="1597" alt="Фасад: торец жилого дома, лестница ко входу, дерево с гирляндой" fetchpriority="high"></div>
+    <div class="bg">
+      <video src="img/video/hall.mp4" poster="img/video/hall-poster.jpg"
+             autoplay muted loop playsinline preload="metadata"
+             aria-label="Съёмка зала: вечерний свет, выдача, вход со двора"></video>
+    </div>
     <nav class="nav acts" aria-label="Действия">
       <a class="pill" href="#book" data-go="book">Забронировать стол</a>
       <a href="#menu" data-go="menu">Меню</a>
@@ -288,21 +339,22 @@
 
   <!-- О НАС -->
   <section id="about">
+    <figure class="draw"><img src="img/facade.webp" width="1400" height="1597" loading="lazy" alt="Чертёж фасада: торец жилого дома, лестница ко входу, дерево с гирляндой"></figure>
+
     <div class="bl"><figure class="sk" style="--w:118px;--dy:-.6em;--dx:2vw;--mx:end"><div class="ph"><span>Лимоны</span></div></figure><p data-i18n="about1" class="big"><sup>1</sup>Издаём пиццу на Таганке.<br> Каждый день — свежий тираж. Редакция — в переулке Маяковского, у <a class="u" href="#book" data-go="book">Марксистской</a>, вход с торца дома: по лестнице мимо бутылок с цветами, под деревом с гирляндой.</p></div>
     <div class="row">
-      <div class="tile"><div class="ph"><span>Лестница ко входу</span></div><span class="lab"><span class="cond">Вход</span></span></div>
-      <div class="tile"><div class="ph"><span>Зал</span></div><span class="lab"><span class="cond">Зал</span></span></div>
-      <div class="tile"><div class="ph"><span>Печь</span></div><span class="lab"><span class="cond">Печь</span></span></div>
-      <div class="tile"><div class="ph"><span>Двор, гирлянда</span></div><span class="lab"><span class="cond">Двор</span></span></div>
+      <div class="tile"><div class="im"><img src="img/about/vhod.webp" loading="lazy" alt="Вход со двора: лестница, зелень, свет из окон"></div><span class="lab"><span class="cond">Вход</span></span></div>
+      <div class="tile"><div class="im"><img src="img/about/zal.webp" loading="lazy" alt="Зал: стол у стены, бра, скатерть"></div><span class="lab"><span class="cond">Зал</span></span></div>
+      <div class="tile"><div class="im"><img src="img/about/pech.webp" loading="lazy" alt="Выдача: повар ставит тарелку на стойку"></div><span class="lab"><span class="cond">Печь</span></span></div>
+      <div class="tile"><div class="im"><img src="img/about/dvor.webp" loading="lazy" alt="Двор: велосипед с коробкой у лестницы"></div><span class="lab"><span class="cond">Двор</span></span></div>
     </div>
 
     <div class="bl"><figure class="sk" style="--w:156px;--dy:6em;--dx:9vw;--mx:start"><div class="ph"><span>Банки друг на друге</span></div></figure><p data-i18n="about2" class="big"><sup>2</sup>Редакция — Настя и Стас. Итальянские томаты и тесто, наши гирлянды и банки. Весь тираж собран в <a class="u" href="#menu" data-go="menu">меню</a>.</p></div>
 
-    <div class="team">
-      <figure class="sk l box" style="--w:150px"><div class="ph"><span>Лайтбокс</span></div></figure>
-      <figure class="t1"><div class="ph"><span>Владельцы</span></div><figcaption><span>Владельцы</span><span class="cap">редакция</span></figcaption></figure>
-      <figure class="t2"><div class="ph"><span>Повар</span></div><figcaption><span>Повар</span><span class="cap">за печью</span></figcaption></figure>
-    </div>
+    <figure class="portrait">
+      <img src="img/nastya.webp" width="1200" height="1599" loading="lazy" alt="Настя в зале с пиццей на подносе">
+      <figcaption><span>Настя</span><span class="cap">редакция</span></figcaption>
+    </figure>
 
 
     <div class="bl"><figure class="sk tall" style="--w:64px;--dy:-1.4em;--dx:1vw;--mx:end"><div class="ph"><span>Цветы в бутылке</span></div></figure><p data-i18n="about3" class="big"><sup>3</sup>Выходим ежедневно с 12:00 до 22:00. Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. Ждём вас!</p></div>
@@ -312,30 +364,24 @@
   <section id="menu">
     <div class="bl"><figure class="sk" style="--w:104px;--dy:2.2em;--dx:14vw;--mx:start"><div class="ph"><span>Стул-моноблок</span></div></figure><p data-i18n="menu1" class="big"><sup>1</sup>Свежий тираж. Тесто ставим накануне, печём при вас.</p><p class="hint cap"><span data-i18n="hint-feed">Нажмите на снимок — откроется крупно, с составом и КБЖУ.</span></p></div>
     <div class="mbar">
-      <button class="btn" type="button" id="pdfbtn">Полное меню</button>
-      <span class="cap">Все позиции и цены — одним листом</span>
+      <button class="btn" type="button" id="menubtn" aria-expanded="false" aria-controls="sheet">Полное меню</button>
+      <span class="cap">Все позиции и цены — снимок печатного меню</span>
     </div>
     <div class="feed">
-      <figure class="fc" tabindex="0" role="button" data-nm="Маргарита" data-kbju="890,34,30,118" data-ing="томаты сан-марцано, фиор ди латте, базилик, оливковое масло" data-ing-en="San Marzano tomatoes, fior di latte, basil, olive oil" style="--ar:4/5"><div class="ph"><span>Фото позиции</span></div><figcaption class="cap">Маргарита</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Страчателла с пармой" data-kbju="1080,48,50,104" data-ing="страчателла, пармская ветчина, руккола, оливковое масло" data-ing-en="stracciatella, parma ham, rocket, olive oil" style="--ar:1/1"><div class="ph"><span>Фото позиции</span></div><figcaption class="cap">Страчателла с пармой</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Острая диавола" data-kbju="1100,44,54,108" data-ing="томаты, моцарелла, ндуя, спьяната калабра, чили" data-ing-en="tomatoes, mozzarella, nduja, spianata calabra, chilli" style="--ar:3/4"><div class="ph"><span>Фото позиции</span></div><figcaption class="cap">Острая диавола</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Пепперони" data-kbju="1050,42,48,112" data-ing="томаты, моцарелла, пепперони" data-ing-en="tomatoes, mozzarella, pepperoni" style="--ar:4/5"><div class="ph"><span>Фото позиции</span></div><figcaption class="cap">Пепперони</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Четыре сыра" data-kbju="1120,50,58,98" data-ing="моцарелла, горгонзола, пармезан, скаморца" data-ing-en="mozzarella, gorgonzola, parmesan, scamorza" style="--ar:1/1"><div class="ph"><span>Фото позиции</span></div><figcaption class="cap">Четыре сыра</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Трюфельная кальцоне" data-kbju="1150,46,52,118" data-ing="грибы, ветчина, моцарелла, трюфельная паста" data-ing-en="mushrooms, ham, mozzarella, truffle paste" style="--ar:5/4"><div class="ph"><span>Фото позиции</span></div><figcaption class="cap">Трюфельная кальцоне</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Груша с горгонзолой" data-kbju="1020,36,42,124" data-ing="груша, горгонзола, моцарелла, грецкий орех, мёд" data-ing-en="pear, gorgonzola, mozzarella, walnut, honey" style="--ar:4/5"><div class="ph"><span>Фото позиции</span></div><figcaption class="cap">Груша с горгонзолой</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Грибная" data-kbju="900,34,32,116" data-ing="грибы, моцарелла, тимьян, чеснок" data-ing-en="mushrooms, mozzarella, thyme, garlic" style="--ar:3/4"><div class="ph"><span>Фото позиции</span></div><figcaption class="cap">Грибная</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="С баклажанами и копчёным скаморца" data-kbju="950,36,40,112" data-ing="томаты, баклажаны, копчёная скаморца, базилик" data-ing-en="tomatoes, aubergine, smoked scamorza, basil" style="--ar:1/1"><div class="ph"><span>Фото позиции</span></div><figcaption class="cap">С баклажанами и копчёным скаморца</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="С креветками, цукини, миндалём и рикоттой" data-kbju="980,44,38,110" data-ing="креветки, цукини, миндаль, рикотта" data-ing-en="prawns, courgette, almond, ricotta" style="--ar:4/5"><div class="ph"><span>Фото позиции</span></div><figcaption class="cap">С креветками, цукини, миндалём и рикоттой</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="С анчоусами, печёным перцем и страчателлой" data-kbju="960,42,40,106" data-ing="анчоусы, печёный перец, страчателла" data-ing-en="anchovies, roast pepper, stracciatella" style="--ar:3/4"><div class="ph"><span>Фото позиции</span></div><figcaption class="cap">С анчоусами, печёным перцем и страчателлой</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Четыре мяса" data-kbju="1180,56,58,104" data-ing="моцарелла, ветчина, пепперони, бекон, колбаски" data-ing-en="mozzarella, ham, pepperoni, bacon, sausage" style="--ar:1/1"><div class="ph"><span>Фото позиции</span></div><figcaption class="cap">Четыре мяса</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Фокачча сытная" data-kbju="680,20,28,84" data-ing="тесто, оливковое масло, розмарин, морская соль" data-ing-en="dough, olive oil, rosemary, sea salt" style="--ar:5/4"><div class="ph"><span>Фото позиции</span></div><figcaption class="cap">Фокачча сытная</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Капрезе с песто" data-kbju="420,18,32,10" data-ing="томаты, моцарелла, песто, базилик" data-ing-en="tomatoes, mozzarella, pesto, basil" style="--ar:4/5"><div class="ph"><span>Фото позиции</span></div><figcaption class="cap">Капрезе с песто</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Взбитая рикотта" data-kbju="460,18,28,32" data-ing="рикотта, печёные черри, песто, фокачча" data-ing-en="ricotta, roast cherry tomatoes, pesto, focaccia" style="--ar:1/1"><div class="ph"><span>Фото позиции</span></div><figcaption class="cap">Взбитая рикотта</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Пепероната" data-kbju="340,12,24,16" data-ing="соус ромеско, страчателла, анчоусы, печёный перец" data-ing-en="romesco, stracciatella, anchovies, roast pepper" style="--ar:3/4"><div class="ph"><span>Фото позиции</span></div><figcaption class="cap">Пепероната</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Томатный салат" data-kbju="260,8,18,16" data-ing="томаты, красный лук, базилик, бальзамик" data-ing-en="tomatoes, red onion, basil, balsamic" style="--ar:4/5"><div class="ph"><span>Фото позиции</span></div><figcaption class="cap">Томатный салат</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Тирамису банановый" data-kbju="420,8,22,48" data-ing="маскарпоне, савоярди, кофе, банан" data-ing-en="mascarpone, savoiardi, coffee, banana" style="--ar:1/1"><div class="ph"><span>Фото позиции</span></div><figcaption class="cap">Тирамису банановый</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Кростата с клубникой" data-kbju="380,6,16,54" data-ing="песочное тесто, клубника, крем" data-ing-en="shortcrust, strawberry, cream" style="--ar:5/4"><div class="ph"><span>Фото позиции</span></div><figcaption class="cap">Кростата с клубникой</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Капучино" data-kbju="120,6,6,10" data-ing="эспрессо, молоко" data-ing-en="espresso, milk" style="--ar:3/4"><div class="ph"><span>Фото позиции</span></div><figcaption class="cap">Капучино</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Пепперони" data-kbju="1050,42,48,112" data-ing="томаты, моцарелла, пепперони, базилик" data-ing-en="tomatoes, mozzarella, pepperoni, basil" style="--ar:3/4"><div class="im"><img src="img/feed/pepperoni.webp" width="1000" height="1333" loading="lazy" alt="Пепперони"></div><figcaption class="cap">Пепперони</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Четыре сыра" data-kbju="1120,50,58,98" data-ing="моцарелла, горгонзола, пармезан, скаморца" data-ing-en="mozzarella, gorgonzola, parmesan, scamorza" style="--ar:3/4"><div class="im"><img src="img/feed/chetyre-syra.webp" width="1000" height="1333" loading="lazy" alt="Четыре сыра"></div><figcaption class="cap">Четыре сыра</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Острая диавола" data-kbju="1100,44,54,108" data-ing="томаты, моцарелла, ндуя, спьяната калабра, чили" data-ing-en="tomatoes, mozzarella, nduja, spianata calabra, chilli" style="--ar:3/4"><div class="im"><img src="img/feed/diavola.webp" width="1000" height="1333" loading="lazy" alt="Острая диавола"></div><figcaption class="cap">Острая диавола</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Груша с горгонзолой" data-kbju="1020,36,42,124" data-ing="груша, горгонзола, моцарелла, грецкий орех, мёд" data-ing-en="pear, gorgonzola, mozzarella, walnut, honey" style="--ar:3/4"><div class="im"><img src="img/feed/grusha-gorgonzola.webp" width="1000" height="1333" loading="lazy" alt="Груша с горгонзолой"></div><figcaption class="cap">Груша с горгонзолой</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="С ветчиной, грибами, оливками и артишоками" data-kbju="980,42,38,114" data-ing="томаты, моцарелла, ветчина, грибы, артишоки" data-ing-en="tomatoes, mozzarella, ham, mushrooms, artichokes" style="--ar:3/4"><div class="im"><img src="img/feed/vetchina-griby-artishoki.webp" width="1000" height="1333" loading="lazy" alt="С ветчиной, грибами, оливками и артишоками"></div><figcaption class="cap">С ветчиной, грибами, оливками и артишоками</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="С мортаделлой и артишоками" data-kbju="1010,40,44,110" data-ing="мортаделла, артишоки, моцарелла, песто" data-ing-en="mortadella, artichokes, mozzarella, pesto" style="--ar:3/4"><div class="im"><img src="img/feed/mortadella-artishoki.webp" width="1000" height="1333" loading="lazy" alt="С мортаделлой и артишоками"></div><figcaption class="cap">С мортаделлой и артишоками</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Капрезе" data-kbju="920,38,34,112" data-ing="моцарелла, печёные томаты, песто, базилик" data-ing-en="mozzarella, roast tomatoes, pesto, basil" style="--ar:3/4"><div class="im"><img src="img/feed/caprese.webp" width="1000" height="1333" loading="lazy" alt="Капрезе"></div><figcaption class="cap">Капрезе</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Оливки и пикантный перчик" data-kbju="190,2,17,6" data-ing="оливки, перчик пепперончини" data-ing-en="olives, pepperoncini" style="--ar:3/4"><div class="im"><img src="img/feed/olivki-perchik.webp" width="1000" height="1333" loading="lazy" alt="Оливки и пикантный перчик"></div><figcaption class="cap">Оливки и пикантный перчик</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Сыр" data-kbju="520,30,42,4" data-ing="сырная тарелка, мёд, гриссини" data-ing-en="cheese board, honey, grissini" style="--ar:3/4"><div class="im"><img src="img/feed/syr.webp" width="1000" height="1333" loading="lazy" alt="Сыр"></div><figcaption class="cap">Сыр</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Улитка с изюмом и фисташками" data-kbju="390,8,16,54" data-ing="слоёное тесто, изюм, фисташки" data-ing-en="puff pastry, raisins, pistachios" style="--ar:3/4"><div class="im"><img src="img/feed/ulitka.webp" width="1000" height="1333" loading="lazy" alt="Улитка с изюмом и фисташками"></div><figcaption class="cap">Улитка с изюмом и фисташками</figcaption></figure>
+    </div>
+    <div class="sheet" id="sheet" hidden>
+      <img src="img/menu-list.webp" width="960" height="1280" alt="Печатное меню на клипборде">
+      <p class="cap">Печатное меню из зала. Скоро заменим его файлом, который редакция обновляет сама.</p>
     </div>
   </section>
 
@@ -408,13 +454,7 @@
   </div>
 </div>
 
-<!-- полное меню поверх сайта -->
-<div class="ov pdfv" id="pdfv" role="dialog" aria-modal="true" aria-label="Полное меню" hidden>
-  <div class="ovtop"><span class="cap" data-i18n="pdftop">Меню</span>
-    <span class="r"><a class="u" id="pdfout" href="menu.pdf" target="_blank" rel="noopener">Открыть отдельно</a><button class="x" type="button" data-close>Закрыть</button></span></div>
-  <div class="in"><iframe id="pdff" title="Меню" src="about:blank"></iframe>
-    <p class="pdfmiss" data-i18n="pdfmiss">Меню скоро появится здесь. Пока спросите нас в зале или позвоните.</p></div>
-</div>
+
 
 <script>
   const main = document.querySelector('main');
@@ -452,9 +492,7 @@
     lb.querySelector('.num').textContent = String(lbi + 1).padStart(2, '0') + ' / ' + cards.length;
     lb.style.setProperty('--ar', getComputedStyle(c).getPropertyValue('--ar') || '4/5');
     const img = c.querySelector('img');
-    lb.querySelector('.im').innerHTML = img
-      ? `<img src="${img.src}" alt="">`
-      : '<div class="ph"><span>Фото позиции</span></div>';
+    lb.querySelector('.im').innerHTML = img ? `<img src="${img.src}" alt="${c.dataset.nm}">` : '';
   }
   function openOv(el){ el.hidden = false; el.classList.add('on'); document.body.classList.add('lock'); }
   function closeOv(el){ el.classList.remove('on'); el.hidden = true; document.body.classList.remove('lock'); }
@@ -466,16 +504,21 @@
   lb.querySelectorAll('.ar').forEach(btn =>
     btn.addEventListener('click', () => openLb(lbi + (+btn.dataset.step))));
 
-  /* полное меню поверх сайта: файл подтягиваем при открытии, владельцы меняют menu.pdf в репозитории */
-  const pdfv = document.getElementById('pdfv'), pdff = document.getElementById('pdff');
-  const PDF = 'menu.pdf';
-  document.getElementById('pdfbtn').addEventListener('click', async () => {
-    openOv(pdfv);
-    if (pdff.dataset.ready) return;
-    let ok = true;
-    try { ok = (await fetch(PDF, {method:'HEAD'})).ok; } catch (e) { ok = false; }
-    pdfv.classList.toggle('miss', !ok);
-    if (ok) { pdff.src = PDF + '#view=FitH'; pdff.dataset.ready = '1'; }
+  /* лист меню встаёт на место ленты; плашка с кнопкой и шапка остаются на месте */
+  const msec = document.getElementById('menu');
+  const menubtn = document.getElementById('menubtn');
+  const sheet = document.getElementById('sheet');
+  function menuLabel(){
+    const en = document.documentElement.lang === 'en', on = msec.classList.contains('sheet-on');
+    menubtn.textContent = en ? (on ? 'Close menu' : 'Full menu') : (on ? 'Закрыть меню' : 'Полное меню');
+  }
+  menubtn.addEventListener('click', () => {
+    const on = msec.classList.toggle('sheet-on');
+    document.body.classList.toggle('menu-open', on);
+    sheet.hidden = !on;
+    menubtn.setAttribute('aria-expanded', String(on));
+    menuLabel();
+    window.scrollTo({top:0});
   });
 
   document.querySelectorAll('.ov [data-close]').forEach(b =>
@@ -497,8 +540,7 @@
     menu1:'<sup>1</sup>Fresh print run. The dough is made the day before and baked in front of you.',
     'hint-feed':'Tap a photo to see it large, with ingredients and nutrition.',
     lbtop:'Feed',pdftop:'Menu','ing-label':'Ingredients',
-    pdfmiss:'The menu will be here soon. For now, ask us in the room or give us a call.',
-    meta:'* Instagram belongs to Meta, designated an extremist organisation in Russia',meta2:'* Instagram belongs to Meta, designated an extremist organisation in Russia',
+        meta:'* Instagram belongs to Meta, designated an extremist organisation in Russia',meta2:'* Instagram belongs to Meta, designated an extremist organisation in Russia',
     owner:'[Sole trader / LLC — TBC] · OGRN [TBC] · [registered address — TBC]',
     priv0:'<sup>§</sup>Privacy policy',
     priv1:'<p>This site is the information page of the Pizza Publishing House pizzeria (Moscow, Mayakovskogo lane, 2). Site owner: [sole trader / LLC — TBC], OGRN [TBC], address [TBC], e-mail [TBC].</p><p>The site does not collect or store personal data: it has no forms, registration, online ordering, counters or analytics. It sets no cookies of its own. The chosen interface language is stored in the visitor\'s browser (localStorage) and is not transmitted anywhere.</p><p>The Book page embeds a Yandex Maps widget. When it loads, the browser contacts Yandex servers, which may use their own cookies under the <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noopener">Yandex privacy policy</a>.</p><p>Pages are served by the hosting provider [TBC], which receives the technical request data (IP address, browser type) needed to serve the page. The site has no access to this data and does not process it.</p><p>Tables are booked by phone; calls and messages happen outside the site.</p><p>Questions about this policy: e-mail [TBC]. Revision of 20 September 2026.</p>',
@@ -526,8 +568,8 @@
     'Чай зелёный':'Green tea','Чай чёрный':'Black tea','200 / 300 мл':'200 / 300 ml','500 мл':'500 ml','330 мл':'330 ml','750 мл':'750 ml','Пиво безалкогольное':'Non-alcoholic beer','Пиво':'Beer','в ассортименте':'assorted',
     'Открыть в Яндекс Картах':'Open in Yandex Maps','Столик':'Table','Позвонить':'Call','Онлайн-бронь появится позже':'Online booking coming later','Скоро':'Soon','Доставка':'Delivery','Пока — в зале и с собой':'For now: dine in and takeaway',
     '© Издательство пиццы, 2026':'© Pizza Publishing House, 2026','Политика конфиденциальности':'Privacy policy','[e-mail — уточнить]':'[e-mail — TBC]','Instagram*':'Instagram*',
-    'Полное меню':'Full menu','Все позиции и цены — одним листом':'Every dish and every price, on one sheet',
-    'Закрыть':'Close','Открыть отдельно':'Open separately',
+    'Все позиции и цены — снимок печатного меню':'Every dish and price — a photo of the printed menu',
+    'Закрыть':'Close','Открыть крупнее':'Open larger',
     'Лимоны':'Lemons','Лестница ко входу':'Stairs to the entrance','Двор, гирлянда':'Yard, string lights','Банки друг на друге':'Stacked jars','Лайтбокс':'Lightbox','Цветы в бутылке':'Flowers in a bottle','Стул-моноблок':'Monobloc chair','Лимон с цифрой 11':'Lemon with the number 11'
   };
   const RU = new Map();
@@ -548,6 +590,7 @@
     document.title = en ? 'Pizza Publishing House' : 'Издательство пиццы';
     document.querySelectorAll('[data-lang]').forEach(a => a.classList.toggle('on', a.dataset.lang === lang));
     paintLb();
+    menuLabel();
     try { localStorage.setItem('lang', lang); } catch (e) {}
   }
   document.querySelector('.lang').addEventListener('click', e => { e.preventDefault(); setLang(document.documentElement.lang === 'en' ? 'ru' : 'en'); });
@@ -557,6 +600,11 @@
     const tile = parseFloat(getComputedStyle(foot).getPropertyValue('--tile')) || 28, rest = foot.offsetHeight % tile;
     foot.style.setProperty('--fit', (rest ? tile - rest : 0) + 'px');
   }
+  function setHdr(){
+    document.documentElement.style.setProperty('--hdr', document.querySelector('.hdr').offsetHeight + 'px');
+  }
+  window.addEventListener('resize', setHdr);
+  setHdr();
   window.addEventListener('resize', fitTiles);
   fitTiles();
   let saved = 'ru'; try { saved = localStorage.getItem('lang') || 'ru'; } catch (e) {}
