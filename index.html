@@ -136,11 +136,16 @@
   .sk .ph{aspect-ratio:1;border-radius:50%;padding:10px}
   /* рисунки Дария: без подложки, линия как есть */
   .sk img{display:block;width:100%;height:auto}
-  .pk{margin:clamp(28px,4vw,56px) 0 calc(-1 * clamp(10px,2vw,24px)) auto}
+  .pk{margin:clamp(40px,6vw,80px) auto calc(-1 * clamp(10px,2vw,24px)) 0}
   .doodle{display:flex;justify-content:center;margin:clamp(12px,2vw,26px) 0 clamp(8px,1.6vw,20px)}
   .doodle img{height:auto;width:auto;max-width:100%;display:block}
   .doodle-house img{max-height:34dvh}
-  .doodle-can img{max-height:14dvh}
+  /* банки в шапке меню стоят на одной линии: одна слева, крупная по центру, тройка рядом с ней */
+  .cans{display:flex;align-items:flex-end;justify-content:center;margin:clamp(28px,4vw,48px) 0 clamp(8px,1.6vw,20px)}
+  .cans img{display:block;width:auto}
+  .cans .c1{height:clamp(56px,7.8dvh,84px);margin-right:auto}
+  .cans .c2{height:clamp(100px,14dvh,150px)}
+  .cans .c3{height:clamp(112px,15.6dvh,168px);margin:0 auto 0 clamp(8px,1.4vw,18px)}
   /* формы под предмет: лайтбокс — скруглённый прямоугольник, бутылка — высокая узкая */
   .sk.box .ph{aspect-ratio:4/3;border-radius:12px}
   .sk.tall .ph{aspect-ratio:1/2.6;border-radius:6px}
@@ -202,20 +207,36 @@
   .lb .im img{display:block;object-fit:cover}
   .lb .ttl{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.9vw,42px);line-height:1.08;letter-spacing:-.005em;display:block;width:113.6%;transform:scaleX(.88);transform-origin:left top;margin:0 0 16px}
   /* карточка блюда свёрстана как чек: номер, название, пунктир, строки КБЖУ, состав построчно */
-  .lb .rno{color:var(--mute);display:block;margin:0 0 8px}
-  .lb .rule{border-top:1px dashed var(--line);margin:14px 0}
-  .lb .rh{color:var(--mute);display:block;margin:0 0 8px}
   .lb .kb,.lb .ing{font-family:var(--sans);font-size:13px;line-height:1.35;letter-spacing:.04em;text-transform:uppercase;color:var(--ink)}
   .lb .kb{margin:0;display:grid;gap:2px}
+  /* ——— чек: одна гарнитура, иерархия кеглем, регистром и положением строки ——— */
+  .lb .tx.rc{max-width:min(100%,420px);width:100%;min-width:0;margin:0 auto}
+  .rc p{margin:0}
+  .rc-shop{text-align:center;color:var(--mute);line-height:1.35}
+  .rc-meta{display:flex;justify-content:space-between;color:var(--mute);margin-top:10px !important}
+  .rc-dash{border:0;border-top:1px dashed var(--line);margin:12px 0}
+  .rc-double{border:0;border-top:3px double var(--line);margin:16px 0 12px}
+  .lb .rc .ttl{text-align:center;transform-origin:center top;margin:0 0 0 -6.8%}
+  .rc-cols{display:flex;justify-content:space-between;color:var(--mute);margin-bottom:6px !important}
+  .lb .kb .r{display:flex;justify-content:space-between;align-items:baseline}
+  /* заголовок внутри линии: - - - СОСТАВ - - - */
+  .rc-title{display:flex;align-items:center;gap:10px;color:var(--mute);margin:14px 0 8px !important}
+  .rc-title::before,.rc-title::after{content:"";flex:1 1 auto;border-top:1px dashed var(--line)}
+  .lb .ing{counter-reset:ing}
+  .lb .ing li{counter-increment:ing;display:flex;gap:14px}
+  .lb .ing li::before{content:counter(ing,decimal-leading-zero);color:var(--mute)}
+  .rc-stars{overflow:hidden;white-space:nowrap;max-width:100%;text-align:center;letter-spacing:.35em;line-height:1;color:var(--ink);font-family:var(--sans);font-size:13px}
+  .rc-msg{text-align:center;font-family:var(--sans);text-transform:uppercase;letter-spacing:.04em;font-size:clamp(15px,1.5vw,17px);line-height:1.25;margin:8px 0 !important;text-wrap:balance}
+  .rc-bar{height:40px;margin:16px 0 8px;display:flex;justify-content:center;gap:0}
+  .rc-bar i{display:block;background:var(--ink);height:100%}
+  .rc-bye{text-align:center;color:var(--mute)}
   .lb .kb .r{display:flex;align-items:baseline;gap:8px}
-  .lb .kb .r i{flex:1 1 auto;border-bottom:1px dotted currentColor;transform:translateY(-4px);opacity:.45}
   .lb .kb .r b{font-weight:400;color:var(--ink)}
-  .lb .il{color:var(--mute);display:block;margin-bottom:8px}
   .lb .ing{list-style:none;margin:0;padding:0;display:grid;gap:2px}
   .lb .tx{max-width:min(100%,430px)}
   /* листалка — строкой внизу оверлея: две тонкие стрелки и счётчик между ними */
   .lbfoot{flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:clamp(22px,3.4vw,44px);
-          border-top:1px dashed var(--line);padding-top:14px;margin-top:clamp(18px,3vw,32px)}
+          padding-top:6px;margin-top:clamp(14px,2.4vw,26px)}
   .lbfoot .num{color:var(--mute)}
   /* стрелки набраны ASCII: <---  --->, на краях ленты x---  ---x */
   .ar{all:unset;cursor:pointer;display:inline-flex;align-items:center;padding:10px 4px;color:var(--ink);
@@ -398,7 +419,7 @@
       <div class="tile"><div class="im"><img src="img/about/dvor.webp" loading="lazy" alt="Столик у входа: подсолнух, лимоны, меню на клипборде"></div><span class="lab"><span class="cond">Двор</span></span></div>
     </div>
 
-    <div class="bl"><figure class="sk" style="--w:110px;--dy:6em;--dx:9vw;--mx:start"><img src="img/doodles/banki.svg" width="222" height="400" alt="Рисунок: три банки томатов"></figure><p data-i18n="about2" class="big"><sup>2</sup>Редакция — Настя и Стас. Итальянские томаты и тесто, наши гирлянды и банки. Весь тираж собран в <a class="u" href="#menu" data-go="menu">меню</a>.</p></div>
+    <div class="bl"><figure class="sk" style="--w:96px;--dy:6em;--dx:9vw;--mx:start"><img src="img/doodles/stul.svg" width="324" height="452" alt="Рисунок: стул-моноблок"></figure><p data-i18n="about2" class="big"><sup>2</sup>Редакция — Настя и Стас. Итальянские томаты и тесто, наши гирлянды и банки. Весь тираж собран в <a class="u" href="#menu" data-go="menu">меню</a>.</p></div>
 
     <figure class="sk pk" style="--w:96px"><img src="img/doodles/kartina.svg" width="211" height="284" alt="Рисунок: картина в раме"></figure>
     <figure class="portrait">
@@ -412,22 +433,26 @@
 
   <!-- МЕНЮ -->
   <section id="menu">
-    <figure class="doodle doodle-can"><img src="img/doodles/banka.svg" width="147" height="199" alt="Рисунок: банка томатов"></figure>
-    <div class="bl"><figure class="sk" style="--w:84px;--dy:-1.4em;--dx:14vw;--mx:start"><img src="img/doodles/stul.svg" width="324" height="452" alt="Рисунок: стул-моноблок"></figure><p data-i18n="menu1" class="big"><sup>1</sup>Тесто ставим с вечера, печём при вас.</p><p class="hint cap"><span data-i18n="hint-feed">Нажмите на снимок — откроется крупно, с составом и КБЖУ.</span></p></div>
+    <div class="cans" aria-hidden="true">
+      <img class="c1" src="img/doodles/banka.svg" width="147" height="199" alt="">
+      <img class="c2" src="img/doodles/banka.svg" width="147" height="199" alt="">
+      <img class="c3" src="img/doodles/banki.svg" width="222" height="400" alt="">
+    </div>
+    <div class="bl"><p data-i18n="menu1" class="big"><sup>1</sup>Меню меняем каждую неделю. Скоро добавим барную карту.</p></div>
     <div class="mbar">
       <button class="btn" type="button" id="menubtn" aria-expanded="false" aria-controls="sheet">Полное меню</button>
     </div>
     <div class="feed">
-      <figure class="fc" tabindex="0" role="button" data-nm="Маргарита" data-kbju="890,34,30,118" data-ing="томаты сан-марцано, фиор ди латте, базилик, оливковое масло" data-ing-en="San Marzano tomatoes, fior di latte, basil, olive oil" style="--ar:960/1280"><div class="im"><img src="img/feed/margarita.webp" width="960" height="1280" loading="lazy" alt="Маргарита"></div><figcaption class="cap" data-n="01">Маргарита</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Четыре мяса" data-kbju="1180,56,58,104" data-ing="моцарелла, ветчина, пепперони, бекон, колбаски" data-ing-en="mozzarella, ham, pepperoni, bacon, sausage" style="--ar:1000/750"><div class="im"><img src="img/feed/chetyre-myasa.webp" width="1000" height="750" loading="lazy" alt="Четыре мяса"></div><figcaption class="cap" data-n="02">Четыре мяса</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Грибная" data-kbju="900,34,32,116" data-ing="грибы, моцарелла, тимьян, чеснок" data-ing-en="mushrooms, mozzarella, thyme, garlic" style="--ar:960/1280"><div class="im"><img src="img/feed/gribnaya.webp" width="960" height="1280" loading="lazy" alt="Грибная"></div><figcaption class="cap" data-n="03">Грибная</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="С анчоусами, печёным перцем и страчателлой" data-kbju="960,42,40,106" data-ing="томаты, анчоусы, печёный перец, страчателла" data-ing-en="tomatoes, anchovies, roast pepper, stracciatella" style="--ar:960/1280"><div class="im"><img src="img/feed/anchousy-perec-strachatella.webp" width="960" height="1280" loading="lazy" alt="С анчоусами, печёным перцем и страчателлой"></div><figcaption class="cap" data-n="04">С анчоусами, печёным перцем и страчателлой</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="С мортаделлой и артишоками" data-kbju="1010,40,44,110" data-ing="мортаделла, артишоки, моцарелла, песто" data-ing-en="mortadella, artichokes, mozzarella, pesto" style="--ar:1000/750"><div class="im"><img src="img/feed/mortadella-artishoki.webp" width="1000" height="750" loading="lazy" alt="С мортаделлой и артишоками"></div><figcaption class="cap" data-n="05">С мортаделлой и артишоками</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Страчателла с пармой" data-kbju="1080,48,50,104" data-ing="страчателла, пармская ветчина, руккола, оливковое масло" data-ing-en="stracciatella, parma ham, rocket, olive oil" style="--ar:960/1280"><div class="im"><img src="img/feed/strachatella-parma.webp" width="960" height="1280" loading="lazy" alt="Страчателла с пармой"></div><figcaption class="cap" data-n="06">Страчателла с пармой</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Пепероната" data-kbju="340,12,24,16" data-ing="соус ромеско, страчателла, анчоусы" data-ing-en="romesco, stracciatella, anchovies" style="--ar:960/1280"><div class="im"><img src="img/feed/peperonata.webp" width="960" height="1280" loading="lazy" alt="Пепероната"></div><figcaption class="cap" data-n="07">Пепероната</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Взбитая рикотта" data-kbju="460,18,28,32" data-ing="рикотта, печёные черри, песто, фокачча" data-ing-en="ricotta, roast cherry tomatoes, pesto, focaccia" style="--ar:960/1280"><div class="im"><img src="img/feed/vzbitaya-rikotta.webp" width="960" height="1280" loading="lazy" alt="Взбитая рикотта"></div><figcaption class="cap" data-n="08">Взбитая рикотта</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Кростата с клубникой" data-kbju="380,6,16,54" data-ing="песочное тесто, клубника, крем" data-ing-en="shortcrust, strawberry, cream" style="--ar:960/1280"><div class="im"><img src="img/feed/krostata.webp" width="960" height="1280" loading="lazy" alt="Кростата с клубникой"></div><figcaption class="cap" data-n="09">Кростата с клубникой</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Тирамису банановый" data-kbju="420,8,22,48" data-ing="маскарпоне, савоярди, кофе, банан" data-ing-en="mascarpone, savoiardi, coffee, banana" style="--ar:1000/1026"><div class="im"><img src="img/feed/tiramisu.webp" width="1000" height="1026" loading="lazy" alt="Тирамису банановый"></div><figcaption class="cap" data-n="10">Тирамису банановый</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Маргарита" data-msg="Классика. Переиздаём каждый день." data-msg-en="A classic. Reprinted every day." data-kbju="890,34,30,118" data-ing="томаты сан-марцано, фиор ди латте, базилик, оливковое масло" data-ing-en="San Marzano tomatoes, fior di latte, basil, olive oil" style="--ar:960/1280"><div class="im"><img src="img/feed/margarita.webp" width="960" height="1280" loading="lazy" alt="Маргарита"></div><figcaption class="cap" data-n="01">Маргарита</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Четыре мяса" data-msg="Вегетарианцам сюда не надо. Листайте дальше." data-msg-en="Vegetarians, turn the page." data-kbju="1180,56,58,104" data-ing="моцарелла, ветчина, пепперони, бекон, колбаски" data-ing-en="mozzarella, ham, pepperoni, bacon, sausage" style="--ar:1000/750"><div class="im"><img src="img/feed/chetyre-myasa.webp" width="1000" height="750" loading="lazy" alt="Четыре мяса"></div><figcaption class="cap" data-n="02">Четыре мяса</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Грибная" data-msg="Тихая охота заканчивается у нашей печи." data-msg-en="The mushroom hunt ends at our oven." data-kbju="900,34,32,116" data-ing="грибы, моцарелла, тимьян, чеснок" data-ing-en="mushrooms, mozzarella, thyme, garlic" style="--ar:960/1280"><div class="im"><img src="img/feed/gribnaya.webp" width="960" height="1280" loading="lazy" alt="Грибная"></div><figcaption class="cap" data-n="03">Грибная</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="С анчоусами, печёным перцем и страчателлой" data-msg="Солёная, острая, сливочная. По порядку." data-msg-en="Salty, spicy, creamy. In that order." data-kbju="960,42,40,106" data-ing="томаты, анчоусы, печёный перец, страчателла" data-ing-en="tomatoes, anchovies, roast pepper, stracciatella" style="--ar:960/1280"><div class="im"><img src="img/feed/anchousy-perec-strachatella.webp" width="960" height="1280" loading="lazy" alt="С анчоусами, печёным перцем и страчателлой"></div><figcaption class="cap" data-n="04">С анчоусами, печёным перцем и страчателлой</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="С мортаделлой и артишоками" data-msg="Мортаделла, артишок и ничего лишнего." data-msg-en="Mortadella, artichoke, nothing extra." data-kbju="1010,40,44,110" data-ing="мортаделла, артишоки, моцарелла, песто" data-ing-en="mortadella, artichokes, mozzarella, pesto" style="--ar:1000/750"><div class="im"><img src="img/feed/mortadella-artishoki.webp" width="1000" height="750" loading="lazy" alt="С мортаделлой и артишоками"></div><figcaption class="cap" data-n="05">С мортаделлой и артишоками</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Страчателла с пармой" data-msg="Руккола сверху не для фото. Ну, не только." data-msg-en="The rocket isn't just for the photo. Well, not only." data-kbju="1080,48,50,104" data-ing="страчателла, пармская ветчина, руккола, оливковое масло" data-ing-en="stracciatella, parma ham, rocket, olive oil" style="--ar:960/1280"><div class="im"><img src="img/feed/strachatella-parma.webp" width="960" height="1280" loading="lazy" alt="Страчателла с пармой"></div><figcaption class="cap" data-n="06">Страчателла с пармой</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Пепероната" data-msg="Макайте фокаччу. Это разрешено." data-msg-en="Dip the focaccia. It's allowed." data-kbju="340,12,24,16" data-ing="соус ромеско, страчателла, анчоусы" data-ing-en="romesco, stracciatella, anchovies" style="--ar:960/1280"><div class="im"><img src="img/feed/peperonata.webp" width="960" height="1280" loading="lazy" alt="Пепероната"></div><figcaption class="cap" data-n="07">Пепероната</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Взбитая рикотта" data-msg="Намазывайте щедро, мы проверяли." data-msg-en="Spread it generously. We checked." data-kbju="460,18,28,32" data-ing="рикотта, печёные черри, песто, фокачча" data-ing-en="ricotta, roast cherry tomatoes, pesto, focaccia" style="--ar:960/1280"><div class="im"><img src="img/feed/vzbitaya-rikotta.webp" width="960" height="1280" loading="lazy" alt="Взбитая рикотта"></div><figcaption class="cap" data-n="08">Взбитая рикотта</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Кростата с клубникой" data-msg="Десерт можно не заказывать. Но вы уже здесь." data-msg-en="You don't have to order dessert. But you're already here." data-kbju="380,6,16,54" data-ing="песочное тесто, клубника, крем" data-ing-en="shortcrust, strawberry, cream" style="--ar:960/1280"><div class="im"><img src="img/feed/krostata.webp" width="960" height="1280" loading="lazy" alt="Кростата с клубникой"></div><figcaption class="cap" data-n="09">Кростата с клубникой</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Тирамису банановый" data-msg="Кофе и банан. Спорить не будем." data-msg-en="Coffee and banana. No arguments." data-kbju="420,8,22,48" data-ing="маскарпоне, савоярди, кофе, банан" data-ing-en="mascarpone, savoiardi, coffee, banana" style="--ar:1000/1026"><div class="im"><img src="img/feed/tiramisu.webp" width="1000" height="1026" loading="lazy" alt="Тирамису банановый"></div><figcaption class="cap" data-n="10">Тирамису банановый</figcaption></figure>
     </div>
     <div class="sheet" id="sheet" hidden>
       <img src="img/menu-list.webp" width="960" height="1280" alt="Меню на клипборде рядом с тарелкой лимонов">
@@ -496,16 +521,22 @@
     <span class="r"><button class="x" type="button" data-close>Закрыть</button></span></div>
   <div class="in">
     <div class="im"><div class="ph"><span>Фото позиции</span></div></div>
-    <div class="tx">
-      <span class="rno cap"></span>
+    <div class="tx rc">
+      <p class="rc-shop cap">Издательство пиццы<br>пер. Маяковского, 2</p>
+      <p class="rc-meta cap"><span class="rno"></span><span class="rdt"></span></p>
+      <hr class="rc-dash">
       <h2 class="ttl"></h2>
-      <div class="rule"></div>
-      <span class="rh cap" data-i18n="kb-label">На порцию, ориентировочно</span>
+      <hr class="rc-dash">
+      <p class="rc-cols cap"><span data-i18n="kb-label">На порцию</span><span data-i18n="kb-approx">ориентировочно</span></p>
       <div class="kb"></div>
-      <div class="rule"></div>
-      <span class="il cap" data-i18n="ing-label">Состав</span>
-      <ul class="ing"></ul>
-      <div class="rule"></div>
+      <p class="rc-title cap"><span data-i18n="ing-label">Состав</span></p>
+      <ol class="ing"></ol>
+      <hr class="rc-double">
+      <p class="rc-stars" aria-hidden="true"></p>
+      <p class="rc-msg"></p>
+      <p class="rc-stars" aria-hidden="true"></p>
+      <div class="rc-bar" aria-hidden="true"></div>
+      <p class="rc-bye cap" data-i18n="rc-bye">Спасибо, что зашли</p>
     </div>
   </div>
   <div class="lbfoot">
@@ -541,20 +572,36 @@
   const cards = [...document.querySelectorAll('.fc')];
   const lb = document.getElementById('lb');
   let lbi = -1;
-  /* КБЖУ строками, как в чеке: подпись, отточие, число */
+  /* декоративный штрихкод из названия блюда: полосы 1–3 px, детерминированно */
+  function barcode(str){
+    let h = 2166136261;
+    for (const ch of str){ h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; }
+    let out = '';
+    for (let i = 0; i < 44; i++){
+      h ^= h << 13; h >>>= 0; h ^= h >>> 17; h ^= h << 5; h >>>= 0;
+      out += `<i style="width:${1 + h % 3}px;margin-right:${1 + (h >>> 4) % 3}px"></i>`;
+    }
+    return out;
+  }
+  /* КБЖУ строками, как в чеке: подпись слева, число справа */
   function kbRows(d, en){
     const v = d.split(',');
     const labels = en ? ['Kcal','Protein','Fat','Carbs'] : ['Ккал','Белки','Жиры','Углеводы'];
-    return labels.map((l, i) => `<span class="r"><span>${l}</span><i></i><b>${v[i]}</b></span>`).join('');
+    return labels.map((l, i) => `<span class="r"><span>${l}</span><b>${v[i]}</b></span>`).join('');
   }
   function paintLb(){
     if (lbi < 0) return;
     const c = cards[lbi], en = document.documentElement.lang === 'en';
     lb.querySelector('.rno').textContent = (en ? 'No. ' : '№ ') + String(lbi + 1).padStart(2, '0');
+    const d = new Date(), z = n => String(n).padStart(2, '0');
+    lb.querySelector('.rdt').textContent = `${z(d.getDate())}.${z(d.getMonth() + 1)} · ${z(d.getHours())}:${z(d.getMinutes())}`;
+    lb.querySelector('.rc-msg').textContent = (en && c.dataset.msgEn) || c.dataset.msg || '';
+    lb.querySelectorAll('.rc-stars').forEach(el => el.textContent = '*'.repeat(48));
+    lb.querySelector('.rc-bar').innerHTML = barcode(c.dataset.nm);
     lb.querySelector('.ttl').textContent = (en && EN_TEXT[norm(c.dataset.nm)]) || c.dataset.nm;
     lb.querySelector('.kb').innerHTML = kbRows(c.dataset.kbju, en);
     const ing = ((en && c.dataset.ingEn) || c.dataset.ing).split(', ');
-    lb.querySelector('.ing').innerHTML = ing.map(t => `<li>${t}</li>`).join('');
+    lb.querySelector('.ing').innerHTML = ing.map(t => `<li><span>${t}</span></li>`).join('');
     lb.querySelector('.num').textContent = String(lbi + 1).padStart(2, '0') + ' / ' + cards.length;
     lb.style.setProperty('--ar', getComputedStyle(c).getPropertyValue('--ar') || '4/5');
     const img = c.querySelector('img');
@@ -643,10 +690,9 @@
     about1:'<sup>1</sup>We publish pizza in Taganka.<br>Every day is a fresh print run. The editorial office is in Mayakovskogo lane, by <a class="u" href="#book" data-go="book">Marksistskaya</a>, entrance from the end of the building: up the stairs, past bottles with flowers, under a tree with string lights.',
     about2:'<sup>2</sup>The editors are Nastya and Stas. Italian tomatoes and dough, our own string lights and jars. The full print run is collected in the <a class="u" href="#menu" data-go="menu">menu</a>.',
     about3:'<sup>3</sup>Out daily from 12:00 to 22:00. Tables by phone: <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. We look forward to seeing you!',
-    menu1:'<sup>1</sup>The dough rests overnight; we bake it in front of you.',
+    menu1:'<sup>1</sup>The menu changes every week. A bar list is coming soon.',
     'sheet-cap':'This is how the menu lies on our tables.',
-    'kb-label':'Per serving, approximate',
-    'hint-feed':'Tap a photo to see it large, with ingredients and nutrition.',
+    'kb-label':'Per serving','kb-approx':'approximate','rc-bye':'Thanks for coming by',
     lbtop:'Feed',pdftop:'Menu','ing-label':'Ingredients',
         meta:'* Instagram belongs to Meta, designated an extremist organisation in Russia',meta2:'* Instagram belongs to Meta, designated an extremist organisation in Russia',
     owner:'[Sole trader / LLC — TBC] · OGRN [TBC] · [registered address — TBC]',
