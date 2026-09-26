@@ -123,6 +123,9 @@
   .big sup{font-size:.5em;vertical-align:.7em;margin-right:.25em;line-height:0}
   .row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(260px,1fr);gap:var(--g);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:6px}
   .row::-webkit-scrollbar{display:none}
+  /* на телефоне тап не подсвечивается синим; обводка фокуса — только для клавиатуры */
+  *{-webkit-tap-highlight-color:transparent}
+  :focus:not(:focus-visible){outline:none}
   /* полосы прокрутки скрыты везде: у страницы и у оверлеев */
   html,.ov .in{scrollbar-width:none}
   html::-webkit-scrollbar,.ov .in::-webkit-scrollbar{display:none}
