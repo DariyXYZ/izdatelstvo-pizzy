@@ -51,7 +51,7 @@
   .nav .lang{color:var(--mute)}
   .nav .lang{color:var(--mute);padding:6px 0;margin:-6px 0}
   .nav .lang [data-lang].on{color:var(--ink)}
-  .nav a.pill{border:1px solid var(--ink);border-radius:999px;padding:9px 18px;line-height:1;white-space:nowrap}
+  .nav a.pill{border:1px solid var(--ink);border-radius:50%;padding:15px 32px;line-height:1;white-space:nowrap}
   .nav a.pill.on{background:var(--ink);color:var(--bg)}
   .logo{text-align:center;line-height:.8;display:block}
   .logo .l1{font-family:var(--serif);font-size:var(--l1);text-transform:uppercase;letter-spacing:-.01em;display:inline-block;transform:scaleX(.82);transform-origin:center}
@@ -146,10 +146,11 @@
   .doodle img{height:auto;width:auto;max-width:100%;display:block}
   .doodle-house img{max-height:34dvh}
   /* банки в шапке меню стоят на одной линии: одна слева, крупная по центру, тройка рядом с ней */
-  .cans{display:flex;align-items:flex-end;justify-content:center;margin:clamp(28px,4vw,48px) 0 clamp(8px,1.6vw,20px)}
+  .cans{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;margin:clamp(28px,4vw,48px) 0 clamp(8px,1.6vw,20px)}
+  .cans .menubtn{align-self:center}
   .cans img{display:block;width:auto}
-  .cans .c1{height:clamp(72px,7.8dvh,84px);margin-right:auto}
-  .cans .c3{height:clamp(144px,15.6dvh,168px)}
+  .cans .c1{height:clamp(72px,7.8dvh,84px);justify-self:start}
+  .cans .c3{height:clamp(144px,15.6dvh,168px);justify-self:end}
   /* формы под предмет: лайтбокс — скруглённый прямоугольник, бутылка — высокая узкая */
   .sk.box .ph{aspect-ratio:4/3;border-radius:12px}
   .sk.tall .ph{aspect-ratio:1/2.6;border-radius:6px}
@@ -167,21 +168,25 @@
   .team figcaption .cap{color:var(--mute)}
 
   /* меню = лента снимков + полное меню отдельным файлом (владельцы меняют его сами) */
-  #menu .big{margin-bottom:14px;margin-top:clamp(12px,2.4vh,32px)}
+  #menu .big{margin-bottom:clamp(20px,3vw,32px);margin-top:clamp(30px,5vh,60px)}
   #menu .bl .sk{margin-top:calc(clamp(12px,2.4vh,32px) + var(--dy,0em))}
   .hint{color:var(--mute);margin:0 0 clamp(28px,4vw,52px)}
   /* подсказка — под текстом, кружок тянется на обе строки грида */
   .bl .big{grid-column:1}.bl .hint{grid-column:1;grid-row:2}.bl .sk{grid-column:2;grid-row:1/span 2}
   /* кнопка-пилюля вне .nav (в .nav свой селектор .nav a.pill — не смешивать) */
-  .btn{all:unset;cursor:pointer;font-family:var(--sans);font-size:16px;line-height:1;white-space:nowrap;border:1px solid var(--ink);border-radius:999px;padding:9px 18px}
+  /* кнопки — овал, а не прямоугольник со скруглением */
+  .btn{all:unset;cursor:pointer;font-family:var(--sans);font-size:16px;line-height:1;white-space:nowrap;border:1px solid var(--ink);border-radius:50%;padding:15px 32px}
   .btn:hover{background:var(--ink);color:var(--bg)}
   .btn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-  /* плашка с кнопкой не уезжает: снимки листаются под ней */
-  .mbar{position:sticky;top:var(--hdr,64px);z-index:4;background:var(--bg);
-        display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px clamp(16px,2.2vw,32px);
-        align-self:stretch;width:100%;box-sizing:border-box;
-        padding:10px 0 16px;border-bottom:1px dashed var(--line);margin:0 0 clamp(20px,3vw,40px)}
+  /* в покое под текстом только пунктир; когда кнопку между банками прокрутили —
+     под шапкой проявляется полоса с её двойником, лента листается под ней */
+  .mbar{position:sticky;top:var(--hdr,64px);z-index:4;height:0;border-bottom:1px dashed var(--line);margin:0 0 clamp(20px,3vw,40px)}
+  .mbar-in{position:absolute;left:calc(-1 * var(--gut));right:calc(-1 * var(--gut));top:0;padding:10px var(--gut) 12px;
+           background:var(--bg);border-bottom:1px dashed var(--line);display:flex;justify-content:center;visibility:hidden}
+  .mbar.show .mbar-in{visibility:visible}
+  .mbar.show{border-bottom-color:transparent}
   .mbar .cap{color:var(--mute);max-width:44ch}
+
   /* лента: каменная кладка колонками, порядок сверху вниз внутри колонки */
   .feed{columns:6 190px;column-gap:var(--g)}
   .fc{margin:0 0 var(--g);break-inside:avoid;cursor:pointer;display:block;width:100%}
@@ -460,13 +465,14 @@
 
   <!-- МЕНЮ -->
   <section id="menu">
-    <div class="cans" aria-hidden="true">
-      <img class="c1" src="img/doodles/banka.svg" width="147" height="199" alt="">
-      <img class="c3" src="img/doodles/banki.svg" width="222" height="400" alt="">
+    <div class="cans">
+      <img class="c1" src="img/doodles/banka.svg" width="147" height="199" alt="" aria-hidden="true">
+      <button class="btn menubtn" type="button" id="menubtn" aria-expanded="false" aria-controls="sheet">Полное меню</button>
+      <img class="c3" src="img/doodles/banki.svg" width="222" height="400" alt="" aria-hidden="true">
     </div>
     <div class="bl"><p data-i18n="menu1" class="big"><sup>1</sup>Меню меняем каждую неделю. Теперь есть вино и коктейли на его основе.</p></div>
     <div class="mbar">
-      <button class="btn" type="button" id="menubtn" aria-expanded="false" aria-controls="sheet">Полное меню</button>
+      <div class="mbar-in"><button class="btn menubtn" type="button" aria-expanded="false" aria-controls="sheet">Полное меню</button></div>
     </div>
     <div class="feed">
       <figure class="fc" tabindex="0" role="button" data-nm="Маргарита" data-msg="Классика. Переиздаём каждый день." data-msg-en="A classic. Reprinted every day." data-kbju="890,34,30,118" data-ing="томаты сан-марцано, фиор ди латте, базилик, оливковое масло" data-ing-en="San Marzano tomatoes, fior di latte, basil, olive oil" style="--ar:960/1280"><div class="im"><img src="img/feed/margarita.webp" width="960" height="1280" loading="lazy" alt="Маргарита"></div><figcaption class="cap" data-n="01">Маргарита</figcaption></figure>
@@ -669,20 +675,31 @@
   /* лист меню встаёт на место ленты; плашка с кнопкой и шапка остаются на месте */
   const msec = document.getElementById('menu');
   const menubtn = document.getElementById('menubtn');
+  const menubtns = document.querySelectorAll('.menubtn');
   const sheet = document.getElementById('sheet');
   function menuLabel(){
     const en = document.documentElement.lang === 'en', on = msec.classList.contains('sheet-on');
-    menubtn.textContent = en ? (on ? 'Close menu' : 'Full menu') : (on ? 'Закрыть меню' : 'Полное меню');
+    const t = en ? (on ? 'Close menu' : 'Full menu') : (on ? 'Закрыть меню' : 'Полное меню');
+    menubtns.forEach(b => b.textContent = t);
   }
-  menubtn.addEventListener('click', () => {
+  menubtns.forEach(b => b.addEventListener('click', () => {
     const on = msec.classList.toggle('sheet-on');
     document.body.classList.toggle('menu-open', on);
     sheet.hidden = !on;
-    menubtn.setAttribute('aria-expanded', String(on));
+    menubtns.forEach(x => x.setAttribute('aria-expanded', String(on)));
     menuLabel();
     window.scrollTo({top:0});
     fitSheet();
-  });
+  }));
+  /* кнопка стоит между банками; как только её прокрутили под шапку — плашка сверху показывает двойника */
+  const mbar = document.querySelector('.mbar');
+  if ('IntersectionObserver' in window){
+    const hdrH = document.querySelector('.hdr').offsetHeight;
+    new IntersectionObserver(([e]) => mbar.classList.toggle('show', !e.isIntersecting && e.boundingClientRect.top < hdrH + 1),
+      {rootMargin: `-${hdrH}px 0px 0px 0px`}).observe(menubtn);
+  } else {
+    mbar.classList.add('show');
+  }
   /* лист вписывается ровно в свободное место под кнопкой: страница не прокручивается,
      шапка и кнопка стоят где стояли — на любой высоте экрана */
   function fitSheet(){
