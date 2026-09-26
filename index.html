@@ -14,6 +14,7 @@
     unicode-range:U+0030-0039;
   }
   :root{
+    --l1:clamp(30px,4vw,56px);
     --bg:#ffffff; --ink:#000000; --mute:#8a8a8a; --ph:#ececec; --line:#000;
     --serif:'Digits',"Times New Roman","Tinos",Times,serif;
     --sans:'Digits',"Sofia Sans Condensed","Apercu Condensed Pro","Arial Narrow",sans-serif;
@@ -40,6 +41,9 @@
   /* header — как у DFF: слева действия, лого по центру, справа разделы */
   .hdr{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:18px 0 10px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;flex:0 0 auto}
   .nav{display:flex;gap:24px;align-items:center}
+  /* ссылки шапки стоят по центру строки «ИЗДАТЕЛЬСТВО», а не всего логотипа с «пиццы» */
+  .hdr{align-items:start}
+  .hdr > .nav{align-self:start;margin-top:calc(var(--l1) * .4 - .62em)}
   .nav.r{justify-content:flex-end}
   .nav a{padding-bottom:2px;border-bottom:1px solid transparent}
   .nav a.on{border-bottom-color:var(--ink)}
@@ -50,7 +54,7 @@
   .nav a.pill{border:1px solid var(--ink);border-radius:999px;padding:9px 18px;line-height:1;white-space:nowrap}
   .nav a.pill.on{background:var(--ink);color:var(--bg)}
   .logo{text-align:center;line-height:.8;display:block}
-  .logo .l1{font-family:var(--serif);font-size:clamp(30px,4vw,56px);text-transform:uppercase;letter-spacing:-.01em;display:inline-block;transform:scaleX(.82);transform-origin:center}
+  .logo .l1{font-family:var(--serif);font-size:var(--l1);text-transform:uppercase;letter-spacing:-.01em;display:inline-block;transform:scaleX(.82);transform-origin:center}
   .logo .l2{font-family:var(--serif);font-size:clamp(15px,1.5vw,22px);display:block;margin-top:-.05em;transform:scaleX(.9);transform-origin:center}
 
   main{flex:1 1 auto;display:flex;flex-direction:column}
@@ -136,6 +140,7 @@
   .sk .ph{aspect-ratio:1;border-radius:50%;padding:10px}
   /* рисунки Дария: без подложки, линия как есть */
   .sk img{display:block;width:100%;height:auto}
+  .sk .dream{font-family:var(--serif);font-style:italic;font-size:clamp(16px,1.4vw,20px);text-align:center;margin-top:8px}
   .pk{margin:clamp(40px,6vw,80px) auto calc(-1 * clamp(10px,2vw,24px)) 0}
   .doodle{display:flex;justify-content:center;margin:clamp(12px,2vw,26px) 0 clamp(8px,1.6vw,20px)}
   .doodle img{height:auto;width:auto;max-width:100%;display:block}
@@ -143,9 +148,8 @@
   /* банки в шапке меню стоят на одной линии: одна слева, крупная по центру, тройка рядом с ней */
   .cans{display:flex;align-items:flex-end;justify-content:center;margin:clamp(28px,4vw,48px) 0 clamp(8px,1.6vw,20px)}
   .cans img{display:block;width:auto}
-  .cans .c1{height:clamp(56px,7.8dvh,84px);margin-right:auto}
-  .cans .c2{height:clamp(100px,14dvh,150px)}
-  .cans .c3{height:clamp(112px,15.6dvh,168px);margin:0 auto 0 clamp(8px,1.4vw,18px)}
+  .cans .c1{height:clamp(72px,7.8dvh,84px);margin-right:auto}
+  .cans .c3{height:clamp(144px,15.6dvh,168px)}
   /* формы под предмет: лайтбокс — скруглённый прямоугольник, бутылка — высокая узкая */
   .sk.box .ph{aspect-ratio:4/3;border-radius:12px}
   .sk.tall .ph{aspect-ratio:1/2.6;border-radius:6px}
@@ -202,7 +206,10 @@
   .lb .in{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(240px,1fr);gap:clamp(20px,4vw,64px);align-items:start;align-content:start}
   /* снимок вписывается по высоте оверлея, ширина считается из пропорции */
   .lb .im{display:flex;align-items:flex-start}
-  .lb .im .ph,.lb .im img{width:auto;height:min(calc(100dvh - 160px),76vh);max-width:100%}
+  /* листалка по центру ширины самой картинки */
+  .lb .pic{min-width:0;width:fit-content;max-width:100%}
+  .lb .pic .lbfoot{justify-content:center}
+  .lb .im .ph,.lb .im img{width:auto;height:min(calc(100dvh - 230px),72vh);max-width:100%}
   .lb .im .ph{aspect-ratio:var(--ar,4/5)}
   .lb .im img{display:block;object-fit:cover}
   .lb .ttl{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.9vw,42px);line-height:1.08;letter-spacing:-.005em;display:block;width:113.6%;transform:scaleX(.88);transform-origin:left top;margin:0 0 16px}
@@ -210,26 +217,29 @@
   .lb .kb,.lb .ing{font-family:var(--sans);font-size:13px;line-height:1.35;letter-spacing:.04em;text-transform:uppercase;color:var(--ink)}
   .lb .kb{margin:0;display:grid;gap:2px}
   /* ——— чек: одна гарнитура, иерархия кеглем, регистром и положением строки ——— */
-  .lb .tx.rc{max-width:min(100%,420px);width:100%;min-width:0;margin:0 auto}
+  .lb .tx.rc{max-width:min(100%,420px);width:100%;min-width:0;margin:0 auto;
+             font-family:var(--sans);font-size:13px;line-height:1.35;letter-spacing:.04em;text-transform:uppercase;color:var(--ink)}
+  .rc *{font-size:inherit;color:inherit}
   .rc p{margin:0}
-  .rc-shop{text-align:center;color:var(--mute);line-height:1.35}
-  .rc-meta{display:flex;justify-content:space-between;color:var(--mute);margin-top:10px !important}
+  .rc-shop{text-align:center}
+  .rc-meta{display:flex;justify-content:space-between;margin:10px 0 16px !important}
   .rc-dash{border:0;border-top:1px dashed var(--line);margin:12px 0}
   .rc-double{border:0;border-top:3px double var(--line);margin:16px 0 12px}
-  .lb .rc .ttl{text-align:center;transform-origin:center top;margin:0 0 0 -6.8%}
-  .rc-cols{display:flex;justify-content:space-between;color:var(--mute);margin-bottom:6px !important}
+  .lb .rc .ttl{font-family:var(--sans);font-weight:400;font-size:inherit;line-height:1.35;letter-spacing:.22em;text-align:center;transform:none;width:auto;margin:0;
+               border:1px solid var(--ink);outline:1px solid var(--ink);outline-offset:3px;padding:12px 10px;text-wrap:balance}
+  .rc-cols{display:flex;justify-content:space-between;margin-top:16px !important}
   .lb .kb .r{display:flex;justify-content:space-between;align-items:baseline}
   /* заголовок внутри линии: - - - СОСТАВ - - - */
-  .rc-title{display:flex;align-items:center;gap:10px;color:var(--mute);margin:14px 0 8px !important}
+  .rc-title{display:flex;align-items:center;gap:10px;margin:14px 0 8px !important}
   .rc-title::before,.rc-title::after{content:"";flex:1 1 auto;border-top:1px dashed var(--line)}
   .lb .ing{counter-reset:ing}
   .lb .ing li{counter-increment:ing;display:flex;gap:14px}
-  .lb .ing li::before{content:counter(ing,decimal-leading-zero);color:var(--mute)}
-  .rc-stars{overflow:hidden;white-space:nowrap;max-width:100%;text-align:center;letter-spacing:.35em;line-height:1;color:var(--ink);font-family:var(--sans);font-size:13px}
-  .rc-msg{text-align:center;font-family:var(--sans);text-transform:uppercase;letter-spacing:.04em;font-size:clamp(15px,1.5vw,17px);line-height:1.25;margin:8px 0 !important;text-wrap:balance}
+  .lb .ing li::before{content:counter(ing,decimal-leading-zero)}
+  .rc-stars{overflow:hidden;white-space:nowrap;max-width:100%;text-align:center;letter-spacing:.35em;line-height:1}
+  .rc-msg{text-align:center;margin:8px 0 !important;text-wrap:balance}
   .rc-bar{height:40px;margin:16px 0 8px;display:flex;justify-content:center;gap:0}
   .rc-bar i{display:block;background:var(--ink);height:100%}
-  .rc-bye{text-align:center;color:var(--mute)}
+  .rc-bye{text-align:center}
   .lb .kb .r{display:flex;align-items:baseline;gap:8px}
   .lb .kb .r b{font-weight:400;color:var(--ink)}
   .lb .ing{list-style:none;margin:0;padding:0;display:grid;gap:2px}
@@ -237,7 +247,7 @@
   /* листалка — строкой внизу оверлея: две тонкие стрелки и счётчик между ними */
   .lbfoot{flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:clamp(22px,3.4vw,44px);
           padding-top:6px;margin-top:clamp(14px,2.4vw,26px)}
-  .lbfoot .num{color:var(--mute)}
+  .lbfoot .num{color:var(--ink)}
   /* стрелки набраны ASCII: <---  --->, на краях ленты x---  ---x */
   .ar{all:unset;cursor:pointer;display:inline-flex;align-items:center;padding:10px 4px;color:var(--ink);
       font-family:var(--sans);font-size:17px;letter-spacing:.06em;white-space:nowrap;line-height:1}
@@ -268,9 +278,17 @@
   .pdfv.miss #pdfout{display:none}
 
   /* бронь = контакты + карта */
-  .ccols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--g);margin-top:clamp(20px,3vw,40px)}
-  .ccols .cap{color:var(--mute);margin-bottom:10px}
-  .ccols p{margin:0;font-size:16px;line-height:1.35}
+  /* газетная справка: двойная линейка сверху, колонки через вертикальные линейки, каждая строка один раз */
+  .ccols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:clamp(20px,3vw,40px);
+         border-top:3px double var(--line);border-bottom:1px solid var(--line);padding:14px 0 16px}
+  .ccols > div{padding:0 clamp(12px,1.6vw,22px)}
+  .ccols > div + div{border-left:1px solid var(--line)}
+  .ccols > div:first-child{padding-left:0}
+  .sk.far{justify-self:end}
+  .bl:has(.sk.far){grid-template-columns:1fr auto}
+  .bl .sk.far{margin-top:clamp(24px,4vh,48px)}
+  .ccols .cap{color:var(--mute);margin-bottom:8px}
+  .ccols p{margin:0;font-size:16px;line-height:1.2}
   /* виджет Яндекс Карт рисует рекламу внизу — контейнер ниже iframe на --ad, лишнее обрезается */
   .map{--ad:210px;aspect-ratio:21/9;min-height:320px;margin-top:clamp(28px,4vw,56px);position:relative;overflow:hidden;filter:grayscale(1)}
   .map iframe{position:absolute;inset:0;width:100%;height:calc(100% + var(--ad));border:0;display:block}
@@ -304,6 +322,9 @@
     .hdr .nav{display:contents}
     .hdr .hx{display:none}
     .h-about{grid-area:about;justify-self:start}.h-lang{grid-area:lang;justify-self:end}
+    .hdr .h-about,.hdr .h-lang{align-self:start;margin-top:calc(var(--l1) * .4 - .62em)}
+    /* у языка поле нажатия расширено padding 6px — компенсируем, чтобы центр совпал с «О нас» */
+    .hdr .nav .h-lang{margin-top:calc(var(--l1) * .4 - .62em - 6px)}
     .logo{grid-area:logo}
     .h-book .full{display:none}.h-book .short{display:inline}
     .acts{display:none}
@@ -312,7 +333,7 @@
     body:has(main[data-tab="home"]) .hdr .hx{display:none}
     body:has(main[data-tab="home"]) .h-about{justify-self:start}
     body:has(main[data-tab="home"]) .acts{display:flex}
-    .logo .l1{font-size:clamp(26px,8vw,34px)}
+    :root{--l1:clamp(26px,8vw,34px)}
     .acts{gap:20px;padding:4px 0 8px}
     .facade img{max-height:46dvh}
     .draw-s img{max-width:90%}
@@ -323,18 +344,24 @@
     .row{grid-auto-columns:80%}
     .team{grid-template-columns:1fr}
     .bl{grid-template-columns:1fr;row-gap:0}
-    /* мобилка: кружок справа от текста, текст обтекает */
+    /* мобилка: рисунок стоит справа над абзацем, текст идёт на всю ширину — без рваных коротких строк */
     .bl{display:block}
-    .sk{width:calc(var(--w,128px) * .64)}
+    .sk{width:calc(var(--w,128px) * .8)}
     /* переносы «для компа» на мобилке не нужны */
     .big br{display:none}
-    .bl .sk{float:right;margin:36px 0 8px 14px;shape-outside:circle(50%)}
-    .bl .sk.tall{shape-outside:none}
+    .bl .sk{float:none;display:block;margin:32px 0 -12px auto;shape-outside:none}
     .team .sk.l,.team .t1,.team .t2{grid-column:auto}
     .team .sk.l{justify-self:end;margin:0}
     .team{clear:both}
     .team .t2 .ph{aspect-ratio:3/2;height:auto}
-    .ccols{grid-template-columns:1fr;gap:18px}
+    /* газетная справка на телефоне: 2×2, линейка посередине и между рядами */
+    .ccols{grid-template-columns:1fr 1fr;padding:0}
+    .ccols > div{padding:12px 12px 14px}
+    .ccols > div + div{border-left:0}
+    .ccols > div:nth-child(odd){padding-left:0}
+    .ccols > div:nth-child(even){border-left:1px solid var(--line);padding-right:0}
+    .ccols > div:nth-child(n+3){border-top:1px solid var(--line)}
+    .ccols p{font-size:15px}
     /* min-height + aspect-ratio давали min-width 746px и горизонтальный скролл */
     .map{aspect-ratio:4/3;min-height:0}
     .cards{grid-template-columns:1fr}
@@ -355,7 +382,7 @@
     .fcols > div:first-child{grid-column:1/-1}
     .ov{padding-left:var(--gut);padding-right:var(--gut)}
     /* нижняя панель: липнет к низу экрана, а у подвала встаёт над ним и не заезжает на него */
-    .tabbar{display:flex;justify-content:space-around;align-items:center;gap:16px;
+    .tabbar{display:flex;justify-content:space-between;align-items:center;gap:16px;
             position:sticky;bottom:0;z-index:6;background:var(--bg);margin:auto calc(-1 * var(--gut)) 0;
             padding:12px var(--gut) calc(12px + env(safe-area-inset-bottom,0px));border-top:1px dashed var(--line)}
     .tabbar a{font-size:15px;padding:4px 2px;border-bottom:1px solid transparent}
@@ -411,7 +438,7 @@
   <section id="about">
     <figure class="doodle doodle-house"><img src="img/doodles/fasad.svg" width="694" height="729" alt="Рисунок: дом, лестница ко входу, деревья во дворе"></figure>
 
-    <div class="bl"><figure class="sk" style="--w:150px;--dy:-.6em;--dx:2vw;--mx:end"><img src="img/doodles/limony.svg" width="358" height="223" alt="Рисунок: два лимона с номерами столиков"></figure><p data-i18n="about1" class="big"><sup>1</sup>Издаём пиццу на Таганке.<br> Каждый день — свежий тираж. Редакция — в переулке Маяковского, у <a class="u" href="#book" data-go="book">Марксистской</a>, вход с торца дома: по лестнице мимо бутылок с цветами, под деревом с гирляндой.</p></div>
+    <div class="bl"><figure class="sk" style="--w:210px;--dy:-.6em;--dx:2vw;--mx:end"><img src="img/doodles/limony.svg" width="358" height="223" alt="Рисунок: два лимона с номерами столиков"></figure><p data-i18n="about1" class="big"><sup>1</sup>Издаём пиццу на Таганке.<br> Каждый день — свежий тираж. Редакция — в переулке Маяковского, у <a class="u" href="#book" data-go="book">Марксистской</a>, вход с торца дома: по лестнице мимо бутылок с цветами, под деревом с гирляндой.</p></div>
     <div class="row">
       <div class="tile"><div class="im"><img src="img/about/vhod.webp" loading="lazy" alt="Лестница ко входу вечером, над ней гирлянда"></div><span class="lab"><span class="cond">Вход</span></span></div>
       <div class="tile"><div class="im"><img src="img/about/zal.webp" loading="lazy" alt="Зал: бра на жёлтой стене, букет на столе"></div><span class="lab"><span class="cond">Зал</span></span></div>
@@ -419,7 +446,7 @@
       <div class="tile"><div class="im"><img src="img/about/dvor.webp" loading="lazy" alt="Столик у входа: подсолнух, лимоны, меню на клипборде"></div><span class="lab"><span class="cond">Двор</span></span></div>
     </div>
 
-    <div class="bl"><figure class="sk" style="--w:96px;--dy:6em;--dx:9vw;--mx:start"><img src="img/doodles/stul.svg" width="324" height="452" alt="Рисунок: стул-моноблок"></figure><p data-i18n="about2" class="big"><sup>2</sup>Редакция — Настя и Стас. Итальянские томаты и тесто, наши гирлянды и банки. Весь тираж собран в <a class="u" href="#menu" data-go="menu">меню</a>.</p></div>
+    <div class="bl"><figure class="sk" style="--w:150px;--dy:6em;--dx:20vw;--mx:start"><img src="img/doodles/stul.svg" width="324" height="452" alt="Рисунок: стул-моноблок"><figcaption class="dream" data-i18n="dream">наша мечта!</figcaption></figure><p data-i18n="about2" class="big"><sup>2</sup>Редакция — Настя и Стас. Итальянские томаты и тесто, наши гирлянды и банки. Весь тираж собран в <a class="u" href="#menu" data-go="menu">меню</a>.</p></div>
 
     <figure class="sk pk" style="--w:96px"><img src="img/doodles/kartina.svg" width="211" height="284" alt="Рисунок: картина в раме"></figure>
     <figure class="portrait">
@@ -428,17 +455,16 @@
     </figure>
 
 
-    <div class="bl"><figure class="sk" style="--w:64px;--dy:-1.4em;--dx:1vw;--mx:end"><img src="img/doodles/cvetok.svg" width="177" height="424" alt="Рисунок: цветок в бутылке"></figure><p data-i18n="about3" class="big"><sup>3</sup>Выходим ежедневно с 12:00 до 22:00. Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. Ждём вас!</p></div>
+    <div class="bl"><figure class="sk" style="--w:96px;--dy:-1.4em;--dx:1vw;--mx:end"><img src="img/doodles/cvetok.svg" width="177" height="424" alt="Рисунок: цветок в бутылке"></figure><p data-i18n="about3" class="big"><sup>3</sup>Выходим ежедневно с 12:00 до 22:00. Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. Ждём вас!</p></div>
   </section>
 
   <!-- МЕНЮ -->
   <section id="menu">
     <div class="cans" aria-hidden="true">
       <img class="c1" src="img/doodles/banka.svg" width="147" height="199" alt="">
-      <img class="c2" src="img/doodles/banka.svg" width="147" height="199" alt="">
       <img class="c3" src="img/doodles/banki.svg" width="222" height="400" alt="">
     </div>
-    <div class="bl"><p data-i18n="menu1" class="big"><sup>1</sup>Меню меняем каждую неделю. Скоро добавим барную карту.</p></div>
+    <div class="bl"><p data-i18n="menu1" class="big"><sup>1</sup>Меню меняем каждую неделю. Теперь есть вино и коктейли на его основе.</p></div>
     <div class="mbar">
       <button class="btn" type="button" id="menubtn" aria-expanded="false" aria-controls="sheet">Полное меню</button>
     </div>
@@ -462,18 +488,15 @@
 
   <!-- ЗАБРОНИРОВАТЬ = контакты + карта -->
   <section id="book">
-    <div class="bl"><figure class="sk" style="--w:120px;--dy:3.5em;--dx:5vw;--mx:end"><img src="img/doodles/limon.svg" width="212" height="181" alt="Рисунок: лимон с номером столика"></figure><p data-i18n="book1" class="big"><sup>1</sup>Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. Редакция — переулок Маяковского, 2, вход с торца дома со стороны Марксистской.</p></div>
+    <div class="bl"><figure class="sk far" style="--w:120px;--dy:3.5em;--dx:0px;--mx:end"><img src="img/doodles/limon.svg" width="212" height="181" alt="Рисунок: лимон с номером столика"></figure><p data-i18n="book1" class="big"><sup>1</sup>Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>.</p></div>
     <div class="ccols">
-      <div><div class="cap">Адрес</div><p data-i18n="addr2">переулок Маяковского, 2<br>м. Марксистская<br>вход с торца дома, со стороны Марксистской — по лестнице</p></div>
-      <div><div class="cap">Часы</div><p>Ежедневно 12:00–22:00</p></div>
-      <div><div class="cap">Связь</div><p data-i18n="contact"><a class="u" href="tel:+79670796093">+7 967 079-60-93</a><br><a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">@pizza.izdat</a>*</p></div>
+      <div><div class="cap">Адрес</div><p data-i18n="c-addr">переулок Маяковского, 2<br>м. Марксистская</p></div>
+      <div><div class="cap">Вход</div><p data-i18n="c-way">с торца дома, со стороны Марксистской, вверх по лестнице</p></div>
+      <div><div class="cap">Часы</div><p data-i18n="c-hours">ежедневно 12:00–22:00<br>в зале и с собой, доставка скоро</p></div>
+      <div><div class="cap">Соцсети</div><p data-i18n="c-social"><a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">@pizza.izdat</a>*</p></div>
     </div>
     <div class="map"><iframe src="https://yandex.ru/map-widget/v1/?ll=37.659627%2C55.739559&z=16&pt=37.659627%2C55.739559%2Cpm2blm" title="Издательство пиццы на Яндекс Картах" loading="lazy" allowfullscreen></iframe></div>
     <p class="maplink"><a class="u" href="https://yandex.ru/maps/org/izdatelstvo_pitstsy/115760984562/" target="_blank" rel="noopener">Открыть в Яндекс Картах</a></p>
-    <div class="cards">
-      <a class="card" href="tel:+79670796093"><span class="cap">Столик</span><span class="ttl">Позвонить</span><span class="cap">Онлайн-бронь появится позже</span></a>
-      <div class="card soon"><span class="cap">Скоро</span><span class="ttl">Доставка</span><span class="cap">Пока — в зале и с собой</span></div>
-    </div>
   </section>
 
   <!-- ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ -->
@@ -520,29 +543,30 @@
   <div class="ovtop"><span class="cap" data-i18n="lbtop">Лента</span>
     <span class="r"><button class="x" type="button" data-close>Закрыть</button></span></div>
   <div class="in">
-    <div class="im"><div class="ph"><span>Фото позиции</span></div></div>
+    <div class="pic"><div class="im"><div class="ph"><span>Фото позиции</span></div></div>
+      <div class="lbfoot">
+        <button class="ar" type="button" data-step="-1" aria-label="Предыдущий снимок"><span class="a-on">&lt;---</span><span class="a-end">x---</span></button>
+        <span class="num cap"></span>
+        <button class="ar" type="button" data-step="1" aria-label="Следующий снимок"><span class="a-on">---&gt;</span><span class="a-end">---x</span></button>
+      </div>
+    </div>
     <div class="tx rc">
-      <p class="rc-shop cap">Издательство пиццы<br>пер. Маяковского, 2</p>
-      <p class="rc-meta cap"><span class="rno"></span><span class="rdt"></span></p>
-      <hr class="rc-dash">
+      <p class="rc-shop">Издательство пиццы<br>пер. Маяковского, 2</p>
+      <p class="rc-meta"><span class="rno"></span><span class="rdt"></span></p>
       <h2 class="ttl"></h2>
+      <p class="rc-cols"><span data-i18n="kb-label">На порцию</span><span data-i18n="kb-approx">ориентировочно</span></p>
       <hr class="rc-dash">
-      <p class="rc-cols cap"><span data-i18n="kb-label">На порцию</span><span data-i18n="kb-approx">ориентировочно</span></p>
       <div class="kb"></div>
-      <p class="rc-title cap"><span data-i18n="ing-label">Состав</span></p>
+      <p class="rc-title"><span data-i18n="ing-label">Состав</span></p>
       <ol class="ing"></ol>
       <hr class="rc-double">
       <p class="rc-stars" aria-hidden="true"></p>
       <p class="rc-msg"></p>
       <p class="rc-stars" aria-hidden="true"></p>
       <div class="rc-bar" aria-hidden="true"></div>
-      <p class="rc-bye cap" data-i18n="rc-bye">Спасибо, что зашли</p>
+      <p class="rc-bye" data-i18n="rc-print">Отпечатано в печи</p>
+      <p class="rc-bye" data-i18n="rc-bye">Спасибо, что зашли</p>
     </div>
-  </div>
-  <div class="lbfoot">
-    <button class="ar" type="button" data-step="-1" aria-label="Предыдущий снимок"><span class="a-on">&lt;---</span><span class="a-end">x---</span></button>
-    <span class="num cap"></span>
-    <button class="ar" type="button" data-step="1" aria-label="Следующий снимок"><span class="a-on">---&gt;</span><span class="a-end">---x</span></button>
   </div>
 </div>
 
@@ -592,7 +616,7 @@
   function paintLb(){
     if (lbi < 0) return;
     const c = cards[lbi], en = document.documentElement.lang === 'en';
-    lb.querySelector('.rno').textContent = (en ? 'No. ' : '№ ') + String(lbi + 1).padStart(2, '0');
+    lb.querySelector('.rno').textContent = (en ? 'Issue No. ' : 'Выпуск № ') + String(lbi + 1).padStart(2, '0');
     const d = new Date(), z = n => String(n).padStart(2, '0');
     lb.querySelector('.rdt').textContent = `${z(d.getDate())}.${z(d.getMonth() + 1)} · ${z(d.getHours())}:${z(d.getMinutes())}`;
     lb.querySelector('.rc-msg').textContent = (en && c.dataset.msgEn) || c.dataset.msg || '';
@@ -690,17 +714,20 @@
     about1:'<sup>1</sup>We publish pizza in Taganka.<br>Every day is a fresh print run. The editorial office is in Mayakovskogo lane, by <a class="u" href="#book" data-go="book">Marksistskaya</a>, entrance from the end of the building: up the stairs, past bottles with flowers, under a tree with string lights.',
     about2:'<sup>2</sup>The editors are Nastya and Stas. Italian tomatoes and dough, our own string lights and jars. The full print run is collected in the <a class="u" href="#menu" data-go="menu">menu</a>.',
     about3:'<sup>3</sup>Out daily from 12:00 to 22:00. Tables by phone: <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. We look forward to seeing you!',
-    menu1:'<sup>1</sup>The menu changes every week. A bar list is coming soon.',
+    menu1:'<sup>1</sup>The menu changes every week. Now with wine and wine-based cocktails.',
     'sheet-cap':'This is how the menu lies on our tables.',
-    'kb-label':'Per serving','kb-approx':'approximate','rc-bye':'Thanks for coming by',
+    'dream':'our dream!',
+    'kb-label':'Per serving','kb-approx':'approximate','rc-bye':'Thanks for coming by','rc-print':'Printed in the oven',
     lbtop:'Feed',pdftop:'Menu','ing-label':'Ingredients',
         meta:'* Instagram belongs to Meta, designated an extremist organisation in Russia',meta2:'* Instagram belongs to Meta, designated an extremist organisation in Russia',
     owner:'[Sole trader / LLC — TBC] · OGRN [TBC] · [registered address — TBC]',
     priv0:'<sup>§</sup>Privacy policy',
     priv1:'<p>This site is the information page of the Pizza Publishing House pizzeria (Moscow, Mayakovskogo lane, 2). Site owner: [sole trader / LLC — TBC], OGRN [TBC], address [TBC], e-mail [TBC].</p><p>The site does not collect or store personal data: it has no forms, registration, online ordering, counters or analytics. It sets no cookies of its own. The chosen interface language is stored in the visitor\'s browser (localStorage) and is not transmitted anywhere.</p><p>The Book page embeds a Yandex Maps widget. When it loads, the browser contacts Yandex servers, which may use their own cookies under the <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noopener">Yandex privacy policy</a>.</p><p>Pages are served by the hosting provider [TBC], which receives the technical request data (IP address, browser type) needed to serve the page. The site has no access to this data and does not process it.</p><p>Tables are booked by phone; calls and messages happen outside the site.</p><p>Questions about this policy: e-mail [TBC]. Revision of 20 September 2026.</p>',
-    book1:'<sup>1</sup>Tables by phone: <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>. The editorial office: Mayakovskogo lane, 2, entrance from the end of the building, Marksistskaya side.',
-    addr2:'Mayakovskogo lane, 2<br>Marksistskaya metro<br>entrance from the end of the building, Marksistskaya side, up the stairs',
-    contact:'<a class="u" href="tel:+79670796093">+7 967 079-60-93</a><br><a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">@pizza.izdat</a>'
+    book1:'<sup>1</sup>Tables by phone: <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>.',
+    'c-addr':'Mayakovskogo lane, 2<br>Marksistskaya metro',
+    'c-way':'from the end of the building, Marksistskaya side, up the stairs',
+    'c-hours':'daily 12:00–22:00<br>dine in and takeaway, delivery soon',
+    'c-social':'<a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">@pizza.izdat</a>*'
   };
   const EN_TEXT = {
     'О нас':'About','Меню':'Menu','Забронировать':'Book a table','Бронь':'Book','Забронировать стол':'Book a table',
