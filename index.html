@@ -100,14 +100,14 @@
   .h-book .short{display:none}
   body:has(main:not([data-tab="home"])) .hdr .hx{display:inline-block}
   /* инфострока и подвал — по 8-колоночной сетке: адрес 1–3, часы 4–5, телефон 6–7, соцсети 8 */
-  .infobar{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:var(--g);align-items:end;padding:18px 0 22px;line-height:1.35}
+  .infobar{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:var(--g);align-items:end;padding:18px 0 22px;line-height:1.15}
   .infobar > :nth-child(1),.fcols > :nth-child(1){grid-column:1/4}
   .infobar > :nth-child(2),.fcols > :nth-child(2){grid-column:4/6}
   .infobar > :nth-child(3),.fcols > :nth-child(3){grid-column:6/8}
   .infobar > :nth-child(4),.fcols > :nth-child(4){grid-column:8}
   .infobar .cap{color:var(--mute);margin-bottom:4px;display:block}
   /* сноска про Meta и реквизиты владельца (ч. 2 ст. 10 149-ФЗ) */
-  .note{color:var(--mute);font-size:11px;line-height:1.3;margin:0 0 14px}
+  .note{color:var(--mute);font-size:11px;line-height:1.15;margin:0 0 14px}
   .note a{text-decoration:underline;text-underline-offset:.12em}
   /* политика конфиденциальности */
   #privacy .txt{max-width:64ch;font-size:16px;line-height:1.4}
@@ -262,14 +262,14 @@
 
   /* футер внутренних страниц */
   /* подвал — чёрная плитка с расшивкой, как на стенах в кафе (и на Марксистской) */
-  footer{--tile:28px;--grout:rgba(255,255,255,.16);margin:clamp(80px,14vh,180px) calc(-1 * var(--gut)) 0;padding:20px var(--gut) calc(20px + var(--fit,0px));line-height:1.35;color:#fff;background-color:#0b0b0b;
+  footer{--tile:28px;--grout:rgba(255,255,255,.16);margin:clamp(80px,14vh,180px) calc(-1 * var(--gut)) 0;padding:20px var(--gut) calc(20px + var(--fit,0px));line-height:1.15;color:#fff;background-color:#0b0b0b;
     background-image:linear-gradient(var(--grout) 1px,transparent 1px),linear-gradient(90deg,var(--grout) 1px,transparent 1px);background-size:var(--tile) var(--tile);background-position:0 0}
   .fcols{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:var(--g);align-items:start}
   .fcols .cap{color:rgba(255,255,255,.55);margin-bottom:4px;display:block}
   footer .soon{color:rgba(255,255,255,.55)}
   /* реквизиты (ч. 2 ст. 10 149-ФЗ) слева, навигация + © справа, в две строки на одном уровне */
-  .legal{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:var(--g);margin-top:28px;color:rgba(255,255,255,.55);font-size:11px;line-height:1.3}
-  .legal p{margin:0 0 6px;display:flex;flex-wrap:wrap;gap:6px 18px}
+  .legal{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:var(--g);margin-top:28px;color:rgba(255,255,255,.55);font-size:11px;line-height:1.15}
+  .legal p{margin:0 0 3px;display:flex;flex-wrap:wrap;gap:3px 18px}
   .legal .ll{grid-column:1/8}
   .legal .lr{grid-column:8}
   .legal .lr nav{display:flex;gap:18px;margin-bottom:6px}
