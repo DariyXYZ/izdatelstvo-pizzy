@@ -209,14 +209,11 @@
   .x:focus-visible,.ov .u:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
   .ov .in{flex:1 1 auto;min-height:0;overflow:auto;padding:clamp(18px,3vw,40px) 0 0}
   .lb .in{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(240px,1fr);gap:clamp(20px,4vw,64px);align-items:start;align-content:start}
-  /* снимок вписывается по высоте оверлея, ширина считается из пропорции */
-  .lb .im{display:flex;align-items:flex-start}
-  /* листалка по центру ширины самой картинки */
-  .lb .pic{min-width:0;width:fit-content;max-width:100%}
-  .lb .pic .lbfoot{justify-content:center}
-  .lb .im .ph,.lb .im img{width:auto;height:min(calc(100dvh - 230px),72vh);max-width:100%}
-  .lb .im .ph{aspect-ratio:var(--ar,4/5)}
-  .lb .im img{display:block;object-fit:cover}
+  /* статичный фрейм: размер не зависит от снимка, снимок вписан по длинной стороне — вёрстка не прыгает при листании */
+  .lb .pic{min-width:0;width:100%}
+  .lb .im{width:100%;height:min(calc(100dvh - 230px),72vh);display:flex;align-items:center;justify-content:center}
+  .lb .im .ph{height:100%;aspect-ratio:var(--ar,4/5);max-width:100%}
+  .lb .im img{display:block;width:100%;height:100%;object-fit:contain}
   .lb .ttl{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.9vw,42px);line-height:1.08;letter-spacing:-.005em;display:block;width:113.6%;transform:scaleX(.88);transform-origin:left top;margin:0 0 16px}
   /* карточка блюда свёрстана как чек: номер, название, пунктир, строки КБЖУ, состав построчно */
   .lb .kb,.lb .ing{font-family:var(--sans);font-size:13px;line-height:1.35;letter-spacing:.04em;text-transform:uppercase;color:var(--ink)}
@@ -226,23 +223,21 @@
              font-family:var(--sans);font-size:13px;line-height:1.35;letter-spacing:.04em;text-transform:uppercase;color:var(--ink)}
   .rc *{font-size:inherit;color:inherit}
   .rc p{margin:0}
-  .rc-shop{text-align:center}
-  .rc-meta{display:flex;justify-content:space-between;margin:10px 0 16px !important}
-  .rc-dash{border:0;border-top:1px dashed var(--line);margin:12px 0}
-  .rc-double{border:0;border-top:3px double var(--line);margin:16px 0 12px}
-  .lb .rc .ttl{font-family:var(--sans);font-weight:400;font-size:inherit;line-height:1.35;letter-spacing:.22em;text-align:center;transform:none;width:auto;margin:0;
-               border:1px solid var(--ink);outline:1px solid var(--ink);outline-offset:3px;padding:12px 10px;text-wrap:balance}
-  .rc-cols{display:flex;justify-content:space-between;margin-top:16px !important}
+  .rc-meta{display:flex;justify-content:space-between;margin:0 !important}
+  /* все линии чека — символы того же шрифта, чёрные; justify раскладывает их ровно от края до края без обрезанных знаков */
+  .rc-rule,.rc-stars,.rc-title .rl{display:block;overflow:hidden;height:1.35em;text-align:justify;text-align-last:justify;letter-spacing:0;margin:12px 0 !important}
+  .rc-title .rl{margin:0 !important;flex:1 1 0;min-width:0}
+  .lb .rc .ttl{font-family:var(--serif);font-weight:400;font-size:clamp(30px,3vw,42px);line-height:1.05;letter-spacing:-.005em;text-transform:none;text-align:center;text-wrap:balance;
+               display:block;width:113.6%;margin:0 0 0 -6.8%;transform:scaleX(.88);transform-origin:center top}
+  .rc-cols{display:flex;justify-content:space-between;margin:0 !important}
   .lb .kb .r{display:flex;justify-content:space-between;align-items:baseline}
   /* заголовок внутри линии: - - - СОСТАВ - - - */
-  .rc-title{display:flex;align-items:center;gap:10px;margin:14px 0 8px !important}
-  .rc-title::before,.rc-title::after{content:"";flex:1 1 auto;border-top:1px dashed var(--line)}
+  .rc-title{display:flex;align-items:center;gap:12px;margin:18px 0 12px !important}
   .lb .ing{counter-reset:ing}
   .lb .ing li{counter-increment:ing;display:flex;gap:14px}
   .lb .ing li::before{content:counter(ing,decimal-leading-zero)}
-  .rc-stars{overflow:hidden;white-space:nowrap;max-width:100%;text-align:center;letter-spacing:.35em;line-height:1}
-  .rc-msg{text-align:center;margin:8px 0 !important;text-wrap:balance}
-  .rc-bar{height:40px;margin:16px 0 8px;display:flex;justify-content:center;gap:0}
+  .rc-msg{text-align:center;margin:0 !important;text-wrap:balance}
+  .rc-bar{height:40px;margin:22px 0 12px;display:flex;justify-content:center;gap:0}
   .rc-bar i{display:block;background:var(--ink);height:100%}
   .rc-bye{text-align:center}
   .lb .kb .r{display:flex;align-items:baseline;gap:8px}
@@ -250,9 +245,11 @@
   .lb .ing{list-style:none;margin:0;padding:0;display:grid;gap:2px}
   .lb .tx{max-width:min(100%,430px)}
   /* листалка — строкой внизу оверлея: две тонкие стрелки и счётчик между ними */
-  .lbfoot{flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:clamp(22px,3.4vw,44px);
+  .lbfoot{flex:0 0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:clamp(22px,3.4vw,44px);
           padding-top:6px;margin-top:clamp(14px,2.4vw,26px)}
   .lbfoot .num{color:var(--ink)}
+  .lbfoot .ar:first-child{justify-self:end}
+  .lbfoot .ar:last-child{justify-self:start}
   /* стрелки набраны ASCII: <---  --->, на краях ленты x---  ---x */
   .ar{all:unset;cursor:pointer;display:inline-flex;align-items:center;padding:10px 4px;color:var(--ink);
       font-family:var(--sans);font-size:17px;letter-spacing:.06em;white-space:nowrap;line-height:1}
@@ -371,7 +368,7 @@
     .fc figcaption{font-size:12px}
     .mbar{gap:10px 16px;padding-bottom:14px}
     .lb .in{grid-template-columns:1fr;gap:18px}
-    .lb .im .ph,.lb .im img{width:100%;height:auto;max-height:46dvh;object-fit:cover}
+    .lb .im{height:46dvh}
     #menu .big{margin-bottom:10px}
     .hint{margin-bottom:40px}
     footer{padding:24px var(--gut) calc(24px + env(safe-area-inset-bottom,0px) + var(--fit,0px));--tile:24px}
@@ -552,15 +549,15 @@
       </div>
     </div>
     <div class="tx rc">
-      <p class="rc-shop">Издательство пиццы<br>пер. Маяковского, 2</p>
       <p class="rc-meta"><span class="rno"></span><span class="rdt"></span></p>
+      <p class="rc-rule" aria-hidden="true"></p>
       <h2 class="ttl"></h2>
+      <p class="rc-rule" aria-hidden="true"></p>
       <p class="rc-cols"><span data-i18n="kb-label">На порцию</span><span data-i18n="kb-approx">ориентировочно</span></p>
-      <hr class="rc-dash">
+      <p class="rc-rule" aria-hidden="true"></p>
       <div class="kb"></div>
-      <p class="rc-title"><span data-i18n="ing-label">Состав</span></p>
+      <p class="rc-title"><span class="rl" aria-hidden="true"></span><span data-i18n="ing-label">Состав</span><span class="rl" aria-hidden="true"></span></p>
       <ol class="ing"></ol>
-      <hr class="rc-double">
       <p class="rc-stars" aria-hidden="true"></p>
       <p class="rc-msg"></p>
       <p class="rc-stars" aria-hidden="true"></p>
@@ -621,7 +618,10 @@
     const d = new Date(), z = n => String(n).padStart(2, '0');
     lb.querySelector('.rdt').textContent = `${z(d.getDate())}.${z(d.getMonth() + 1)} · ${z(d.getHours())}:${z(d.getMinutes())}`;
     lb.querySelector('.rc-msg').textContent = (en && c.dataset.msgEn) || c.dataset.msg || '';
-    lb.querySelectorAll('.rc-stars').forEach(el => el.textContent = '*'.repeat(48));
+    const row = (ch, n) => Array(n).fill(ch).join(' ');
+    lb.querySelectorAll('.rc-rule').forEach(el => el.textContent = row('•', 30));
+    lb.querySelectorAll('.rc-title .rl').forEach(el => el.textContent = row('•', 11));
+    lb.querySelectorAll('.rc-stars').forEach(el => el.textContent = row('*', 30));
     lb.querySelector('.rc-bar').innerHTML = barcode(c.dataset.nm);
     lb.querySelector('.ttl').textContent = (en && EN_TEXT[norm(c.dataset.nm)]) || c.dataset.nm;
     lb.querySelector('.kb').innerHTML = kbRows(c.dataset.kbju, en);
