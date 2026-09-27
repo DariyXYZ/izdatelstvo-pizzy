@@ -146,7 +146,12 @@
   .sk .ph{aspect-ratio:1;border-radius:50%;padding:10px}
   /* рисунки Дария: без подложки, линия как есть */
   .sk img{display:block;width:100%;height:auto}
-  .sk .dream{font-family:var(--serif);font-style:italic;font-size:clamp(16px,1.4vw,20px);text-align:center;margin-top:8px}
+  .sk .dream{font-family:var(--serif);font-style:italic;font-size:clamp(16px,1.4vw,20px);line-height:1}
+  /* выноска: подпись слева от стула, от её конца тонкая линия вниз к сиденью */
+  .sk:has(.dream){position:relative}
+  .sk .dream{position:absolute;right:calc(100% + 56px);top:30%;white-space:nowrap}
+  .sk .dream::after{content:"";position:absolute;left:calc(100% + 10px);top:.5em;width:62px;height:2px;border-radius:1px;background:var(--ink);transform:rotate(30deg);transform-origin:0 0}
+  .sk.bookend{margin:clamp(32px,5vw,56px) 0 0 auto}
   .pk{margin:clamp(40px,6vw,80px) auto calc(-1 * clamp(10px,2vw,24px)) 0}
   .doodle{display:flex;justify-content:center;margin:clamp(12px,2vw,26px) 0 clamp(8px,1.6vw,20px)}
   .doodle img{height:auto;width:auto;max-width:100%;display:block}
@@ -437,7 +442,7 @@
   <section id="about">
     <figure class="doodle doodle-house"><img src="img/doodles/fasad.svg" width="694" height="729" alt="Рисунок: дом, лестница ко входу, деревья во дворе"></figure>
 
-    <div class="bl"><figure class="sk" style="--w:210px;--dy:-.6em;--dx:2vw;--mx:end"><img src="img/doodles/limony.svg" width="358" height="223" alt="Рисунок: два лимона с номерами столиков"></figure><p data-i18n="about1" class="big"><sup>1</sup>Издаём пиццу на Таганке.<br> Каждый день — свежий тираж. Редакция — в переулке Маяковского, у <a class="u" href="#book" data-go="book">Марксистской</a>, вход с торца дома: по лестнице мимо бутылок с цветами, под деревом с гирляндой.</p></div>
+    <div class="bl"><p data-i18n="about1" class="big"><sup>1</sup>Издаём пиццу на Таганке.<br> Каждый день — свежий тираж. Редакция — в переулке Маяковского, у <a class="u" href="#book" data-go="book">Марксистской</a>, вход с торца дома: по лестнице мимо бутылок с цветами, под деревом с гирляндой.</p></div>
     <div class="row">
       <div class="tile"><div class="im"><img src="img/about/vhod.webp" loading="lazy" alt="Лестница ко входу вечером, над ней гирлянда"></div><span class="lab"><span class="cond">Вход</span></span></div>
       <div class="tile"><div class="im"><img src="img/about/zal.webp" loading="lazy" alt="Зал: бра на жёлтой стене, букет на столе"></div><span class="lab"><span class="cond">Зал</span></span></div>
@@ -489,7 +494,7 @@
 
   <!-- ЗАБРОНИРОВАТЬ = контакты + карта -->
   <section id="book">
-    <div class="bl"><figure class="sk far" style="--w:120px;--dy:3.5em;--dx:0px;--mx:end"><img src="img/doodles/limon.svg" width="212" height="181" alt="Рисунок: лимон с номером столика"></figure><p data-i18n="book1" class="big"><sup>1</sup>Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>.</p></div>
+    <div class="bl"><figure class="sk far" style="--w:210px"><img src="img/doodles/limony.svg" width="358" height="223" alt="Рисунок: два лимона с номерами столиков"></figure><p data-i18n="book1" class="big"><sup>1</sup>Столик — по телефону <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>.</p></div>
     <div class="ccols">
       <div><div class="cap">Адрес</div><p data-i18n="c-addr">переулок Маяковского, 2<br>м. Марксистская</p></div>
       <div><div class="cap">Вход</div><p data-i18n="c-way">с торца дома, со стороны Марксистской, вверх по лестнице</p></div>
@@ -498,6 +503,7 @@
     </div>
     <div class="map"><iframe src="https://yandex.ru/map-widget/v1/?ll=37.659627%2C55.739559&z=16&pt=37.659627%2C55.739559%2Cpm2blm" title="Издательство пиццы на Яндекс Картах" loading="lazy" allowfullscreen></iframe></div>
     <p class="maplink"><a class="u" href="https://yandex.ru/maps/org/izdatelstvo_pitstsy/115760984562/" target="_blank" rel="noopener">Открыть в Яндекс Картах</a></p>
+    <figure class="sk bookend" style="--w:120px"><img src="img/doodles/limon.svg" width="212" height="181" alt="Рисунок: лимон с номером столика"></figure>
   </section>
 
   <!-- ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ -->
