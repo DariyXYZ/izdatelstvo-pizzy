@@ -163,12 +163,18 @@
   .doodle img{height:auto;width:auto;max-width:100%;display:block}
   .doodle-house img{max-height:34dvh}
   /* банки в шапке меню стоят на одной линии: одна слева, крупная по центру, тройка рядом с ней */
-  /* кнопка «Полное меню» стоит по центру строки банок и, доехав до шапки, приклеивается к ней.
-     Обёртка нулевой высоты и липкая на всю секцию; банки идут под ней обычным потоком */
-  #menu{--ch:clamp(144px,15.6dvh,168px);--cm:clamp(28px,4vw,48px);--bh:62px}
-  .mhold{position:sticky;top:calc(var(--hdr,64px) + 8px);z-index:5;height:0;border-top:1px solid transparent;
+  /* кнопка «Полное меню» стоит по центру строки банок, статично. Обёртка нулевой высоты; банки идут под ней обычным потоком */
+  #menu{--ch:clamp(144px,15.6dvh,168px);--cm:clamp(28px,4vw,48px)}
+  .mhold{position:relative;z-index:5;height:0;border-top:1px solid transparent;
          display:flex;justify-content:center;margin-top:calc(var(--cm) + (var(--ch) - var(--bh)) / 2 - 1px)}
-  .mhold .menubtn{position:relative;z-index:2;background:var(--bg);box-sizing:border-box;height:var(--bh);align-self:flex-start;min-width:calc(7.2em + 50px);text-align:center}
+  .mhold .menubtn{position:relative;z-index:2;align-self:flex-start}
+  /* форма кнопки меню — вектор «кнопка - полное меню.svg» (плашка с клювом вниз), линия всегда 1px */
+  :root{--bh:70px}
+  .btn.menubtn{box-sizing:border-box;height:var(--bh);width:calc(var(--bh) * 1602 / 510);display:inline-flex;align-items:center;justify-content:center;
+           padding:0 0 calc(var(--bh) * .26);border:0;border-radius:0;text-align:center;
+           background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-6 -6 1614 522' preserveAspectRatio='none'%3E%3Cpath d='M50 3H1551.4C1579 3 1600.7 26.8 1598.2 54.3L1572.4 335.3C1570.2 359.5 1549.9 378 1525.6 378H1158.9C1128.4 378 1098.4 384.8 1070.9 398L886.5 486.7C832.6 512.6 769.8 512.6 715.9 486.7L531.5 398C504 384.8 474 378 443.5 378H75.8C51.5 378 31.2 359.5 29 335.3L3.2 54.3C.7 26.8 22.3 3 50 3Z' fill='white' stroke='black' stroke-width='1.2' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+  @media (hover:hover){.btn.menubtn:hover{color:#fff;
+           background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-6 -6 1614 522' preserveAspectRatio='none'%3E%3Cpath d='M50 3H1551.4C1579 3 1600.7 26.8 1598.2 54.3L1572.4 335.3C1570.2 359.5 1549.9 378 1525.6 378H1158.9C1128.4 378 1098.4 384.8 1070.9 398L886.5 486.7C832.6 512.6 769.8 512.6 715.9 486.7L531.5 398C504 384.8 474 378 443.5 378H75.8C51.5 378 31.2 359.5 29 335.3L3.2 54.3C.7 26.8 22.3 3 50 3Z' fill='black' stroke='black' stroke-width='1.2' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center/100% 100% no-repeat}}
   .cans{display:grid;grid-template-columns:1fr 1fr;align-items:end;margin:calc((var(--ch) - var(--bh)) / -2) 0 clamp(8px,1.6vw,20px)}
   .cans img{display:block;width:auto}
   .cans .c1{height:clamp(72px,7.8dvh,84px);justify-self:start}
@@ -283,11 +289,18 @@
   /* файл меню грузим только при открытии, чтобы не тянуть его на каждой загрузке страницы */
   .pdfv .in{padding-top:0}
   /* лист меню встаёт на место ленты и сам не скроллится */
-  /* полное меню — лист A4 во всю подложку (чёрный контур, скруглённые углы), начинается от центра кнопки,
-     кнопка лежит поверх листа зажимом. Размер считает fitSheet() */
-  .sheet{position:absolute;top:calc(var(--bh) / 2);left:50%;transform:translateX(-50%);z-index:1;
-         background:var(--bg);border:1px solid var(--ink);border-radius:18px;padding:0;overflow:hidden}
-  .sheet img{display:block;aspect-ratio:210/297;width:var(--sw,300px);height:auto;object-fit:cover}
+  /* полное меню — оверлей по центру экрана (и на телефоне, и на компе): лист в чёрном контуре,
+     кнопка «Закрыть меню» лежит на верхнем крае зажимом; страницы (еда, потом напитки) листаются внутри листа */
+  .mback{position:fixed;inset:0;z-index:220;display:flex;align-items:center;justify-content:center;
+         background:rgba(255,255,255,.86);padding:12px var(--gut)}
+  .mback[hidden]{display:none}
+  .mwrap{position:relative;padding-top:calc(var(--bh) / 2);width:min(560px,100%)}
+  .mwrap .menubtn{position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:2}
+  .sheet{background:var(--bg);border:1px solid var(--ink);border-radius:18px;overflow:auto;overscroll-behavior:contain;
+         max-height:calc(100dvh - 24px - var(--bh) / 2);scrollbar-width:none}
+  .sheet::-webkit-scrollbar{display:none}
+  .sheet img{display:block;width:100%;height:auto}
+  html.menu-open{overflow:hidden}
   .tabbar{display:none}
   .pdfmiss{display:none;font-family:var(--serif);font-style:italic;color:var(--mute);padding:clamp(40px,10vh,120px) 0;text-align:center}
   .pdfv.miss iframe{display:none}
@@ -471,7 +484,12 @@
   <section id="menu">
     <div class="mhold">
       <button class="btn menubtn" type="button" id="menubtn" aria-expanded="false" aria-controls="sheet">Полное меню</button>
-      <div class="sheet" id="sheet" hidden><img src="img/menu-list.webp" width="838" height="1187" alt="Полное меню"></div>
+    </div>
+    <div class="mback" id="sheet" hidden role="dialog" aria-modal="true" aria-label="Полное меню">
+      <div class="mwrap">
+        <button class="btn menubtn" type="button" id="menux">Закрыть меню</button>
+        <div class="sheet"><img src="img/menu-list.webp" width="838" height="1187" alt="Полное меню"><img src="img/menu-drinks.webp" width="838" height="2707" loading="lazy" alt="Меню: вино и коктейли"></div>
+      </div>
     </div>
     <div class="cans" aria-hidden="true">
       <img class="c1" src="img/doodles/banka.svg" width="147" height="199" alt="">
@@ -691,38 +709,26 @@
     if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) openLb(lbi + (dx < 0 ? 1 : -1));
   });
 
-  /* лист меню встаёт на место ленты; плашка с кнопкой и шапка остаются на месте */
+  /* полное меню — оверлей по центру экрана; закрывается кнопкой, кликом мимо листа и Esc */
   const msec = document.getElementById('menu');
   const menubtn = document.getElementById('menubtn');
-  const menubtns = document.querySelectorAll('.menubtn');
+  const menux = document.getElementById('menux');
   const sheet = document.getElementById('sheet');
   function menuLabel(){
-    const en = document.documentElement.lang === 'en', on = msec.classList.contains('sheet-on');
-    const t = en ? (on ? 'Close menu' : 'Full menu') : (on ? 'Закрыть меню' : 'Полное меню');
-    menubtns.forEach(b => b.textContent = t);
+    const en = document.documentElement.lang === 'en';
+    menubtn.textContent = en ? 'Full menu' : 'Полное меню';
+    menux.textContent = en ? 'Close menu' : 'Закрыть меню';
   }
-  menubtns.forEach(b => b.addEventListener('click', () => {
-    const on = msec.classList.toggle('sheet-on');
-    document.body.classList.toggle('menu-open', on);
+  function setMenu(on){
     sheet.hidden = !on;
-    menubtns.forEach(x => x.setAttribute('aria-expanded', String(on)));
-    menuLabel();
-    fitSheet();
-  }));
-  /* лист A4 — максимум по ширине колонки, но доска целиком помещается в экран под кнопкой.
-     Приклеившись, кнопка только поднимается — места становится больше, доска не вылезает */
-  function fitSheet(){
-    if (!msec.classList.contains('sheet-on')) return;
-    const cs = getComputedStyle(sheet);
-    const px = parseFloat(cs.paddingLeft) * 2 + parseFloat(cs.borderLeftWidth) * 2;
-    const py = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom) + parseFloat(cs.borderTopWidth) * 2;
-    const tb = document.querySelector('.tabbar');
-    const tbh = tb && getComputedStyle(tb).display !== 'none' ? tb.offsetHeight : 0;
-    const maxW = document.querySelector('.cans').clientWidth - px;
-    const maxH = innerHeight - sheet.getBoundingClientRect().top - tbh - 12 - py;
-    sheet.style.setProperty('--sw', Math.max(160, Math.min(maxW, maxH * 210 / 297)) + 'px');
+    document.documentElement.classList.toggle('menu-open', on);
+    menubtn.setAttribute('aria-expanded', String(on));
+    if (on) { sheet.querySelector('.sheet').scrollTop = 0; menux.focus(); } else menubtn.focus();
   }
-  window.addEventListener('resize', fitSheet);
+  menubtn.addEventListener('click', () => setMenu(true));
+  menux.addEventListener('click', () => setMenu(false));
+  sheet.addEventListener('click', e => { if (e.target === sheet) setMenu(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !sheet.hidden) setMenu(false); });
 
   document.querySelectorAll('.ov [data-close]').forEach(b =>
     b.addEventListener('click', () => closeOv(b.closest('.ov'))));
