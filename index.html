@@ -52,7 +52,7 @@
   .nav .lang{color:var(--mute)}
   .nav .lang{color:var(--mute);padding:6px 0;margin:-6px 0;white-space:nowrap}
   .nav .lang [data-lang].on{color:var(--ink)}
-  .nav a.pill{border:1px solid var(--ink);border-radius:50%;padding:15px 32px;line-height:1;white-space:nowrap}
+  .nav a.pill{border:1px solid var(--ink);border-radius:38% / 50%;padding:20px 34px;line-height:1;white-space:nowrap}
   .nav a.pill.on{background:var(--ink);color:var(--bg)}
   .logo{text-align:center;line-height:.8;display:block}
   .logo .l1{font-family:var(--serif);font-size:var(--l1);text-transform:uppercase;letter-spacing:-.01em;display:inline-block;transform:scaleX(.82);transform-origin:center}
@@ -160,10 +160,10 @@
   /* банки в шапке меню стоят на одной линии: одна слева, крупная по центру, тройка рядом с ней */
   /* кнопка «Полное меню» стоит по центру строки банок и, доехав до шапки, приклеивается к ней.
      Обёртка нулевой высоты и липкая на всю секцию; банки идут под ней обычным потоком */
-  #menu{--ch:clamp(144px,15.6dvh,168px);--cm:clamp(28px,4vw,48px);--bh:48px}
+  #menu{--ch:clamp(144px,15.6dvh,168px);--cm:clamp(28px,4vw,48px);--bh:58px}
   .mhold{position:sticky;top:calc(var(--hdr,64px) + 8px);z-index:5;height:0;border-top:1px solid transparent;
          display:flex;justify-content:center;margin-top:calc(var(--cm) + (var(--ch) - var(--bh)) / 2 - 1px)}
-  .mhold .menubtn{position:relative;z-index:2;background:var(--bg);box-sizing:border-box;height:var(--bh);align-self:flex-start}
+  .mhold .menubtn{position:relative;z-index:2;background:var(--bg);box-sizing:border-box;height:var(--bh);align-self:flex-start;min-width:calc(7.2em + 70px);text-align:center}
   .cans{display:grid;grid-template-columns:1fr 1fr;align-items:end;margin:calc((var(--ch) - var(--bh)) / -2) 0 clamp(8px,1.6vw,20px)}
   .cans img{display:block;width:auto}
   .cans .c1{height:clamp(72px,7.8dvh,84px);justify-self:start}
@@ -192,7 +192,7 @@
   .bl .big{grid-column:1}.bl .hint{grid-column:1;grid-row:2}.bl .sk{grid-column:2;grid-row:1/span 2}
   /* кнопка-пилюля вне .nav (в .nav свой селектор .nav a.pill — не смешивать) */
   /* кнопки — овал, а не прямоугольник со скруглением */
-  .btn{all:unset;cursor:pointer;font-family:var(--sans);font-size:16px;line-height:1;white-space:nowrap;border:1px solid var(--ink);border-radius:50%;padding:15px 32px}
+  .btn{all:unset;cursor:pointer;font-family:var(--sans);font-size:16px;line-height:1;white-space:nowrap;border:1px solid var(--ink);border-radius:38% / 50%;padding:20px 34px}
   /* заливка при наведении — только там, где есть мышь: на телефоне :hover залипает после тапа */
   @media (hover:hover){.btn:hover{background:var(--ink);color:var(--bg)}}
   .btn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
@@ -216,7 +216,7 @@
   .ovtop{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:12px;border-bottom:1px dashed var(--line);flex:0 0 auto}
   .ovtop .cap{color:var(--mute)}
   .ovtop .r{display:flex;align-items:center;gap:clamp(12px,2vw,26px)}
-  .x{all:unset;cursor:pointer;font-family:var(--sans);font-size:16px;text-transform:uppercase;letter-spacing:.02em}
+  .x{all:unset;cursor:pointer;font-family:var(--sans);font-size:16px}
   .x:focus-visible,.ov .u:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
   .ov .in{flex:1 1 auto;min-height:0;overflow:auto;padding:clamp(18px,3vw,40px) 0 0}
   .lb .in{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(240px,1fr);gap:clamp(20px,4vw,64px);align-items:start;align-content:start}
@@ -390,7 +390,7 @@
     /* нижняя панель: липнет к низу экрана, а у подвала встаёт над ним и не заезжает на него */
     .tabbar{display:flex;justify-content:space-between;align-items:center;gap:16px;
             position:sticky;bottom:0;z-index:6;background:var(--bg);margin:auto calc(-1 * var(--gut)) 0;
-            padding:12px var(--gut) calc(12px + env(safe-area-inset-bottom,0px));border-top:1px dashed var(--line)}
+            padding:12px var(--gut) calc(12px + env(safe-area-inset-bottom,0px))}
     .tabbar a{font-size:15px;padding:4px 2px;border-bottom:1px solid transparent}
     .tabbar a.on{color:var(--mute)}
     body:has(main[data-tab="home"]) .tabbar{display:none}
@@ -479,7 +479,7 @@
       <figure class="fc" tabindex="0" role="button" data-nm="Страчателла с пармой" data-msg="Руккола сверху не для фото. Ну, не только." data-msg-en="The rocket isn&#x27;t just for the photo. Well, not only." data-kbju="1080,48,50,104" data-ing="страчателла, пармская ветчина, руккола, оливковое масло" data-ing-en="stracciatella, parma ham, rocket, olive oil" style="--ar:960/1279"><div class="im"><img src="img/feed/strachatella-parma.webp" width="960" height="1279" loading="lazy" alt="Страчателла с пармой"></div><figcaption class="cap" data-n="01">Страчателла с пармой</figcaption></figure>
       <figure class="fc" tabindex="0" role="button" data-nm="Острая диавола" data-msg="Острая. Мы предупреждали ещё в названии." data-msg-en="Spicy. The name did warn you." data-kbju="1050,44,48,108" data-ing="томаты, моцарелла, ндуя, спьяната калабра, чили" data-ing-en="tomatoes, mozzarella, nduja, spianata calabra, chili" style="--ar:960/1280"><div class="im"><img src="img/feed/diavola.webp" width="960" height="1280" loading="lazy" alt="Острая диавола"></div><figcaption class="cap" data-n="02">Острая диавола</figcaption></figure>
       <figure class="fc" tabindex="0" role="button" data-nm="Груша с горгонзолой" data-msg="Сладкое и солёное договорились." data-msg-en="Sweet and salty made a deal." data-kbju="980,38,42,112" data-ing="груша, горгонзола, моцарелла" data-ing-en="pear, gorgonzola, mozzarella" style="--ar:960/1280"><div class="im"><img src="img/feed/grusha-gorgonzola.webp" width="960" height="1280" loading="lazy" alt="Груша с горгонзолой"></div><figcaption class="cap" data-n="03">Груша с горгонзолой</figcaption></figure>
-      <figure class="fc" tabindex="0" role="button" data-nm="Четыре сыра" data-msg="Четыре сыра, ноль компромиссов." data-msg-en="Four cheeses, zero compromise." data-kbju="1100,50,54,104" data-ing="моцарелла, горгонзола, пармезан, рикотта" data-ing-en="mozzarella, gorgonzola, parmesan, ricotta" style="--ar:960/1280"><div class="im"><img src="img/feed/chetyre-syra.webp" width="960" height="1280" loading="lazy" alt="Четыре сыра"></div><figcaption class="cap" data-n="04">Четыре сыра</figcaption></figure>
+      <figure class="fc" tabindex="0" role="button" data-nm="Грибная с лисичками" data-msg="Лисички из леса, остальное из печи." data-msg-en="Chanterelles from the forest, the rest from the oven." data-kbju="920,36,34,114" data-ing="лисички, моцарелла, руккола, пармезан" data-ing-en="chanterelles, mozzarella, arugula, parmesan" style="--ar:960/1280"><div class="im"><img src="img/feed/chetyre-syra.webp" width="960" height="1280" loading="lazy" alt="Грибная с лисичками"></div><figcaption class="cap" data-n="04">Грибная с лисичками</figcaption></figure>
       <figure class="fc" tabindex="0" role="button" data-nm="Четыре мяса" data-msg="Вегетарианцам сюда не надо. Листайте дальше." data-msg-en="Vegetarians, turn the page." data-kbju="1180,56,58,104" data-ing="моцарелла, ветчина, пепперони, бекон, колбаски" data-ing-en="mozzarella, ham, pepperoni, bacon, sausage" style="--ar:960/1280"><div class="im"><img src="img/feed/chetyre-myasa.webp" width="960" height="1280" loading="lazy" alt="Четыре мяса"></div><figcaption class="cap" data-n="05">Четыре мяса</figcaption></figure>
       <figure class="fc" tabindex="0" role="button" data-nm="С креветками, цукини, миндалём и рикоттой" data-msg="Лето, которое можно разрезать на восемь." data-msg-en="Summer, cut into eight." data-kbju="920,46,36,104" data-ing="креветки, цукини, миндаль, рикотта, моцарелла" data-ing-en="shrimp, zucchini, almond, ricotta, mozzarella" style="--ar:960/1280"><div class="im"><img src="img/feed/krevetki-cukini.webp" width="960" height="1280" loading="lazy" alt="С креветками, цукини, миндалём и рикоттой"></div><figcaption class="cap" data-n="06">С креветками, цукини, миндалём и рикоттой</figcaption></figure>
       <figure class="fc" tabindex="0" role="button" data-nm="С ветчиной, грибами, оливками и артишоками" data-msg="Всего понемногу. Как в хорошей газете." data-msg-en="A bit of everything. Like a good newspaper." data-kbju="1020,46,44,110" data-ing="томаты, моцарелла, ветчина, грибы, оливки, артишоки" data-ing-en="tomatoes, mozzarella, ham, mushrooms, olives, artichokes" style="--ar:960/1280"><div class="im"><img src="img/feed/vetchina-griby-artishoki.webp" width="960" height="1280" loading="lazy" alt="С ветчиной, грибами, оливками и артишоками"></div><figcaption class="cap" data-n="07">С ветчиной, грибами, оливками и артишоками</figcaption></figure>
@@ -758,7 +758,7 @@
     'Пицца и фокачча':'Pizza & focaccia','Десерты и выпечка':'Desserts & pastry','Салаты и закуски':'Salads & starters','Напитки':'Drinks','Фото позиции':'Photo',
     'Маргарита':'Margherita','Пепперони':'Pepperoni','Четыре сыра':'Four cheese','Капрезе':'Caprese','С ветчиной, грибами, оливками и артишоками':'Ham, mushrooms, olives & artichokes',
     'С мортаделлой и артишоками':'Mortadella & artichokes','Страчателла с пармой':'Stracciatella & Parma ham','С баклажанами и копчёным скаморца':'Eggplant & smoked scamorza',
-    'Трюфельная кальцоне':'Truffle calzone','с грибами и ветчиной':'mushrooms & ham','Грибная':'Mushroom','Груша с горгонзолой':'Pear & gorgonzola','Острая диавола':'Spicy diavola',
+    'Трюфельная кальцоне':'Truffle calzone','с грибами и ветчиной':'mushrooms & ham','Грибная':'Mushroom','Грибная с лисичками':'Chanterelle','Груша с горгонзолой':'Pear & gorgonzola','Острая диавола':'Spicy diavola',
     'ндуя, спьяната калабра, чили':'nduja, spianata calabra, chili','С креветками, цукини, миндалём и рикоттой':'Shrimp, zucchini, almond & ricotta',
     'С анчоусами, печёным перцем и страчателлой':'Anchovies, roasted pepper & stracciatella','Четыре мяса':'Four meats','Фокачча лёгкая':'Focaccia, light','Фокачча сытная':'Focaccia, hearty',
     'Тирамису банановый':'Banana tiramisu','Кростата с клубникой':'Strawberry crostata','Чизкейк фисташка с малиной':'Pistachio & raspberry cheesecake','Мороженое':'Ice cream',
