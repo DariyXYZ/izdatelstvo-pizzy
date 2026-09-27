@@ -52,7 +52,7 @@
   .nav .lang{color:var(--mute)}
   .nav .lang{color:var(--mute);padding:6px 0;margin:-6px 0;white-space:nowrap}
   .nav .lang [data-lang].on{color:var(--ink)}
-  .nav a.pill{border:1px solid var(--ink);border-radius:38% / 50%;padding:20px 34px;line-height:1;white-space:nowrap}
+  .nav a.pill{border:1px solid var(--ink);border-radius:50%;padding:22px 24px;line-height:1;white-space:nowrap}
   .nav a.pill.on{background:var(--ink);color:var(--bg)}
   .logo{text-align:center;line-height:.8;display:block}
   .logo .l1{font-family:var(--serif);font-size:var(--l1);text-transform:uppercase;letter-spacing:-.01em;display:inline-block;transform:scaleX(.82);transform-origin:center}
@@ -160,10 +160,10 @@
   /* банки в шапке меню стоят на одной линии: одна слева, крупная по центру, тройка рядом с ней */
   /* кнопка «Полное меню» стоит по центру строки банок и, доехав до шапки, приклеивается к ней.
      Обёртка нулевой высоты и липкая на всю секцию; банки идут под ней обычным потоком */
-  #menu{--ch:clamp(144px,15.6dvh,168px);--cm:clamp(28px,4vw,48px);--bh:58px}
+  #menu{--ch:clamp(144px,15.6dvh,168px);--cm:clamp(28px,4vw,48px);--bh:62px}
   .mhold{position:sticky;top:calc(var(--hdr,64px) + 8px);z-index:5;height:0;border-top:1px solid transparent;
          display:flex;justify-content:center;margin-top:calc(var(--cm) + (var(--ch) - var(--bh)) / 2 - 1px)}
-  .mhold .menubtn{position:relative;z-index:2;background:var(--bg);box-sizing:border-box;height:var(--bh);align-self:flex-start;min-width:calc(7.2em + 70px);text-align:center}
+  .mhold .menubtn{position:relative;z-index:2;background:var(--bg);box-sizing:border-box;height:var(--bh);align-self:flex-start;min-width:calc(7.2em + 50px);text-align:center}
   .cans{display:grid;grid-template-columns:1fr 1fr;align-items:end;margin:calc((var(--ch) - var(--bh)) / -2) 0 clamp(8px,1.6vw,20px)}
   .cans img{display:block;width:auto}
   .cans .c1{height:clamp(72px,7.8dvh,84px);justify-self:start}
@@ -192,7 +192,7 @@
   .bl .big{grid-column:1}.bl .hint{grid-column:1;grid-row:2}.bl .sk{grid-column:2;grid-row:1/span 2}
   /* кнопка-пилюля вне .nav (в .nav свой селектор .nav a.pill — не смешивать) */
   /* кнопки — овал, а не прямоугольник со скруглением */
-  .btn{all:unset;cursor:pointer;font-family:var(--sans);font-size:16px;line-height:1;white-space:nowrap;border:1px solid var(--ink);border-radius:38% / 50%;padding:20px 34px}
+  .btn{all:unset;cursor:pointer;font-family:var(--sans);font-size:16px;line-height:1;white-space:nowrap;border:1px solid var(--ink);border-radius:50%;padding:22px 24px}
   /* заливка при наведении — только там, где есть мышь: на телефоне :hover залипает после тапа */
   @media (hover:hover){.btn:hover{background:var(--ink);color:var(--bg)}}
   .btn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
