@@ -52,7 +52,8 @@
   .nav .lang{color:var(--mute)}
   .nav .lang{color:var(--mute);padding:6px 0;margin:-6px 0;white-space:nowrap}
   .nav .lang [data-lang].on{color:var(--ink)}
-  .nav a.pill{border:1px solid var(--ink);border-radius:50%;padding:22px 24px;line-height:1;white-space:nowrap}
+  /* пропорции как на эскизе: эллипс ~2.4:1, текст занимает ~3/4 ширины */
+  .nav a.pill{border:1px solid var(--ink);border-radius:50%;padding:1.7em 1.45em;line-height:1;white-space:nowrap}
   .nav a.pill.on{background:var(--ink);color:var(--bg)}
   .logo{text-align:center;line-height:.8;display:block}
   .logo .l1{font-family:var(--serif);font-size:var(--l1);text-transform:uppercase;letter-spacing:-.01em;display:inline-block;transform:scaleX(.82);transform-origin:center}
@@ -99,7 +100,7 @@
   .portrait{margin:clamp(28px,4vw,56px) 0 0;display:flex;flex-direction:column;align-items:center}
   .portrait img{max-height:88dvh;max-width:100%;width:auto;height:auto;display:block}
   .portrait figcaption{margin-top:10px;display:flex;justify-content:space-between;width:100%;max-width:min(100%,62vh)}
-  .acts{justify-content:center;align-items:baseline;gap:28px;padding:6px 0 10px}
+  .acts{justify-content:center;align-items:center;gap:clamp(28px,3vw,40px);padding:6px 0 10px;font-size:clamp(17px,1.4vw,20px)}
   /* Меню/Забронировать в шапке — только вне главной (на главной они под фасадом) */
   .hdr .hx{display:none}
   .h-book .short{display:none}
@@ -343,7 +344,7 @@
     body:has(main[data-tab="home"]) .h-about{justify-self:start}
     body:has(main[data-tab="home"]) .acts{display:flex}
     :root{--l1:clamp(26px,8vw,34px)}
-    .acts{gap:20px;padding:4px 0 8px}
+    .acts{gap:24px;padding:4px 0 8px}
     .facade img{max-height:46dvh}
     .draw-s img{max-width:90%}
     .infobar{grid-template-columns:auto auto auto;justify-content:space-between;gap:14px 18px;padding:12px 0 16px;font-size:14px}
@@ -427,7 +428,7 @@
              aria-label="Съёмка зала: вечерний свет, выдача, вход со двора"></video>
     </div>
     <nav class="nav acts" aria-label="Действия">
-      <a class="pill" href="#book" data-go="book">Забронировать стол</a>
+      <a class="pill" href="#book" data-go="book">Забронировать</a>
       <a href="#menu" data-go="menu">Меню</a>
     </nav>
     <div class="infobar">
