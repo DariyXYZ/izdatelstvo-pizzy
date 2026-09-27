@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Издательство пиццы</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;1,400&family=Sofia+Sans+Condensed:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;1,400&family=Roboto+Mono:wght@300;400;500&display=swap">
 <style>
   /* цифры по всему сайту набираются курсивным Times — буквы остаются в своих шрифтах */
   @font-face{
@@ -17,7 +17,7 @@
     --l1:clamp(30px,4vw,56px);
     --bg:#ffffff; --ink:#000000; --mute:#8a8a8a; --ph:#ececec; --line:#000;
     --serif:'Digits',"Times New Roman","Tinos",Times,serif;
-    --sans:'Digits',"Sofia Sans Condensed","Apercu Condensed Pro","Arial Narrow",sans-serif;
+    --sans:'Digits',"Roboto Mono",ui-monospace,monospace;
     --gut:clamp(16px,2.2vw,40px); --g:clamp(12px,1.6vw,26px);
     color-scheme: light;
   }
@@ -46,10 +46,11 @@
   .hdr > .nav{align-self:start;margin-top:calc(var(--l1) * .4 - .62em)}
   .nav.r{justify-content:flex-end}
   .nav a{padding-bottom:2px;border-bottom:1px solid transparent}
-  .nav a.on{border-bottom-color:var(--ink)}
+  /* текущий раздел — серым, а не подчёркиванием */
+  .nav a.on{color:var(--mute)}
   .nav a:focus-visible,.pill:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
   .nav .lang{color:var(--mute)}
-  .nav .lang{color:var(--mute);padding:6px 0;margin:-6px 0}
+  .nav .lang{color:var(--mute);padding:6px 0;margin:-6px 0;white-space:nowrap}
   .nav .lang [data-lang].on{color:var(--ink)}
   .nav a.pill{border:1px solid var(--ink);border-radius:50%;padding:15px 32px;line-height:1;white-space:nowrap}
   .nav a.pill.on{background:var(--ink);color:var(--bg)}
@@ -74,7 +75,7 @@
   body:has(main[data-tab="home"]) .hdr a{color:#fff}
   body:has(main[data-tab="home"]) .hdr .nav .lang{color:rgba(255,255,255,.62)}
   body:has(main[data-tab="home"]) .hdr .nav .lang [data-lang].on{color:#fff}
-  body:has(main[data-tab="home"]) .hdr .nav a.on{border-bottom-color:#fff}
+  body:has(main[data-tab="home"]) .hdr .nav a.on{color:rgba(255,255,255,.62)}
   .bg video,.bg img{width:100%;height:100%;object-fit:cover;display:block}
   /* тёмный градиент снизу: без него белый текст на светлых кадрах пропадает */
   /* два слоя: снизу под инфостроку, сверху под шапку. В ролике есть светлые кадры — без них белый текст пропадает */
@@ -150,8 +151,8 @@
   /* выноска: подпись слева от стула, от её конца тонкая линия вниз к сиденью */
   .sk:has(.dream){position:relative}
   .sk .dream{position:absolute;right:calc(100% + 56px);top:30%;white-space:nowrap}
-  .sk .dream::after{content:"";position:absolute;left:calc(100% + 10px);top:.5em;width:62px;height:2px;border-radius:1px;background:var(--ink);transform:rotate(30deg);transform-origin:0 0}
-  .sk.bookend{margin:clamp(32px,5vw,56px) 0 0 auto}
+  .sk .dream::after{content:"";position:absolute;left:calc(100% + 10px);top:.55em;width:30px;height:1px;background:var(--ink);transform:rotate(30deg) scaleY(.5);transform-origin:0 0}
+  .sk.bookend{margin:clamp(32px,5vw,56px) 0 0 calc(44vw - var(--gut) - var(--w) / 2)}
   .pk{margin:clamp(40px,6vw,80px) auto calc(-1 * clamp(10px,2vw,24px)) 0}
   .doodle{display:flex;justify-content:center;margin:clamp(12px,2vw,26px) 0 clamp(8px,1.6vw,20px)}
   .doodle img{height:auto;width:auto;max-width:100%;display:block}
@@ -391,7 +392,7 @@
             position:sticky;bottom:0;z-index:6;background:var(--bg);margin:auto calc(-1 * var(--gut)) 0;
             padding:12px var(--gut) calc(12px + env(safe-area-inset-bottom,0px));border-top:1px dashed var(--line)}
     .tabbar a{font-size:15px;padding:4px 2px;border-bottom:1px solid transparent}
-    .tabbar a.on{border-bottom-color:var(--ink)}
+    .tabbar a.on{color:var(--mute)}
     body:has(main[data-tab="home"]) .tabbar{display:none}
     /* десктопное правило показывает Меню/Бронь вне главной — на телефоне они живут в нижней панели */
     body:has(main:not([data-tab="home"])) .hdr .hx{display:none}
