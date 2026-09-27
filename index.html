@@ -279,10 +279,10 @@
   /* файл меню грузим только при открытии, чтобы не тянуть его на каждой загрузке страницы */
   .pdfv .in{padding-top:0}
   /* лист меню встаёт на место ленты и сам не скроллится */
-  /* полное меню — планшет с зажимом: доска (белые поля, чёрный контур, скруглённые углы) начинается от центра кнопки,
-     кнопка работает зажимом; лист внутри — A4 с прямыми углами. Размер считает fitSheet() */
+  /* полное меню — лист A4 во всю подложку (чёрный контур, скруглённые углы), начинается от центра кнопки,
+     кнопка лежит поверх листа зажимом. Размер считает fitSheet() */
   .sheet{position:absolute;top:calc(var(--bh) / 2);left:50%;transform:translateX(-50%);z-index:1;
-         background:var(--bg);border:1px solid var(--ink);border-radius:18px;padding:calc(var(--bh) / 2 + 14px) 14px 14px}
+         background:var(--bg);border:1px solid var(--ink);border-radius:18px;padding:0;overflow:hidden}
   .sheet img{display:block;aspect-ratio:210/297;width:var(--sw,300px);height:auto;object-fit:cover}
   .tabbar{display:none}
   .pdfmiss{display:none;font-family:var(--serif);font-style:italic;color:var(--mute);padding:clamp(40px,10vh,120px) 0;text-align:center}
@@ -468,7 +468,7 @@
   <section id="menu">
     <div class="mhold">
       <button class="btn menubtn" type="button" id="menubtn" aria-expanded="false" aria-controls="sheet">Полное меню</button>
-      <div class="sheet" id="sheet" hidden><img src="img/menu-list.webp" width="960" height="1280" alt="Полное меню"></div>
+      <div class="sheet" id="sheet" hidden><img src="img/menu-list.webp" width="838" height="1187" alt="Полное меню"></div>
     </div>
     <div class="cans" aria-hidden="true">
       <img class="c1" src="img/doodles/banka.svg" width="147" height="199" alt="">
