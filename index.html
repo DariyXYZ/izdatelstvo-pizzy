@@ -134,7 +134,7 @@
   .tile .ph{aspect-ratio:4/3}
   .tile img,.team img,.fc img,.lb .im img{display:block;width:100%;height:100%;object-fit:cover}
   .tile figure{margin:0}
-  .tile .im{aspect-ratio:4/3;overflow:hidden;background:var(--ph)}
+  .tile .im{aspect-ratio:3/4;overflow:hidden;background:var(--ph)}
   .team .im{aspect-ratio:3/2;overflow:hidden;background:var(--ph)}
   .team .t2 .im{aspect-ratio:auto;height:100%}
   .fc .im{aspect-ratio:var(--ar,4/5);overflow:hidden;background:var(--ph)}
@@ -151,7 +151,7 @@
   /* выноска: подпись слева от стула, от её конца тонкая линия вниз к сиденью */
   .sk:has(.dream){position:relative}
   .sk .dream{position:absolute;right:calc(100% + 56px);top:30%;white-space:nowrap}
-  .sk .dream::after{content:"";position:absolute;left:calc(100% + 10px);top:.55em;width:30px;height:1px;background:var(--ink);transform:rotate(30deg) scaleY(.5);transform-origin:0 0}
+  .sk .dream::after{content:"";position:absolute;left:calc(100% + 10px);top:.55em;width:44px;height:1px;background:var(--ink);transform:rotate(30deg) scaleY(.5);transform-origin:0 0}
   .sk.bookend{margin:clamp(32px,5vw,56px) 0 0 calc(44vw - var(--gut) - var(--w) / 2)}
   .pk{margin:clamp(40px,6vw,80px) auto calc(-1 * clamp(10px,2vw,24px)) 0}
   .doodle{display:flex;justify-content:center;margin:clamp(12px,2vw,26px) 0 clamp(8px,1.6vw,20px)}
@@ -445,10 +445,10 @@
 
     <div class="bl"><p data-i18n="about1" class="big"><sup>1</sup>Издаём пиццу на Таганке.<br> Каждый день — свежий тираж. Редакция — в переулке Маяковского, у <a class="u" href="#book" data-go="book">Марксистской</a>, вход с торца дома: по лестнице мимо бутылок с цветами, под деревом с гирляндой.</p></div>
     <div class="row">
-      <div class="tile"><div class="im"><img src="img/about/vhod.webp" loading="lazy" alt="Лестница ко входу вечером, над ней гирлянда"></div><span class="lab"><span class="cond">Вход</span></span></div>
-      <div class="tile"><div class="im"><img src="img/about/zal.webp" loading="lazy" alt="Зал: бра на жёлтой стене, букет на столе"></div><span class="lab"><span class="cond">Зал</span></span></div>
-      <div class="tile"><div class="im"><img src="img/about/pech.webp" loading="lazy" alt="Выдача: повар ставит тарелку на стойку"></div><span class="lab"><span class="cond">Печь</span></span></div>
-      <div class="tile"><div class="im"><img src="img/about/dvor.webp" loading="lazy" alt="Столик у входа: подсолнух, лимоны, меню на клипборде"></div><span class="lab"><span class="cond">Двор</span></span></div>
+      <div class="tile"><div class="im"><img src="img/about/velosiped.webp" loading="lazy" alt="Велосипед у входа"></div></div>
+      <div class="tile"><div class="im"><img src="img/about/stol.webp" loading="lazy" alt="Стол с пиццей"></div></div>
+      <div class="tile"><div class="im"><img src="img/about/mutti.webp" loading="lazy" alt="Банки томатов Mutti"></div></div>
+      <div class="tile"><div class="im"><img src="img/about/myaso.webp" loading="lazy" alt="Мясная тарелка"></div></div>
     </div>
 
     <div class="bl"><figure class="sk" style="--w:150px;--dy:6em;--dx:20vw;--mx:start"><img src="img/doodles/stul.svg" width="324" height="452" alt="Рисунок: стул-моноблок"><figcaption class="dream" data-i18n="dream">наша мечта!</figcaption></figure><p data-i18n="about2" class="big"><sup>2</sup>Редакция — Настя и Стас. Итальянские томаты и тесто, наши гирлянды и банки. Весь тираж собран в <a class="u" href="#menu" data-go="menu">меню</a>.</p></div>
