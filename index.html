@@ -15,7 +15,7 @@
   }
   :root{
     --l1:clamp(30px,4vw,56px);
-    --bg:#ffffff; --ink:#000000; --mute:#8a8a8a; --ph:#ececec; --line:#000;
+    --bg:#ffffff; --ink:#000000; --mute:#8a8a8a; --off:#c2c2c2; --ph:#ececec; --line:#000;
     --serif:'Digits',"Times New Roman","Tinos",Times,serif;
     --sans:'Digits',"Roboto Mono",ui-monospace,monospace;
     --gut:clamp(16px,2.2vw,40px); --g:clamp(12px,1.6vw,26px);
@@ -47,7 +47,8 @@
   .nav.r{justify-content:flex-end}
   .nav a{padding-bottom:2px;border-bottom:1px solid transparent}
   /* текущий раздел — серым, а не подчёркиванием */
-  .nav a.on{color:var(--mute)}
+  /* текущий раздел — светло-серый и без курсора-руки: видно, что жать некуда */
+  .nav a.on,.tabbar a.on{color:var(--off);cursor:default}
   .nav a:focus-visible,.pill:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
   .nav .lang{color:var(--mute)}
   .nav .lang{color:var(--mute);padding:6px 0;margin:-6px 0;white-space:nowrap}
@@ -76,7 +77,7 @@
   body:has(main[data-tab="home"]) .hdr a{color:#fff}
   body:has(main[data-tab="home"]) .hdr .nav .lang{color:rgba(255,255,255,.62)}
   body:has(main[data-tab="home"]) .hdr .nav .lang [data-lang].on{color:#fff}
-  body:has(main[data-tab="home"]) .hdr .nav a.on{color:rgba(255,255,255,.62)}
+  body:has(main[data-tab="home"]) .hdr .nav a.on{color:rgba(255,255,255,.45)}
   .bg video,.bg img{width:100%;height:100%;object-fit:cover;display:block}
   /* тёмный градиент снизу: без него белый текст на светлых кадрах пропадает */
   /* два слоя: снизу под инфостроку, сверху под шапку. В ролике есть светлые кадры — без них белый текст пропадает */
@@ -393,7 +394,6 @@
             position:sticky;bottom:0;z-index:6;background:var(--bg);margin:auto calc(-1 * var(--gut)) 0;
             padding:12px var(--gut) calc(12px + env(safe-area-inset-bottom,0px))}
     .tabbar a{font-size:15px;padding:4px 2px;border-bottom:1px solid transparent}
-    .tabbar a.on{color:var(--mute)}
     body:has(main[data-tab="home"]) .tabbar{display:none}
     /* десктопное правило показывает Меню/Бронь вне главной — на телефоне они живут в нижней панели */
     body:has(main:not([data-tab="home"])) .hdr .hx{display:none}
@@ -512,10 +512,10 @@
   <section id="privacy">
     <p data-i18n="priv0" class="big"><sup>§</sup>Политика конфиденциальности</p>
     <div class="txt" data-i18n="priv1">
-      <p>Сайт — информационная страница пиццерии «Издательство пиццы» (Москва, переулок Маяковского, 2). Владелец сайта: [ИП / ООО — уточнить], ОГРН [уточнить], адрес [уточнить], e-mail [уточнить].</p>
+      <p>Сайт — информационная страница пиццерии «Издательство пиццы» (Москва, переулок Маяковского, 2). Владелец сайта: ООО «Солнцестояние», ИНН 9718289650, ОГРН 1257700537302, адрес: 109147, г. Москва, пер. Маяковского, д. 2, пом. 1/1, e-mail [уточнить].</p>
       <p>Сайт не собирает и не хранит персональные данные: на нём нет форм, регистрации, онлайн-заказа, счётчиков и систем аналитики. Собственные cookie сайт не устанавливает. Выбранный язык интерфейса хранится в браузере посетителя (localStorage) и никуда не передаётся.</p>
       <p>На странице «Забронировать» встроена карта Яндекс Карт. При её загрузке браузер обращается к серверам Яндекса, который может использовать собственные cookie в соответствии со своей <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noopener">политикой конфиденциальности</a>.</p>
-      <p>Страницы сайта отдаются с серверов хостинг-провайдера [уточнить], который получает технические данные запроса (IP-адрес, тип браузера) в объёме, необходимом для показа страницы. Сайт доступа к этим данным не имеет и не обрабатывает их.</p>
+      <p>Страницы сайта отдаются с серверов хостинг-провайдера ООО «Яндекс.Облако», который получает технические данные запроса (IP-адрес, тип браузера) в объёме, необходимом для показа страницы. Сайт доступа к этим данным не имеет и не обрабатывает их.</p>
       <p>Столик бронируется по телефону; звонки и переписка происходят вне сайта.</p>
       <p>Вопросы по этой политике: e-mail [уточнить]. Редакция от 20 сентября 2026 года.</p>
     </div>
@@ -537,7 +537,7 @@
   </div>
   <div class="legal cap">
     <div class="ll">
-      <p><span data-i18n="owner">[ИП / ООО — уточнить] · ОГРН [уточнить] · [юр. адрес — уточнить]</span><span>[e-mail — уточнить]</span><a href="#privacy" data-go="privacy">Политика конфиденциальности</a></p>
+      <p><span data-i18n="owner">ООО «Солнцестояние» · ИНН 9718289650 · ОГРН 1257700537302 · 109147, Москва, пер. Маяковского, д. 2, пом. 1/1</span><span>[e-mail — уточнить]</span><a href="#privacy" data-go="privacy">Политика конфиденциальности</a></p>
       <p data-i18n="meta2">* Instagram принадлежит Meta, признанной экстремистской организацией в РФ</p>
     </div>
     <div class="lr">
@@ -743,9 +743,9 @@
     'kb-label':'Per serving','kb-approx':'approximate','rc-bye':'Thanks for coming by','rc-print':'Printed in the oven',
     lbtop:'Feed',pdftop:'Menu','ing-label':'Ingredients',
         meta:'* Instagram belongs to Meta, designated an extremist organisation in Russia',meta2:'* Instagram belongs to Meta, designated an extremist organisation in Russia',
-    owner:'[Sole trader / LLC — TBC] · OGRN [TBC] · [registered address — TBC]',
+    owner:'Solntsestoyanie LLC · INN 9718289650 · OGRN 1257700537302 · 109147, Moscow, Mayakovskogo lane 2, premises 1/1',
     priv0:'<sup>§</sup>Privacy policy',
-    priv1:'<p>This site is the information page of the Pizza Publishing House pizzeria (Moscow, Mayakovskogo lane, 2). Site owner: [sole trader / LLC — TBC], OGRN [TBC], address [TBC], e-mail [TBC].</p><p>The site does not collect or store personal data: it has no forms, registration, online ordering, counters or analytics. It sets no cookies of its own. The chosen interface language is stored in the visitor\'s browser (localStorage) and is not transmitted anywhere.</p><p>The Book page embeds a Yandex Maps widget. When it loads, the browser contacts Yandex servers, which may use their own cookies under the <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noopener">Yandex privacy policy</a>.</p><p>Pages are served by the hosting provider [TBC], which receives the technical request data (IP address, browser type) needed to serve the page. The site has no access to this data and does not process it.</p><p>Tables are booked by phone; calls and messages happen outside the site.</p><p>Questions about this policy: e-mail [TBC]. Revision of 20 September 2026.</p>',
+    priv1:'<p>This site is the information page of the Pizza Publishing House pizzeria (Moscow, Mayakovskogo lane, 2). Site owner: Solntsestoyanie LLC, INN 9718289650, OGRN 1257700537302, address: 109147, Moscow, Mayakovskogo lane 2, premises 1/1, e-mail [TBC].</p><p>The site does not collect or store personal data: it has no forms, registration, online ordering, counters or analytics. It sets no cookies of its own. The chosen interface language is stored in the visitor\'s browser (localStorage) and is not transmitted anywhere.</p><p>The Book page embeds a Yandex Maps widget. When it loads, the browser contacts Yandex servers, which may use their own cookies under the <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noopener">Yandex privacy policy</a>.</p><p>Pages are served by the hosting provider Yandex.Cloud LLC, which receives the technical request data (IP address, browser type) needed to serve the page. The site has no access to this data and does not process it.</p><p>Tables are booked by phone; calls and messages happen outside the site.</p><p>Questions about this policy: e-mail [TBC]. Revision of 20 September 2026.</p>',
     book1:'<sup>1</sup>Tables by phone: <a class="u" href="tel:+79670796093">+7 967 079-60-93</a>.',
     'c-addr':'Mayakovskogo lane, 2<br>Marksistskaya metro',
     'c-way':'from the end of the building, Marksistskaya side, up the stairs',
