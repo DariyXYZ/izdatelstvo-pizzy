@@ -210,11 +210,20 @@
   .mbar{border-bottom:1px dashed var(--line);margin:0 0 clamp(20px,3vw,40px)}
 
   /* лента: каменная кладка колонками, порядок сверху вниз внутри колонки */
-  .feed{columns:6 190px;column-gap:var(--g)}
-  .fc{margin:0 0 var(--g);break-inside:avoid;cursor:pointer;display:block;width:100%}
-  .fc .ph{aspect-ratio:var(--ar,4/5);width:100%}
-  .fc img{display:block;width:100%;height:auto}
-  .fc figcaption{margin-top:6px;color:var(--mute)}
+  /* лента — модульная сетка 6 колонок: портрет = 1×2 модуля, пара горизонтальных = 1×1 друг над другом,
+     широкий = 2×2, крупный = 2×4. Модуль по высоте ~0.72 колонки; снимки кадрируются под ячейку */
+  .feedw{container-type:inline-size}
+  .feed{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:var(--g);
+        grid-auto-rows:calc((100cqw - 5 * var(--g)) / 6 * .72)}
+  .fc{margin:0;cursor:pointer;display:flex;flex-direction:column;min-width:0;min-height:0;grid-row:span 2}
+  .fc .im{flex:1 1 0;min-height:0;aspect-ratio:auto}
+  .fc img{display:block;width:100%;height:100%;object-fit:cover}
+  .fc figcaption{margin-top:6px;color:var(--mute);flex:0 0 auto}
+  .fc:nth-child(1){grid-area:1/1/3/2}  .fc:nth-child(2){grid-area:1/2/3/3}  .fc:nth-child(3){grid-area:1/3/3/4}
+  .fc:nth-child(4){grid-area:1/4/2/5}  .fc:nth-child(5){grid-area:2/4/3/5}  .fc:nth-child(6){grid-area:1/5/3/7}
+  .fc:nth-child(7){grid-area:3/1/7/3}  .fc:nth-child(8){grid-area:3/3/5/4}  .fc:nth-child(9){grid-area:3/4/5/5}
+  .fc:nth-child(10){grid-area:3/5/5/7} .fc:nth-child(11){grid-area:5/3/6/4} .fc:nth-child(12){grid-area:6/3/7/4}
+  .fc:nth-child(13){grid-area:5/4/7/6} .fc:nth-child(14){grid-area:5/6/7/7}
   .fc figcaption::before{content:attr(data-n) " · "}
   .fc:hover figcaption,.fc:focus-visible figcaption{color:var(--ink)}
   .fc:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
@@ -302,15 +311,17 @@
   .stack{position:relative;width:var(--sw);aspect-ratio:210/297}
   .sheet{position:absolute;inset:0;background:var(--bg);border:1px solid var(--ink);border-radius:18px;overflow:hidden}
   .sheet img{display:block;width:100%;height:auto}
-  .dr{position:absolute;top:10px;left:50%;height:calc(var(--sw) * 297 / 210);width:calc(var(--sw) * 297 / 210 * 838 / 2707);
+  .dr,.drf{position:absolute;top:10px;left:50%;height:calc(var(--sw) * 297 / 210);width:calc(var(--sw) * 297 / 210 * 838 / 2707);
       transform:translateX(-44%) rotate(2.4deg);z-index:2;touch-action:none}
+  .drf{z-index:4;pointer-events:none}
   .dr img{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;user-select:none;-webkit-user-drag:none}
-  .dr svg{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+  .dr svg,.drf svg{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none}
   .dr .fr{fill:none;stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
-  .dr .fl{fill:#fff;stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke;pointer-events:auto;cursor:grab;
+  .drf .fl{fill:#fff;stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke;pointer-events:auto;cursor:grab;
           filter:drop-shadow(0 3px 6px rgba(0,0,0,.14))}
-  .dr.drag img,.dr.drag .fl{cursor:grabbing}
+  .dr.drag img,.dr.drag ~ .drf .fl{cursor:grabbing}
   html.menu-open #menubtn{visibility:hidden}
+  @media (max-width:820px){:root{--bh:54px}.btn.menubtn{font-size:14px}}
   html.menu-open{overflow:hidden}
   .tabbar{display:none}
   .pdfmiss{display:none;font-family:var(--serif);font-style:italic;color:var(--mute);padding:clamp(40px,10vh,120px) 0;text-align:center}
@@ -402,8 +413,14 @@
     .map{aspect-ratio:4/3;min-height:0}
     .cards{grid-template-columns:1fr}
     /* лента: две колонки, в оверлее снимок над текстом */
-    .feed{columns:2 140px;column-gap:10px}
-    .fc{margin-bottom:10px}
+    /* телефон: 2 колонки — портреты парой, пара горизонтальных рядом с портретом, широкий на всю ширину */
+    .feed{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;grid-auto-rows:calc((100cqw - 10px) / 2 * .72)}
+    .fc:nth-child(1){grid-area:1/1/3/2}  .fc:nth-child(2){grid-area:1/2/3/3}
+    .fc:nth-child(3){grid-area:3/1/4/2}  .fc:nth-child(4){grid-area:4/1/5/2}  .fc:nth-child(5){grid-area:3/2/5/3}
+    .fc:nth-child(6){grid-area:5/1/7/3}
+    .fc:nth-child(7){grid-area:7/1/9/2}  .fc:nth-child(8){grid-area:7/2/8/3}  .fc:nth-child(9){grid-area:8/2/9/3}
+    .fc:nth-child(10){grid-area:9/1/11/2} .fc:nth-child(11){grid-area:9/2/11/3}
+    .fc:nth-child(12){grid-area:11/1/12/2} .fc:nth-child(13){grid-area:12/1/13/2} .fc:nth-child(14){grid-area:11/2/13/3}
     .fc figcaption{font-size:12px}
     .lb .in{grid-template-columns:1fr;gap:18px}
     .lb .im{height:46dvh}
@@ -501,7 +518,8 @@
         <button class="btn menubtn" type="button" id="menux">Закрыть меню</button>
         <div class="stack">
           <div class="sheet"><img src="img/menu-list.webp" width="838" height="1187" alt="Основное меню"></div>
-          <div class="dr" id="dr"><img src="img/menu-drinks.webp" width="838" height="2707" alt="Меню: вино и коктейли" draggable="false"><svg aria-hidden="true"><polygon class="fr"/><polygon class="fl"/></svg></div>
+          <div class="dr" id="dr"><img src="img/menu-drinks.webp" width="838" height="2707" alt="Меню: вино и коктейли" draggable="false"><svg aria-hidden="true"><polygon class="fr"/></svg></div>
+          <div class="drf" aria-hidden="true"><svg><polygon class="fl"/></svg></div>
         </div>
       </div>
     </div>
@@ -511,7 +529,7 @@
     </div>
     <div class="bl"><p data-i18n="menu1" class="big"><sup>1</sup>Меню меняем каждую неделю. Теперь есть вино и коктейли на его основе.</p></div>
     <div class="mbar"></div>
-    <div class="feed">
+    <div class="feedw"><div class="feed">
       <figure class="fc" tabindex="0" role="button" data-nm="Страчателла с пармой" data-msg="Руккола сверху не для фото. Ну, не только." data-msg-en="The rocket isn&#x27;t just for the photo. Well, not only." data-kbju="1080,48,50,104" data-ing="страчателла, пармская ветчина, руккола, оливковое масло" data-ing-en="stracciatella, parma ham, rocket, olive oil" style="--ar:960/1279"><div class="im"><img src="img/feed/strachatella-parma.webp" width="960" height="1279" loading="lazy" alt="Страчателла с пармой"></div><figcaption class="cap" data-n="01">Страчателла с пармой</figcaption></figure>
       <figure class="fc" tabindex="0" role="button" data-nm="Острая диавола" data-msg="Острая. Мы предупреждали ещё в названии." data-msg-en="Spicy. The name did warn you." data-kbju="1050,44,48,108" data-ing="томаты, моцарелла, ндуя, спьяната калабра, чили" data-ing-en="tomatoes, mozzarella, nduja, spianata calabra, chili" style="--ar:960/1280"><div class="im"><img src="img/feed/diavola.webp" width="960" height="1280" loading="lazy" alt="Острая диавола"></div><figcaption class="cap" data-n="02">Острая диавола</figcaption></figure>
       <figure class="fc" tabindex="0" role="button" data-nm="Груша с горгонзолой" data-msg="Сладкое и солёное договорились." data-msg-en="Sweet and salty made a deal." data-kbju="980,38,42,112" data-ing="груша, горгонзола, моцарелла" data-ing-en="pear, gorgonzola, mozzarella" style="--ar:960/1280"><div class="im"><img src="img/feed/grusha-gorgonzola.webp" width="960" height="1280" loading="lazy" alt="Груша с горгонзолой"></div><figcaption class="cap" data-n="03">Груша с горгонзолой</figcaption></figure>
@@ -526,7 +544,7 @@
       <figure class="fc" tabindex="0" role="button" data-nm="Грибная" data-msg="Тихая охота заканчивается у нашей печи." data-msg-en="The mushroom hunt ends at our oven." data-kbju="900,34,32,116" data-ing="грибы, моцарелла, тимьян, чеснок" data-ing-en="mushrooms, mozzarella, thyme, garlic" style="--ar:960/1279"><div class="im"><img src="img/feed/gribnaya.webp" width="960" height="1279" loading="lazy" alt="Грибная"></div><figcaption class="cap" data-n="12">Грибная</figcaption></figure>
       <figure class="fc" tabindex="0" role="button" data-nm="Сыр" data-msg="Сыр к вину. Или вино к сыру." data-msg-en="Cheese for the wine. Or wine for the cheese." data-kbju="620,32,48,14" data-ing="твёрдые сыры, дор блю, миндаль, гриссини, оливковое масло" data-ing-en="hard cheeses, dor blue, almonds, grissini, olive oil" style="--ar:960/1279"><div class="im"><img src="img/feed/syr.webp" width="960" height="1279" loading="lazy" alt="Сыр"></div><figcaption class="cap" data-n="13">Сыр</figcaption></figure>
       <figure class="fc" tabindex="0" role="button" data-nm="Капрезе с песто" data-msg="Три цвета, и все съедобные." data-msg-en="Three colours, all edible." data-kbju="420,22,32,10" data-ing="томаты, моцарелла, песто" data-ing-en="tomatoes, mozzarella, pesto" style="--ar:960/1278"><div class="im"><img src="img/feed/kapreze-pesto.webp" width="960" height="1278" loading="lazy" alt="Капрезе с песто"></div><figcaption class="cap" data-n="14">Капрезе с песто</figcaption></figure>
-    </div>
+    </div></div>
   </section>
 
   <!-- ЗАБРОНИРОВАТЬ = контакты + карта -->
@@ -743,7 +761,7 @@
      Сгиб — серединный перпендикуляр к PQ; всё по сторону P отражается через него и показывает изнанку.
      Верх листа под зажимом не отгибается; отпустили — лист остаётся как есть */
   const dr = document.getElementById('dr'), drImg = dr.querySelector('img');
-  const drFr = dr.querySelector('.fr'), drFl = dr.querySelector('.fl');
+  const drFr = dr.querySelector('.fr'), drFl = sheet.querySelector('.drf .fl');
   const TH = 2.4 * Math.PI / 180;
   let fP = null, fQ = null, fDrag = false;
   function toLocal(x, y){
@@ -783,21 +801,42 @@
     fP = P || null; fQ = P ? Q : null;
     return true;
   }
+  /* плавность: курсор задаёт цель fT, лист догоняет её по кадрам. Доводчик: отпустили близко к исходному — лист ложится ровно */
+  let fT = null, fRaf = 0;
+  function tick(){
+    fRaf = 0;
+    if (!fP || !fT) return;
+    const Q = fQ || fP, k = fDrag ? .28 : .2;
+    const nx = Q[0] + (fT[0] - Q[0]) * k, ny = Q[1] + (fT[1] - Q[1]) * k;
+    const done = Math.hypot(fT[0] - nx, fT[1] - ny) < .4;
+    if (!fold(fP, done ? fT : [nx, ny]) && !fDrag) { fT = null; return; }
+    if (!fDrag && done && fT === fP) { fold(null); fT = null; return; }
+    if (!done || fDrag) fRaf = requestAnimationFrame(tick);
+  }
+  const kick = () => { if (!fRaf) fRaf = requestAnimationFrame(tick); };
   function grab(e){
     if (e.button > 0) return;
     e.preventDefault();
-    const D = toLocal(e.clientX, e.clientY), L = e.target === drFl && fP && line(fP, fQ);
+    const D = toLocal(e.clientX, e.clientY), L = e.target === drFl && fP && fQ && line(fP, fQ);
     if (L) { const d = 2 * side(L, D); fP = [D[0] - d * L.n[0], D[1] - d * L.n[1]]; fQ = D; }   /* взяли за изнанку — держим тот же сгиб */
     else { fP = D; fQ = D; }
-    fDrag = true; dr.classList.add('drag');
+    fT = fQ; fDrag = true; dr.classList.add('drag');
     e.target.setPointerCapture(e.pointerId);
   }
   drImg.addEventListener('pointerdown', grab);
   drFl.addEventListener('pointerdown', grab);
-  dr.addEventListener('pointermove', e => { if (fDrag) fold(fP, toLocal(e.clientX, e.clientY)); });
-  const drop = () => { if (!fDrag) return; fDrag = false; dr.classList.remove('drag'); if (!fP || Math.hypot(fQ[0] - fP[0], fQ[1] - fP[1]) < 2) fold(null); };
-  dr.addEventListener('pointerup', drop);
-  dr.addEventListener('pointercancel', drop);
+  const move = e => { if (fDrag) { fT = toLocal(e.clientX, e.clientY); kick(); } };
+  dr.addEventListener('pointermove', move);
+  drFl.addEventListener('pointermove', move);
+  const drop = () => {
+    if (!fDrag) return;
+    fDrag = false; dr.classList.remove('drag');
+    if (!fP || !fT) return;
+    /* отогнули меньше чем на ~40% высоты — доводчик раскрывает лист полностью */
+    if (Math.hypot(fT[0] - fP[0], fT[1] - fP[1]) < dr.offsetHeight * .4) fT = fP;
+    kick();
+  };
+  [dr, drFl].forEach(el => { el.addEventListener('pointerup', drop); el.addEventListener('pointercancel', drop); });
   window.addEventListener('resize', () => { if (!sheet.hidden) fold(null); });
   menubtn.addEventListener('click', () => setMenu(true));
   menux.addEventListener('click', () => setMenu(false));
