@@ -477,7 +477,8 @@
     footer{padding:24px var(--gut) calc(24px + env(safe-area-inset-bottom,0px) + var(--fit,0px));--tile:40px}
     .legal{margin-top:18px;grid-template-columns:1fr}
     .legal .lr{display:none}
-    .fcols{grid-template-columns:auto auto auto;justify-content:space-between;gap:12px 14px;font-size:14px}
+    .fcols{grid-template-columns:auto auto auto;justify-content:space-between;gap:24px 14px;font-size:14px}   /* строки текста расходятся на 21px — как сноска и «Реквизиты» */
+    footer .note.nm{margin-top:23px}
     .fcols > div:nth-child(n){grid-column:auto}
     .fcols > div:first-child{grid-column:1/-1}
     .ov{padding-left:var(--gut);padding-right:var(--gut)}
