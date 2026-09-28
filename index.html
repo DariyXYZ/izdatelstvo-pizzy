@@ -303,6 +303,7 @@
   .mback{position:fixed;inset:0;z-index:220;display:flex;align-items:center;justify-content:center;
          background:rgba(255,255,255,.86);padding:12px var(--gut)}
   .mback[hidden]{display:none}
+  .mback,.mback *{touch-action:none}   /* в оверлее ничего не скроллится — жесты браузера не перехватывают сгиб листа */
   /* лист A4 основного меню + поверх узкая полоса напитков, как на доске в зале: обе под одним зажимом-кнопкой,
      полоса чуть повёрнута и ниже — торчит за край листа. Полосу можно отогнуть мышкой/пальцем (плоский сгиб, см. JS) */
   .mwrap{position:relative;padding-top:calc(var(--bh) / 2);
@@ -323,7 +324,7 @@
   .dr.drag img,.dr.drag ~ .drf .fl{cursor:grabbing}
   html.menu-open #menubtn{visibility:hidden}
   /* на телефоне кнопка уже полосы напитков (как на компе), верх полосы уходит под кнопку */
-  @media (max-width:820px){:root{--bh:40px}.btn.menubtn{font-size:13px}.dr,.drf{top:5px}}
+  @media (max-width:820px){:root{--bh:43px}.btn.menubtn{font-size:13px}.dr,.drf{top:5px}}
   html.menu-open{overflow:hidden}
   .tabbar{display:none}
   .pdfmiss{display:none;font-family:var(--serif);font-style:italic;color:var(--mute);padding:clamp(40px,10vh,120px) 0;text-align:center}
@@ -826,20 +827,29 @@
     const D = toLocal(e.clientX, e.clientY), L = e.target === drFl && fP && fQ && line(fP, fQ);
     if (L) { const d = 2 * side(L, D); fP = [D[0] - d * L.n[0], D[1] - d * L.n[1]]; fQ = D; }   /* взяли за изнанку — держим тот же сгиб */
     else { fP = D; fQ = D; }
-    fT = fQ; fDrag = true; dr.classList.add('drag');
+    fT = fQ; fDrag = true; fHist = []; dr.classList.add('drag');
     e.target.setPointerCapture(e.pointerId);
   }
   drImg.addEventListener('pointerdown', grab);
   drFl.addEventListener('pointerdown', grab);
-  const move = e => { if (fDrag) { fT = toLocal(e.clientX, e.clientY); kick(); } };
+  let fHist = [];   /* последние точки жеста — чтобы понять, куда вели лист в момент отпускания */
+  const move = e => {
+    if (!fDrag) return;
+    fT = toLocal(e.clientX, e.clientY); kick();
+    const now = performance.now();
+    fHist.push([now, Math.hypot(fT[0] - fP[0], fT[1] - fP[1])]);
+    while (fHist.length > 2 && now - fHist[0][0] > 120) fHist.shift();
+  };
   dr.addEventListener('pointermove', move);
   drFl.addEventListener('pointermove', move);
   const drop = () => {
     if (!fDrag) return;
     fDrag = false; dr.classList.remove('drag');
     if (!fP || !fT) return;
-    /* отогнули меньше чем на ~40% высоты — доводчик раскрывает лист полностью */
-    if (Math.hypot(fT[0] - fP[0], fT[1] - fP[1]) < dr.offsetHeight * .4) fT = fP;
+    /* доводчик: лист ложится ровно, если в момент отпускания его вели обратно (вниз) или отогнут меньше чем на ~40% высоты */
+    const d = Math.hypot(fT[0] - fP[0], fT[1] - fP[1]), h0 = fHist[0];
+    const back = h0 && d - h0[1] < -dr.offsetHeight * .02;
+    if (back || d < dr.offsetHeight * .4) fT = fP;
     kick();
   };
   [dr, drFl].forEach(el => { el.addEventListener('pointerup', drop); el.addEventListener('pointercancel', drop); });
