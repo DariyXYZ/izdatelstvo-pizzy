@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Издательство пиццы</title>
+<link rel="preload" href="fonts/TimesNewRomanVO-Cond.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;1,400&family=Roboto+Mono:wght@300;400;500&display=swap">
 <style>
   /* цифры по всему сайту набираются курсивным Times — буквы остаются в своих шрифтах */
@@ -13,10 +14,16 @@
     font-style:normal;
     unicode-range:U+0030-0039;
   }
+  /* узкий Times — настоящий Times New Roman VO Condensed (кириллица есть; нет ₽ № стрелок — их добирает обычный Times) */
+  @font-face{
+    font-family:'Times Cond';
+    src:url(fonts/TimesNewRomanVO-Cond.woff2) format('woff2');
+    font-weight:400;font-style:normal;font-display:block;
+  }
   :root{
     --l1:clamp(30px,4vw,56px);
     --bg:#ffffff; --ink:#000000; --mute:#8a8a8a; --off:#c2c2c2; --ph:#ececec; --line:#000;
-    --serif:'Digits',"Times New Roman","Tinos",Times,serif;
+    --serif:'Digits','Times Cond',"Times New Roman","Tinos",Times,serif;
     --sans:'Digits',"Roboto Mono",ui-monospace,monospace;
     --gut:clamp(16px,2.2vw,40px); --g:clamp(12px,1.6vw,26px);
     color-scheme: light;
@@ -33,8 +40,7 @@
   .soon{color:var(--mute)}
   .cap{font-family:var(--sans);font-size:10px;line-height:1.1;text-transform:uppercase;letter-spacing:.02em}
   .serif{font-family:var(--serif)}
-  /* «condensed» Times: системный Times New Roman + сжатие. В проде — Times New Roman Condensed + Apercu Condensed Pro (как у A-Index) */
-  .cond{font-family:var(--serif);display:inline-block;transform:scaleX(.86);transform-origin:left center}
+  .cond{font-family:var(--serif)}
   .ph{background:var(--ph);display:flex;align-items:center;justify-content:center;text-align:center;padding:8px 10px;position:relative;max-width:100%}
   .ph span{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--mute)}
 
@@ -60,8 +66,8 @@
   .nav a.pill{border:1px solid var(--ink);border-radius:50%;padding:1.55em 1.6em;line-height:1;white-space:nowrap}
   .nav a.pill.on{background:var(--ink);color:var(--bg)}
   .logo{text-align:center;line-height:.8;display:block}
-  .logo .l1{font-family:var(--serif);font-size:var(--l1);text-transform:uppercase;letter-spacing:-.01em;display:inline-block;transform:scaleX(.82);transform-origin:center}
-  .logo .l2{font-family:var(--serif);font-size:clamp(15px,1.5vw,22px);display:block;margin-top:-.05em;transform:scaleX(.9);transform-origin:center}
+  .logo .l1{font-family:var(--serif);font-size:calc(var(--l1) * .935);text-transform:uppercase;letter-spacing:-.01em;display:inline-block}   /* .935: ширина та же, что была у Times × .82 */
+  .logo .l2{font-family:var(--serif);font-size:clamp(14.5px,1.45vw,21.3px);display:block;margin-top:-.05em}
 
   main{flex:1 1 auto;display:flex;flex-direction:column}
   main section{display:none}
@@ -132,7 +138,7 @@
   #privacy .txt a{text-decoration:underline;text-underline-offset:.12em}
 
   /* страницы */
-  .big{font-family:var(--serif);font-size:clamp(26px,2.9vw,42px);line-height:1.08;letter-spacing:-.005em;margin:clamp(40px,8vh,110px) 0 clamp(28px,4vw,56px);max-width:36ch;text-wrap:pretty;transform:scaleX(.88);transform-origin:left top}
+  .big{font-family:var(--serif);font-size:clamp(26px,2.9vw,42px);line-height:1.08;letter-spacing:-.005em;margin:clamp(40px,8vh,110px) 0 clamp(28px,4vw,56px);max-width:36ch;text-wrap:pretty}
   .big sup{font-size:.5em;vertical-align:.7em;margin-right:.25em;line-height:0}
   .row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(260px,1fr);gap:var(--g);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:6px}
   .row::-webkit-scrollbar{display:none}
@@ -253,7 +259,7 @@
   .lb .im{width:100%;height:min(calc(100dvh - 230px),72vh);display:flex;align-items:center;justify-content:center}
   .lb .im .ph{height:100%;aspect-ratio:var(--ar,4/5);max-width:100%}
   .lb .im img{display:block;width:100%;height:100%;object-fit:contain}
-  .lb .ttl{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.9vw,42px);line-height:1.08;letter-spacing:-.005em;display:block;width:113.6%;transform:scaleX(.88);transform-origin:left top;margin:0 0 16px}
+  .lb .ttl{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.9vw,42px);line-height:1.08;letter-spacing:-.005em;display:block;margin:0 0 16px}
   /* карточка блюда свёрстана как чек: номер, название, пунктир, строки КБЖУ, состав построчно */
   .lb .kb,.lb .ing{font-family:var(--sans);font-size:13px;line-height:1.35;letter-spacing:.04em;text-transform:uppercase;color:var(--ink)}
   .lb .kb{margin:0;display:grid;gap:2px}
@@ -267,7 +273,7 @@
   .rc-rule,.rc-stars,.rc-title .rl{display:block;overflow:hidden;height:1.35em;text-align:justify;text-align-last:justify;letter-spacing:0;margin:12px 0 !important}
   .rc-title .rl{margin:0 !important;flex:1 1 0;min-width:0}
   .lb .rc .ttl{font-family:var(--serif);font-weight:400;font-size:clamp(30px,3vw,42px);line-height:1.05;letter-spacing:-.005em;text-transform:none;text-align:center;text-wrap:balance;
-               display:block;width:113.6%;margin:0 0 0 -6.8%;transform:scaleX(.88);transform-origin:center top}
+               display:block;margin:0}
   .rc-cols{display:flex;justify-content:space-between;margin:0 !important}
   .lb .kb .r{display:flex;justify-content:space-between;align-items:baseline}
   /* заголовок внутри линии: - - - СОСТАВ - - - */
@@ -361,7 +367,7 @@
   .cards{display:grid;grid-template-columns:1fr 1fr;gap:var(--g);margin-top:var(--g)}
   .card{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
   .card.soon .ttl,.card.soon .cap{color:var(--mute)}
-  .card .ttl{font-family:var(--serif);font-size:clamp(22px,2.4vw,34px);text-transform:uppercase;line-height:1;display:inline-block;transform:scaleX(.86);transform-origin:left}
+  .card .ttl{font-family:var(--serif);font-size:clamp(22px,2.4vw,34px);text-transform:uppercase;line-height:1;display:inline-block}
   .card .cap{max-width:30ch}
 
   /* футер внутренних страниц */
@@ -501,9 +507,8 @@
   .ab-house img,.ab-fr img,.ab-chair img,.ab-fl img{display:block;width:100%;height:auto}
   .ab-info{position:absolute;left:calc(68.68vw - var(--gut));top:calc(4.86vw - 3px);margin:0;white-space:nowrap}
   .ab-info,.ab-p,.ab-chair figcaption{font-family:var(--sans);font-size:13.4px;line-height:18px;text-transform:uppercase;letter-spacing:0}
-  .ab-ttl{font:400 9.09vw/1.176 var(--serif);text-transform:uppercase;letter-spacing:-.01em;margin:-5.9vw 0 0;padding-left:calc(var(--ax) / .82);
-          width:calc(100% / .82);transform:scaleX(.82);transform-origin:0 0}   /* узкий Times: как логотип, сжатие .82 */
-  .ab-ttl .r{display:block;text-align:right;margin-right:calc(1.9vw / .82)}
+  .ab-ttl{font:400 8.45vw/1.265 var(--serif);text-transform:uppercase;letter-spacing:-.01em;margin:-5.9vw 0 0;padding-left:var(--ax)}   /* 8.45 = 9.09 × .93: строки той же ширины, шаг строк тот же (10.69vw) */
+  .ab-ttl .r{display:block;text-align:right;margin-right:1.9vw}
   .ab-ph{position:relative;margin:2.78vw calc(-1 * var(--gut)) 0 0}
   .ab-row{margin-left:calc(37.92vw - var(--gut));display:flex;gap:1.53vw;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity;overscroll-behavior-x:contain}
   .ab-row::-webkit-scrollbar{display:none}
@@ -529,16 +534,16 @@
   .ab-nastya figcaption{margin-top:10px;display:flex;justify-content:space-between;align-items:baseline}
   .ab-hw{display:contents}
   .ab-fl{position:absolute;left:calc(14.17vw - var(--gut));top:calc(31.39vw * 2 / 3);transform:translateY(-50%);width:5.9vw;margin:0}
-  .ab-hours{position:absolute;left:calc(72.5vw - var(--gut));bottom:6.6vw;margin:0;font:400 3.11vw/1.16 var(--serif);text-transform:uppercase;letter-spacing:-.01em;transform:scaleX(.82);transform-origin:0 100%;white-space:nowrap}
+  .ab-hours{position:absolute;left:calc(72.5vw - var(--gut));bottom:6.6vw;margin:0;font:400 2.92vw/1.236 var(--serif);text-transform:uppercase;letter-spacing:-.01em;white-space:nowrap}
   @media (max-width:820px){
     /* телефон, макет 390: X/3.9 = vw. Большой абзац и ряд фото уходят за правый край и листаются вбок */
     .ab-house{margin:2.5vw auto 0;width:70.8vw}
     .ab-info{display:none}
     #about{padding-bottom:9.7vw}   /* от часов до подвала 38px */
-    /* кегль от ширины между полями: самая длинная строка «КАЖДЫЙ ДЕНЬ СВЕЖИЙ» = 9.65 кегля (Times × .82) */
-    .ab-ttl{font-size:calc((100vw - 2 * var(--gut) - 2 * var(--ax)) / 9.65);margin-top:5.4vw}
+    /* кегль от ширины между полями: самая длинная строка «КАЖДЫЙ ДЕНЬ СВЕЖИЙ» = 10.44 кегля (Times Cond) */
+    .ab-ttl{font-size:calc((100vw - 2 * var(--gut) - 2 * var(--ax)) / 10.44);margin-top:5.4vw}
     #about{--ax:16px}   /* телефон: заголовок и ряд фото с одним отступом 32px слева и справа */
-    .ab-ttl .r{margin-right:calc(var(--ax) / .82)}
+    .ab-ttl .r{margin-right:var(--ax)}
     .ab-ph{margin-top:7vw}
     .ab-row{margin-left:var(--ax);gap:5.1vw}
     .ab-im{flex-basis:72.6vw}
