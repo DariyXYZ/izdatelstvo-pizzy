@@ -236,7 +236,15 @@
   .mh-oil{left:4.45em;top:1.503em;width:.744em}
   @media (min-width:821px){#menu .mhold{--bh:100px;height:auto;margin-top:33px}
                            #menu .mhold .btn.menubtn.bk{font-size:25px}}
-  @media (max-width:820px){#menu .mhold{height:auto;margin-top:20px}#menu .mhead{--mh-top:1.2em}}
+  /* телефон — столбиком, как «О нас»: кнопка → рисунок пиццы по центру → заголовок во всю ширину (кегль по самой длинной строке) → лента */
+  @media (max-width:820px){
+    #menu .mhold{height:auto;margin-top:20px}
+    #menu .mhead{font-size:calc((100vw - 2 * var(--gut)) / 14.25);margin:7vw 0 5.4vw;display:flex;flex-direction:column}
+    #menu .mhead img{position:static}
+    #menu .mh-pizza{width:70.8vw;margin:0 auto}
+    #menu .mh-oil{width:13vw;align-self:flex-end;margin:-9vw 2vw 0 0}
+    #menu .mh-ttl{text-align:left;margin:6vw 0 0;padding:0}
+  }
 
   /* лента — колонки как в Пинтересте: ширина одна, высота у карточек разная (--pin), без скруглений и подписей — только фото.
      Порядок сверху вниз внутри колонки; первая карточка — закреплённая акция (Дарий, 2026-09-28) */
@@ -256,7 +264,7 @@
      «закреплено» — белая иконка-кнопка в углу */
   .fc.promo .im{position:relative}
   .fc.promo .tag{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;text-align:center;
-                 color:#fff;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cellipse cx='50' cy='50' rx='48.8' ry='48.8' fill='none' stroke='white' stroke-width='1.5' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center/100% 100% no-repeat;padding:1.05em 1.9em 1.1em;text-shadow:0 1px 3px rgba(0,0,0,.35);
+                 color:#fff;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cellipse cx='50' cy='50' rx='48.8' ry='48.8' fill='none' stroke='white' stroke-width='1.5' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center/100% 100% no-repeat;padding:2.3em 3.4em 2.4em;text-shadow:0 1px 3px rgba(0,0,0,.35);
                  font-family:var(--sans);font-size:10px;line-height:1.25;text-transform:uppercase;letter-spacing:var(--caps-ls);font-weight:600}
   .fc.promo .tag::before{content:"";position:absolute;inset:4px;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cellipse cx='50' cy='50' rx='48.8' ry='48.8' fill='none' stroke='white' stroke-width='0.75' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center/100% 100% no-repeat}
   .fc.promo .tag b{display:block;font-family:"Roboto Flex",system-ui,sans-serif;font-weight:1000;font-style:oblique 10deg;font-variation-settings:"slnt" -10,"wght" 1000;
@@ -491,7 +499,7 @@
     /* лента: две колонки, в оверлее снимок над текстом */
     /* телефон: 2 колонки — портреты парой, «воздух» рядом с портретом, широкий на всю ширину */
     .feed{--cols:2;gap:10px}.fcol{gap:10px}
-    .fc.promo .tag{font-size:8px;padding:.95em 1.5em 1em}.fc.promo .tag::before{inset:3px}.fc.promo .tag b{font-size:13px}
+    .fc.promo .tag{font-size:8px;padding:2em 2.6em 2.1em}.fc.promo .tag::before{inset:3px}.fc.promo .tag b{font-size:13px}
     .fc figcaption{font-size:12px}
     .lb .in{grid-template-columns:1fr;gap:18px}
     /* снимок на всю ширину фрейма, без белых полей по бокам; высота — по пропорции кадра */
