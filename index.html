@@ -527,6 +527,8 @@
   .ab-p p{margin:0;text-indent:10.8em}   /* без text-wrap:pretty — он укорачивает строки против макета */
   /* хвост абзаца не рвётся (fixTails): концевая строка не короче отступа, без коротышек */
   .nobr{white-space:nowrap}
+  /* «Концепция»: без отступа, до текста пустая строка (два Enter) */
+  .ab-p .ab-lbl{text-indent:0;margin-bottom:1lh}
   .ab-chair{position:absolute;left:calc(83.54vw - var(--gut));top:9.1vw;width:10.14vw;margin:0}
   .ab-chair figcaption{position:absolute;right:calc(100% + 56px);top:35.6%;transform:translateY(-50%);white-space:nowrap}
   .ab-chair figcaption::after{content:"";position:absolute;left:calc(100% + 14px);top:50%;width:40px;height:1px;background:var(--ink);transform:rotate(30deg);transform-origin:0 0}
@@ -558,7 +560,7 @@
     .ab-scroll{padding-left:0}
     .ab-p{font-size:11.8px;line-height:15px;width:auto}
     .ab-p p{text-indent:0}
-    .ab-p p + p{text-indent:25.3vw}   /* второй абзац — от края первого, который обтекает картину */
+    .ab-p p + p:not(.ab-lbl + p){text-indent:25.3vw}   /* второй абзац — от края первого, который обтекает картину */
     .ab-chair{position:relative;left:auto;top:auto;width:32vw;margin:10vw 0 0 calc(55.6vw - var(--gut))}
     .ab-chair figcaption{right:calc(100% + 48px);font-size:12px}
     .ab-na{margin-top:11.5vw}
@@ -623,7 +625,7 @@
     <div class="ab-mid">
       <div class="ab-tx">
         <figure class="ab-fr ab-fr-m" aria-hidden="true"><img src="img/doodles/kartina.svg" width="211" height="284" alt=""></figure>
-        <div class="ab-scroll"><div class="ab-p" data-i18n="abText"><p>Небольшая пиццерия на Таганке, в переулке Маяковского, рядом с метро «Марксистская». Вход с торца жилого дома: подняться по лестнице мимо бутылок с цветами, пройти под деревом с гирляндой. Держат её Настя и Стас. Название не случайное, место устроено как маленькая редакция. Пицца здесь — ежедневный тираж: тесто и печь каждый день, меню обновляется раз в неделю. Что вышло в этом номере, написано на листе, который приносят на доске с зажимом. В меню пицца и фокачча, итальянские закуски, салаты, десерты и выпечка к кофе. Недавно появилось вино и коктейли на его основе: негрони, домашний вермут.</p><p>Внутри просто: пластиковые стулья, банки томатов, лимоны на столах, цветы в бутылках. Наполовину Италия, наполовину двор, где выросли хозяева. Сюда приходят поесть пиццу, а не на ужин с дресс-кодом.</p></div></div>
+        <div class="ab-scroll"><div class="ab-p" data-i18n="abText"><p class="ab-lbl">Концепция</p><p>Небольшая пиццерия на Таганке, в переулке Маяковского, рядом с метро «Марксистская». Вход с торца жилого дома: подняться по лестнице мимо бутылок с цветами, пройти под деревом с гирляндой. Держат её Настя и Стас. Название не случайное, место устроено как маленькая редакция. Пицца здесь — ежедневный тираж: тесто и печь каждый день, меню обновляется раз в неделю. Что вышло в этом номере, написано на листе, который приносят на доске с зажимом. В меню пицца и фокачча, итальянские закуски, салаты, десерты и выпечка к кофе. Недавно появилось вино и коктейли на его основе: негрони, домашний вермут.</p><p>Внутри просто: пластиковые стулья, банки томатов, лимоны на столах, цветы в бутылках. Наполовину Италия, наполовину двор, где выросли хозяева. Сюда приходят поесть пиццу, а не на ужин с дресс-кодом.</p></div></div>
       </div>
       <figure class="ab-chair"><img src="img/doodles/stul.svg" width="324" height="452" alt="Рисунок: стул-моноблок"><figcaption data-i18n="dream">Наша мечта</figcaption></figure>
     </div>
@@ -830,7 +832,7 @@
   /* коротышка: хвост абзаца не рвётся, чтобы концевая строка была не короче абзацного отступа (18 знаков),
      но не длиннее трети строки — иначе перед хвостом остаётся дыра. Пересчёт при смене ширины */
   function fixTails(root){
-    root.querySelectorAll('.ab-p p').forEach(p => {
+    root.querySelectorAll('.ab-p p:not(.ab-lbl)').forEach(p => {
       p.querySelectorAll('.nobr').forEach(s => s.replaceWith(s.textContent));
       p.normalize();
       const fs = parseFloat(getComputedStyle(p).fontSize), ch = fs * .6;   // Roboto Mono: знак = .6em
@@ -1074,7 +1076,7 @@
     addr:'<span class="cap">Address</span>Moscow, Mayakovskogo lane, 2<br>entrance from the end of the building, Marksistskaya side',
     abInfo:'Entrance at the end of the building: up the stairs<br>past flowers in bottles, under the string-lit tree.',
     abTtl:'<span class="r">In Taganka.</span>We publish pizza<br>every day, a fresh<br>print run in<br>Mayakovskogo lane',
-    abText:'<p>A small pizzeria in Taganka, in Mayakovskogo lane, near Marksistskaya metro. The entrance is at the end of a residential building: up the stairs past bottles with flowers, under the tree with string lights. It is run by Nastya and Stas. The name is no accident: the place works like a small editorial office. Pizza here is a daily print run: dough and oven every day, the menu changes once a week. What came out in this issue is written on a sheet brought to you on a clipboard. On the menu: pizza and focaccia, Italian starters, salads, desserts and pastries for coffee. Recently we added wine and wine-based cocktails: negroni, house vermouth.</p><p>It is simple inside: plastic chairs, tins of tomatoes, lemons on the tables, flowers in bottles. Half Italy, half the courtyard where the owners grew up. People come here to eat pizza, not for a dress-code dinner.</p>',
+    abText:'<p class="ab-lbl">Concept</p><p>A small pizzeria in Taganka, in Mayakovskogo lane, near Marksistskaya metro. The entrance is at the end of a residential building: up the stairs past bottles with flowers, under the tree with string lights. It is run by Nastya and Stas. The name is no accident: the place works like a small editorial office. Pizza here is a daily print run: dough and oven every day, the menu changes once a week. What came out in this issue is written on a sheet brought to you on a clipboard. On the menu: pizza and focaccia, Italian starters, salads, desserts and pastries for coffee. Recently we added wine and wine-based cocktails: negroni, house vermouth.</p><p>It is simple inside: plastic chairs, tins of tomatoes, lemons on the tables, flowers in bottles. Half Italy, half the courtyard where the owners grew up. People come here to eat pizza, not for a dress-code dinner.</p>',
     abHours:'Out daily<br>from 12:00<br>to 22:00.<br><br>Tables —<br>by phone<br><a class="u" href="tel:+79670796093">+7 967 079-60-93</a>.<br>See you!',
     menu1:'<sup>1</sup>The menu changes every week. Now with wine and wine-based cocktails.',
     'sheet-cap':'This is how the menu lies on our tables.',
