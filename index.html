@@ -87,11 +87,12 @@
   #home > *:not(.bg){position:relative;z-index:1}
   #home .acts{margin-bottom:clamp(18px,3vw,34px)}
   #home .nav a{color:#fff}
-  /* двойной эллипс: внешняя линия 1px, внутренняя 0.5px (вдвое тоньше) */
-  #home .nav a.pill{position:relative;border:1px solid #fff}
-  #home .nav a.pill::before{content:"";position:absolute;inset:4px;border:.5px solid #fff;border-radius:50%;pointer-events:none}
+  /* двойной эллипс векторными линиями (CSS-рамки на эллипсе браузер округляет до пикселей экрана — толщины сравниваются):
+     внешняя 1.5px, внутренняя 0.75px — вдвое тоньше на любом экране */
+  #home .nav a.pill{position:relative;border:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cellipse cx='50' cy='50' rx='48.8' ry='48.8' fill='none' stroke='white' stroke-width='1.5' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+  #home .nav a.pill::before{content:"";position:absolute;inset:4px;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cellipse cx='50' cy='50' rx='48.8' ry='48.8' fill='none' stroke='white' stroke-width='0.75' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center/100% 100% no-repeat}
   @media (hover:hover){#home .nav a.pill:hover{background:#fff;color:var(--ink)}
-                       #home .nav a.pill:hover::before{border-color:var(--ink)}}
+                       #home .nav a.pill:hover::before{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cellipse cx='50' cy='50' rx='48.8' ry='48.8' fill='none' stroke='black' stroke-width='0.75' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center/100% 100% no-repeat}}
   #home .infobar{border-top:1px dashed rgba(255,255,255,.34)}
   #home .infobar .cap{color:rgba(255,255,255,.62)}
   #home .note{color:rgba(255,255,255,.52)}
@@ -345,6 +346,11 @@
   /* виджет Яндекс Карт рисует рекламу внизу — контейнер ниже iframe на --ad, лишнее обрезается */
   .map{--ad:210px;aspect-ratio:21/9;min-height:320px;margin-top:clamp(28px,4vw,56px);position:relative;overflow:hidden;filter:grayscale(1)}
   .map iframe{position:absolute;inset:0;width:100%;height:calc(100% + var(--ad));border:0;display:block}
+  /* слой поверх карты: колесо и свайп листают страницу, карта не зумится; клик/тап — карта включается, ушли — снова слой */
+  .mapcover{all:unset;position:absolute;inset:0;z-index:1;cursor:pointer;display:flex;align-items:flex-end;justify-content:flex-start;padding:12px}
+  .mapcover .cap{background:var(--bg);color:var(--ink);padding:6px 8px;opacity:0;transition:opacity .2s}
+  .mapcover.hint .cap,.mapcover:focus-visible .cap{opacity:1}
+  .map.on .mapcover{display:none}
   .maplink{margin:10px 0 0}
   .cards{display:grid;grid-template-columns:1fr 1fr;gap:var(--g);margin-top:var(--g)}
   .card{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
@@ -645,7 +651,7 @@
       <div><div class="cap">Часы</div><p data-i18n="c-hours">ежедневно 12:00–22:00<br>в зале и с собой, доставка скоро</p></div>
       <div><div class="cap">Соцсети</div><p data-i18n="c-social"><a class="u" href="https://www.instagram.com/pizza.izdat/" target="_blank" rel="noopener">@pizza.izdat</a>*</p></div>
     </div>
-    <div class="map"><iframe src="https://yandex.ru/map-widget/v1/?ll=37.659627%2C55.739559&z=16&pt=37.659627%2C55.739559%2Cpm2blm" title="Издательство пиццы на Яндекс Картах" loading="lazy" allowfullscreen></iframe></div>
+    <div class="map"><iframe src="https://yandex.ru/map-widget/v1/?ll=37.659627%2C55.739559&z=16&pt=37.659627%2C55.739559%2Cpm2blm" title="Издательство пиццы на Яндекс Картах" loading="lazy" allowfullscreen></iframe><button class="mapcover" type="button" aria-label="Включить карту"><span class="cap">Нажмите на карту, чтобы её двигать</span></button></div>
     <p class="maplink"><a class="u" href="https://yandex.ru/maps/org/izdatelstvo_pitstsy/115760984562/" target="_blank" rel="noopener">Открыть в Яндекс Картах</a></p>
     <figure class="sk bookend" style="--w:120px"><img src="img/doodles/limon.svg" width="212" height="181" alt="Рисунок: лимон с номером столика"></figure>
   </section>
@@ -951,6 +957,16 @@
     if (open === lb && e.key === 'ArrowRight' && lbi < cards.length - 1) openLb(lbi + 1);
   });
 
+  /* карта: пока не нажали — колесо листает страницу, а не зумит карту */
+  const mapEl = document.querySelector('.map'), mapCover = mapEl && mapEl.querySelector('.mapcover');
+  if (mapCover) {
+    let hintT = 0;
+    mapCover.addEventListener('click', () => mapEl.classList.add('on'));
+    mapCover.addEventListener('wheel', () => { mapCover.classList.add('hint'); clearTimeout(hintT); hintT = setTimeout(() => mapCover.classList.remove('hint'), 1400); }, {passive: true});
+    mapEl.addEventListener('mouseleave', () => mapEl.classList.remove('on'));
+    document.addEventListener('touchstart', e => { if (!mapEl.contains(e.target)) mapEl.classList.remove('on'); }, {passive: true});
+  }
+
   /* Ru/En: словарь по тексту для «листьев» + html-блоки по data-i18n; RU запоминается при старте, чтобы вернуть */
   const EN_HTML = {
     addr:'<span class="cap">Address</span>Moscow, Mayakovskogo lane, 2<br>entrance from the end of the building, Marksistskaya side',
@@ -976,7 +992,7 @@
   const EN_TEXT = {
     'О нас':'About','Меню':'Menu','Забронировать':'Book a table','Бронь':'Book','Забронировать стол':'Book a table',
     'Адрес':'Address','Ежедневно':'Daily','Телефон':'Phone','Соцсети':'Social','Часы':'Hours','Связь':'Contact','Ежедневно 12:00–22:00':'Daily 12:00–22:00',
-    'Вход':'Entrance','Зал':'Room','Печь':'Oven','Двор':'Yard','Владельцы':'Owners','Настя':'Nastya','редакция':'editorial office','Повар':'Chef','за печью':'at the oven',
+    'Вход':'Entrance','Зал':'Room','Печь':'Oven','Двор':'Yard','Владельцы':'Owners','Нажмите на карту, чтобы её двигать':'Click the map to move it','Настя':'Nastya','редакция':'editorial office','Повар':'Chef','за печью':'at the oven',
     'Пицца и фокачча':'Pizza & focaccia','Десерты и выпечка':'Desserts & pastry','Салаты и закуски':'Salads & starters','Напитки':'Drinks','Фото позиции':'Photo',
     'Маргарита':'Margherita','Пепперони':'Pepperoni','Четыре сыра':'Four cheese','Капрезе':'Caprese','С ветчиной, грибами, оливками и артишоками':'Ham, mushrooms, olives & artichokes',
     'С мортаделлой и артишоками':'Mortadella & artichokes','Страчателла с пармой':'Stracciatella & Parma ham','С баклажанами и копчёным скаморца':'Eggplant & smoked scamorza',
