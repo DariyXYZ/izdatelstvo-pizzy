@@ -377,14 +377,11 @@
   .legal .lr nav a{color:#fff;text-decoration:none}
   .legal a{color:#fff;text-decoration:underline;text-underline-offset:.12em}
   main[data-tab="home"] ~ footer{display:none}
-  /* лёгкий подвал как инфострока на главной: без чёрной плитки, пунктир сверху, серые подписи, сноска обычными буквами */
-  footer{background:none;color:var(--ink);margin-left:0;margin-right:0;padding:0 0 calc(18px + env(safe-area-inset-bottom,0px))}
-  footer .fcols{border-top:1px dashed var(--line);padding-top:18px;align-items:end}
-  footer .fcols .cap{color:var(--mute)}
-  footer .legal{display:block;margin-top:14px;color:var(--mute);font-size:11px}
+  /* подвал: чёрная плитка в клетку; содержимое облегчённое — сноска про Meta обычными буквами и ссылка на реквизиты */
+  footer .legal{display:block;margin-top:22px;font-size:11px}
   footer .legal p{margin:0 0 3px}
-  footer .legal a{color:var(--mute)}
-  @media (hover:hover){footer .legal a:hover{color:var(--ink)}}
+  footer .legal a{color:rgba(255,255,255,.55)}
+  @media (hover:hover){footer .legal a:hover{color:#fff}}
 
   @media (max-width:820px){
     /* мобильная шапка: слева «О нас», по центру лого, справа язык. Меню и бронь — в нижней панели */
@@ -454,8 +451,7 @@
     .lb .im img{width:100%;height:auto;object-fit:cover}
     #menu .big{margin-bottom:10px}
     .hint{margin-bottom:40px}
-    footer{padding:0 0 calc(16px + env(safe-area-inset-bottom,0px))}
-    footer .fcols{padding-top:12px}
+    footer{padding:24px var(--gut) calc(24px + env(safe-area-inset-bottom,0px) + var(--fit,0px));--tile:40px}
     .legal{margin-top:18px;grid-template-columns:1fr}
     .legal .lr{display:none}
     .fcols{grid-template-columns:auto auto auto;justify-content:space-between;gap:12px 14px;font-size:14px}
@@ -494,6 +490,11 @@
   .ab-ph{position:relative;margin:2.78vw calc(-1 * var(--gut)) 0 0}
   .ab-row{margin-left:calc(37.92vw - var(--gut));display:flex;gap:1.53vw;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity;overscroll-behavior-x:contain}
   .ab-row::-webkit-scrollbar{display:none}
+  /* с компа ряд листается стрелками и перетаскиванием мышью (колесо листает страницу) */
+  .ab-arr{position:absolute;top:calc(100% + 8px);left:calc(37.92vw - var(--gut) - 4px);display:flex;gap:28px}   /* вне потока — картина и абзац стоят по макету */
+  .ab-arr[hidden]{display:none}
+  @media (pointer:fine){.ab-row{cursor:grab}.ab-row.drag{cursor:grabbing;scroll-snap-type:none}.ab-row.drag img{pointer-events:none}}
+  .ab-row img{-webkit-user-drag:none;user-select:none}
   .ab-im{flex:0 0 22.5vw;aspect-ratio:3/4;overflow:hidden;background:var(--ph);scroll-snap-align:start;margin:0}
   .ab-im img,.ab-nastya img{display:block;width:100%;height:100%;object-fit:cover}
   .ab-fr{margin:0;width:6.32vw}
@@ -527,6 +528,7 @@
     .ab-row{margin-left:var(--ax);gap:5.1vw}
     .ab-im{flex-basis:72.6vw}
     .ab-ph .ab-fr{display:none}
+    .ab-arr{display:none}
     .ab-mid{margin-top:13.6vw}
     .ab-tx{display:flex;align-items:center;margin-right:calc(-1 * var(--gut))}
     .ab-fr-m{display:block;flex:0 0 20.3vw;margin-left:4.4vw}
@@ -594,6 +596,7 @@
         <figure class="ab-im"><img src="img/about/mutti.webp" loading="lazy" alt="Банки томатов Mutti"></figure>
         <figure class="ab-im"><img src="img/about/myaso.webp" loading="lazy" alt="Мясная тарелка"></figure>
       </div>
+      <div class="ab-arr" hidden><button class="ar" type="button" data-d="-1" aria-label="Предыдущие фото"><span class="a-on">&lt;---</span><span class="a-end">x---</span></button><button class="ar" type="button" data-d="1" aria-label="Следующие фото"><span class="a-on">---&gt;</span><span class="a-end">---x</span></button></div>
     </div>
     <div class="ab-mid">
       <div class="ab-tx">
@@ -984,6 +987,40 @@
     if (open === lb && e.key === 'ArrowRight' && lbi < cards.length - 1) openLb(lbi + 1);
   });
 
+  /* ряд фото «О нас»: стрелки + перетаскивание мышью (тач и тачпад листают сами) */
+  const abRow = document.querySelector('.ab-row'), abArr = document.querySelector('.ab-arr');
+  if (abRow && abArr) {
+    const btns = abArr.querySelectorAll('.ar');
+    const upd = () => {
+      const max = abRow.scrollWidth - abRow.clientWidth;
+      abArr.hidden = max < 2;
+      btns[0].classList.toggle('end', abRow.scrollLeft < 2);
+      btns[1].classList.toggle('end', abRow.scrollLeft > max - 2);
+    };
+    const step = () => { const f = abRow.querySelector('.ab-im'); return f ? f.offsetWidth + parseFloat(getComputedStyle(abRow).columnGap || 0) : 300; };
+    btns.forEach(b => b.addEventListener('click', () => abRow.scrollBy({left: +b.dataset.d * step(), behavior: 'smooth'})));
+    abRow.addEventListener('scroll', upd, {passive: true});
+    window.addEventListener('resize', upd);
+    new ResizeObserver(upd).observe(abRow);
+    let dx0 = null, sl0 = 0, moved = false;
+    abRow.addEventListener('pointerdown', e => {
+      if (e.pointerType !== 'mouse' || e.button) return;
+      dx0 = e.clientX; sl0 = abRow.scrollLeft; moved = false;
+    });
+    window.addEventListener('pointermove', e => {
+      if (dx0 === null) return;
+      const d = e.clientX - dx0;
+      if (!moved && Math.abs(d) > 4) { moved = true; abRow.classList.add('drag'); }
+      if (moved) abRow.scrollLeft = sl0 - d;
+    });
+    window.addEventListener('pointerup', () => {
+      if (dx0 === null) return;
+      dx0 = null;
+      if (moved) { abRow.classList.remove('drag'); const s = step(), max = abRow.scrollWidth - abRow.clientWidth, x = abRow.scrollLeft; abRow.scrollTo({left: x > max - s / 2 ? max : Math.round(x / s) * s, behavior: 'smooth'}); }
+    });
+    upd();
+  }
+
   /* карта: пока не нажали — колесо листает страницу, а не зумит карту */
   const mapEl = document.querySelector('.map'), mapCover = mapEl && mapEl.querySelector('.mapcover');
   if (mapCover) {
@@ -1065,7 +1102,6 @@
   document.querySelector('.lang').addEventListener('click', e => { e.preventDefault(); setLang(document.documentElement.lang === 'en' ? 'ru' : 'en'); });
   function fitTiles(){
     foot.style.setProperty('--fit','0px');
-    return;   /* подвал без плитки — добивать высоту до клетки не нужно */
     if (!foot.offsetHeight) return;
     const tile = parseFloat(getComputedStyle(foot).getPropertyValue('--tile')) || 28, rest = foot.offsetHeight % tile;
     foot.style.setProperty('--fit', (rest ? tile - rest : 0) + 'px');
