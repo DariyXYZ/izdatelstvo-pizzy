@@ -210,7 +210,7 @@
   .mbar{margin:0 0 clamp(20px,3vw,40px)}   /* без пунктира — только отступ перед лентой */
 
   /* лента: каменная кладка колонками, порядок сверху вниз внутри колонки */
-  /* лента — модульная сетка 6 колонок: портрет = 1×2 модуля, пара горизонтальных = 1×1 друг над другом,
+  /* лента — модульная сетка 6 колонок: портрет = 1×2 модуля, «воздух» = та же ячейка 1×2 с маленьким снимком по центру,
      широкий = 2×2, крупный = 2×4. Модуль по высоте ~0.72 колонки; снимки кадрируются под ячейку */
   .feedw{container-type:inline-size}
   .feed{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:var(--g);
@@ -219,11 +219,12 @@
   .fc .im{flex:1 1 0;min-height:0;aspect-ratio:auto}
   .fc img{display:block;width:100%;height:100%;object-fit:cover}
   .fc figcaption{display:none}   /* в ленте только снимки; название и состав — в лайтбоксе */
+  .fc:nth-child(4) .im,.fc:nth-child(11) .im,.fc:nth-child(13) .im{flex:none;width:56%;aspect-ratio:3/4;margin:auto}
   .fc:nth-child(1){grid-area:1/1/3/2}  .fc:nth-child(2){grid-area:1/2/3/3}  .fc:nth-child(3){grid-area:1/3/3/4}
-  .fc:nth-child(4){grid-area:1/4/2/5}  .fc:nth-child(5){grid-area:2/4/3/5}  .fc:nth-child(6){grid-area:1/5/3/7}
-  .fc:nth-child(7){grid-area:3/1/7/3}  .fc:nth-child(8){grid-area:3/3/5/4}  .fc:nth-child(9){grid-area:3/4/5/5}
-  .fc:nth-child(10){grid-area:3/5/5/7} .fc:nth-child(11){grid-area:5/3/6/4} .fc:nth-child(12){grid-area:6/3/7/4}
-  .fc:nth-child(13){grid-area:5/4/7/6} .fc:nth-child(14){grid-area:5/6/7/7}
+  .fc:nth-child(4){grid-area:1/4/3/5}  .fc:nth-child(5){grid-area:1/5/3/6}  .fc:nth-child(6){grid-area:1/6/3/7}
+  .fc:nth-child(7){grid-area:3/1/7/3}  .fc:nth-child(8){grid-area:3/3/5/4}  .fc:nth-child(9){grid-area:3/4/5/6}
+  .fc:nth-child(10){grid-area:3/6/5/7} .fc:nth-child(11){grid-area:5/3/7/4} .fc:nth-child(12){grid-area:5/4/7/5}
+  .fc:nth-child(13){grid-area:5/5/7/6} .fc:nth-child(14){grid-area:5/6/7/7}
   .fc figcaption::before{content:attr(data-n) " · "}
   .fc:hover figcaption,.fc:focus-visible figcaption{color:var(--ink)}
   .fc:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
@@ -416,14 +417,18 @@
     .map{aspect-ratio:4/3;min-height:0}
     .cards{grid-template-columns:1fr}
     /* лента: две колонки, в оверлее снимок над текстом */
-    /* телефон: 2 колонки — портреты парой, пара горизонтальных рядом с портретом, широкий на всю ширину */
+    /* телефон: 2 колонки — портреты парой, «воздух» рядом с портретом, широкий на всю ширину */
     .feed{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;grid-auto-rows:calc((100cqw - 10px) / 2 * .72)}
-    .fc:nth-child(1){grid-area:1/1/3/2}  .fc:nth-child(2){grid-area:1/2/3/3}
-    .fc:nth-child(3){grid-area:3/1/4/2}  .fc:nth-child(4){grid-area:4/1/5/2}  .fc:nth-child(5){grid-area:3/2/5/3}
-    .fc:nth-child(6){grid-area:5/1/7/3}
-    .fc:nth-child(7){grid-area:7/1/9/2}  .fc:nth-child(8){grid-area:7/2/8/3}  .fc:nth-child(9){grid-area:8/2/9/3}
-    .fc:nth-child(10){grid-area:9/1/11/2} .fc:nth-child(11){grid-area:9/2/11/3}
-    .fc:nth-child(12){grid-area:11/1/12/2} .fc:nth-child(13){grid-area:12/1/13/2} .fc:nth-child(14){grid-area:11/2/13/3}
+    .fc:nth-child(1){grid-area:1/1/3/2}   .fc:nth-child(2){grid-area:1/2/3/3}
+    .fc:nth-child(3){grid-area:3/1/5/2}   .fc:nth-child(4){grid-area:3/2/5/3}
+    .fc:nth-child(5){grid-area:5/1/7/3}
+    .fc:nth-child(6){grid-area:7/1/9/2}   .fc:nth-child(7){grid-area:7/2/9/3}
+    .fc:nth-child(8){grid-area:9/1/11/2}  .fc:nth-child(9){grid-area:9/2/11/3}
+    .fc:nth-child(10){grid-area:11/1/13/3}
+    .fc:nth-child(11){grid-area:13/1/15/2} .fc:nth-child(12){grid-area:13/2/15/3}
+    .fc:nth-child(13){grid-area:15/1/17/2} .fc:nth-child(14){grid-area:15/2/17/3}
+    .feed .fc:nth-child(n) .im{flex:1 1 0;width:auto;aspect-ratio:auto;margin:0}
+    .feed .fc:nth-child(3) .im,.feed .fc:nth-child(7) .im,.feed .fc:nth-child(11) .im{flex:none;width:56%;aspect-ratio:3/4;margin:auto}
     .fc figcaption{font-size:12px}
     .lb .in{grid-template-columns:1fr;gap:18px}
     /* снимок на всю ширину фрейма, без белых полей по бокам; высота — по пропорции кадра */
