@@ -60,8 +60,9 @@
   .nav a.pill{border:1px solid var(--ink);border-radius:50%;padding:1.55em 1.6em;line-height:1;white-space:nowrap}
   .nav a.pill.on{background:var(--ink);color:var(--bg)}
   .logo{text-align:center;line-height:.8;display:block}
-  .logo .l1{font-family:var(--serif);font-size:var(--l1);text-transform:uppercase;letter-spacing:-.01em;display:inline-block;transform:scaleX(.82);transform-origin:center}
-  .logo .l2{font-family:var(--serif);font-size:clamp(15px,1.5vw,22px);display:block;margin-top:-.05em;transform:scaleX(.9);transform-origin:center}
+  /* логотип — тоже CoFo Cinema1909 (он сам узкий — без scaleX; кегль ×1.15, чтобы ширина осталась близкой к прежней) */
+  .logo .l1{font-family:var(--head);font-size:calc(var(--l1) * 1.15);text-transform:uppercase;letter-spacing:0;display:inline-block}
+  .logo .l2{font-family:var(--head);font-size:clamp(15px,1.5vw,22px);display:block;margin-top:.02em}
 
   main{flex:1 1 auto;display:flex;flex-direction:column}
   main section{display:none}
