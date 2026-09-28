@@ -322,7 +322,8 @@
   .drf .fl{fill:#fff;stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke;pointer-events:auto;cursor:grab}
   .dr.drag img,.dr.drag ~ .drf .fl{cursor:grabbing}
   html.menu-open #menubtn{visibility:hidden}
-  @media (max-width:820px){:root{--bh:54px}.btn.menubtn{font-size:14px}}
+  /* на телефоне полоса почти в ширину кнопки — опускаем её, чтобы верх не прилипал к низу кнопки */
+  @media (max-width:820px){:root{--bh:54px}.btn.menubtn{font-size:14px}.dr,.drf{top:22px}}
   html.menu-open{overflow:hidden}
   .tabbar{display:none}
   .pdfmiss{display:none;font-family:var(--serif);font-style:italic;color:var(--mute);padding:clamp(40px,10vh,120px) 0;text-align:center}
