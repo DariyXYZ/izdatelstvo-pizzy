@@ -13,10 +13,10 @@
     font-style:normal;
     unicode-range:U+0030-0039;
   }
-  /* заголовки — CoFo Cinema1909 (Trial, Contrast Foundry); цифры в заголовках тоже из него, без Digits */
-  @font-face{font-family:'CoFo Cinema1909';src:url(fonts/CoFoCinema1909-Trial.woff2) format('woff2');font-weight:400;font-display:swap}
+  /* заголовки — Izdat: свой шрифт на основе Forum (SIL OFL, fonts/OFL.txt), сжат ×0.85, засечки проще; цифры тоже из него */
+  @font-face{font-family:'Izdat';src:url(fonts/Izdat-Regular.woff2) format('woff2');font-weight:400;font-display:swap}
   :root{
-    --head:'CoFo Cinema1909',"Times New Roman",Times,serif;
+    --head:'Izdat',"Times New Roman",Times,serif;
     --l1:clamp(30px,4vw,56px);
     --bg:#ffffff; --ink:#000000; --mute:#8a8a8a; --off:#c2c2c2; --ph:#ececec; --line:#000;
     --serif:'Digits',"Times New Roman","Tinos",Times,serif;
@@ -60,8 +60,8 @@
   .nav a.pill{border:1px solid var(--ink);border-radius:50%;padding:1.55em 1.6em;line-height:1;white-space:nowrap}
   .nav a.pill.on{background:var(--ink);color:var(--bg)}
   .logo{text-align:center;line-height:.8;display:block}
-  /* логотип — тоже CoFo Cinema1909 (он сам узкий — без scaleX; кегль ×1.15, чтобы ширина осталась близкой к прежней) */
-  .logo .l1{font-family:var(--head);font-size:calc(var(--l1) * 1.15);text-transform:uppercase;letter-spacing:0;display:inline-block}
+  /* логотип — тоже Izdat (без scaleX; кегль ×1.075 — ширина как у прежнего логотипа) */
+  .logo .l1{font-family:var(--head);font-size:calc(var(--l1) * 1.075);text-transform:uppercase;letter-spacing:0;display:inline-block}
   .logo .l2{font-family:var(--head);font-size:clamp(15px,1.5vw,22px);display:block;margin-top:.02em}
 
   main{flex:1 1 auto;display:flex;flex-direction:column}
@@ -462,7 +462,7 @@
     .lb .ttl{font-size:clamp(20px,5.6vw,26px);margin-bottom:10px}
   }
 
-  /* заголовки по всему сайту — CoFo Cinema1909 капсом; он сам узкий, поэтому без сжатия scaleX */
+  /* заголовки по всему сайту — Izdat капсом; он сам узкий, поэтому без сжатия scaleX */
   .big,.lb .ttl,.lb .rc .ttl,.card .ttl,.tile .lab{font-family:var(--head);text-transform:uppercase;letter-spacing:0;transform:none;line-height:1}
   .lb .ttl{width:auto}
 
@@ -477,7 +477,7 @@
   .ab-house img,.ab-fr img,.ab-chair img,.ab-fl img{display:block;width:100%;height:auto}
   .ab-info{position:absolute;left:calc(68.68vw - var(--gut));top:calc(4.86vw - 3px);margin:0;white-space:nowrap}
   .ab-info,.ab-p,.ab-chair figcaption{font-family:var(--sans);font-size:13.4px;line-height:18px;text-transform:uppercase;letter-spacing:0}
-  .ab-ttl{font:400 11.12vw/.9625 var(--head);text-transform:uppercase;letter-spacing:0;margin:-5.9vw 0 0;padding-left:calc(var(--ax) - .02em)}
+  .ab-ttl{font:400 10.02vw/1.068 var(--head);text-transform:uppercase;letter-spacing:0;margin:-5.9vw 0 0;padding-left:calc(var(--ax) - .02em)}
   .ab-ttl .r{display:block;text-align:right;margin-right:1.9vw}
   .ab-ph{position:relative;margin:2.78vw calc(-1 * var(--gut)) 0 0}
   .ab-row{margin-left:calc(37.92vw - var(--gut));display:flex;gap:1.53vw;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity;overscroll-behavior-x:contain}
@@ -501,13 +501,13 @@
   .ab-nastya figcaption{margin-top:10px;display:flex;justify-content:space-between;align-items:baseline}
   .ab-hw{display:contents}
   .ab-fl{position:absolute;left:calc(14.17vw - var(--gut));top:calc(31.39vw * 2 / 3);transform:translateY(-50%);width:5.9vw;margin:0}
-  .ab-hours{position:absolute;left:calc(72.5vw - var(--gut));bottom:5.55vw;margin:0;font:400 3.75vw/.96 var(--head);text-transform:uppercase}
+  .ab-hours{position:absolute;left:calc(72.5vw - var(--gut));bottom:6.6vw;margin:0;font:400 3.38vw/1.065 var(--head);text-transform:uppercase}
   @media (max-width:820px){
     /* телефон, макет 390: X/3.9 = vw. Большой абзац и ряд фото уходят за правый край и листаются вбок */
     .ab-house{margin:2.5vw auto 0;width:70.8vw}
     .ab-info{display:none}
     #about{padding-bottom:9.7vw}   /* от часов до подвала 38px */
-    .ab-ttl{font-size:10.64vw;margin-top:5.4vw;padding-left:0}
+    .ab-ttl{font-size:9.59vw;margin-top:5.4vw;padding-left:0}
     .ab-ttl .r{margin-right:4.5vw}
     .ab-ph{margin-top:7vw}
     .ab-row{margin-left:4.1vw;gap:5.1vw}
@@ -525,7 +525,7 @@
     .ab-nastya{margin:0;width:100%}
     .ab-hw{display:flex;align-items:flex-end;margin-top:8vw}
     .ab-fl{position:static;transform:none;width:19.2vw;flex:0 0 auto;margin-left:9.5vw}
-    .ab-hours{position:static;margin-left:12.8vw;font-size:8.46vw}
+    .ab-hours{position:static;margin-left:12.8vw;font-size:7.62vw}
   }
 </style>
 <style>[hidden]{display:none!important}</style>
