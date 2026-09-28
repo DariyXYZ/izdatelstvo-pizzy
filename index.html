@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Издательство пиццы</title>
 <link rel="preload" href="fonts/TimesNewRomanVO-Cond.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;1,400&family=Roboto+Flex:opsz,slnt,wdth,wght@8..144,-10..0,25..151,100..1000&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;1,400;1,700&family=Roboto+Flex:opsz,slnt,wdth,wght@8..144,-10..0,25..151,100..1000&display=swap">
 <style>
   /* цифры по всему сайту набираются курсивным Times — буквы остаются в своих шрифтах */
   @font-face{
@@ -42,7 +42,8 @@
   .soon{color:var(--mute)}
   .cap{font-family:var(--sans);font-size:10px;line-height:1.1;text-transform:uppercase;letter-spacing:var(--caps-ls);font-weight:500}
   /* главная кнопка — Roboto Flex Black Italic (реф: «МЕНЮ» в овале с двойным контуром) */
-  .bk,.btn.bk{font-family:var(--sans);font-weight:1000;font-style:oblique 10deg;font-variation-settings:"slnt" -10,"wght" 1000;text-transform:uppercase;letter-spacing:-.01em}
+  /* кнопки — Times Bold Italic (Дарий, 2026-09-28; реф «МЕНЮ» в двойном овале). Системный Times New Roman, запасной — Tinos 700 italic из Google */
+  .bk,.btn.bk{font-family:"Times New Roman","Tinos",Times,serif;font-weight:700;font-style:italic;font-variation-settings:normal;text-transform:uppercase;letter-spacing:0}
   .serif{font-family:var(--serif)}
   .cond{font-family:var(--serif)}
   .ph{background:var(--ph);display:flex;align-items:center;justify-content:center;text-align:center;padding:8px 10px;position:relative;max-width:100%}
@@ -124,7 +125,7 @@
   .h-book .short{display:none}
   body:has(main:not([data-tab="home"])) .hdr .hx{display:inline-block}
   /* главная: единственный путь — кнопка «Меню» под видео (сразу открывает меню); в шапке только «О нас» (Дарий, 2026-09-28) */
-  #home .nav a.pill.bk{font-size:clamp(24px,2.2vw,32px);padding:.72em 1.5em .78em}
+  #home .nav a.pill.bk{font-size:clamp(32px,3.2vw,46px);padding:.5em .95em .55em}   /* пропорции рефа: надпись ≈60% ширины овала */
   /* инфострока и подвал — по 8-колоночной сетке: адрес 1–3, часы 4–5, телефон 6–7, соцсети 8 */
   .infobar{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:var(--g);align-items:start;padding:18px 0 22px;line-height:1.15}
   .infobar > :nth-child(1),.fcols > :nth-child(1){grid-column:1/4}
@@ -269,7 +270,7 @@
                  color:#fff;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cellipse cx='50' cy='50' rx='48.8' ry='48.8' fill='none' stroke='white' stroke-width='1.5' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center/100% 100% no-repeat;padding:2.3em 3.4em 2.4em;text-shadow:0 1px 3px rgba(0,0,0,.35);
                  font-family:var(--sans);font-size:10px;line-height:1.25;text-transform:uppercase;letter-spacing:var(--caps-ls);font-weight:600}
   .fc.promo .tag::before{content:"";position:absolute;inset:4px;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cellipse cx='50' cy='50' rx='48.8' ry='48.8' fill='none' stroke='white' stroke-width='0.75' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center/100% 100% no-repeat}
-  .fc.promo .tag b{display:block;font-family:"Roboto Flex",system-ui,sans-serif;font-weight:1000;font-style:oblique 10deg;font-variation-settings:"slnt" -10,"wght" 1000;
+  .fc.promo .tag b{display:block;font-family:"Times New Roman","Tinos",Times,serif;font-weight:700;font-style:italic;font-variation-settings:normal;
                    font-size:19px;letter-spacing:-.01em;margin-bottom:2px}
   .fc.promo .pinned{position:absolute;right:10px;top:10px;width:22px;height:22px;color:#fff;pointer-events:none;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5))}
   .fc.promo .pinned svg{display:block;width:100%;height:100%}
@@ -467,7 +468,7 @@
     body:has(main[data-tab="home"]) .hdr .hx{display:none}
     body:has(main[data-tab="home"]) .h-about{justify-self:start}
     body:has(main[data-tab="home"]) .acts{display:flex}
-    #home .nav a.pill.bk{font-size:24px}
+    #home .nav a.pill.bk{font-size:32px}
     :root{--l1:clamp(26px,8vw,34px)}
     .acts{gap:24px;padding:4px 0 8px}
     .facade img{max-height:46dvh}
