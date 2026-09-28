@@ -43,6 +43,9 @@
   .nav{display:flex;gap:24px;align-items:center}
   /* ссылки шапки стоят по центру строки «ИЗДАТЕЛЬСТВО», а не всего логотипа с «пиццы» */
   .hdr{align-items:start}
+  /* фон шапки — до краёв окна (ряд фото «О нас» уходит за поле и иначе торчит справа при прокрутке) */
+  .hdr{box-shadow:0 0 0 100vmax var(--bg);clip-path:inset(0 -100vmax)}
+  body:has(main[data-tab="home"]) .hdr{box-shadow:none}
   .hdr > .nav{align-self:start;margin-top:calc(var(--l1) * .4 - .62em)}
   .nav.r{justify-content:flex-end}
   .nav a{padding-bottom:2px;border-bottom:1px solid transparent}
