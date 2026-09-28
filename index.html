@@ -172,9 +172,9 @@
   :root{--bh:70px}
   .btn.menubtn{box-sizing:border-box;height:var(--bh);width:calc(var(--bh) * 1602 / 510);display:inline-flex;align-items:center;justify-content:center;
            padding:0 0 calc(var(--bh) * .26);border:0;border-radius:0;text-align:center;
-           background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-6 -6 1614 522' preserveAspectRatio='none'%3E%3Cpath d='M50 3H1551.4C1579 3 1600.7 26.8 1598.2 54.3L1572.4 335.3C1570.2 359.5 1549.9 378 1525.6 378H1158.9C1128.4 378 1098.4 384.8 1070.9 398L886.5 486.7C832.6 512.6 769.8 512.6 715.9 486.7L531.5 398C504 384.8 474 378 443.5 378H75.8C51.5 378 31.2 359.5 29 335.3L3.2 54.3C.7 26.8 22.3 3 50 3Z' fill='white' stroke='black' stroke-width='1.2' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+           background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-6 -6 1614 522' preserveAspectRatio='none'%3E%3Cpath d='M50 3H1551.4C1579 3 1600.7 26.8 1598.2 54.3L1572.4 335.3C1570.2 359.5 1549.9 378 1525.6 378H1158.9C1128.4 378 1098.4 384.8 1070.9 398L886.5 486.7C832.6 512.6 769.8 512.6 715.9 486.7L531.5 398C504 384.8 474 378 443.5 378H75.8C51.5 378 31.2 359.5 29 335.3L3.2 54.3C.7 26.8 22.3 3 50 3Z' fill='white' stroke='black' stroke-width='1' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center/100% 100% no-repeat}
   @media (hover:hover){.btn.menubtn:hover{color:#fff;
-           background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-6 -6 1614 522' preserveAspectRatio='none'%3E%3Cpath d='M50 3H1551.4C1579 3 1600.7 26.8 1598.2 54.3L1572.4 335.3C1570.2 359.5 1549.9 378 1525.6 378H1158.9C1128.4 378 1098.4 384.8 1070.9 398L886.5 486.7C832.6 512.6 769.8 512.6 715.9 486.7L531.5 398C504 384.8 474 378 443.5 378H75.8C51.5 378 31.2 359.5 29 335.3L3.2 54.3C.7 26.8 22.3 3 50 3Z' fill='black' stroke='black' stroke-width='1.2' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center/100% 100% no-repeat}}
+           background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-6 -6 1614 522' preserveAspectRatio='none'%3E%3Cpath d='M50 3H1551.4C1579 3 1600.7 26.8 1598.2 54.3L1572.4 335.3C1570.2 359.5 1549.9 378 1525.6 378H1158.9C1128.4 378 1098.4 384.8 1070.9 398L886.5 486.7C832.6 512.6 769.8 512.6 715.9 486.7L531.5 398C504 384.8 474 378 443.5 378H75.8C51.5 378 31.2 359.5 29 335.3L3.2 54.3C.7 26.8 22.3 3 50 3Z' fill='black' stroke='black' stroke-width='1' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center/100% 100% no-repeat}}
   .cans{display:grid;grid-template-columns:1fr 1fr;align-items:end;margin:calc((var(--ch) - var(--bh)) / -2) 0 clamp(8px,1.6vw,20px)}
   .cans img{display:block;width:auto}
   .cans .c1{height:clamp(72px,7.8dvh,84px);justify-self:start}
@@ -294,19 +294,23 @@
   .mback{position:fixed;inset:0;z-index:220;display:flex;align-items:center;justify-content:center;
          background:rgba(255,255,255,.86);padding:12px var(--gut)}
   .mback[hidden]{display:none}
-  /* стопка листов A4 под кнопкой-зажимом: сверху напитки, под ним основное меню торчит краем.
-     Тап по нижнему листу вынимает его наверх. Верхний лист листается внутри, если длиннее A4 */
+  /* лист A4 основного меню + поверх узкая полоса напитков, как на доске в зале: обе под одним зажимом-кнопкой,
+     полоса чуть повёрнута и ниже — торчит за край листа. Полосу можно отогнуть мышкой/пальцем (плоский сгиб, см. JS) */
   .mwrap{position:relative;padding-top:calc(var(--bh) / 2);
-         --sw:min(560px, 100vw - 2 * var(--gut) - 18px, (100dvh - 24px - var(--bh) / 2 - 18px) * 210 / 297)}
+         --sw:min(560px, 100vw - 2 * var(--gut) - 18px, (100dvh - 24px - var(--bh) / 2 - 40px) * 210 / 297)}
   .mwrap .menubtn{position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:3}
   .stack{position:relative;width:var(--sw);aspect-ratio:210/297}
-  .sheet{position:absolute;inset:0;background:var(--bg);border:1px solid var(--ink);border-radius:18px;
-         overflow:auto;overscroll-behavior:contain;scrollbar-width:none;z-index:2;transition:transform .25s ease}
-  .sheet::-webkit-scrollbar{display:none}
+  .sheet{position:absolute;inset:0;background:var(--bg);border:1px solid var(--ink);border-radius:18px;overflow:hidden}
   .sheet img{display:block;width:100%;height:auto}
-  .sheet.back{z-index:1;overflow:hidden;cursor:pointer;transform:translate(16px,16px) rotate(1.2deg)}
-  @media (hover:hover){.sheet.back:hover{transform:translate(20px,20px) rotate(1.6deg)}}
-  .sheet.back:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  .dr{position:absolute;top:10px;left:50%;height:calc(var(--sw) * 297 / 210);width:calc(var(--sw) * 297 / 210 * 838 / 2707);
+      transform:translateX(-44%) rotate(2.4deg);z-index:2;touch-action:none}
+  .dr img{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;user-select:none;-webkit-user-drag:none}
+  .dr svg{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+  .dr .fr{fill:none;stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+  .dr .fl{fill:#fff;stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke;pointer-events:auto;cursor:grab;
+          filter:drop-shadow(0 3px 6px rgba(0,0,0,.14))}
+  .dr.drag img,.dr.drag .fl{cursor:grabbing}
+  html.menu-open #menubtn{visibility:hidden}
   html.menu-open{overflow:hidden}
   .tabbar{display:none}
   .pdfmiss{display:none;font-family:var(--serif);font-style:italic;color:var(--mute);padding:clamp(40px,10vh,120px) 0;text-align:center}
@@ -496,8 +500,8 @@
       <div class="mwrap">
         <button class="btn menubtn" type="button" id="menux">Закрыть меню</button>
         <div class="stack">
-          <div class="sheet back" tabindex="0" aria-label="Основное меню — показать"><img src="img/menu-list.webp" width="838" height="1187" alt="Основное меню"></div>
-          <div class="sheet"><img src="img/menu-drinks.webp" width="838" height="2707" alt="Меню: вино и коктейли"></div>
+          <div class="sheet"><img src="img/menu-list.webp" width="838" height="1187" alt="Основное меню"></div>
+          <div class="dr" id="dr"><img src="img/menu-drinks.webp" width="838" height="2707" alt="Меню: вино и коктейли" draggable="false"><svg aria-hidden="true"><polygon class="fr"/><polygon class="fl"/></svg></div>
         </div>
       </div>
     </div>
@@ -733,18 +737,68 @@
     sheet.hidden = !on;
     document.documentElement.classList.toggle('menu-open', on);
     menubtn.setAttribute('aria-expanded', String(on));
-    if (on) { sheet.querySelectorAll('.sheet').forEach(x => x.scrollTop = 0); menux.focus(); } else menubtn.focus();
+    if (on) { fold(null); menux.focus(); } else menubtn.focus();
   }
-  /* нижний лист по тапу (или Enter) встаёт наверх, верхний уходит вниз */
-  const sheets = sheet.querySelectorAll('.sheet');
-  function flip(t){
-    if (!t.classList.contains('back')) return;
-    sheets.forEach(x => { const b = x !== t; x.classList.toggle('back', b); b ? x.setAttribute('tabindex', '0') : x.removeAttribute('tabindex'); x.scrollTop = 0; });
+  /* лист напитков отгибается как бумага: держим точку листа P, она едет за курсором в Q.
+     Сгиб — серединный перпендикуляр к PQ; всё по сторону P отражается через него и показывает изнанку.
+     Верх листа под зажимом не отгибается; отпустили — лист остаётся как есть */
+  const dr = document.getElementById('dr'), drImg = dr.querySelector('img');
+  const drFr = dr.querySelector('.fr'), drFl = dr.querySelector('.fl');
+  const TH = 2.4 * Math.PI / 180;
+  let fP = null, fQ = null, fDrag = false;
+  function toLocal(x, y){
+    const r = dr.getBoundingClientRect(), w = dr.offsetWidth, h = dr.offsetHeight;
+    const dx = x - (r.left + r.width / 2), dy = y - (r.top + r.height / 2), c = Math.cos(TH), s = Math.sin(TH);
+    return [dx * c + dy * s + w / 2, -dx * s + dy * c + h / 2];
   }
-  sheets.forEach(x => {
-    x.addEventListener('click', () => flip(x));
-    x.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(x); } });
-  });
+  function line(P, Q){
+    const vx = Q[0] - P[0], vy = Q[1] - P[1], l = Math.hypot(vx, vy);
+    return l < 1 ? null : {m: [(P[0] + Q[0]) / 2, (P[1] + Q[1]) / 2], n: [vx / l, vy / l]};
+  }
+  const side = (L, X) => (X[0] - L.m[0]) * L.n[0] + (X[1] - L.m[1]) * L.n[1];
+  function half(poly, L, keep){   /* keep > 0 — сторона Q (лист на месте), keep < 0 — сторона P (отгибается) */
+    const out = [];
+    poly.forEach((A, i) => {
+      const B = poly[(i + 1) % poly.length], a = side(L, A) * keep, b = side(L, B) * keep;
+      if (a >= 0) out.push(A);
+      if ((a >= 0) !== (b >= 0)) { const t = a / (a - b); out.push([A[0] + (B[0] - A[0]) * t, A[1] + (B[1] - A[1]) * t]); }
+    });
+    return out;
+  }
+  const pts = poly => poly.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+  function fold(P, Q){
+    const w = dr.offsetWidth, h = dr.offsetHeight, rect = [[0, 0], [w, 0], [w, h], [0, h]];
+    const L = P && Q && line(P, Q);
+    if (L) {
+      /* зажим держит верх: сгиб не должен захватывать эти точки */
+      if (side(L, [w * .12, 16]) < 0 || side(L, [w * .88, 16]) < 0) return false;
+      const front = half(rect, L, 1), flap = half(rect, L, -1).map(X => {
+        const d = 2 * side(L, X); return [X[0] - d * L.n[0], X[1] - d * L.n[1]];
+      });
+      drImg.style.clipPath = 'polygon(' + front.map(p => p[0].toFixed(1) + 'px ' + p[1].toFixed(1) + 'px').join(',') + ')';
+      drFr.setAttribute('points', pts(front)); drFl.setAttribute('points', pts(flap));
+    } else {
+      drImg.style.clipPath = ''; drFr.setAttribute('points', pts(rect)); drFl.setAttribute('points', '');
+    }
+    fP = P || null; fQ = P ? Q : null;
+    return true;
+  }
+  function grab(e){
+    if (e.button > 0) return;
+    e.preventDefault();
+    const D = toLocal(e.clientX, e.clientY), L = e.target === drFl && fP && line(fP, fQ);
+    if (L) { const d = 2 * side(L, D); fP = [D[0] - d * L.n[0], D[1] - d * L.n[1]]; fQ = D; }   /* взяли за изнанку — держим тот же сгиб */
+    else { fP = D; fQ = D; }
+    fDrag = true; dr.classList.add('drag');
+    e.target.setPointerCapture(e.pointerId);
+  }
+  drImg.addEventListener('pointerdown', grab);
+  drFl.addEventListener('pointerdown', grab);
+  dr.addEventListener('pointermove', e => { if (fDrag) fold(fP, toLocal(e.clientX, e.clientY)); });
+  const drop = () => { if (!fDrag) return; fDrag = false; dr.classList.remove('drag'); if (!fP || Math.hypot(fQ[0] - fP[0], fQ[1] - fP[1]) < 2) fold(null); };
+  dr.addEventListener('pointerup', drop);
+  dr.addEventListener('pointercancel', drop);
+  window.addEventListener('resize', () => { if (!sheet.hidden) fold(null); });
   menubtn.addEventListener('click', () => setMenu(true));
   menux.addEventListener('click', () => setMenu(false));
   sheet.addEventListener('click', e => { if (e.target === sheet) setMenu(false); });
