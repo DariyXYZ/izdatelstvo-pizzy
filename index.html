@@ -524,7 +524,9 @@
   .ab-scroll{padding-left:var(--ax)}
   /* 103 знака в строке и красная строка 18 знаков, как в макете: у Roboto Mono знак = .6em (ch тут не годится — его меряет Digits) */
   .ab-p{width:62.1em}
-  .ab-p p{margin:0;text-indent:10.8em}
+  .ab-p p{margin:0;text-indent:10.8em}   /* без text-wrap:pretty — он укорачивает строки против макета */
+  /* хвост абзаца не рвётся (fixTails): концевая строка не короче отступа, без коротышек */
+  .nobr{white-space:nowrap}
   .ab-chair{position:absolute;left:calc(83.54vw - var(--gut));top:9.1vw;width:10.14vw;margin:0}
   .ab-chair figcaption{position:absolute;right:calc(100% + 56px);top:35.6%;transform:translateY(-50%);white-space:nowrap}
   .ab-chair figcaption::after{content:"";position:absolute;left:calc(100% + 14px);top:50%;width:40px;height:1px;background:var(--ink);transform:rotate(30deg);transform-origin:0 0}
@@ -556,6 +558,7 @@
     .ab-scroll{padding-left:0}
     .ab-p{font-size:11.8px;line-height:15px;width:auto}
     .ab-p p{text-indent:0}
+    .ab-p p + p{text-indent:25.3vw}   /* второй абзац — от края первого, который обтекает картину */
     .ab-chair{position:relative;left:auto;top:auto;width:32vw;margin:10vw 0 0 calc(55.6vw - var(--gut))}
     .ab-chair figcaption{right:calc(100% + 48px);font-size:12px}
     .ab-na{margin-top:11.5vw}
@@ -824,6 +827,35 @@
   /* короткое слово не остаётся в конце строки: пробел после него — неразрывный.
      Работает по текстовым узлам, поэтому ловит и тексты, вставленные скриптом, и смену языка */
   const SHORT = /(^|[\s\u00a0(«"])(в|во|к|ко|с|со|у|о|об|обо|от|из|на|по|за|до|для|без|над|под|при|про|и|а|но|да|не|ни|что|как|или|же|ли|бы|a|an|the|of|to|in|on|at|by|for|and|or|&) (?=\S)/gi;
+  /* коротышка: хвост абзаца не рвётся, чтобы концевая строка была не короче абзацного отступа (18 знаков),
+     но не длиннее трети строки — иначе перед хвостом остаётся дыра. Пересчёт при смене ширины */
+  function fixTails(root){
+    root.querySelectorAll('.ab-p p').forEach(p => {
+      p.querySelectorAll('.nobr').forEach(s => s.replaceWith(s.textContent));
+      p.normalize();
+      const fs = parseFloat(getComputedStyle(p).fontSize), ch = fs * .6;   // Roboto Mono: знак = .6em
+      /* вкладка может быть скрыта (ширина 0) — тогда ширина колонки по вёрстке: телефон — экран минус поля, комп — 62.1em */
+      const w = p.clientWidth || (matchMedia('(max-width:820px)').matches ? innerWidth - 64 : 62.1 * fs);
+      const tail = Math.min(18, Math.floor(w / ch / 3));
+      let n = p.lastChild;
+      while (n && n.nodeType === 3 && !n.nodeValue.trim()) n = n.previousSibling;
+      if (!n || n.nodeType !== 3 || tail < 4) return;
+      const t = n.nodeValue.replace(/\s+$/, '');
+      let cut = t.length;
+      while (cut > 0 && t.length - cut < tail){
+        const sp = Math.max(t.lastIndexOf(' ', cut - 1), t.lastIndexOf(String.fromCharCode(160), cut - 1));
+        if (sp < 0) return;
+        cut = sp;
+      }
+      if (cut <= 0) return;
+      const span = document.createElement('span');
+      span.className = 'nobr';
+      span.textContent = t.slice(cut + 1);
+      n.nodeValue = t.slice(0, cut + 1);
+      p.appendChild(span);
+    });
+  }
+  matchMedia('(max-width:820px)').addEventListener('change', () => fixTails(document));
   function fixOrphans(root){
     const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
       acceptNode: n => n.parentElement.closest('script,style') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT
@@ -1103,6 +1135,7 @@
     paintLb();
     menuLabel();
     fixOrphans(document.body);
+    fixTails(document);
     try { localStorage.setItem('lang', lang); } catch (e) {}
   }
   document.querySelector('.lang').addEventListener('click', e => { e.preventDefault(); setLang(document.documentElement.lang === 'en' ? 'ru' : 'en'); });
@@ -1122,6 +1155,7 @@
   let saved = 'ru'; try { saved = localStorage.getItem('lang') || 'ru'; } catch (e) {}
   if (saved === 'en') setLang('en');
   fixOrphans(document.body);
+  fixTails(document);
 </script>
 
 </body>
