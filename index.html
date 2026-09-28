@@ -87,9 +87,9 @@
   #home > *:not(.bg){position:relative;z-index:1}
   #home .acts{margin-bottom:clamp(18px,3vw,34px)}
   #home .nav a{color:#fff}
-  /* двойной эллипс: внешняя линия 2px, внутренняя 1px */
-  #home .nav a.pill{position:relative;border:2px solid #fff}
-  #home .nav a.pill::before{content:"";position:absolute;inset:4px;border:1px solid #fff;border-radius:50%;pointer-events:none}
+  /* двойной эллипс: внешняя линия 1px, внутренняя 0.5px (вдвое тоньше) */
+  #home .nav a.pill{position:relative;border:1px solid #fff}
+  #home .nav a.pill::before{content:"";position:absolute;inset:4px;border:.5px solid #fff;border-radius:50%;pointer-events:none}
   @media (hover:hover){#home .nav a.pill:hover{background:#fff;color:var(--ink)}
                        #home .nav a.pill:hover::before{border-color:var(--ink)}}
   #home .infobar{border-top:1px dashed rgba(255,255,255,.34)}
@@ -501,10 +501,12 @@
     .ab-house{margin:2.5vw auto 0;width:70.8vw}
     .ab-info{display:none}
     #about{padding-bottom:9.7vw}   /* от часов до подвала 38px */
-    .ab-ttl{font-size:8.78vw;margin-top:5.4vw;padding-left:0}
-    .ab-ttl .r{margin-right:4.5vw}
+    /* кегль от ширины между полями: самая длинная строка «КАЖДЫЙ ДЕНЬ СВЕЖИЙ» = 9.65 кегля (Times × .82) */
+    .ab-ttl{font-size:calc((100vw - 2 * var(--gut) - 2 * var(--ax)) / 9.65);margin-top:5.4vw}
+    #about{--ax:16px}   /* телефон: заголовок и ряд фото с одним отступом 32px слева и справа */
+    .ab-ttl .r{margin-right:calc(var(--ax) / .82)}
     .ab-ph{margin-top:7vw}
-    .ab-row{margin-left:4.1vw;gap:5.1vw}
+    .ab-row{margin-left:var(--ax);gap:5.1vw}
     .ab-im{flex-basis:72.6vw}
     .ab-ph .ab-fr{display:none}
     .ab-mid{margin-top:13.6vw}
