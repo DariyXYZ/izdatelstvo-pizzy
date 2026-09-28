@@ -507,9 +507,7 @@
   .ab-ph{position:relative;margin:2.78vw calc(-1 * var(--gut)) 0 0}
   .ab-row{margin-left:calc(37.92vw - var(--gut));display:flex;gap:1.53vw;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity;overscroll-behavior-x:contain}
   .ab-row::-webkit-scrollbar{display:none}
-  /* с компа ряд листается стрелками и перетаскиванием мышью (колесо листает страницу) */
-  .ab-arr{position:absolute;top:calc(100% + 8px);left:calc(37.92vw - var(--gut) - 4px);display:flex;gap:28px}   /* вне потока — картина и абзац стоят по макету */
-  .ab-arr[hidden]{display:none}
+  /* с компа ряд листается перетаскиванием мышью (колесо листает страницу) */
   @media (pointer:fine){.ab-row{cursor:grab}.ab-row.drag{cursor:grabbing;scroll-snap-type:none}.ab-row.drag img{pointer-events:none}}
   .ab-row img{-webkit-user-drag:none;user-select:none}
   .ab-im{flex:0 0 22.5vw;aspect-ratio:3/4;overflow:hidden;background:var(--ph);scroll-snap-align:start;margin:0}
@@ -545,7 +543,6 @@
     .ab-row{margin-left:var(--ax);gap:5.1vw}
     .ab-im{flex-basis:72.6vw}
     .ab-ph .ab-fr{display:none}
-    .ab-arr{display:none}
     .ab-mid{margin-top:13.6vw}
     /* абзац обтекает картину и идёт ниже во всю ширину — без прокрутки вбок */
     .ab-tx{display:block;padding-left:var(--ax)}
@@ -614,7 +611,6 @@
         <figure class="ab-im"><img src="img/about/mutti.webp" loading="lazy" alt="Банки томатов Mutti"></figure>
         <figure class="ab-im"><img src="img/about/myaso.webp" loading="lazy" alt="Мясная тарелка"></figure>
       </div>
-      <div class="ab-arr" hidden><button class="ar" type="button" data-d="-1" aria-label="Предыдущие фото"><span class="a-on">&lt;---</span><span class="a-end">x---</span></button><button class="ar" type="button" data-d="1" aria-label="Следующие фото"><span class="a-on">---&gt;</span><span class="a-end">---x</span></button></div>
     </div>
     <div class="ab-mid">
       <div class="ab-tx">
@@ -1004,21 +1000,10 @@
     if (open === lb && e.key === 'ArrowRight' && lbi < cards.length - 1) openLb(lbi + 1);
   });
 
-  /* ряд фото «О нас»: стрелки + перетаскивание мышью (тач и тачпад листают сами) */
-  const abRow = document.querySelector('.ab-row'), abArr = document.querySelector('.ab-arr');
-  if (abRow && abArr) {
-    const btns = abArr.querySelectorAll('.ar');
-    const upd = () => {
-      const max = abRow.scrollWidth - abRow.clientWidth;
-      abArr.hidden = max < 2;
-      btns[0].classList.toggle('end', abRow.scrollLeft < 2);
-      btns[1].classList.toggle('end', abRow.scrollLeft > max - 2);
-    };
+  /* ряд фото «О нас»: перетаскивание мышью (тач и тачпад листают сами) */
+  const abRow = document.querySelector('.ab-row');
+  if (abRow) {
     const step = () => { const f = abRow.querySelector('.ab-im'); return f ? f.offsetWidth + parseFloat(getComputedStyle(abRow).columnGap || 0) : 300; };
-    btns.forEach(b => b.addEventListener('click', () => abRow.scrollBy({left: +b.dataset.d * step(), behavior: 'smooth'})));
-    abRow.addEventListener('scroll', upd, {passive: true});
-    window.addEventListener('resize', upd);
-    new ResizeObserver(upd).observe(abRow);
     let dx0 = null, sl0 = 0, moved = false;
     abRow.addEventListener('pointerdown', e => {
       if (e.pointerType !== 'mouse' || e.button) return;
@@ -1035,7 +1020,6 @@
       dx0 = null;
       if (moved) { abRow.classList.remove('drag'); const s = step(), max = abRow.scrollWidth - abRow.clientWidth, x = abRow.scrollLeft; abRow.scrollTo({left: x > max - s / 2 ? max : Math.round(x / s) * s, behavior: 'smooth'}); }
     });
-    upd();
   }
 
   /* карта: пока не нажали — колесо листает страницу, а не зумит карту */
