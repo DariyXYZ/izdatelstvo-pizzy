@@ -230,6 +230,7 @@
      заголовок узким Times капсом, строки по правому краю, третья — почти во всю ширину (кегль 96.8px = 6.72vw);
      слева рисунок «пицца на банках» и пиала с маслом. Всё в em от кегля — на телефоне композиция уменьшается целиком */
   .mhead{position:relative;font-size:min(6.72vw, (100vw - 2 * var(--gut)) / 14.25);margin:var(--mh-top,1.03em) 0 .573em}
+  .mh-ttl .mr{display:block}
   .mh-ttl{margin:0 .04em 0 0;padding-top:.083em;font:400 1em/1.157 var(--serif);text-transform:uppercase;letter-spacing:-.01em;text-align:right}
   .mhead img{position:absolute;display:block;height:auto}
   .mh-pizza{left:.69em;top:.067em;width:4.04em}
@@ -244,6 +245,7 @@
     #menu .mh-pizza{width:70.8vw;margin:0 auto}
     #menu .mh-oil{width:13vw;align-self:flex-end;margin:-9vw 2vw 0 0}
     #menu .mh-ttl{text-align:left;margin:6vw 0 0;padding:0}
+    #menu .mh-ttl .mr{text-align:right}   /* средняя строка — по правому краю (Дарий, 2026-09-28) */
   }
 
   /* лента — колонки как в Пинтересте: ширина одна, высота у карточек разная (--pin), без скруглений и подписей — только фото.
@@ -695,7 +697,7 @@
     <div class="mhead">
       <img class="mh-pizza" src="img/doodles/pizza-banki.svg" width="1465" height="736" alt="Рисунок: пицца на банках томатного соуса">
       <img class="mh-oil" src="img/doodles/maslo.svg" width="117" height="68" alt="" aria-hidden="true">
-      <h2 class="mh-ttl" data-i18n="menu1">Мы меняем меню<br>каждую неделю<br>Теперь есть вино и коктейли.</h2>
+      <h2 class="mh-ttl" data-i18n="menu1">Мы меняем меню<span class="mr">каждую неделю</span>Теперь есть вино и коктейли.</h2>
     </div>
     <div class="feedw"><div class="feed">
       <figure class="fc promo" tabindex="0" role="button" data-nm="Бокал за 200 ₽" data-msg="Акция до 16:00. Потом — как в меню." data-msg-en="Offer until 4 pm. After that — menu price." style="--ar:960/1286;--pin:3/4"><div class="im"><img src="img/feed/akciya-bokal.webp" width="960" height="1286" loading="lazy" alt="Бокал со льдом и долькой апельсина, рядом пиала с оливками"><span class="pinned" role="img" aria-label="Закреплено"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M9 3h6l-1 6 3.5 3.5v1.5H6.5v-1.5L10 9 9 3Z"/><path d="M12 14v7"/></svg></span><span class="tag" data-i18n="promoTag"><b>Бокал за 200 ₽</b>акция до 16:00</span></div><figcaption class="cap" data-n="01">Бокал за 200 ₽</figcaption></figure>
@@ -1104,7 +1106,8 @@
     if (e.button > 0) return;
     e.preventDefault();
     const D = toLocal(e.clientX, e.clientY), L = e.target === drFl && fP && fQ && line(fP, fQ);
-    if (drUp && !L) return;   /* лист перекинут: берут за изнанку, край под зажимом не тянется */
+    fTap = {x: e.clientX, y: e.clientY, t: performance.now(), far: false};
+    if (drUp && !L) { tapOnly = true; e.target.setPointerCapture(e.pointerId); return; }   /* перекинутый лист тянут только за изнанку; край под зажимом — только тап */
     gUp = null;
     if (drUp) {
       /* из положения «вверх» — «ручка»: движение пальца вниз на ~60% высоты листа ведёт сгиб по прямой из «вверх» в «вниз»,
@@ -1119,8 +1122,9 @@
   }
   drImg.addEventListener('pointerdown', grab);
   drFl.addEventListener('pointerdown', grab);
-  let fHist = [], gUp = null;   /* последние точки жеста — чтобы понять, куда вели лист в момент отпускания */
+  let fHist = [], gUp = null, fTap = null, tapOnly = false;   /* последние точки жеста — чтобы понять, куда вели лист в момент отпускания */
   const move = e => {
+    if (fTap && Math.hypot(e.clientX - fTap.x, e.clientY - fTap.y) > 6) fTap.far = true;
     if (!fDrag) return;
     const D = toLocal(e.clientX, e.clientY);
     if (gUp) {
@@ -1134,7 +1138,18 @@
   };
   dr.addEventListener('pointermove', move);
   drFl.addEventListener('pointermove', move);
+  /* один тап по листу — сразу в другое положение (Дарий: «чтобы ускорить флоу, если играться нет времени») */
+  const isTap = () => fTap && !fTap.far && performance.now() - fTap.t < 400;
+  function toggleDr(){
+    const P = upP();
+    if (drUp) { fP = P; fQ = refl(P, upA(), upB()); fT = P; drUp = false; }
+    else { fP = P; fQ = P; fT = refl(P, upA(), upB()); drUp = true; }
+    kick();
+  }
   const drop = () => {
+    if (tapOnly) { tapOnly = false; if (isTap()) toggleDr(); fTap = null; return; }
+    if (fDrag && isTap()) { fDrag = false; gUp = null; dr.classList.remove('drag'); fTap = null; toggleDr(); return; }
+    fTap = null;
     if (!fDrag) return;
     fDrag = false; gUp = null; dr.classList.remove('drag');
     if (!fP || !fT) return;
@@ -1211,7 +1226,7 @@
     abTtl:'<span class="r">In Taganka.</span>We publish pizza<br>every day, a fresh<br>print run in<br>Mayakovskogo lane',
     abText:'<p class="ab-lbl">Concept</p><p>A small pizzeria in Taganka, in Mayakovskogo lane, near Marksistskaya metro. The entrance is at the end of a residential building: up the stairs past bottles with flowers, under the tree with string lights. It was opened by Nastya and Stas, and most days they greet guests themselves. The name is no accident: the place works like a small editorial office. Pizza here is a daily print run: dough and oven every day, the menu changes once a week. The latest issue of the menu comes to your table on a clipboard. On the menu: pizza and focaccia, Italian starters, salads, desserts and pastries for coffee. Recently we added wine and wine-based cocktails: negroni, house vermouth.</p><p>It is simple inside: tins of tomatoes, lemons on the tables, flowers in bottles. Half Italy, half the courtyard where the owners grew up. People come here to eat pizza, not for a dress-code dinner.</p>',
     abHours:'Out daily<br>from 12:00<br>to 22:00.<br><br>Tables —<br>by phone<br><a class="u" href="tel:+79670796093">+7 967 079-60-93</a>.<br>See you!',
-    menu1:'We change the menu<br>every week<br>Now with wine and cocktails.',
+    menu1:'We change the menu<span class="mr">every week</span>Now with wine and cocktails.',
     'sheet-cap':'This is how the menu lies on our tables.',
     'dream':'Our dream',
     'kb-label':'Per serving','kb-approx':'approximate','rc-bye':'Thanks for coming by','rc-print':'Printed in the oven',
