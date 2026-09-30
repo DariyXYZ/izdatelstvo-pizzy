@@ -655,7 +655,6 @@
   #menu .mhold{display:none}
   html.menu-open #menu .mhold{display:flex;position:fixed;left:0;right:0;top:var(--ctop);height:0;margin:0;z-index:240}
   /* лист напитков, отогнутый до зажима, ложится поверх «закрыть» (Дарий, 2026-09-30) */
-  html.menu-open.dr-over #menu .mhold{z-index:215}
   /* на зажиме — «закрыть» подчёркнутым текстом (ссылка), Times */
   .btn.menubtn.bk{font-family:var(--serif);font-weight:400;font-style:normal;font-variation-settings:normal;text-transform:lowercase;letter-spacing:0;
                   font-size:25px;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.14em}
@@ -722,6 +721,16 @@
   /* затемнение — отдельным слоем под кнопкой: отогнутый лист напитков перекрывает «закрыть», а сама кнопка не пропадает */
   .mback,body:has(main[data-tab="menu"]) .mback{background:transparent}
   html.menu-open #menu::before{content:"";position:fixed;inset:0;z-index:210;background:rgba(11,11,11,.86)}
+
+  /* «закрыть» лежит на доске (Дарий, 2026-09-30 (3)): над листом и верхом полосы напитков, но под отогнутой частью —
+     перекинутый лист её перекрывает; зум двумя пальцами масштабирует её вместе с меню. Неподвижная кнопка .mhold больше не используется */
+  html.menu-open #menu .mhold{display:none}
+  #menu .mback{--btop:var(--ctop)}
+  #menux{display:inline-flex}
+  @media (min-width:821px){#menu .mback{--bh:60px}}
+  #menu .mwrap .menubtn{top:calc(var(--bh) / 2 - var(--bgap))}
+  #menu .mwrap .btn.menubtn.bk{font-size:25px}
+  @media (max-width:820px){#menu .mwrap .btn.menubtn.bk{font-size:18px}}
 </style>
 <style>[hidden]{display:none!important}</style>
 </head>
@@ -800,7 +809,7 @@
     </div>
     <div class="mback" id="sheet" hidden role="dialog" aria-modal="true" aria-label="Полное меню">
       <div class="mwrap">
-        <button class="btn menubtn bk" type="button" id="menux">Закрыть меню</button>
+        <button class="btn menubtn bk" type="button" id="menux">Закрыть</button>
         <div class="stack">
           <div class="sheet"><img src="img/menu-list.webp" width="838" height="1187" alt="Основное меню"></div>
           <svg class="sho" aria-hidden="true"><rect/></svg>
@@ -1118,7 +1127,6 @@
     document.documentElement.classList.toggle('menu-open', on);
     menubtn.setAttribute('aria-expanded', String(on));
     zReset();
-    if (on) sheet.style.setProperty('--btop', menubtn.getBoundingClientRect().top + 'px');
     menuLabel();
     if (on) { fold(null); drUp = false; fT = null; }
   }
@@ -1239,12 +1247,8 @@
       });
       drImg.style.clipPath = 'polygon(' + front.map(p => p[0].toFixed(1) + 'px ' + p[1].toFixed(1) + 'px').join(',') + ')';
       drFr.setAttribute('points', pts(front)); drFl.setAttribute('points', pts(flap));
-      /* отогнутый лист дошёл до зажима — он поверх кнопки «закрыть», а не под ней */
-      const r = dr.getBoundingClientRect(), k = r.height / h, top = r.top + Math.min(...flap.map(X => X[1])) * k;
-      document.documentElement.classList.toggle('dr-over', top < menubtn.getBoundingClientRect().bottom);
     } else {
       drImg.style.clipPath = ''; drFr.setAttribute('points', pts(rect)); drFl.setAttribute('points', '');
-      document.documentElement.classList.remove('dr-over');
     }
     fP = P || null; fQ = P ? Q : null;
     return true;
@@ -1347,8 +1351,9 @@
     kick();
   };
   [dr, drFl].forEach(el => { el.addEventListener('pointerup', drop); el.addEventListener('pointercancel', drop); });
-  window.addEventListener('resize', () => { if (sheet.hidden) return; sheet.style.setProperty('--btop', menubtn.getBoundingClientRect().top + 'px'); if (drUp) setUp(); else fold(null); });
+  window.addEventListener('resize', () => { if (sheet.hidden) return; if (drUp) setUp(); else fold(null); });
   menubtn.addEventListener('click', () => setMenu(sheet.hidden));
+  menux.addEventListener('click', () => setMenu(false));
   /* слово «меню» в заголовке раздела открывает доску (делегирование: при смене языка заголовок перерисовывается) */
   document.addEventListener('click', e => { if (e.target.closest('.mlink')) { e.preventDefault(); setMenu(true); } });
   /* кнопка «Меню» на главной: переход в раздел и сразу открытое меню */
