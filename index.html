@@ -642,6 +642,7 @@
   .nav .lang,body:has(main[data-tab="home"]) .hdr .nav .lang{color:inherit}
   .nav .lang [data-lang].on{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.14em}
   .hdr .nav{gap:clamp(18px,2vw,30px)}
+  @media (min-width:821px){.hdr > .nav:not(.r){gap:clamp(22px,2.25vw,40px);padding-left:.75vw}}   /* левая пара по макету: шире шаг и отступ от края */
   .hdr > .nav{margin-top:calc(var(--l1) * .4 - .55em)}
   /* в шапке все четыре кнопки и на главной */
   @media (min-width:821px){.hdr .hx{display:inline-block}}
