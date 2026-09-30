@@ -647,7 +647,8 @@
   /* в шапке все четыре кнопки и на главной */
   @media (min-width:821px){.hdr .hx{display:inline-block}}
   /* главная: «(меню)» по центру без пробелов в скобках, крупно */
-  #home .hm{font-size:clamp(30px,2.45vw,44px);line-height:1;color:#fff}
+  #home .hm{font-size:clamp(30px,2.45vw,44px);line-height:1;color:#fff;font-family:var(--serif);text-transform:lowercase;text-decoration:underline;text-decoration-thickness:.045em;text-underline-offset:.12em}   /* «меню» на главной — подчёркнутым текстом, без скобок (Дарий, 2026-09-30) */
+  @media (hover:hover){#home .hm:hover{text-decoration-style:wavy}}
   @media (hover:hover){.pb:not(.on):hover{opacity:.6}}
   .ov .x.pb{font-size:var(--nav)}
 
@@ -769,7 +770,7 @@
              aria-label="Съёмка зала: вечерний свет, выдача, вход со двора"></video>
     </div>
     <nav class="nav acts" aria-label="Действия">
-      <a class="pb tight hm" href="#menu" data-go="menu" data-open="menu">Меню</a>
+      <a class="hm" href="#menu" data-go="menu" data-open="menu">Меню</a>
     </nav>
     <div class="infobar">
       <div><div data-i18n="addr"><span class="cap">Адрес</span>Москва, переулок Маяковского, 2<br>вход с торца дома, со стороны Марксистской</div><a class="privl" href="#privacy" data-go="privacy">Реквизиты и политика</a></div>
