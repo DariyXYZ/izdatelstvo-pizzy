@@ -195,7 +195,9 @@
   .cans .c3{height:clamp(144px,15.6dvh,168px);justify-self:end;grid-column:2}
   /* одинарная банка — концевой рисунок внизу раздела «Меню» (Дарий, 2026-09-28) */
   .can-end{margin:clamp(32px,5vw,56px) 0 0}
-  .can-end img{display:block;height:clamp(72px,7.8dvh,84px);width:auto}
+  /* лежачая банка (Дарий, 2026-09-30): белая линия той же толщины, что у пиццы на банках вверху — ширина подобрана так, что контур 10/459 = 10/1465 пиццы */
+  .can-end img{display:block;width:7.17vw;height:auto}
+  @media (max-width:820px){.can-end img{width:22.2vw}}
   /* формы под предмет: лайтбокс — скруглённый прямоугольник, бутылка — высокая узкая */
   .sk.box .ph{aspect-ratio:4/3;border-radius:12px}
   .sk.tall .ph{aspect-ratio:1/2.6;border-radius:6px}
@@ -400,7 +402,7 @@
   html:has(main[data-tab="menu"]),body:has(main[data-tab="menu"]){--bg:#0b0b0b;--ink:#fff;--mute:rgba(255,255,255,.55);--off:rgba(255,255,255,.4);--line:#fff;--ph:#1e1e1e;background:#0b0b0b}
   .ov,.mback{--bg:#fff;--ink:#000;--mute:#8a8a8a;--off:#c2c2c2;--line:#000;--ph:#ececec;color:var(--ink)}
   body:has(main[data-tab="menu"]) .mback{background:rgba(11,11,11,.86)}
-  body:has(main[data-tab="menu"]) .cans img,.can-end img{filter:invert(1)}
+  body:has(main[data-tab="menu"]) .cans img{filter:invert(1)}
   @media (max-width:820px){:root{--bh:43px}.btn.menubtn.bk{font-size:16px}.dr,.drf{top:5px}}
   html.menu-open{overflow:hidden}
   html{scrollbar-gutter:stable}   /* полоса прокрутки не пропадает при открытии меню — кнопка не съезжает */
@@ -856,7 +858,7 @@
       <figure class="fc sm" data-kind="pizza" data-tone="light" tabindex="0" role="button" data-nm="С ветчиной, грибами, оливками и артишоками" data-msg="Всего понемногу. Как в хорошей газете." data-msg-en="A bit of everything. Like a good newspaper." data-kbju="1020,46,44,110" data-ing="томаты, моцарелла, ветчина, грибы, оливки, артишоки" data-ing-en="tomatoes, mozzarella, ham, mushrooms, olives, artichokes" style="--ar:960/1286;--pin:1/1"><div class="im"><img src="img/feed/vetchina-griby-artishoki-f.webp" width="960" height="1286" loading="lazy" alt="С ветчиной, грибами, оливками и артишоками"></div><figcaption class="cap" data-n="19">С ветчиной, грибами, оливками и артишоками</figcaption></figure>
       <figure class="fc sm" data-kind="pizza" data-tone="light" tabindex="0" role="button" data-nm="Капрезе" data-msg="Томат, моцарелла, песто. Флаг Италии, только круглый." data-msg-en="Tomato, mozzarella, pesto. The Italian flag, only round." data-kbju="940,40,40,104" data-ing="песто, томаты, моцарелла" data-ing-en="pesto, tomatoes, mozzarella" style="--ar:960/1286;--pin:4/5"><div class="im"><img src="img/feed/kapreze-f.webp" width="960" height="1286" loading="lazy" alt="Капрезе"></div><figcaption class="cap" data-n="20">Капрезе</figcaption></figure>
     </div></div>
-    <div class="can-end" aria-hidden="true"><img src="img/doodles/banka.svg" width="147" height="199" alt=""></div>
+    <div class="can-end" aria-hidden="true"><img src="img/doodles/banka-lezhit.svg" width="459" height="299" alt=""></div>
   </section>
 
   <!-- ЗАБРОНИРОВАТЬ = контакты + карта -->
