@@ -91,6 +91,9 @@
   body:has(main[data-tab="home"]) .hdr .nav .lang [data-lang].on{color:#fff}
   body:has(main[data-tab="home"]) .hdr .nav a.on{color:rgba(255,255,255,.45)}
   .bg video,.bg img{width:100%;height:100%;object-fit:cover;display:block}
+  /* комп: три одинаковых видео по третям экрана, каждое сдвинуто на треть длительности — кадры никогда не совпадают (Дарий, 2026-09-30); телефон — одно */
+  .bg .vx{display:none}
+  @media (min-width:821px){.bg{display:flex}.bg video{flex:1 1 0;min-width:0;width:auto}.bg .vx{display:block}}
   /* тёмный градиент снизу: без него белый текст на светлых кадрах пропадает */
   /* два слоя: снизу под инфостроку, сверху под шапку. В ролике есть светлые кадры — без них белый текст пропадает */
   .bg::after{content:"";position:absolute;inset:0;pointer-events:none;
@@ -768,6 +771,8 @@
       <video src="img/video/hall.mp4" poster="img/video/hall-poster.jpg"
              autoplay muted loop playsinline preload="metadata"
              aria-label="Съёмка зала: вечерний свет, выдача, вход со двора"></video>
+      <video class="vx" data-src="img/video/hall.mp4" poster="img/video/hall-poster.jpg" muted loop playsinline preload="none" aria-hidden="true"></video>
+      <video class="vx" data-src="img/video/hall.mp4" poster="img/video/hall-poster.jpg" muted loop playsinline preload="none" aria-hidden="true"></video>
     </div>
     <nav class="nav acts" aria-label="Действия">
       <a class="hm" href="#menu" data-go="menu" data-open="menu">Меню</a>
@@ -1544,6 +1549,28 @@
   function setHdr(){
     document.documentElement.style.setProperty('--hdr', document.querySelector('.hdr').offsetHeight + 'px');
   }
+  /* три видео на компе: второе и третье подгружаются только на широком экране и идут со сдвигом 1/3 и 2/3 длительности;
+     раз в 2 с сверяем с первым — если разъехались больше чем на 0.25 с, подтягиваем */
+  (function(){
+    const vs = [...document.querySelectorAll('.bg video')], v0 = vs[0], extra = vs.slice(1);
+    const mq = matchMedia('(min-width:821px)');
+    let on = false;
+    const sync = () => {
+      const d = v0.duration; if (!on || !d || !isFinite(d)) return;
+      extra.forEach((v, k) => {
+        const want = (v0.currentTime + d * (k + 1) / 3) % d;
+        if (v.readyState >= 1 && Math.abs(v.currentTime - want) > .25 && Math.abs(v.currentTime - want) < d - .25) v.currentTime = want;
+        if (v.paused && !v0.paused) v.play().catch(() => {});
+      });
+    };
+    const start = () => {
+      if (on || !mq.matches) return; on = true;
+      extra.forEach(v => { v.src = v.dataset.src; v.addEventListener('loadedmetadata', sync, {once: true}); v.play().catch(() => {}); });
+    };
+    mq.addEventListener('change', start); start();
+    setInterval(sync, 2000);
+    v0.addEventListener('play', sync); v0.addEventListener('seeked', sync);
+  })();
   window.addEventListener('resize', setHdr);
   setHdr();
   window.addEventListener('resize', fitTiles);
