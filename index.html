@@ -731,6 +731,18 @@
   #menu .mwrap .menubtn{top:calc(var(--bh) / 2 - var(--bgap))}
   #menu .mwrap .btn.menubtn.bk{font-size:25px}
   @media (max-width:820px){#menu .mwrap .btn.menubtn.bk{font-size:18px}}
+
+  /* наведение (Дарий, 2026-09-30): у кнопки скобки разъезжаются — «( меню )» → «(  меню  )», слово на месте;
+     у подчёркнутого текста (ссылки, телефон, «меню» в заголовке, «закрыть») линия становится волнистой */
+  .pb::before,.pb::after{display:inline-block;transition:transform .18s ease}
+  @media (hover:hover){
+    .pb:not(.on):hover{opacity:1}
+    .pb:not(.on):hover::before{transform:translateX(-.28em)}
+    .pb:not(.on):hover::after{transform:translateX(.28em)}
+    .mh-ttl .mlink:hover{opacity:1}
+    .btn.menubtn.bk:hover{color:#000}
+    a.u:hover,.mh-ttl .mlink:hover,.privl:hover,.legal a:hover,#privacy .txt a:hover,.ov .u:hover,.btn.menubtn.bk:hover{text-decoration-line:underline;text-decoration-style:wavy}
+  }
 </style>
 <style>[hidden]{display:none!important}</style>
 </head>
