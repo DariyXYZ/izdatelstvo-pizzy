@@ -734,7 +734,7 @@
 
   /* наведение (Дарий, 2026-09-30): у кнопки скобки разъезжаются — «( меню )» → «(  меню  )», слово на месте;
      у подчёркнутого текста (ссылки, телефон, «меню» в заголовке, «закрыть») линия становится волнистой */
-  .pb::before,.pb::after{display:inline-block;transition:transform .18s ease}
+  .pb::before,.pb::after{display:inline-block}   /* сдвиг моментальный, без анимации (Дарий, 2026-09-30) */
   @media (hover:hover){
     .pb:not(.on):hover{opacity:1}
     .pb:not(.on):hover::before{transform:translateX(-.28em)}
