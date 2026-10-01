@@ -1006,6 +1006,27 @@
       const k = 1 + slack / sum;
       ims.forEach(im => im.style.aspectRatio = im.offsetWidth + '/' + (im.offsetHeight * k).toFixed(1));
     });
+    staggerFeed();
+  }
+  /* телефон: стык в правой колонке, совпавший со стыком в левой, уводим минимум на четверть ширины колонки —
+     одну карточку удлиняем, следующую укорачиваем на столько же, низ остаётся ровным */
+  function staggerFeed(){
+    if (wideMq.matches || feed.children.length !== 2) return;
+    const [A, B] = [...feed.children].map(c => [...c.children]);
+    const W = B[0].offsetWidth, d = W * .25, y0 = feed.getBoundingClientRect().top;
+    const bot = f => f.getBoundingClientRect().bottom - y0;
+    const as = A.slice(0, -1).map(bot);
+    for (let k = 0; k < B.length - 1; k++) {
+      const y = bot(B[k]), near = as.find(a => Math.abs(a - y) < d);
+      if (near === undefined) continue;
+      const i1 = B[k].querySelector('.im'), i2 = B[k + 1].querySelector('.im'), h1 = i1.offsetHeight, h2 = i2.offsetHeight;
+      const ok = [near - d, near + d].filter(t => !as.some(a => Math.abs(a - t) < d - .5))
+        .map(t => t - y).filter(sh => h1 + sh > W * .75 && h1 + sh < W * 1.7 && h2 - sh > W * .75 && h2 - sh < W * 1.7)
+        .sort((p, q) => Math.abs(p) - Math.abs(q));
+      if (!ok.length) continue;
+      i1.style.aspectRatio = W + '/' + (h1 + ok[0]).toFixed(1);
+      i2.style.aspectRatio = W + '/' + (h2 - ok[0]).toFixed(1);
+    }
   }
   /* раскладка: каждая следующая карточка идёт в самую короткую колонку, а из очереди берём ту, что меньше похожа на соседей —
      на карточку над ней и на карточки соседних колонок на той же высоте. Похожесть — по меткам карточки:
@@ -1017,6 +1038,9 @@
                                        return [c, (isSm(c) ? b / a * .58 + .32 : b / a) + .04]; }));   /* .04 — зазор; мелкая: 58% ширины + поля 16% */
     const M = new Map(cards.map(c => [c, {k: c.dataset.kind, t: c.dataset.tone, s: c.dataset.sim || ''}]));   /* метки читаем из DOM один раз */
     const pair = (c, o) => { const a = M.get(c), b = M.get(o); return (a.k === b.k ? 2 : 0) + (a.t === b.t ? .5 : 0) + (a.s && a.s === b.s ? 4 : 0); };
+    /* телефон: стыки карточек в соседних колонках не должны совпадать по высоте — всегда сдвижка (Дарий, 2026-10-02) */
+    const stagger = !wideMq.matches;
+    const seamHit = (spans, i, y) => stagger && spans.some((s, j) => j !== i && s.some(sp => Math.abs(sp.y1 - y) < .3)) ? 10 : 0;
     function run(look, w, order){
       const hs = Array(n).fill(0), spans = Array.from({length: n}, () => []), queue = [...order];
       let total = 0;
@@ -1031,7 +1055,7 @@
         let best = 0, bestK = Infinity, bestCost = 0;
         const lim = queue[0].classList.contains('promo') ? 1 : Math.min(look, queue.length);
         for (let q = 0; q < lim; q++) {
-          const c = queue[q], nb = near(i, hs[i], hs[i] + H.get(c)), cost = nb.reduce((t, o) => t + pair(c, o), 0);
+          const c = queue[q], nb = near(i, hs[i], hs[i] + H.get(c)), cost = nb.reduce((t, o) => t + pair(c, o), 0) + seamHit(spans, i, hs[i] + H.get(c));
           const share = left[M.get(c).k] / queue.length;
           const k = cost + q * .05 - w * share;
           if (k < bestK) { best = q; bestK = k; bestCost = cost; }
