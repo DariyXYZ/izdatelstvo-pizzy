@@ -272,8 +272,9 @@
   .fc img{display:block;width:100%;height:100%;object-fit:cover}
   .fc figcaption{display:none}
   /* мелкие картинки: снимок 58% ширины колонки по центру ячейки, вокруг воздух (как «воздух» в прежней модульной сетке) */
-  .fc.sm{padding:16% 0}
-  .fc.sm .im{width:58%;margin:0 auto}
+  /* на телефоне мелких нет — все снимки на всю колонку (Дарий, 2026-10-02) */
+  @media (min-width:821px){.fc.sm{padding:16% 0}
+  .fc.sm .im{width:58%;margin:0 auto}}
   @container (max-width:1000px){.feed{--cols:3}}
   /* акция — надпись в том же двойном овале, что кнопка «МЕНЮ» на главной, без подложки, по центру снимка (Дарий, 2026-09-28);
      «закреплено» — белая иконка-кнопка в углу */
@@ -974,6 +975,7 @@
   /* masonry: число колонок берём из CSS (--cols), высоту карточки — из её пропорции --pin; карточка уходит в самую короткую колонку */
   const feed = document.querySelector('.feed');
   let feedCols = 0, feedW = 0;
+  const wideMq = matchMedia('(min-width:821px)'), isSm = f => wideMq.matches && f.classList.contains('sm');
   function layFeed(){
     const n = parseInt(getComputedStyle(feed).getPropertyValue('--cols')) || 2, w = feed.clientWidth;
     if (n === feedCols && w === feedW) return;
@@ -991,14 +993,14 @@
     cols.forEach((c, i) => {
       let slack = top - hs[i];
       /* сначала воздух вокруг мелких картинок (до +45% ширины колонки на каждую), остаток — растяжение обычных снимков */
-      const sms = [...c.children].filter(f => f.classList.contains('sm'));
+      const sms = [...c.children].filter(isSm);
       sms.forEach(f => {
         const add = Math.min(slack / sms.length, f.offsetWidth * .45);
         const pad = parseFloat(getComputedStyle(f).paddingTop);
         f.style.paddingBlock = (pad + add / 2) + 'px';
         slack -= add;
       });
-      const ims = [...c.children].filter(f => !f.classList.contains('sm')).map(f => f.querySelector('.im'));
+      const ims = [...c.children].filter(f => !isSm(f)).map(f => f.querySelector('.im'));
       const sum = ims.reduce((a, im) => a + im.offsetHeight, 0);
       if (!sum || slack <= .5) return;
       const k = 1 + slack / sum;
@@ -1012,7 +1014,7 @@
      соседства и оставляем лучшую раскладку. Закреплённая акция всегда первая (Дарий, 2026-09-30) */
   function placeFeed(n){
     const H = new Map(cards.map(c => { const [a, b] = (getComputedStyle(c).getPropertyValue('--pin').trim() || '3/4').split('/').map(Number);
-                                       return [c, (c.classList.contains('sm') ? b / a * .58 + .32 : b / a) + .04]; }));   /* .04 — зазор; мелкая: 58% ширины + поля 16% */
+                                       return [c, (isSm(c) ? b / a * .58 + .32 : b / a) + .04]; }));   /* .04 — зазор; мелкая: 58% ширины + поля 16% */
     const M = new Map(cards.map(c => [c, {k: c.dataset.kind, t: c.dataset.tone, s: c.dataset.sim || ''}]));   /* метки читаем из DOM один раз */
     const pair = (c, o) => { const a = M.get(c), b = M.get(o); return (a.k === b.k ? 2 : 0) + (a.t === b.t ? .5 : 0) + (a.s && a.s === b.s ? 4 : 0); };
     function run(look, w, order){
