@@ -264,6 +264,15 @@
   /* лента — колонки как в Пинтересте: ширина одна, высота у карточек разная (--pin), без скруглений и подписей — только фото.
      Порядок сверху вниз внутри колонки; первая карточка — закреплённая акция (Дарий, 2026-09-28) */
   .feedw{container-type:inline-size}
+  /* фильтр ленты (макет меню-web-обнова.jpg, Дарий 2026-10-02): нажатое слово подчёркнуто, отжатое — без подчёркивания, его группа снимков уходит;
+     пока только на компе */
+  .mfilt{display:none}
+  @media (min-width:821px){.mfilt{display:flex;justify-content:center;flex-wrap:wrap;gap:.6em 1.95em;margin:-2vw 0 2vw;font-size:var(--nav)}}
+  .mfilt button{font:inherit;font-family:var(--serif);line-height:1.2;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-transform:lowercase;
+    text-underline-offset:.12em;text-decoration-thickness:1px}
+  .mfilt button[aria-pressed="true"]{text-decoration-line:underline}
+  @media (hover:hover){.mfilt button:hover{text-decoration-line:underline;text-decoration-style:wavy}}
+  .mfilt button:focus-visible{outline:2px solid currentColor;outline-offset:3px}
   /* раскладка как у Пинтереста: карточка — в самую короткую колонку (JS masonry), порядок чтения слева направо */
   .feed{--cols:4;display:flex;align-items:flex-start;gap:var(--g)}
   .fcol{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:var(--g)}
@@ -844,6 +853,12 @@
       <img class="mh-plate" src="img/doodles/tarelka.svg" width="139" height="33" alt="" aria-hidden="true">
       <h2 class="mh-ttl" data-i18n="menu1"><span class="m1"><span>Мы меняем <a class="mlink" href="#menu" role="button" aria-controls="sheet">меню</a></span><img class="ii ii-oil" src="img/doodles/maslo.svg" width="117" height="68" alt=""></span><span class="mr"><img class="ii ii-plate" src="img/doodles/tarelka.svg" width="139" height="33" alt="">каждую неделю</span><span class="m3">Появилась барная карта</span></h2>
     </div>
+    <div class="mfilt" role="group" aria-label="Фильтр ленты">
+      <button type="button" aria-pressed="true" data-kinds="pizza bake">пицца / фокачча</button>
+      <button type="button" aria-pressed="true" data-kinds="dessert">десерты и выпечка</button>
+      <button type="button" aria-pressed="true" data-kinds="starter">салаты / закуски</button>
+      <button type="button" aria-pressed="true" data-kinds="drink table">напитки</button>
+    </div>
     <div class="feedw"><div class="feed">
       <figure class="fc promo" data-kind="drink" data-tone="dark" tabindex="0" role="button" data-nm="Бокал за 200 ₽" data-msg="Акция до 16:00. Потом — как в меню." data-msg-en="Offer until 4 pm. After that — menu price." style="--ar:960/1286;--pin:3/4"><div class="im"><img src="img/feed/akciya-bokal.webp" width="960" height="1286" loading="lazy" alt="Бокал со льдом и долькой апельсина, рядом пиала с оливками"><span class="pinned" role="img" aria-label="Закреплено"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M9 3h6l-1 6 3.5 3.5v1.5H6.5v-1.5L10 9 9 3Z"/><path d="M12 14v7"/></svg></span><span class="tag" aria-hidden="true">%</span></div><figcaption class="cap" data-n="01">Бокал за 200 ₽</figcaption></figure>
       <figure class="fc" data-kind="dessert" data-tone="light" tabindex="0" role="button" data-nm="Тирамису банановый" data-msg="Классику переиздали — с бананом." data-msg-en="A classic, reissued with banana." style="--ar:960/960;--pin:4/5"><div class="im"><img src="img/feed/tiramisu.webp" width="960" height="960" loading="lazy" alt="Тирамису банановый"></div><figcaption class="cap" data-n="02">Тирамису банановый</figcaption></figure>
@@ -977,6 +992,10 @@
   const feed = document.querySelector('.feed');
   let feedCols = 0, feedW = 0;
   const wideMq = matchMedia('(min-width:821px)'), isSm = f => wideMq.matches && f.classList.contains('sm');
+  /* фильтр: отжатые группы (data-kind) прячутся только на компе; shown — что сейчас в ленте и в листалке оверлея */
+  const offKinds = new Set();
+  let shown = cards;
+  const visible = () => wideMq.matches ? cards.filter(c => !offKinds.has(c.dataset.kind)) : cards;
   function layFeed(){
     const n = parseInt(getComputedStyle(feed).getPropertyValue('--cols')) || 2, w = feed.clientWidth;
     if (n === feedCols && w === feedW) return;
@@ -1035,6 +1054,7 @@
      Пробуем несколько настроек (насколько вперёд смотреть в очередь и как сильно тянуть частый тип вперёд), считаем общий штраф
      соседства и оставляем лучшую раскладку. Закреплённая акция всегда первая (Дарий, 2026-09-30) */
   function placeFeed(n){
+    shown = visible();
     const H = new Map(cards.map(c => { const [a, b] = (getComputedStyle(c).getPropertyValue('--pin').trim() || '3/4').split('/').map(Number);
                                        return [c, (isSm(c) ? b / a * .58 + .32 : b / a) + .04]; }));   /* .04 — зазор; мелкая: 58% ширины + поля 16% */
     const M = new Map(cards.map(c => [c, {k: c.dataset.kind, t: c.dataset.tone, s: c.dataset.sim || ''}]));   /* метки читаем из DOM один раз */
@@ -1073,9 +1093,10 @@
     const rnd = () => (seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648;
     /* очередь: акция, затем самые красивые снимки (data-top, выбор Дария 2026-10-02) — они всегда наверху ленты, затем остальные */
     const shuf = a => { for (let k = a.length - 1; k > 0; k--) { const j = Math.floor(rnd() * (k + 1)); [a[k], a[j]] = [a[j], a[k]]; } return a; };
-    const tops = cards.slice(1).filter(c => c.dataset.top), rest = cards.slice(1).filter(c => !c.dataset.top);
-    const orders = [[cards[0], ...tops, ...rest]];
-    for (let t = 0; t < 200; t++) orders.push([cards[0], ...shuf([...tops]), ...shuf([...rest])]);
+    const promo = shown.filter(c => c.classList.contains('promo')), more = shown.filter(c => !c.classList.contains('promo'));
+    const tops = more.filter(c => c.dataset.top), rest = more.filter(c => !c.dataset.top);
+    const orders = [[...promo, ...tops, ...rest]];
+    for (let t = 0; t < 200; t++) orders.push([...promo, ...shuf([...tops]), ...shuf([...rest])]);
     let top = null;
     orders.forEach((o, oi) => [3, 99].forEach(look => [0, 1, 2].forEach(w => {
       if (oi && look === 3) return;
@@ -1086,6 +1107,13 @@
   }
   layFeed();
   new ResizeObserver(layFeed).observe(feed);
+  document.querySelectorAll('.mfilt button').forEach(b => b.addEventListener('click', () => {
+    const on = b.getAttribute('aria-pressed') === 'true';
+    if (on && document.querySelectorAll('.mfilt [aria-pressed="true"]').length === 1) return;   /* последнее слово не отжимается — лента не пустеет */
+    b.setAttribute('aria-pressed', String(!on));
+    b.dataset.kinds.split(' ').forEach(k => on ? offKinds.add(k) : offKinds.delete(k));
+    feedCols = 0; feedW = 0; layFeed();
+  }));
   const lb = document.getElementById('lb');
   let lbi = -1;
   /* декоративный штрихкод из названия блюда: полосы 1–3 px, детерминированно */
@@ -1107,7 +1135,7 @@
   }
   function paintLb(){
     if (lbi < 0) return;
-    const c = cards[lbi], en = document.documentElement.lang === 'en';
+    const c = shown[lbi], en = document.documentElement.lang === 'en';
     lb.querySelector('.rno').textContent = (en ? 'Issue No. ' : 'Выпуск № ') + String(lbi + 1).padStart(2, '0');
     const d = new Date(), z = n => String(n).padStart(2, '0');
     lb.querySelector('.rdt').textContent = `${z(d.getDate())}.${z(d.getMonth() + 1)} · ${z(d.getHours())}:${z(d.getMinutes())}`;
@@ -1124,7 +1152,7 @@
     lb.querySelector('.kb').innerHTML = c.dataset.kbju ? kbRows(c.dataset.kbju, en) : '';
     const ing = c.dataset.ing ? ((en && c.dataset.ingEn) || c.dataset.ing).split(', ') : [];
     lb.querySelector('.ing').innerHTML = ing.map(t => `<li><span>${t}</span></li>`).join('');
-    lb.querySelector('.num').textContent = String(lbi + 1).padStart(2, '0') + ' / ' + cards.length;
+    lb.querySelector('.num').textContent = String(lbi + 1).padStart(2, '0') + ' / ' + shown.length;
     lb.style.setProperty('--ar', getComputedStyle(c).getPropertyValue('--ar') || '4/5');
     const img = c.querySelector('img');
     lb.querySelector('.im').innerHTML = img ? `<img src="${img.src}" alt="${c.dataset.nm}">` : '';
@@ -1177,18 +1205,18 @@
   function openOv(el){ el.hidden = false; el.classList.add('on'); document.body.classList.add('lock'); }
   function closeOv(el){ el.classList.remove('on'); el.hidden = true; document.body.classList.remove('lock'); }
   function openLb(i){
-    lbi = Math.min(Math.max(i, 0), cards.length - 1);
+    lbi = Math.min(Math.max(i, 0), shown.length - 1);
     paintLb();
     lb.querySelectorAll('.ar').forEach(b => {
-      const end = (+b.dataset.step < 0) ? lbi === 0 : lbi === cards.length - 1;
+      const end = (+b.dataset.step < 0) ? lbi === 0 : lbi === shown.length - 1;
       b.classList.toggle('end', end);
       b.disabled = end;
     });
     openOv(lb);
   }
-  cards.forEach((c, i) => {
-    c.addEventListener('click', () => openLb(i));
-    c.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLb(i); } });
+  cards.forEach(c => {
+    c.addEventListener('click', () => openLb(shown.indexOf(c)));
+    c.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLb(shown.indexOf(c)); } });
   });
   lb.querySelectorAll('.ar').forEach(btn =>
     btn.addEventListener('click', () => openLb(lbi + (+btn.dataset.step))));
@@ -1460,7 +1488,7 @@
     if (!open) return;
     if (e.key === 'Escape') closeOv(open);
     if (open === lb && e.key === 'ArrowLeft' && lbi > 0) openLb(lbi - 1);
-    if (open === lb && e.key === 'ArrowRight' && lbi < cards.length - 1) openLb(lbi + 1);
+    if (open === lb && e.key === 'ArrowRight' && lbi < shown.length - 1) openLb(lbi + 1);
   });
 
   /* ряд фото «О нас»: перетаскивание мышью (тач и тачпад листают сами) */
@@ -1520,6 +1548,7 @@
   };
   const EN_TEXT = {
     'Бокал за 200 ₽':'A glass for 200 ₽',
+    'пицца / фокачча':'pizza / focaccia','десерты и выпечка':'desserts & pastry','салаты / закуски':'salads / starters','напитки':'drinks',
     'Мясная тарелка':'Meat platter','Фокачча и кофе':'Focaccia & coffee','Свежий номер':'The latest issue',
     'О нас':'About','Меню':'Menu','Забронировать':'Book a table','Бронь':'Book','Забронировать стол':'Book a table',
     'Адрес':'Address','Ежедневно':'Daily','Телефон':'Phone','Соцсети':'Social','Часы':'Hours','Связь':'Contact','Ежедневно 12:00–22:00':'Daily 12:00–22:00',
