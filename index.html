@@ -249,7 +249,7 @@
     #menu .mhead img{position:static}
     #menu .mh-pizza{width:70.8vw;margin:0 auto}
     #menu .mh-oil{width:13vw;align-self:flex-end;margin:-9vw 2vw 0 0}
-    /* телефон по скрину Дария (2026-09-29): строчными, кегль по строке «Появилась барная карта» во всю ширину;
+    /* телефон по скрину Дария (2026-09-29): строчными, кегль прежний (раньше считался по строке «Появилась барная карта», её убрали 2026-10-02);
        пиала — после первой строки, тарелка — в начале второй, вторая строка по правому краю */
     #menu .mhead{font-size:calc((100vw - 2 * var(--gut)) / 9.1)}
     #menu .mh-oil{display:none}
@@ -265,9 +265,9 @@
      Порядок сверху вниз внутри колонки; первая карточка — закреплённая акция (Дарий, 2026-09-28) */
   .feedw{container-type:inline-size}
   /* фильтр ленты (макет меню-web-обнова.jpg, Дарий 2026-10-02): нажатое слово подчёркнуто, отжатое — без подчёркивания, его группа снимков уходит;
-     пока только на компе */
-  .mfilt{display:none}
-  @media (min-width:821px){.mfilt{display:flex;justify-content:center;flex-wrap:wrap;gap:.6em 1.95em;margin:-2vw 0 2vw;font-size:var(--nav)}}
+     на телефоне тоже (Дарий, 2026-10-02) */
+  .mfilt{display:flex;justify-content:center;flex-wrap:wrap;gap:.6em 1.95em;margin:-2vw 0 2vw;font-size:var(--nav)}
+  @media (max-width:820px){.mfilt{gap:.7em 1.4em;margin:0 0 6vw}}
   .mfilt button{font:inherit;font-family:var(--serif);line-height:1.2;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-transform:lowercase;
     text-underline-offset:.12em;text-decoration-thickness:1px}
   .mfilt button[aria-pressed="true"]{text-decoration-line:underline}
@@ -679,13 +679,13 @@
   @media (hover:hover){.mh-ttl .mlink:hover{opacity:.6}}
   #menu .mh-plate{display:none}
   /* комп: заголовок меню по макету «меню-web.jpg» — шаг строк как у «О нас» (10.69vw), поля как у «О нас» (5.21vw);
-     первая строка по правому краю, вторая слева с пиалой и тарелкой справа, третья во всю ширину */
+     первая строка по правому краю, вторая слева с пиалой и тарелкой справа (третью «Появилась барная карта» убрали, Дарий 2026-10-02) */
   @media (min-width:821px){
     #menu{--ax:calc(5.21vw - var(--gut))}
     #menu .mhead{font-size:calc(89.58vw / 11.82);margin:calc(10.04vw - var(--hdr,92px)) 0 .5em}   /* текст выше на 2.8vw, пицца — на 2.1vw (Дарий, 2026-09-30): при открытии видно больше ленты */
     #menu .mh-ttl{text-align:left;line-height:10.69vw;padding:0;margin:0}
     #menu .mh-ttl .m1{text-align:right;padding-right:var(--ax)}
-    #menu .mh-ttl .mr,#menu .mh-ttl .m3{padding-left:var(--ax)}
+    #menu .mh-ttl .mr{padding-left:var(--ax)}
     #menu .mh-pizza{left:calc(4.9vw - var(--gut));top:calc(-.5em + .7vw);width:22.9vw}
     #menu .mh-oil{left:calc(70.4vw - var(--gut));top:1.96em;width:.71em}
     #menu .mh-plate{display:block;left:calc(79.2vw - var(--gut));top:1.76em;width:2.04em}
@@ -851,7 +851,7 @@
       <img class="mh-pizza" src="img/doodles/pizza-banki.svg" width="1465" height="736" alt="Рисунок: пицца на банках томатного соуса">
       <img class="mh-oil" src="img/doodles/maslo.svg" width="117" height="68" alt="" aria-hidden="true">
       <img class="mh-plate" src="img/doodles/tarelka.svg" width="139" height="33" alt="" aria-hidden="true">
-      <h2 class="mh-ttl" data-i18n="menu1"><span class="m1"><span>Мы меняем <a class="mlink" href="#menu" role="button" aria-controls="sheet">меню</a></span><img class="ii ii-oil" src="img/doodles/maslo.svg" width="117" height="68" alt=""></span><span class="mr"><img class="ii ii-plate" src="img/doodles/tarelka.svg" width="139" height="33" alt="">каждую неделю</span><span class="m3">Появилась барная карта</span></h2>
+      <h2 class="mh-ttl" data-i18n="menu1"><span class="m1"><span>Мы меняем <a class="mlink" href="#menu" role="button" aria-controls="sheet">меню</a></span><img class="ii ii-oil" src="img/doodles/maslo.svg" width="117" height="68" alt=""></span><span class="mr"><img class="ii ii-plate" src="img/doodles/tarelka.svg" width="139" height="33" alt="">каждую неделю</span></h2>
     </div>
     <div class="mfilt" role="group" aria-label="Фильтр ленты">
       <button type="button" aria-pressed="true" data-kinds="pizza bake">пицца / фокачча</button>
@@ -992,10 +992,10 @@
   const feed = document.querySelector('.feed');
   let feedCols = 0, feedW = 0;
   const wideMq = matchMedia('(min-width:821px)'), isSm = f => wideMq.matches && f.classList.contains('sm');
-  /* фильтр: отжатые группы (data-kind) прячутся только на компе; shown — что сейчас в ленте и в листалке оверлея */
+  /* фильтр: отжатые группы (data-kind) прячутся; shown — что сейчас в ленте и в листалке оверлея */
   const offKinds = new Set();
   let shown = cards;
-  const visible = () => wideMq.matches ? cards.filter(c => !offKinds.has(c.dataset.kind)) : cards;
+  const visible = () => cards.filter(c => !offKinds.has(c.dataset.kind));
   function layFeed(){
     const n = parseInt(getComputedStyle(feed).getPropertyValue('--cols')) || 2, w = feed.clientWidth;
     if (n === feedCols && w === feedW) return;
@@ -1033,6 +1033,7 @@
   function staggerFeed(){
     if (wideMq.matches || feed.children.length !== 2) return;
     const [A, B] = [...feed.children].map(c => [...c.children]);
+    if (!A.length || !B.length) return;
     const W = B[0].offsetWidth, d = W * .25, y0 = feed.getBoundingClientRect().top;
     const bot = f => f.getBoundingClientRect().bottom - y0;
     const as = A.slice(0, -1).map(bot);
@@ -1531,7 +1532,7 @@
     abTtl:'<span class="r">In Taganka.</span>We publish pizza<br>every day, a fresh<br>print run in<br>Mayakovskogo lane',
     abText:'<p class="ab-lbl">Concept</p><p>A small pizzeria in Taganka, in Mayakovskogo lane, near Marksistskaya metro. The entrance is at the end of a residential building: up the stairs past bottles with flowers, under the tree with string lights. It was opened by Nastya and Stas, and most days they greet guests themselves. The name is no accident: the place works like a small editorial office. Pizza here is a daily print run: dough and oven every day, the menu changes once a week. The latest issue of the menu comes to your table on a clipboard. On the menu: pizza and focaccia, Italian starters, salads, desserts and pastries for coffee. Recently we added wine and wine-based cocktails: negroni, house vermouth.</p><p>It is simple inside: tins of tomatoes, lemons on the tables, flowers in bottles. Half Italy, half the courtyard where the owners grew up. People come here to eat pizza, not for a dress-code dinner.</p>',
     abHours:'Out daily<br>from 12:00<br>to 22:00.<br><br>Tables —<br>by phone<br><a class="u" href="tel:+79670796093">+7 967 079-60-93</a>.<br>See you!',
-    menu1:'<span class="m1"><span>We change the <a class="mlink" href="#menu" role="button" aria-controls="sheet">menu</a></span><img class="ii ii-oil" src="img/doodles/maslo.svg" width="117" height="68" alt=""></span><span class="mr"><img class="ii ii-plate" src="img/doodles/tarelka.svg" width="139" height="33" alt="">every week</span><span class="m3">Now with a bar menu</span>',
+    menu1:'<span class="m1"><span>We change the <a class="mlink" href="#menu" role="button" aria-controls="sheet">menu</a></span><img class="ii ii-oil" src="img/doodles/maslo.svg" width="117" height="68" alt=""></span><span class="mr"><img class="ii ii-plate" src="img/doodles/tarelka.svg" width="139" height="33" alt="">every week</span>',
     'sheet-cap':'This is how the menu lies on our tables.',
     'dream':'Our dream',
     'kb-label':'Per serving','kb-approx':'approximate','rc-bye':'Thanks for coming by','rc-print':'Printed in the oven',
