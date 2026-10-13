@@ -1282,8 +1282,9 @@
   const drFr = dr.querySelector('.fr'), drFl = sheet.querySelector('.drf .fl');
   const TH = -2 * Math.PI / 180;
   let fP = null, fQ = null, fDrag = false, drUp = false;
-  /* линия сгиба положения «вверх»: от левого края на .257 высоты к правому на .18 (в координатах листа) */
-  const upA = () => [0, dr.offsetHeight * .257], upB = () => [dr.offsetWidth, dr.offsetHeight * .18];
+  /* линия сгиба положения «вверх»: от левого края на .11 высоты к правому на .06 (в координатах листа).
+     Сгиб у самого зажима — отогнутый лист закрывает только шапку меню, не позиции (Дарий, 2026-10-14; было .257/.18) */
+  const upA = () => [0, dr.offsetHeight * .11], upB = () => [dr.offsetWidth, dr.offsetHeight * .06];
   function refl(X, A, B){   /* отражение точки через прямую AB */
     const dx = B[0] - A[0], dy = B[1] - A[1], t = ((X[0] - A[0]) * dx + (X[1] - A[1]) * dy) / (dx * dx + dy * dy);
     const F = [A[0] + dx * t, A[1] + dy * t];
