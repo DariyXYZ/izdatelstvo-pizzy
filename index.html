@@ -803,7 +803,11 @@
     #about .ab-ph{margin-top:7vw}
   }
   /* лента: название под каждым снимком (Дарий, 2026-10-16) — мелкой подписью капсом, без номера */
-  #menu .fc figcaption{display:block;margin-top:8px;color:var(--ink);text-wrap:balance}
+  #menu .fc figcaption{display:block;margin-top:10px;color:var(--ink);text-wrap:balance;max-width:40%;line-height:1.35}
+  @media (max-width:820px){#menu .fc figcaption{max-width:90%}}   /* колонка на телефоне узкая — 40% дало бы 4–5 строк */   /* короткий фрейм: название в две строки (Дарий, 2026-10-16) */
+  /* низ снимка — пологой дугой, как на скрине Дария */
+  #menu .fc{container-type:inline-size}
+  #menu .fc .im{border-radius:0 0 50% 50% / 0 0 8cqw 8cqw}
   #menu .fc figcaption::before{content:none}
   /* понятная кнопка меню в самом разделе — над фильтром, по центру */
   .mopen-w{margin:calc(-1 * clamp(10px,1.5vw,28px)) 0 calc(2vw + 22px);text-align:center}   /* у .mfilt отрицательный верхний отступ — кнопку держим выше */
