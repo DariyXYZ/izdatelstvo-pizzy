@@ -816,10 +816,14 @@
   /* знак акции (! %) — в левый верхний угол снимка (Дарий, 2026-10-16); 100cqw теперь = ширина карточки (.fc — контейнер) */
   #menu .fc.promo .tag{left:7cqw;top:5cqw;transform:none;font-size:32cqw}
   /* большие заголовки чуть тоньше: обводка цветом фона съедает край буквы (белая в «О нас», чёрная в «Меню»; Дарий, 2026-10-16) */
-  #about .ab-ttl,#menu .mh-ttl{-webkit-text-stroke:.007em var(--bg);paint-order:fill stroke}
+  #about .ab-ttl{-webkit-text-stroke:.013em #fff}
+  #menu .mh-ttl,#menu .mh-ttl .mlink{-webkit-text-stroke:.013em #0b0b0b}   /* цвет явно: через var(--bg) Chrome не перерисовывал обводку у «меню» при смене вкладки */   /* обводка по центру контура: половина наружу, половина внутрь (Дарий: толще) */
   /* обводка в Chrome гасит text-decoration — подчёркивание «меню» в заголовке рисуем линией: базовая линия .714em от верха + отступ .1em, толщина .045em как была */
   #menu .mh-ttl .mlink,#menu .mh-ttl .mlink:hover{text-decoration:none;position:relative}
   #menu .mh-ttl .mlink::after{content:"";position:absolute;left:0;right:0;top:.814em;height:.045em;background:currentColor}
+  /* наведение — волна, как у остальных ссылок (text-decoration тут недоступен) */
+  @media (hover:hover){#menu .mh-ttl .mlink:hover::after{top:calc(.8365em - .09em);height:.18em;
+      -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 10' preserveAspectRatio='none'%3E%3Cpath d='M0 5 Q5 0 10 5 T20 5' fill='none' stroke='black' stroke-width='2.6'/%3E%3C/svg%3E") repeat-x 0 50% / .5em 100%;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 10' preserveAspectRatio='none'%3E%3Cpath d='M0 5 Q5 0 10 5 T20 5' fill='none' stroke='black' stroke-width='2.6'/%3E%3C/svg%3E") repeat-x 0 50% / .5em 100%}}
   /* знаки акций — мелкой кнопкой «( ! )» / «( % )» размером с «( открыть меню )» в правом верхнем углу вместо булавки;
      при наведении на карточку скобки разъезжаются, как у кнопок (Дарий, 2026-10-16). Сам знак — курсивный Times */
   #menu .fc.promo .tag{left:auto;right:5cqw;top:4cqw;font-family:var(--serif);font-style:normal;font-size:clamp(20px,1.6vw,28px);line-height:1;color:#fff}
