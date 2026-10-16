@@ -853,6 +853,18 @@
     #menu .mh-oil{top:1.715em}
     #menu .mh-plate{top:1.515em}
   }
+  /* EN, комп (Дарий, 2026-10-16): «Every week» сверху, «we ◡ change our menu» снизу, пиала между we и change, тарелка — в первой строке перед «Every week».
+     На телефоне EN — прежняя раскладка (.mob-only) */
+  .mh-ttl .dsk-only{display:none}
+  @media (min-width:821px){
+    .mh-ttl .mob-only{display:none}
+    .mh-ttl .dsk-only{display:block}
+    html[lang="en"] #menu .mh-oil{display:none}
+    html[lang="en"] #menu .mh-plate{top:var(--enpt,.32em);left:35.1vw}
+    #menu .mh-ttl .mr > .nf{filter:none}
+    #menu .mh-ttl .nf .t{display:inline;filter:url(#thin)}
+    #menu .mh-ttl .iim{position:static;display:inline-block;width:.71em;height:auto;vertical-align:.05em;margin:0 .06em}
+  }
 </style>
 <style>[hidden]{display:none!important}</style>
 </head>
@@ -1655,7 +1667,7 @@
     abAddr:'Moscow, Mayakovskogo lane 2,<br>Marksistskaya side',
     abText:'<p class="ab-lbl">Concept</p><p>A small pizzeria in Taganka, in Mayakovskogo lane, near Marksistskaya metro. The entrance is at the end of a residential building: up the stairs past bottles with flowers, under the tree with string lights. It was opened by Nastya and Stas, and most days they greet guests themselves. The name is no accident: the place works like a small editorial office. Pizza here is a daily print run: dough and oven every day, the menu changes once a week. The latest issue of the menu comes to your table on a clipboard. On the menu: pizza and focaccia, Italian starters, salads, desserts and pastries for coffee. Recently we added wine and wine-based cocktails: negroni, house vermouth.</p><p>It is simple inside: tins of tomatoes, lemons on the tables, flowers in bottles. Half Italy, half the courtyard where the owners grew up. People come here to eat pizza, not for a dress-code dinner.</p>',
     abHours:'Out daily<br>from 12:00<br>to 22:00.<br><br>Tables —<br>by phone<br><a class="u" href="tel:+79670796093">+7 967 079-60-93</a>.<br>See you!',
-    menu1:'<span class="m1"><span>We change the <a class="mlink" href="#menu" role="button" aria-controls="sheet">menu</a></span><img class="ii ii-oil" src="img/doodles/maslo.svg" width="117" height="68" alt=""></span><span class="mr"><img class="ii ii-plate" src="img/doodles/tarelka.svg" width="139" height="33" alt=""><span>every week</span></span>',
+    menu1:'<span class="mob-only"><span class="m1"><span>We change the <a class="mlink" href="#menu" role="button" aria-controls="sheet">menu</a></span><img class="ii ii-oil" src="img/doodles/maslo.svg" width="117" height="68" alt=""></span><span class="mr"><img class="ii ii-plate" src="img/doodles/tarelka.svg" width="139" height="33" alt=""><span>every week</span></span></span><span class="dsk-only"><span class="m1"><span>Every week</span></span><span class="mr"><span class="nf"><span class="t">we</span> <img class="iim" src="img/doodles/maslo.svg" width="117" height="68" alt=""> <span class="t">change our <a class="mlink" href="#menu" role="button" aria-controls="sheet">menu</a></span></span></span></span>',
     'sheet-cap':'This is how the menu lies on our tables.',
     'dream':'Our dream',
     'kb-label':'Per serving','kb-approx':'approximate','rc-bye':'Thanks for coming by','rc-print':'Printed in the oven',
