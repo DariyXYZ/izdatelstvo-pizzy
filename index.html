@@ -815,6 +815,11 @@
   .mopen:focus-visible{outline:2px solid currentColor;outline-offset:4px}
   /* знак акции (! %) — в левый верхний угол снимка (Дарий, 2026-10-16); 100cqw теперь = ширина карточки (.fc — контейнер) */
   #menu .fc.promo .tag{left:7cqw;top:5cqw;transform:none;font-size:32cqw}
+  /* большие заголовки чуть тоньше: обводка цветом фона съедает край буквы (белая в «О нас», чёрная в «Меню»; Дарий, 2026-10-16) */
+  #about .ab-ttl,#menu .mh-ttl{-webkit-text-stroke:.007em var(--bg);paint-order:fill stroke}
+  /* обводка в Chrome гасит text-decoration — подчёркивание «меню» в заголовке рисуем линией: базовая линия .714em от верха + отступ .1em, толщина .045em как была */
+  #menu .mh-ttl .mlink,#menu .mh-ttl .mlink:hover{text-decoration:none;position:relative}
+  #menu .mh-ttl .mlink::after{content:"";position:absolute;left:0;right:0;top:.814em;height:.045em;background:currentColor}
 </style>
 <style>[hidden]{display:none!important}</style>
 </head>
