@@ -813,6 +813,7 @@
   #menu .fc figcaption::before{content:none}
   /* понятная кнопка меню в самом разделе — над фильтром, по центру */
   .mopen-w{margin:calc(-1 * clamp(10px,1.5vw,28px)) 0 calc(2vw + 22px);text-align:center}   /* у .mfilt отрицательный верхний отступ — кнопку держим выше */
+  @media (max-width:820px){.mopen-w{margin:9vw 0 0}}   /* телефон: кнопка — локальный заголовок фильтра, к нему вплотную (у .mfilt свой верхний padding 12px) */
   .mopen{all:unset;cursor:pointer;font-family:var(--serif);font-size:clamp(20px,1.6vw,28px);text-transform:lowercase;white-space:nowrap}
   .mopen:focus-visible{outline:2px solid currentColor;outline-offset:4px}
   /* знак акции (! %) — в левый верхний угол снимка (Дарий, 2026-10-16); 100cqw теперь = ширина карточки (.fc — контейнер) */
