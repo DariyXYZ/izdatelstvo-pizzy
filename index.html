@@ -689,9 +689,7 @@
   .mh-ttl .mlink{text-decoration:underline;text-decoration-thickness:.045em;text-underline-offset:.1em;cursor:pointer}
   @media (hover:hover){.mh-ttl .mlink:hover{opacity:.6}}
   /* рисунок пиццы на банках тоже открывает доску меню (Дарий, 2026-10-02); над заголовком, чтобы строка h2 не перекрывала клик */
-  .mhead .mh-pizza{cursor:pointer;z-index:1;transition:opacity .15s}
-  @media (hover:hover){.mhead .mh-pizza:hover{opacity:.6}}
-  .mhead .mh-pizza:focus-visible{outline:2px solid currentColor;outline-offset:6px}
+  .mhead .mh-pizza{z-index:1}   /* рисунок больше не кнопка (Дарий, 2026-10-16): меню открывает «( открыть меню )» и слово «меню» */
   #menu .mh-plate{display:none}
   /* комп: заголовок меню по макету «меню-web.jpg» — шаг строк как у «О нас» (10.69vw), поля как у «О нас» (5.21vw);
      первая строка по правому краю, вторая слева с пиалой и тарелкой справа (третью «Появилась барная карта» убрали, Дарий 2026-10-02) */
@@ -904,7 +902,7 @@
       </div>
     </div>
     <div class="mhead">
-      <img class="mh-pizza" src="img/doodles/pizza-banki.svg" width="1465" height="736" alt="Рисунок: пицца на банках томатного соуса — открыть меню" role="button" tabindex="0" aria-controls="sheet">
+      <img class="mh-pizza" src="img/doodles/pizza-banki.svg" width="1465" height="736" alt="Рисунок: пицца на банках томатного соуса">
       <img class="mh-oil" src="img/doodles/maslo.svg" width="117" height="68" alt="" aria-hidden="true">
       <img class="mh-plate" src="img/doodles/tarelka.svg" width="139" height="33" alt="" aria-hidden="true">
       <h2 class="mh-ttl" data-i18n="menu1"><span class="m1"><span>Мы меняем <a class="mlink" href="#menu" role="button" aria-controls="sheet">меню</a></span><img class="ii ii-oil" src="img/doodles/maslo.svg" width="117" height="68" alt=""></span><span class="mr"><img class="ii ii-plate" src="img/doodles/tarelka.svg" width="139" height="33" alt="">каждую неделю</span></h2>
@@ -1550,8 +1548,7 @@
   /* слово «меню» в заголовке раздела открывает доску (делегирование: при смене языка заголовок перерисовывается) */
   window.menuOpen = () => setMenu(true);
   if (location.hash.slice(1) === 'menu') setMenu(true);
-  document.addEventListener('click', e => { if (e.target.closest('.mlink, .mh-pizza, .mopen')) { e.preventDefault(); setMenu(true); } });
-  document.querySelector('.mh-pizza').addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setMenu(true); } });
+  document.addEventListener('click', e => { if (e.target.closest('.mlink, .mopen')) { e.preventDefault(); setMenu(true); } });
   /* кнопка «Меню» на главной: переход в раздел и сразу открытое меню */
   document.querySelectorAll('[data-open="menu"]').forEach(a => a.addEventListener('click', () => requestAnimationFrame(() => setMenu(true))));
 
