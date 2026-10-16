@@ -838,6 +838,14 @@
   #menu .fc.promo .tag::after{content:"\00a0)";display:inline-block}
   @media (hover:hover){#menu .fc.promo:hover .tag::before{transform:translateX(-.28em)}#menu .fc.promo:hover .tag::after{transform:translateX(.28em)}}
   #menu .fc.promo .pinned{display:none}
+  /* телефон, заголовок «Меню» (Дарий, 2026-10-16): шрифт чуть больше, пиала и тарелка чуть меньше, строки плотнее */
+  @media (max-width:820px){
+    #menu .mhead{font-size:calc((100vw - 2 * var(--gut)) / 8.75)}
+    #menu .mh-ttl .m1 > span{white-space:nowrap}
+    #menu .mh-ttl{line-height:1.165}   /* как у заголовка «О нас» (Дарий: «в о нас отличное межстрочное») */
+    #menu .mh-ttl .ii-oil{width:1.4em}
+    #menu .mh-ttl .ii-plate{width:2.4em}
+  }
 </style>
 <style>[hidden]{display:none!important}</style>
 </head>
