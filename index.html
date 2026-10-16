@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Издательство пиццы</title>
 <link rel="preload" href="fonts/TimesNewRomanVO-Cond.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;1,400;1,700&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;1,400;1,700&display=swap">
 <style>
   /* цифры по всему сайту набираются курсивным Times — буквы остаются в своих шрифтах */
   @font-face{
@@ -14,6 +14,11 @@
     font-style:normal;
     unicode-range:U+0030-0039;
   }
+  /* наборный — Oswald Light (SIL OFL, файлы в fonts/). Одно начертание на все веса и курсив: «Освальд light везде» (Дарий, 2026-10-16) */
+  @font-face{font-family:'Oswald L';src:url(fonts/Oswald-cyr.woff2) format('woff2');font-weight:100 900;font-style:normal;font-display:swap;unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+  @font-face{font-family:'Oswald L';src:url(fonts/Oswald-lat.woff2) format('woff2');font-weight:100 900;font-style:normal;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  @font-face{font-family:'Oswald L';src:url(fonts/Oswald-cyr.woff2) format('woff2');font-weight:100 900;font-style:italic;font-display:swap;unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+  @font-face{font-family:'Oswald L';src:url(fonts/Oswald-lat.woff2) format('woff2');font-weight:100 900;font-style:italic;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   /* узкий Times — настоящий Times New Roman VO Condensed (кириллица есть; нет ₽ № стрелок — их добирает обычный Times) */
   @font-face{
     font-family:'Times Cond';
@@ -24,8 +29,8 @@
     --l1:clamp(30px,4vw,56px);
     --bg:#ffffff; --ink:#000000; --mute:#8a8a8a; --off:#c2c2c2; --ph:#ececec; --line:#000;
     --serif:'Digits','Times Cond',"Times New Roman","Tinos",Times,serif;
-    --sans:'Digits',"Roboto Condensed",system-ui,sans-serif;
-    /* шрифтов два (Дарий, 2026-09-30): узкий Times и Roboto Condensed (мелкие подписи капсом, длинные тексты обычным регистром); цифры — курсивный Times (Digits) */
+    --sans:'Digits','Oswald L',"Arial Narrow",system-ui,sans-serif;
+    /* шрифтов два: узкий Times и Oswald Light (с 2026-10-16, было Roboto Condensed) (мелкие подписи капсом, длинные тексты обычным регистром); цифры — курсивный Times (Digits) */
     --caps-ls:.07em;
     --gut:clamp(16px,2.2vw,40px); --g:clamp(12px,1.6vw,26px);
     color-scheme: light;
@@ -768,6 +773,44 @@
     .btn.menubtn.bk:hover{color:#000}
     a.u:hover,.mh-ttl .mlink:hover,.privl:hover,.legal a:hover,#privacy .txt a:hover,.ov .u:hover,.btn.menubtn.bk:hover{text-decoration-line:underline;text-decoration-style:wavy}
   }
+
+  /* ===== ПРАВКИ 2026-10-16 (Дарий, макет «06 Исходники прочее/о-нас-web-2.jpg») ===== */
+  /* лого — Oswald Light, выключка влево, в левый верхний угол; разделы и язык — справа */
+  .logo{text-align:left;justify-self:start;line-height:1.12}
+  .logo .l1,.logo .l2{font-family:var(--sans);font-weight:300;font-size:var(--lg);text-transform:uppercase;letter-spacing:.01em;display:block;margin:0}
+  :root{--lg:clamp(18px,1.7vw,30px)}
+  @media (min-width:821px){
+    .hdr{grid-template-columns:auto 1fr auto auto;column-gap:clamp(22px,2.25vw,40px)}
+    .hdr .logo{grid-column:1;grid-row:1}
+    .hdr > .nav:not(.r){grid-column:3;grid-row:1;padding-left:0}
+    .hdr > .nav.r{grid-column:4;grid-row:1}
+    .hdr > .nav{margin-top:calc(var(--lg) * .56 - .6em)}
+  }
+  @media (max-width:820px){:root{--lg:clamp(17px,5vw,22px)}}
+
+  /* «О нас»: чертёж фасада крупно по центру, под ним заголовок в три строки с двумя подписями */
+  .ab-house{margin:.4vw auto 0;width:42.5vw}
+  .ab-head{position:relative;margin-top:1.7vw}
+  #about .ab-ttl{font-size:var(--abt);line-height:1.165;margin:0;padding-inline:var(--ax)}
+  #about .ab-ttl .r{margin-right:0}
+  #about{--abt:calc((100vw - 2 * var(--gut) - 2 * var(--ax)) / 10.45)}   /* 10.45 em — самая длинная строка «всегда свежий тираж» во всю ширину между осями */
+  .ab-addr{position:absolute;left:var(--ax);top:calc(var(--abt) * .2);margin:0;white-space:nowrap}
+  #about .ab-info{left:auto;right:var(--ax);text-align:right;top:calc(var(--abt) * 1.36)}   /* правый край — по краю заголовка (Дарий, 2026-10-16) */
+  .ab-addr{font-family:var(--sans);font-size:12px;line-height:17px;text-transform:uppercase;letter-spacing:var(--caps-ls);font-weight:500}
+  #about .ab-ph{margin-top:5.2vw}
+  @media (max-width:820px){
+    .ab-house{margin-top:4vw;width:78vw}
+    .ab-addr{display:none}
+    .ab-head{margin-top:7vw}
+    #about .ab-ph{margin-top:7vw}
+  }
+  /* лента: название под каждым снимком (Дарий, 2026-10-16) — мелкой подписью капсом, без номера */
+  #menu .fc figcaption{display:block;margin-top:8px;color:var(--ink);text-wrap:balance}
+  #menu .fc figcaption::before{content:none}
+  /* понятная кнопка меню в самом разделе — над фильтром, по центру */
+  .mopen-w{margin:calc(-1 * clamp(10px,1.5vw,28px)) 0 calc(2vw + 22px);text-align:center}   /* у .mfilt отрицательный верхний отступ — кнопку держим выше */
+  .mopen{all:unset;cursor:pointer;font-family:var(--serif);font-size:clamp(20px,1.6vw,28px);text-transform:lowercase;white-space:nowrap}
+  .mopen:focus-visible{outline:2px solid currentColor;outline-offset:4px}
 </style>
 <style>[hidden]{display:none!important}</style>
 </head>
@@ -809,10 +852,13 @@
   <!-- О НАС -->
   <section id="about">
     <div class="ab-top">
-      <figure class="ab-house"><img src="img/doodles/fasad.svg" width="694" height="729" alt="Рисунок: дом, лестница ко входу, деревья во дворе"></figure>
+      <figure class="ab-house"><img src="img/facade.webp" width="1400" height="1597" alt="Чертёж фасада: дом, лестница ко входу, дерево с гирляндой"></figure>
+    </div>
+    <div class="ab-head">
+      <p class="ab-addr" data-i18n="abAddr">Москва, переулок Маяковского 2,<br>со стороны Марксистской</p>
+      <h1 class="ab-ttl" data-i18n="abTtl"><span class="r">Издаём пиццу</span>на Таганке<br>всегда свежий тираж</h1>
       <p class="ab-info" data-i18n="abInfo">Вход с торца дома: по лестнице мимо бутылок<br>с цветами, под деревом с гирляндой.</p>
     </div>
-    <h1 class="ab-ttl" data-i18n="abTtl"><span class="r">На Таганке.</span>Издаём пиццу<br>каждый день свежий<br>тираж&nbsp; в переулке<br>Маяковского</h1>
     <div class="ab-ph">
       <figure class="ab-fr" aria-hidden="true"><img src="img/doodles/kartina.svg" width="211" height="284" alt=""></figure>
       <div class="ab-row">
@@ -832,7 +878,7 @@
     <div class="ab-na">
       <figure class="ab-nastya">
         <div class="im"><img src="img/nastya.webp" width="1200" height="1599" loading="lazy" alt="Настя в зале с пиццей на подносе"></div>
-        <figcaption><span>Редактор: Настя</span></figcaption>
+        <figcaption><span>Настя</span><span class="cap">редакция</span></figcaption>
       </figure>
       <div class="ab-hw">
         <figure class="ab-fl" aria-hidden="true"><img src="img/doodles/cvetok.svg" width="177" height="424" alt=""></figure>
@@ -863,6 +909,7 @@
       <img class="mh-plate" src="img/doodles/tarelka.svg" width="139" height="33" alt="" aria-hidden="true">
       <h2 class="mh-ttl" data-i18n="menu1"><span class="m1"><span>Мы меняем <a class="mlink" href="#menu" role="button" aria-controls="sheet">меню</a></span><img class="ii ii-oil" src="img/doodles/maslo.svg" width="117" height="68" alt=""></span><span class="mr"><img class="ii ii-plate" src="img/doodles/tarelka.svg" width="139" height="33" alt="">каждую неделю</span></h2>
     </div>
+    <p class="mopen-w"><button class="pb mopen" type="button" aria-controls="sheet">открыть меню</button></p>
     <div class="mfilt" role="group" aria-label="Фильтр ленты">
       <span class="sl" aria-hidden="true">(</span>
       <button type="button" aria-pressed="true" data-f="all">всё</button>
@@ -1001,6 +1048,7 @@
     document.querySelectorAll('.ov.on').forEach(closeOv);   /* смена раздела закрывает открытый снимок */
     if (push) history.replaceState(null, '', id === 'home' ? location.pathname : '#' + id);
     setTab(id);
+    if (id === 'menu' && window.menuOpen) window.menuOpen();   /* доска меню открывается при каждом входе в раздел (Дарий, 2026-10-16) */
   }
   document.querySelectorAll('[data-go]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); go(a.dataset.go, true); }));
   window.addEventListener('hashchange', () => go(location.hash.slice(1), false));
@@ -1500,7 +1548,9 @@
   menubtn.addEventListener('click', () => setMenu(sheet.hidden));
   menux.addEventListener('click', () => setMenu(false));
   /* слово «меню» в заголовке раздела открывает доску (делегирование: при смене языка заголовок перерисовывается) */
-  document.addEventListener('click', e => { if (e.target.closest('.mlink, .mh-pizza')) { e.preventDefault(); setMenu(true); } });
+  window.menuOpen = () => setMenu(true);
+  if (location.hash.slice(1) === 'menu') setMenu(true);
+  document.addEventListener('click', e => { if (e.target.closest('.mlink, .mh-pizza, .mopen')) { e.preventDefault(); setMenu(true); } });
   document.querySelector('.mh-pizza').addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setMenu(true); } });
   /* кнопка «Меню» на главной: переход в раздел и сразу открытое меню */
   document.querySelectorAll('[data-open="menu"]').forEach(a => a.addEventListener('click', () => requestAnimationFrame(() => setMenu(true))));
@@ -1555,7 +1605,8 @@
     promoTag:'<b>A glass for 200 ₽</b>until 4 pm',
     addr:'<span class="cap">Address</span>Moscow, Mayakovskogo lane, 2<br>entrance from the end of the building, Marksistskaya side',
     abInfo:'Entrance at the end of the building: up the stairs<br>past flowers in bottles, under the string-lit tree.',
-    abTtl:'<span class="r">In Taganka.</span>We publish pizza<br>every day, a fresh<br>print run in<br>Mayakovskogo lane',
+    abTtl:'<span class="r">We publish pizza</span>in Taganka<br>always a fresh print run',
+    abAddr:'Moscow, Mayakovskogo lane 2,<br>Marksistskaya side',
     abText:'<p class="ab-lbl">Concept</p><p>A small pizzeria in Taganka, in Mayakovskogo lane, near Marksistskaya metro. The entrance is at the end of a residential building: up the stairs past bottles with flowers, under the tree with string lights. It was opened by Nastya and Stas, and most days they greet guests themselves. The name is no accident: the place works like a small editorial office. Pizza here is a daily print run: dough and oven every day, the menu changes once a week. The latest issue of the menu comes to your table on a clipboard. On the menu: pizza and focaccia, Italian starters, salads, desserts and pastries for coffee. Recently we added wine and wine-based cocktails: negroni, house vermouth.</p><p>It is simple inside: tins of tomatoes, lemons on the tables, flowers in bottles. Half Italy, half the courtyard where the owners grew up. People come here to eat pizza, not for a dress-code dinner.</p>',
     abHours:'Out daily<br>from 12:00<br>to 22:00.<br><br>Tables —<br>by phone<br><a class="u" href="tel:+79670796093">+7 967 079-60-93</a>.<br>See you!',
     menu1:'<span class="m1"><span>We change the <a class="mlink" href="#menu" role="button" aria-controls="sheet">menu</a></span><img class="ii ii-oil" src="img/doodles/maslo.svg" width="117" height="68" alt=""></span><span class="mr"><img class="ii ii-plate" src="img/doodles/tarelka.svg" width="139" height="33" alt="">every week</span>',
@@ -1580,7 +1631,7 @@
     'Мясная тарелка':'Meat platter','Фокачча и кофе':'Focaccia & coffee','Свежий номер':'The latest issue',
     'О нас':'About','Меню':'Menu','Забронировать':'Book a table','Бронь':'Book','Забронировать стол':'Book a table',
     'Адрес':'Address','Ежедневно':'Daily','Телефон':'Phone','Соцсети':'Social','Часы':'Hours','Связь':'Contact','Ежедневно 12:00–22:00':'Daily 12:00–22:00',
-    'Вход':'Entrance','Зал':'Room','Печь':'Oven','Двор':'Yard','Владельцы':'Owners','Нажмите на карту, чтобы её двигать':'Click the map to move it','Редактор: Настя':'Editor: Nastya','Настя':'Nastya','редакция':'editorial office','Повар':'Chef','за печью':'at the oven',
+    'Вход':'Entrance','Зал':'Room','Печь':'Oven','Двор':'Yard','Владельцы':'Owners','Нажмите на карту, чтобы её двигать':'Click the map to move it','Редактор: Настя':'Editor: Nastya','открыть меню':'open menu','Настя':'Nastya','редакция':'editorial office','Повар':'Chef','за печью':'at the oven',
     'Пицца и фокачча':'Pizza & focaccia','Десерты и выпечка':'Desserts & pastry','Салаты и закуски':'Salads & starters','Напитки':'Drinks','Фото позиции':'Photo',
     'Маргарита':'Margherita','Пепперони':'Pepperoni','Четыре сыра':'Four cheese','Капрезе':'Caprese','С ветчиной, грибами, оливками и артишоками':'Ham, mushrooms, olives & artichokes',
     'С мортаделлой и артишоками':'Mortadella & artichokes','Страчателла с пармой':'Stracciatella & Parma ham','С баклажанами и копчёным скаморца':'Eggplant & smoked scamorza',
