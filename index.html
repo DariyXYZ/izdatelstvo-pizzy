@@ -919,7 +919,15 @@
   .lb .rc .rc-dash,.lb .rc .rc-stars{display:block;overflow:hidden;text-align:justify;text-align-last:justify;letter-spacing:0}
   .lb .rc .rc-dash{font-size:17px !important;height:1.4em;margin:6px 0 !important}
   .lb .rc .rc-stars{margin:4px 0 !important}
-  .lb .rc .ttl + .rc-stars{margin-bottom:14px !important}
+  /* v3 (Дарий, 2026-10-21): номер выпуска под названием внутри рамки из звёздочек, после рамки воздух; КБЖУ с отточием; послание в звёздочках */
+  .lb .rc .rc-no{text-align:center;text-transform:uppercase;letter-spacing:.03em;margin:2px 0 0 !important}
+  .lb .rc .rc-no + .rc-stars{margin-bottom:28px !important}
+  .lb .rc .kb .r{justify-content:flex-start}
+  .lb .rc .kb .ld{flex:1 1 0;min-width:0;overflow:hidden;white-space:nowrap;margin:0 .5em;letter-spacing:0}
+  .lb .rc .kb .r > span,.lb .rc .kb .r > b{flex:0 0 auto}
+  .lb .rc .kb .r{overflow:hidden}
+  .lb .rc .rc-msg::before{content:"*\00a0\00a0"}
+  .lb .rc .rc-msg::after{content:"\00a0\00a0*"}
   .lb .rc .rc-title{display:block;margin:0 0 4px !important}
   .lb .rc .kb,.lb .rc .ing{font-size:17px}
   .lb .rc .kb .r{display:flex;justify-content:space-between;align-items:baseline}
@@ -1156,10 +1164,9 @@
       </div>
     </div>
     <div class="tx rc">
-      <p class="rc-meta"><span class="rno"></span><span class="rdt"></span></p>
-      <p class="rc-dash" aria-hidden="true"></p>
       <p class="rc-stars" aria-hidden="true"></p>
       <h2 class="ttl"></h2>
+      <p class="rc-no"><span class="rno"></span><span class="rdt" hidden></span></p>
       <p class="rc-stars" aria-hidden="true"></p>
       <div class="rc-kb">
         <p class="rc-cols"><span data-i18n="kb-label">На порцию</span><span data-i18n="kb-approx">ориентировочно</span></p>
@@ -1359,7 +1366,7 @@
   function kbRows(d, en){
     const v = d.split(',');
     const labels = en ? ['Kcal','Protein','Fat','Carbs'] : ['Ккал','Белки','Жиры','Углеводы'];
-    return labels.map((l, i) => `<span class="r"><span>${l}</span><b>${v[i]}${i ? (en ? ' g' : ' г') : ''}</b></span>`).join('');
+    return labels.map((l, i) => `<span class="r"><span>${l}</span><i class="ld" aria-hidden="true">${'. '.repeat(60)}</i><b>${v[i]}${i ? (en ? ' g' : ' г') : ''}</b></span>`).join('');
   }
   function paintLb(){
     if (lbi < 0) return;
