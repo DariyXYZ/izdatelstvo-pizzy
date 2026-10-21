@@ -941,6 +941,7 @@
   /* листалка лайтбокса тем же шрифтом, что чек: «x---  01 / 40  --->» текстом, без длинных SVG-стрелок, всё чёрное (Дарий, 2026-10-21) */
   .lbfoot .ar,.lbfoot .num{font-family:'Oswald L','Arial Narrow',sans-serif;font-size:17px;font-style:normal;letter-spacing:.03em;color:var(--ink)}
   .lbfoot .ar.end{color:var(--ink)}
+  .lbfoot .ah{position:relative;top:.1em}   /* в Oswald «<» «>» выше дефиса на .1em — опускаем, чтобы острие было на линии «---» */
   .lbfoot{gap:clamp(18px,2.4vw,32px)}
 </style>
 <style>[hidden]{display:none!important}</style>
@@ -1164,9 +1165,9 @@
   <div class="in">
     <div class="pic"><div class="im"><div class="ph"><span>Фото позиции</span></div></div>
       <div class="lbfoot">
-        <button class="ar" type="button" data-step="-1" aria-label="Предыдущий снимок"><span class="a-on">&lt;---</span><span class="a-end">x---</span></button>
+        <button class="ar" type="button" data-step="-1" aria-label="Предыдущий снимок"><span class="a-on"><span class="ah">&lt;</span>---</span><span class="a-end">x---</span></button>
         <span class="num cap"></span>
-        <button class="ar" type="button" data-step="1" aria-label="Следующий снимок"><span class="a-on">---&gt;</span><span class="a-end">---x</span></button>
+        <button class="ar" type="button" data-step="1" aria-label="Следующий снимок"><span class="a-on">---<span class="ah">&gt;</span></span><span class="a-end">---x</span></button>
       </div>
     </div>
     <div class="tx rc">
