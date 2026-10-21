@@ -1258,7 +1258,7 @@
       const ims = [...c.children].filter(f => !isSm(f)).map(f => f.querySelector('.im'));
       const sum = ims.reduce((a, im) => a + im.offsetHeight, 0);
       if (!sum || slack <= .5) return;
-      const k = 1 + slack / sum;
+      const k = Math.min(1 + slack / sum, 1.12);   /* не больше +12%: при фильтре в колонке 1–2 снимка, полный добор их уродливо вытягивал (Дарий, 2026-10-21) — низ тогда неровный */
       ims.forEach(im => im.style.aspectRatio = im.offsetWidth + '/' + (im.offsetHeight * k).toFixed(1));
     });
     staggerFeed();
