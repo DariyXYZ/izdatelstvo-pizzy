@@ -679,6 +679,8 @@
   @media (hover:hover){#home .hm:hover{text-decoration-style:wavy}}
   /* «меню» на главной — в 3 раза крупнее, узкий Times сайта с наклоном 12° (своего курсива у Times Cond нет; Дарий выбрал наклон, а не сжатый курсив TNR, 2026-10-21) */
   #home .hm{font-size:clamp(90px,7.35vw,132px);transform:skewX(-12deg)}
+  #home .hm{filter:url(#thin)}   /* тоньше, как большие заголовки: эрозия контура (Дарий, 2026-10-21) */
+  @media (max-width:820px){#home .hm{filter:url(#thin-m)}}
   @media (hover:hover){.pb:not(.on):hover{opacity:.6}}
   .ov .x.pb{font-size:var(--nav)}
 
