@@ -840,6 +840,8 @@
   /* тоньше без обводки (text-stroke оставлял видимую кайму): SVG-фильтр эрозии #thin подъедает букву равномерно со всех сторон.
      В «Меню» — только текстовые span, рисунки .ii внутри заголовка не трогаем */
   #about .ab-ttl,#menu .mh-ttl .m1 > span,#menu .mh-ttl .mr > span{filter:url(#thin)}
+  /* рисунки: контуры вдвое тоньше прямо в SVG (4→2, 2.2→1.1) + лёгкое дрожание линии шумом (Дарий, 2026-10-21) */
+  img[src*="doodles/"]{filter:url(#jitter)}
   @media (max-width:820px){#about .ab-ttl,#menu .mh-ttl .m1 > span,#menu .mh-ttl .mr > span{filter:url(#thin-m)}}   /* обводка по центру контура: половина наружу, половина внутрь (Дарий: толще) */
   /* обводка в Chrome гасит text-decoration — подчёркивание «меню» в заголовке рисуем линией: базовая линия .714em от верха + отступ .1em, толщина .045em как была */
   #menu .mh-ttl .mlink,#menu .mh-ttl .mlink:hover{text-decoration:none;position:relative}
@@ -902,6 +904,7 @@
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <filter id="thin" x="-2%" y="-2%" width="104%" height="104%"><feMorphology operator="erode" radius="0.8"/></filter>
+  <filter id="jitter" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.07" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
   <filter id="thin-m" x="-2%" y="-2%" width="104%" height="104%"><feMorphology operator="erode" radius="0.12"/></filter>
 </svg>
 <header class="hdr">
