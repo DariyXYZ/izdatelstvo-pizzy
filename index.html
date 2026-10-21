@@ -605,6 +605,11 @@
   .ab-fr{margin:0;width:6.32vw}
   .ab-ph .ab-fr{position:absolute;left:var(--ax);bottom:0}
   .ab-fr-m{display:none}
+  /* книжные сноски (Дарий, 2026-10-21): у рисунков «О нас» номер (1) (2) (3) курсивным Times справа сверху, те же номера — в тексте, где о рисунке речь */
+  .ab-fr,.ab-chair,.ab-fl{position:relative}
+  .fig-n{position:absolute;left:calc(100% + .25em);top:-.15em;font:italic 400 clamp(18px,1.5vw,26px)/1 "Times New Roman","Tinos",Times,serif;white-space:nowrap;color:var(--ink)}
+  @media (max-width:820px){.fig-n{left:0;top:auto;bottom:calc(100% + 6px);font-size:20px}}   /* телефон: справа текст — номер над рисунком */
+  .fn{font-family:"Times New Roman","Tinos",Times,serif;font-style:italic;font-weight:400;letter-spacing:0;text-transform:none;font-size:1.06em}
   .ab-mid{position:relative;margin-top:7.3vw}
   .ab-scroll{padding-left:var(--ax)}
   /* ширина абзаца по макету (Roboto Condensed); длинная красная строка — вкус Дария */
@@ -651,7 +656,7 @@
     .ab-na{margin-top:11.5vw}
     .ab-nastya{margin:0;width:100%}
     .ab-hw{display:flex;align-items:flex-end;margin-top:8vw}
-    .ab-fl{position:static;transform:none;width:19.2vw;flex:0 0 auto;margin-left:9.5vw}
+    .ab-fl{position:relative;transform:none;width:19.2vw;flex:0 0 auto;margin-left:9.5vw}
     .ab-hours{position:static;margin-left:12.8vw;font-size:7vw}
   }
 
@@ -952,10 +957,10 @@
       <img class="ab-pic p2" src="img/about/parma.webp" width="600" height="400" alt="Парма, дыня, страчателла">
       <p class="ab-addr" data-i18n="abAddr">Москва, переулок Маяковского 2,<br>со стороны Марксистской</p>
       <h1 class="ab-ttl" data-i18n="abTtl"><span class="r">Издаём пиццу</span>на Таганке<br>всегда свежий тираж</h1>
-      <p class="ab-info" data-i18n="abInfo">Вход с торца дома: по лестнице мимо бутылок<br>с цветами, под деревом с гирляндой.</p>
+      <p class="ab-info" data-i18n="abInfo">Вход с торца дома: по лестнице мимо бутылок<br>с цветами <i class="fn">(3)</i>, под деревом с гирляндой.</p>
     </div>
     <div class="ab-ph">
-      <figure class="ab-fr" aria-hidden="true"><img src="img/doodles/kartina.svg" width="211" height="284" alt=""></figure>
+      <figure class="ab-fr" aria-hidden="true"><img src="img/doodles/kartina.svg" width="211" height="284" alt=""><span class="fig-n" aria-hidden="true">(1)</span></figure>
       <div class="ab-row">
         <figure class="ab-im"><img src="img/about/velosiped.webp" loading="lazy" alt="Велосипед у входа"></figure>
         <figure class="ab-im"><img src="img/about/zal.webp" loading="lazy" alt="Зал: столы у окна, цветы в бутылках"></figure>
@@ -965,10 +970,10 @@
     </div>
     <div class="ab-mid">
       <div class="ab-tx">
-        <figure class="ab-fr ab-fr-m" aria-hidden="true"><img src="img/doodles/kartina.svg" width="211" height="284" alt=""></figure>
-        <div class="ab-scroll"><div class="ab-p" data-i18n="abText"><p class="ab-lbl">Концепция</p><p>Небольшая пиццерия на Таганке, в переулке Маяковского, рядом с метро «Марксистская». Вход с торца жилого дома: подняться по лестнице мимо бутылок с цветами, пройти под деревом с гирляндой. Её открыли Настя и Стас, и чаще всего гостей встречают они сами. Название не случайное, место устроено как маленькая редакция. Пицца здесь — ежедневный тираж: тесто и печь каждый день, меню обновляется раз в неделю. Свежий выпуск меню приносят к столу на доске с зажимом. В меню пицца и фокачча, итальянские закуски, салаты, десерты и выпечка к кофе. Недавно появилось вино и коктейли на его основе: негрони, домашний вермут.</p><p>Внутри просто: банки томатов, лимоны на столах, цветы в бутылках. Наполовину Италия, наполовину двор, где выросли хозяева. Сюда приходят поесть пиццу, а не на ужин с дресс-кодом.</p></div></div>
+        <figure class="ab-fr ab-fr-m" aria-hidden="true"><img src="img/doodles/kartina.svg" width="211" height="284" alt=""><span class="fig-n" aria-hidden="true">(1)</span></figure>
+        <div class="ab-scroll"><div class="ab-p" data-i18n="abText"><p class="ab-lbl">Концепция</p><p>Небольшая пиццерия на Таганке, в переулке Маяковского, рядом с метро «Марксистская». Вход с торца жилого дома: подняться по лестнице мимо бутылок с цветами <i class="fn">(3)</i>, пройти под деревом с гирляндой. Её открыли Настя и Стас, и чаще всего гостей встречают они сами. Название не случайное, место устроено как маленькая редакция. Пицца здесь — ежедневный тираж: тесто и печь каждый день, меню обновляется раз в неделю. Свежий выпуск меню приносят к столу на доске с зажимом. В меню пицца и фокачча, итальянские закуски, салаты, десерты и выпечка к кофе. Недавно появилось вино и коктейли на его основе: негрони, домашний вермут.</p><p>Внутри просто: банки томатов, лимоны на столах, цветы в бутылках, на стенах картины <i class="fn">(1)</i>. Наполовину Италия, наполовину двор, где выросли хозяева <i class="fn">(2)</i>. Сюда приходят поесть пиццу, а не на ужин с дресс-кодом.</p></div></div>
       </div>
-      <figure class="ab-chair"><img src="img/doodles/stul.svg" width="324" height="452" alt="Рисунок: стул-моноблок"><figcaption data-i18n="dream">Наша мечта</figcaption></figure>
+      <figure class="ab-chair"><img src="img/doodles/stul.svg" width="324" height="452" alt="Рисунок: стул-моноблок"><span class="fig-n" aria-hidden="true">(2)</span><figcaption data-i18n="dream">Наша мечта</figcaption></figure>
     </div>
     <div class="ab-na">
       <figure class="ab-nastya">
@@ -976,7 +981,7 @@
         <figcaption><span>Настя</span><span class="cap">редакция</span></figcaption>
       </figure>
       <div class="ab-hw">
-        <figure class="ab-fl" aria-hidden="true"><img src="img/doodles/cvetok.svg" width="177" height="424" alt=""></figure>
+        <figure class="ab-fl" aria-hidden="true"><img src="img/doodles/cvetok.svg" width="177" height="424" alt=""><span class="fig-n" aria-hidden="true">(3)</span></figure>
         <p class="ab-hours" data-i18n="abHours">Выходим<br>ежедневно<br>с 12:00 до 22:00.<br><br>Столик —<br>по телефону<br><a class="u" href="tel:+79670796093">+7 967 079-60-93</a>.<br>Ждём вас!</p>
       </div>
     </div>
@@ -1721,10 +1726,10 @@
   const EN_HTML = {
     promoTag:'<b>A glass for 200 ₽</b>until 4 pm',
     addr:'<span class="cap">Address</span>Moscow, Mayakovskogo lane, 2<br>entrance from the end of the building, Marksistskaya side',
-    abInfo:'Entrance at the end of the building: up the stairs<br>past flowers in bottles, under the string-lit tree.',
+    abInfo:'Entrance at the end of the building: up the stairs<br>past flowers in bottles <i class="fn">(3)</i>, under the string-lit tree.',
     abTtl:'<span class="r">We publish pizza</span>in Taganka<br>always a fresh print run',
     abAddr:'Moscow, Mayakovskogo lane 2,<br>Marksistskaya side',
-    abText:'<p class="ab-lbl">Concept</p><p>A small pizzeria in Taganka, in Mayakovskogo lane, near Marksistskaya metro. The entrance is at the end of a residential building: up the stairs past bottles with flowers, under the tree with string lights. It was opened by Nastya and Stas, and most days they greet guests themselves. The name is no accident: the place works like a small editorial office. Pizza here is a daily print run: dough and oven every day, the menu changes once a week. The latest issue of the menu comes to your table on a clipboard. On the menu: pizza and focaccia, Italian starters, salads, desserts and pastries for coffee. Recently we added wine and wine-based cocktails: negroni, house vermouth.</p><p>It is simple inside: tins of tomatoes, lemons on the tables, flowers in bottles. Half Italy, half the courtyard where the owners grew up. People come here to eat pizza, not for a dress-code dinner.</p>',
+    abText:'<p class="ab-lbl">Concept</p><p>A small pizzeria in Taganka, in Mayakovskogo lane, near Marksistskaya metro. The entrance is at the end of a residential building: up the stairs past bottles with flowers <i class="fn">(3)</i>, under the tree with string lights. It was opened by Nastya and Stas, and most days they greet guests themselves. The name is no accident: the place works like a small editorial office. Pizza here is a daily print run: dough and oven every day, the menu changes once a week. The latest issue of the menu comes to your table on a clipboard. On the menu: pizza and focaccia, Italian starters, salads, desserts and pastries for coffee. Recently we added wine and wine-based cocktails: negroni, house vermouth.</p><p>It is simple inside: tins of tomatoes, lemons on the tables, flowers in bottles, paintings on the walls <i class="fn">(1)</i>. Half Italy, half the courtyard where the owners grew up <i class="fn">(2)</i>. People come here to eat pizza, not for a dress-code dinner.</p>',
     abHours:'Out daily<br>from 12:00<br>to 22:00.<br><br>Tables —<br>by phone<br><a class="u" href="tel:+79670796093">+7 967 079-60-93</a>.<br>See you!',
     menu1:'<span class="mob-only"><span class="m1"><span>We change the <a class="mlink" href="#menu" role="button" aria-controls="sheet">menu</a></span><img class="ii ii-oil" src="img/doodles/maslo.svg" width="117" height="68" alt=""></span><span class="mr"><img class="ii ii-plate" src="img/doodles/tarelka.svg" width="139" height="33" alt=""><span>every week</span></span></span><span class="dsk-only"><span class="m1"><span>Every week</span></span><span class="mr"><span class="nf"><span class="t">we</span> <img class="iim" src="img/doodles/maslo.svg" width="117" height="68" alt=""> <span class="t">change our <a class="mlink" href="#menu" role="button" aria-controls="sheet">menu</a></span></span></span></span>',
     'sheet-cap':'This is how the menu lies on our tables.',
