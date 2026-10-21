@@ -800,6 +800,21 @@
   .ab-addr{position:absolute;left:var(--ax);top:calc(var(--abt) * .2);margin:0;white-space:nowrap}
   #about .ab-info{left:auto;right:var(--ax);text-align:right;top:calc(var(--abt) * 1.36)}   /* правый край — по краю заголовка (Дарий, 2026-10-16) */
   .ab-addr{font-family:var(--sans);font-size:12px;line-height:17px;text-transform:uppercase;letter-spacing:var(--caps-ls);font-weight:500}
+  /* «О нас», комп (Дарий, 2026-10-21, макет со снимками): у первой строки слева снимок бурраты и адрес, у второй справа — текст про вход и снимок пармы.
+     Снимки — по высоте заглавных: от верха букв (.16 кегля) до базовой линии (1.02), шаг строк 1.165; подписи с буквицей на две строки */
+  @media (min-width:821px){
+    .ab-pic{position:absolute;height:calc(var(--abt) * .86);width:auto;aspect-ratio:3/2;object-fit:cover;top:calc(var(--abt) * .16)}
+    .ab-pic.p1{left:var(--ax)}
+    .ab-pic.p2{right:var(--ax);top:calc(var(--abt) * 1.325)}
+    .ab-addr{left:calc(var(--ax) + var(--abt) * 1.29 + 2.35vw);top:calc(var(--abt) * .16 + 2px)}
+    #about .ab-info{left:calc(60.25vw - var(--gut));right:auto;text-align:left;top:calc(var(--abt) * 1.755 - 1.42em)}
+    .ab-addr,#about .ab-info{font-size:clamp(10px,.75vw,12px);line-height:1.42}   /* 12px на 1600 — подписи сжимаются вместе с заголовком, иначе адрес упирается в «ИЗДАЁМ» */
+    .ab-addr::before,#about .ab-info::before{float:left;font-size:3.42em;line-height:.756;margin:.17em .22em 0 0}   /* буквица на две строки — отдельной буквой, слово остаётся целым */
+    .ab-addr::before{content:"М"}#about .ab-info::before{content:"В"}
+    html[lang="en"] .ab-addr::before{content:"M"}html[lang="en"] #about .ab-info::before{content:"E"}
+  }
+  @media (min-width:821px) and (max-width:1239px){.ab-pic.p1{display:none}.ab-addr{left:var(--ax)}}   /* узкий комп: слева места нет — снимок бурраты убираем, адрес на прежнем месте */
+  @media (max-width:820px){.ab-pic{display:none}}
   #about .ab-ph{margin-top:5.2vw}
   @media (max-width:820px){
     .ab-house{margin-top:4vw;width:78vw}
@@ -927,6 +942,8 @@
       <figure class="ab-house"><img src="img/facade.webp" width="1400" height="1594" alt="Чертёж фасада: дом, лестница ко входу, дерево с гирляндой"></figure>
     </div>
     <div class="ab-head">
+      <img class="ab-pic p1" src="img/about/burrata.webp" width="600" height="400" alt="Буррата с жареной сливой и пармой">
+      <img class="ab-pic p2" src="img/about/parma.webp" width="600" height="400" alt="Парма, дыня, страчателла">
       <p class="ab-addr" data-i18n="abAddr">Москва, переулок Маяковского 2,<br>со стороны Марксистской</p>
       <h1 class="ab-ttl" data-i18n="abTtl"><span class="r">Издаём пиццу</span>на Таганке<br>всегда свежий тираж</h1>
       <p class="ab-info" data-i18n="abInfo">Вход с торца дома: по лестнице мимо бутылок<br>с цветами, под деревом с гирляндой.</p>
