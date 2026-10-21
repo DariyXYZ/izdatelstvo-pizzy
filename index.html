@@ -804,6 +804,7 @@
 
   /* «О нас»: чертёж фасада крупно по центру, под ним заголовок в три строки с двумя подписями */
   .ab-house{margin:0 auto 0;width:36vw}   /* чуть меньше и выше (Дарий, 2026-10-16, скрин с зелёной рамкой) */
+  @media (min-width:821px){.ab-house{margin-top:calc(var(--hdr,74px) + 1vw)}}   /* новый фасад целиком, с крышей (Дарий, 2026-10-21): сверху не прячется под липкой шапкой */
   .ab-head{position:relative;margin-top:1.7vw}
   #about .ab-ttl{font-size:var(--abt);line-height:1.165;margin:0;padding-inline:var(--ax)}
   #about .ab-ttl .r{margin-right:0}
@@ -951,7 +952,7 @@
   <!-- О НАС -->
   <section id="about">
     <div class="ab-top">
-      <figure class="ab-house"><img src="img/facade.webp" width="1400" height="1594" alt="Чертёж фасада: дом, лестница ко входу, дерево с гирляндой"></figure>
+      <figure class="ab-house"><img src="img/facade.webp" width="1400" height="1438" alt="Чертёж фасада: дом, лестница ко входу, дерево с гирляндой"></figure>
     </div>
     <div class="ab-head">
       <img class="ab-pic p1" src="img/about/burrata.webp" width="600" height="400" alt="Буррата с жареной сливой и пармой">
