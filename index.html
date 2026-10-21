@@ -609,7 +609,8 @@
   .ab-fr,.ab-chair,.ab-fl{position:relative}
   .fig-n{position:absolute;left:calc(100% + .25em);top:-.15em;font:italic 400 clamp(13px,1vw,17px)/1 "Times New Roman","Tinos",Times,serif;white-space:nowrap;color:var(--ink)}
   @media (max-width:820px){.fig-n{left:0;top:auto;bottom:calc(100% + 4px);font-size:14px}}   /* телефон: справа текст — номер над рисунком */
-  .fn{font-family:"Times New Roman","Tinos",Times,serif;font-style:italic;font-weight:400;letter-spacing:0;text-transform:none;font-size:.85em;line-height:0}   /* line-height:0 — у Times другие метрики, иначе строка со сноской выше соседних */
+  .fn{font-family:"Times New Roman","Tinos",Times,serif;font-style:italic;font-weight:400;letter-spacing:0;text-transform:none;font-size:.85em;line-height:0;vertical-align:.12em}   /* чуть выше базовой линии — иначе цифра кажется ниже строки (Дарий, 2026-10-21) */
+  .ab-info .fn,.ab-addr .fn{vertical-align:0}   /* line-height:0 — у Times другие метрики, иначе строка со сноской выше соседних */
   .ab-info .fn,.ab-addr .fn{font-size:1.2em}   /* в подписях капсом цифра Times по высоте заглавных Oswald (.66em × 1.2 ≈ .8em), иначе мелкая */
   .ab-mid{position:relative;margin-top:7.3vw}
   .ab-scroll{padding-left:var(--ax)}
@@ -804,7 +805,7 @@
 
   /* «О нас»: чертёж фасада крупно по центру, под ним заголовок в три строки с двумя подписями */
   .ab-house{margin:0 auto 0;width:36vw}   /* чуть меньше и выше (Дарий, 2026-10-16, скрин с зелёной рамкой) */
-  @media (min-width:821px){.ab-house{margin-top:calc(var(--hdr,74px) + 1vw)}}   /* новый фасад целиком, с крышей (Дарий, 2026-10-21): сверху не прячется под липкой шапкой */
+  @media (min-width:821px){.ab-house{margin-top:1vw}}   /* раздел и так начинается под шапкой; крыша пряталась только из-за прокрутки к якорю #about при загрузке — её отключили в JS (Дарий, 2026-10-21) */
   .ab-head{position:relative;margin-top:1.7vw}
   #about .ab-ttl{font-size:var(--abt);line-height:1.165;margin:0;padding-inline:var(--ax)}
   #about .ab-ttl .r{margin-right:0}
@@ -973,14 +974,14 @@
     <div class="ab-mid">
       <div class="ab-tx">
         <figure class="ab-fr ab-fr-m" aria-hidden="true"><img src="img/doodles/kartina.svg" width="211" height="284" alt=""><span class="fig-n" aria-hidden="true">(1)</span></figure>
-        <div class="ab-scroll"><div class="ab-p" data-i18n="abText"><p class="ab-lbl">Концепция</p><p>Небольшая пиццерия на Таганке, в переулке Маяковского, рядом с метро «Марксистская». Вход с торца жилого дома: подняться по лестнице мимо бутылок с цветами <i class="fn">(3)</i>, пройти под деревом с гирляндой. Её открыли Настя и Стас, и чаще всего гостей встречают они сами. Название не случайное, место устроено как маленькая редакция. Пицца здесь — ежедневный тираж: тесто и печь каждый день, меню обновляется раз в неделю. Свежий выпуск меню приносят к столу на доске с зажимом. В меню пицца и фокачча, итальянские закуски, салаты, десерты и выпечка к кофе. Недавно появилось вино и коктейли на его основе: негрони, домашний вермут.</p><p>Внутри просто: банки томатов, лимоны на столах, цветы в бутылках, на стенах картины <i class="fn">(1)</i>. Наполовину Италия, наполовину двор, где выросли хозяева <i class="fn">(2)</i>. Сюда приходят поесть пиццу, а не на ужин с дресс-кодом.</p></div></div>
+        <div class="ab-scroll"><div class="ab-p" data-i18n="abText"><p class="ab-lbl">Концепция</p><p>Небольшая пиццерия на Таганке, в переулке Маяковского, рядом с метро «Марксистская». Вход с торца жилого дома: подняться по лестнице мимо бутылок с цветами <i class="fn">(3)</i>, пройти под деревом с гирляндой. Её открыли Настя и Стас, и чаще всего гостей встречают они сами. Название не случайное, место устроено как маленькая редакция. Пицца здесь — ежедневный тираж: тесто и печь каждый день, меню обновляется раз в неделю. Свежий выпуск меню приносят к столу на доске с зажимом. В меню пицца и фокачча, итальянские закуски, салаты, десерты и выпечка к кофе. Недавно появилось вино и коктейли на его основе: негрони, домашний вермут.</p><p>Внутри просто: банки томатов, лимоны на столах, цветы в бутылках, на стенах картины <i class="fn">(1)</i>. Немного Италии и немного двора, где выросли хозяева <i class="fn">(2)</i>. Сюда приходят за пиццей, наряжаться не нужно.</p></div></div>
       </div>
       <figure class="ab-chair"><img src="img/doodles/stul.svg" width="324" height="452" alt="Рисунок: стул-моноблок"><span class="fig-n" aria-hidden="true">(2)</span></figure>
     </div>
     <div class="ab-na">
       <figure class="ab-nastya">
         <div class="im"><img src="img/nastya.webp" width="1200" height="1599" loading="lazy" alt="Настя в зале с пиццей на подносе"></div>
-        <figcaption><span>Настя</span><span class="cap">редакция</span></figcaption>
+        <figcaption><span>Настя</span><span class="cap">главный редактор</span></figcaption>
       </figure>
       <div class="ab-hw">
         <figure class="ab-fl" aria-hidden="true"><img src="img/doodles/cvetok.svg" width="177" height="424" alt=""><span class="fig-n" aria-hidden="true">(3)</span></figure>
@@ -1176,6 +1177,9 @@
   document.querySelectorAll('[data-go]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); go(a.dataset.go, true); }));
   window.addEventListener('hashchange', () => go(location.hash.slice(1), false));
   go(location.hash.slice(1), false);
+  /* браузер после загрузки прокручивает к якорю (#about = section id) и прячет верх раздела под шапку — отменяем */
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  addEventListener('load', () => scrollTo(0, 0));
 
   /* лента снимков: карточка -> оверлей с крупным фото, КБЖУ и составом; ← → листают ленту */
   const cards = [...document.querySelectorAll('.fc')];
@@ -1731,7 +1735,7 @@
     abInfo:'Entrance at the end of the building: up the stairs<br>past flowers in bottles <i class="fn">(3)</i>, under the string-lit tree.',
     abTtl:'<span class="r">We publish pizza</span>in Taganka<br>always a fresh print run',
     abAddr:'Moscow, Mayakovskogo lane 2,<br>Marksistskaya side',
-    abText:'<p class="ab-lbl">Concept</p><p>A small pizzeria in Taganka, in Mayakovskogo lane, near Marksistskaya metro. The entrance is at the end of a residential building: up the stairs past bottles with flowers <i class="fn">(3)</i>, under the tree with string lights. It was opened by Nastya and Stas, and most days they greet guests themselves. The name is no accident: the place works like a small editorial office. Pizza here is a daily print run: dough and oven every day, the menu changes once a week. The latest issue of the menu comes to your table on a clipboard. On the menu: pizza and focaccia, Italian starters, salads, desserts and pastries for coffee. Recently we added wine and wine-based cocktails: negroni, house vermouth.</p><p>It is simple inside: tins of tomatoes, lemons on the tables, flowers in bottles, paintings on the walls <i class="fn">(1)</i>. Half Italy, half the courtyard where the owners grew up <i class="fn">(2)</i>. People come here to eat pizza, not for a dress-code dinner.</p>',
+    abText:'<p class="ab-lbl">Concept</p><p>A small pizzeria in Taganka, in Mayakovskogo lane, near Marksistskaya metro. The entrance is at the end of a residential building: up the stairs past bottles with flowers <i class="fn">(3)</i>, under the tree with string lights. It was opened by Nastya and Stas, and most days they greet guests themselves. The name is no accident: the place works like a small editorial office. Pizza here is a daily print run: dough and oven every day, the menu changes once a week. The latest issue of the menu comes to your table on a clipboard. On the menu: pizza and focaccia, Italian starters, salads, desserts and pastries for coffee. Recently we added wine and wine-based cocktails: negroni, house vermouth.</p><p>It is simple inside: tins of tomatoes, lemons on the tables, flowers in bottles, paintings on the walls <i class="fn">(1)</i>. A little Italy and a little of the courtyard where the owners grew up <i class="fn">(2)</i>. People come here for pizza; no need to dress up.</p>',
     abHours:'Out daily<br>from 12:00<br>to 22:00.<br><br>Tables —<br>by phone<br><a class="u" href="tel:+79670796093">+7 967 079-60-93</a>.<br>See you!',
     menu1:'<span class="mob-only"><span class="m1"><span>We change the <a class="mlink" href="#menu" role="button" aria-controls="sheet">menu</a></span><img class="ii ii-oil" src="img/doodles/maslo.svg" width="117" height="68" alt=""></span><span class="mr"><img class="ii ii-plate" src="img/doodles/tarelka.svg" width="139" height="33" alt=""><span>every week</span></span></span><span class="dsk-only"><span class="m1"><span>Every week</span></span><span class="mr"><span class="nf"><span class="t">we</span> <img class="iim" src="img/doodles/maslo.svg" width="117" height="68" alt=""> <span class="t">change our <a class="mlink" href="#menu" role="button" aria-controls="sheet">menu</a></span></span></span></span>',
     'sheet-cap':'This is how the menu lies on our tables.',
@@ -1755,7 +1759,7 @@
     'Мясная тарелка':'Meat platter','Фокачча и кофе':'Focaccia & coffee','Свежий номер':'The latest issue',
     'О нас':'About','Меню':'Menu','Забронировать':'Book a table','Бронь':'Book','Забронировать стол':'Book a table',
     'Адрес':'Address','Ежедневно':'Daily','Телефон':'Phone','Соцсети':'Social','Часы':'Hours','Связь':'Contact','Ежедневно 12:00–22:00':'Daily 12:00–22:00',
-    'Вход':'Entrance','Зал':'Room','Печь':'Oven','Двор':'Yard','Владельцы':'Owners','Нажмите на карту, чтобы её двигать':'Click the map to move it','Редактор: Настя':'Editor: Nastya','открыть меню':'open menu','Настя':'Nastya','редакция':'editorial office','Повар':'Chef','за печью':'at the oven',
+    'Вход':'Entrance','Зал':'Room','Печь':'Oven','Двор':'Yard','Владельцы':'Owners','Нажмите на карту, чтобы её двигать':'Click the map to move it','Редактор: Настя':'Editor: Nastya','открыть меню':'open menu','Настя':'Nastya','редакция':'editorial office','главный редактор':'editor-in-chief','Повар':'Chef','за печью':'at the oven',
     'Пицца и фокачча':'Pizza & focaccia','Десерты и выпечка':'Desserts & pastry','Салаты и закуски':'Salads & starters','Напитки':'Drinks','Фото позиции':'Photo',
     'Маргарита':'Margherita','Пепперони':'Pepperoni','Четыре сыра':'Four cheese','Капрезе':'Caprese','С ветчиной, грибами, оливками и артишоками':'Ham, mushrooms, olives & artichokes',
     'С мортаделлой и артишоками':'Mortadella & artichokes','Страчателла с пармой':'Stracciatella & Parma ham','С баклажанами и копчёным скаморца':'Eggplant & smoked scamorza',
