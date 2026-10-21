@@ -938,6 +938,10 @@
   .lb .rc .rc-bar i,.lb .rc .rc-bar s{display:block;height:100%;min-width:0}
   .lb .rc .rc-bar s{background:none}
   .lb.no-kb .rc-kb,.lb.no-ing .rc-ing{display:none}
+  /* листалка лайтбокса тем же шрифтом, что чек: «x---  01 / 40  --->» текстом, без длинных SVG-стрелок, всё чёрное (Дарий, 2026-10-21) */
+  .lbfoot .ar,.lbfoot .num{font-family:'Oswald L','Arial Narrow',sans-serif;font-size:17px;font-style:normal;letter-spacing:.03em;color:var(--ink)}
+  .lbfoot .ar.end{color:var(--ink)}
+  .lbfoot{gap:clamp(18px,2.4vw,32px)}
 </style>
 <style>[hidden]{display:none!important}</style>
 </head>
@@ -1160,9 +1164,9 @@
   <div class="in">
     <div class="pic"><div class="im"><div class="ph"><span>Фото позиции</span></div></div>
       <div class="lbfoot">
-        <button class="ar" type="button" data-step="-1" aria-label="Предыдущий снимок"><span class="a-on"><svg viewBox="0 0 46 12" aria-hidden="true"><path d="M45 6H1.5M7 .8 1.5 6 7 11.2"/></svg></span><span class="a-end"><svg viewBox="0 0 46 12" aria-hidden="true"><path d="M45 6H11M1.5 1.5l7 9M8.5 1.5l-7 9"/></svg></span></button>
+        <button class="ar" type="button" data-step="-1" aria-label="Предыдущий снимок"><span class="a-on">&lt;---</span><span class="a-end">x---</span></button>
         <span class="num cap"></span>
-        <button class="ar" type="button" data-step="1" aria-label="Следующий снимок"><span class="a-on"><svg viewBox="0 0 46 12" aria-hidden="true"><path d="M1 6h43.5M39 .8 44.5 6 39 11.2"/></svg></span><span class="a-end"><svg viewBox="0 0 46 12" aria-hidden="true"><path d="M1 6h34M37.5 1.5l7 9M44.5 1.5l-7 9"/></svg></span></button>
+        <button class="ar" type="button" data-step="1" aria-label="Следующий снимок"><span class="a-on">---&gt;</span><span class="a-end">---x</span></button>
       </div>
     </div>
     <div class="tx rc">
