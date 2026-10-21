@@ -822,7 +822,7 @@
     .ab-addr{left:calc(var(--ax) + var(--abt) * .996 + 2.35vw);top:calc(var(--abt) * .169 - .3em)}   /* верх заглавных адреса = верх снимка и букв заголовка */
     #about .ab-info{left:calc(var(--ax) + (100vw - 2 * var(--gut) - 2 * var(--ax)) * .598);right:auto;text-align:left;top:calc(var(--abt) * 1.666 - 1.42em)}   /* по середине заглавных второй строки = посередине между базовой линией первой и верхом третьей */
     .ab-addr,#about .ab-info{font-size:clamp(10px,.75vw,12px);line-height:1.42}   /* 12px на 1600 — подписи сжимаются вместе с заголовком, иначе адрес упирается в «ИЗДАЁМ» */
-    .ab-addr::before,#about .ab-info::before{float:left;font-size:2.75em;line-height:.756;margin:.155em .27em 0 0}   /* буквица на две строки — отдельной буквой, слово остаётся целым */
+    .ab-addr::before,#about .ab-info::before{float:left;font-size:2.75em;line-height:.756;margin:.09em .27em 0 0}   /* буквица на две строки — отдельной буквой, слово остаётся целым */
     .ab-addr::before{content:"М"}#about .ab-info::before{content:"В"}
     html[lang="en"] .ab-addr::before{content:"M"}html[lang="en"] #about .ab-info::before{content:"E"}
   }
