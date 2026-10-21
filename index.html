@@ -591,6 +591,7 @@
   .ab-info{position:absolute;left:calc(68.68vw - var(--gut));top:calc(4.86vw - 3px);margin:0;white-space:nowrap}
   .ab-info,.ab-chair figcaption,.ab-p .ab-lbl{font-family:var(--sans);font-size:12px;line-height:17px;text-transform:uppercase;letter-spacing:var(--caps-ls);font-weight:500}
   .ab-p{font-family:var(--sans);font-size:16px;line-height:1.5}
+  .ab-p,.ab-p p:not(.ab-lbl){line-height:1.42;line-height:calc(1cap * 1.75)}   /* просвет между строками = 75% высоты заглавной (Дарий, 2026-10-21) */
   .ab-ttl{font:400 8.45vw/1.265 var(--serif);text-transform:uppercase;letter-spacing:-.01em;margin:-5.9vw 0 0;padding-left:var(--ax)}   /* 8.45 = 9.09 × .93: строки той же ширины, шаг строк тот же (10.69vw) */
   .ab-ttl .r{display:block;text-align:right;margin-right:1.9vw}
   .ab-ph{position:relative;margin:2.78vw calc(-1 * var(--gut)) 0 0}
@@ -778,7 +779,7 @@
   /* лого — Oswald Light, выключка влево, в левый верхний угол; разделы и язык — справа */
   .logo{text-align:left;justify-self:start;line-height:1.12}
   .logo .l1,.logo .l2{font-family:var(--sans);font-weight:300;font-size:var(--lg);text-transform:uppercase;letter-spacing:.01em;display:block;margin:0}
-  :root{--lg:clamp(18px,1.7vw,30px)}
+  :root{--lg:clamp(15px,1.28vw,23px)}   /* комп: лого на четверть меньше (Дарий, 2026-10-21; было clamp(18px,1.7vw,30px)) */
   @media (min-width:821px){
     .hdr{grid-template-columns:auto 1fr auto auto;column-gap:clamp(22px,2.25vw,40px)}
     .hdr .logo{grid-column:1;grid-row:1}
