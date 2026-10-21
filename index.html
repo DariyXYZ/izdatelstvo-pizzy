@@ -805,8 +805,8 @@
 
   /* «О нас»: чертёж фасада крупно по центру, под ним заголовок в три строки с двумя подписями */
   .ab-house{margin:0 auto 0;width:36vw}   /* чуть меньше и выше (Дарий, 2026-10-16, скрин с зелёной рамкой) */
-  @media (min-width:821px){.ab-house{margin-top:1vw}}   /* раздел и так начинается под шапкой; крыша пряталась только из-за прокрутки к якорю #about при загрузке — её отключили в JS (Дарий, 2026-10-21) */
-  .ab-head{position:relative;margin-top:1.7vw}
+  @media (min-width:821px){.ab-house{margin-top:1vw}}
+  .ab-head{position:relative;margin-top:3.45vw}   /* зазор земля фасада → верх букв заголовка ×1.5 (Дарий, 2026-10-21; было 1.7vw) */
   #about .ab-ttl{font-size:var(--abt);line-height:1.165;margin:0;padding-inline:var(--ax)}
   #about .ab-ttl .r{margin-right:0}
   #about{--abt:calc((100vw - 2 * var(--gut) - 2 * var(--ax)) / 10.45)}   /* 10.45 em — самая длинная строка «всегда свежий тираж» во всю ширину между осями */
