@@ -934,7 +934,9 @@
   .lb .rc .ing li{gap:0}
   .lb .rc .ing li::before{flex:0 0 2.2em}   /* номера состава одной колонкой */
   .lb .rc .rc-msg{text-align:center;margin:0 !important}
-  .lb .rc .rc-bar{margin:16px 0 10px}
+  .lb .rc .rc-bar{margin:16px 0 10px;height:72px;width:100%}
+  .lb .rc .rc-bar i,.lb .rc .rc-bar s{display:block;height:100%;min-width:0}
+  .lb .rc .rc-bar s{background:none}
   .lb.no-kb .rc-kb,.lb.no-ing .rc-ing{display:none}
 </style>
 <style>[hidden]{display:none!important}</style>
@@ -1182,8 +1184,7 @@
       <p class="rc-msg"></p>
       <p class="rc-dash" aria-hidden="true"></p>
       <div class="rc-bar" aria-hidden="true"></div>
-      <p class="rc-bye" data-i18n="rc-print">Отпечатано в печи</p>
-      <p class="rc-bye" data-i18n="rc-bye">Спасибо, что зашли</p>
+      <p class="rc-bye" data-i18n="rc-wait">Ждём вас!</p>
     </div>
   </div>
 </div>
@@ -1356,9 +1357,10 @@
     let h = 2166136261;
     for (const ch of str){ h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; }
     let out = '';
-    for (let i = 0; i < 44; i++){
+    /* штрихкод во всю ширину чека (Дарий, 2026-10-21): полосы и просветы — доли ширины через flex-grow */
+    for (let i = 0; i < 110; i++){
       h ^= h << 13; h >>>= 0; h ^= h >>> 17; h ^= h << 5; h >>>= 0;
-      out += `<i style="width:${1 + h % 3}px;margin-right:${1 + (h >>> 4) % 3}px"></i>`;
+      out += `<i style="flex:${1 + h % 3} 1 0"></i>` + (i < 109 ? `<s style="flex:${1 + (h >>> 4) % 3} 1 0"></s>` : '');
     }
     return out;
   }
@@ -1771,7 +1773,7 @@
     abHours:'Out daily<br>from 12:00<br>to 22:00.<br><br>Tables —<br>by phone<br><a class="u" href="tel:+79670796093">+7 967 079-60-93</a>.<br>See you!',
     menu1:'<span class="mob-only"><span class="m1"><span>We change the <a class="mlink" href="#menu" role="button" aria-controls="sheet">menu</a></span><img class="ii ii-oil" src="img/doodles/maslo.svg" width="117" height="68" alt=""></span><span class="mr"><img class="ii ii-plate" src="img/doodles/tarelka.svg" width="139" height="33" alt=""><span>every week</span></span></span><span class="dsk-only"><span class="m1"><span>Every week</span></span><span class="mr"><span class="nf"><span class="t">we</span> <img class="iim" src="img/doodles/maslo.svg" width="117" height="68" alt=""> <span class="t">change our <a class="mlink" href="#menu" role="button" aria-controls="sheet">menu</a></span></span></span></span>',
     'sheet-cap':'This is how the menu lies on our tables.',
-    'kb-label':'Per serving','kb-approx':'approximate','rc-bye':'Thanks for coming by','rc-print':'Printed in the oven',
+    'kb-label':'Per serving','kb-approx':'approximate','rc-wait':'See you!',
     lbtop:'Feed',pdftop:'Menu','ing-label':'Ingredients',
         meta:'* Instagram belongs to Meta, designated an extremist organisation in Russia',meta2:'* Instagram belongs to Meta, designated an extremist organisation in Russia',
     owner:'Solntsestoyanie LLC · INN 9718289650 · OGRN 1257700537302 · 109147, Moscow, Mayakovskogo lane 2, premises 1/1',
