@@ -787,7 +787,9 @@
     .hdr > .nav{margin-top:calc(var(--lg) * .56 - .6em)}
   }
   @media (max-width:820px){:root{--lg:clamp(17px,5vw,22px)}
-    .hdr .logo{justify-self:center;text-align:center}}   /* телефон: лого по центру, строки по центру (Дарий, 2026-10-16) */
+    .hdr .logo{justify-self:center;text-align:center;white-space:nowrap}   /* телефон: лого по центру (Дарий, 2026-10-16) */
+    .logo .l1,.logo .l2{display:inline}
+    .logo .l2{margin-left:.3em}}   /* телефон: лого в одну строку (Дарий, 2026-10-21) */
 
   /* «О нас»: чертёж фасада крупно по центру, под ним заголовок в три строки с двумя подписями */
   .ab-house{margin:0 auto 0;width:36vw}   /* чуть меньше и выше (Дарий, 2026-10-16, скрин с зелёной рамкой) */
