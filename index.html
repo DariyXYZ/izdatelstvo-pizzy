@@ -340,6 +340,7 @@
   /* служебные строки чека — мелкие, капсом */
   .rc-meta,.rc-cols,.rc-title,.rc-bye{font-size:12px !important;text-transform:uppercase;letter-spacing:var(--caps-ls);font-weight:500}
   .rc-rule,.rc-stars,.rc-title .rl{font-size:13px !important}
+  .rc-stars{font-size:26px !important;height:.9em !important;line-height:1.2}   /* звёздочки вдвое крупнее (Дарий, 2026-10-21); высота строки — по самой звёздочке, она сидит у верха кегля */
   .rc *{font-size:inherit;color:inherit}
   .rc p{margin:0}
   .rc-meta{display:flex;justify-content:space-between;margin:0 !important}
@@ -1343,8 +1344,8 @@
     lb.querySelector('.rdt').textContent = `${z(d.getDate())}.${z(d.getMonth() + 1)} · ${z(d.getHours())}:${z(d.getMinutes())}`;
     lb.querySelector('.rc-msg').textContent = (en && c.dataset.msgEn) || c.dataset.msg || '';
     const row = (ch, n) => Array(n).fill(ch).join(' ');
-    lb.querySelectorAll('.rc-rule').forEach(el => el.textContent = row('•', 30));
-    lb.querySelectorAll('.rc-title .rl').forEach(el => el.textContent = row('•', 11));
+    lb.querySelectorAll('.rc-rule').forEach(el => el.textContent = row('•', 60));   /* точки вдвое чаще (Дарий, 2026-10-21) */
+    lb.querySelectorAll('.rc-title .rl').forEach(el => el.textContent = row('•', 22));
     lb.querySelectorAll('.rc-stars').forEach(el => el.textContent = row('*', 30));
     lb.querySelector('.rc-bar').innerHTML = barcode(c.dataset.nm);
     lb.querySelector('.ttl').textContent = (en && EN_TEXT[norm(c.dataset.nm)]) || c.dataset.nm;
