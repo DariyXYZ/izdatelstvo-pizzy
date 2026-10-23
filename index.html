@@ -626,11 +626,15 @@
   .ab-p p.tw{position:relative}
   .ab-tw{position:absolute;left:67%;top:2lh;height:3lh;width:4.5lh;object-fit:cover}   /* ровно 3 строки: с 3-й по 5-ю (макет Дария, 2026-10-24) */
   .tw-gap{display:inline-block}
+  /* надпись от руки «скидки ручкой в меню»: под абзацем, стрелка заходит в текст (макет Дария, 2026-10-24). em от 16px — как у абзаца */
+  .ab-scroll{position:relative}
+  .ab-sale{position:absolute;font-size:16px;left:calc(var(--ax) + 15.7em);top:calc(100% - 7em);width:28.7em;height:auto;pointer-events:none}
   @media (max-width:820px){
     /* телефон: колонка узкая — обтекание только справа, со 2-й строки (пустая float-распорка высотой в строку) */
     .ab-p p.tw::before{content:"";float:right;width:0;height:calc(1lh + 1px)}   /* +1px: округление lh, иначе первая строка тоже укорачивается */
     .ab-tw{position:static;float:right;clear:right;width:6.4em;height:auto;margin:.35em 0 .3em .7em}
     .tw-gap{display:none}
+    .ab-sale{position:static;display:block;width:70vw;margin:4vw 0 0 12vw}
   }
   .ab-chair{position:absolute;left:calc(83.54vw - var(--gut));top:9.1vw;width:10.14vw;margin:0}
   .ab-chair figcaption{position:absolute;right:calc(100% + 56px);top:35.6%;transform:translateY(-50%);white-space:nowrap}
@@ -1019,7 +1023,7 @@
     <div class="ab-mid">
       <div class="ab-tx">
         <figure class="ab-fr ab-fr-m" aria-hidden="true"><img src="img/doodles/kartina.svg" width="211" height="284" alt=""><span class="fig-n" aria-hidden="true">(2)</span></figure>
-        <div class="ab-scroll"><div class="ab-p" data-i18n="abText"><p class="ab-lbl">Концепция</p><p class="tw"><img class="ab-tw" src="img/about/mashinka.webp" width="600" height="400" alt="Красная пишущая машинка на траве">Небольшая пиццерия на Таганке, в переулке Маяковского, рядом с метро «Марксистская». Вход с торца жилого дома: подняться по лестнице мимо бутылок с цветами <i class="fn">(1)</i>, пройти под деревом с гирляндой. Её открыли Настя и Стас, и чаще всего гостей встречают они сами. Название не случайное, место устроено как маленькая редакция. Пицца здесь — ежедневный тираж: тесто и печь каждый день, меню обновляется раз в неделю. Свежий выпуск меню приносят к столу на доске с зажимом. В меню пицца и фокачча, итальянские закуски, салаты, десерты и выпечка к кофе. Недавно появилось вино и коктейли на его основе: негрони, домашний вермут.</p><p>Внутри просто: банки томатов, лимоны на столах, цветы в бутылках, на стенах картины <i class="fn">(2)</i>. Немного Италии и немного двора, где выросли хозяева <i class="fn">(3)</i>. Сюда приходят за пиццей, наряжаться не нужно.</p></div></div>
+        <div class="ab-scroll"><div class="ab-p" data-i18n="abText"><p class="ab-lbl">Концепция</p><p class="tw"><img class="ab-tw" src="img/about/mashinka.webp" width="600" height="400" alt="Красная пишущая машинка на траве">Небольшая пиццерия на Таганке, в переулке Маяковского, рядом с метро «Марксистская». Вход с торца жилого дома: подняться по лестнице мимо бутылок с цветами <i class="fn">(1)</i>, пройти под деревом с гирляндой. Её открыли Настя и Стас, и чаще всего гостей встречают они сами. Название не случайное, место устроено как маленькая редакция. Пицца здесь — ежедневный тираж: тесто и печь каждый день, меню обновляется раз в неделю. Свежий выпуск меню приносят к столу на доске с зажимом. В меню пицца и фокачча, итальянские закуски, салаты, десерты и выпечка к кофе. Недавно появилось вино и коктейли на его основе: негрони, домашний вермут.</p><p>Внутри просто: банки томатов, лимоны на столах, цветы в бутылках, на стенах картины <i class="fn">(2)</i>. Немного Италии и немного двора, где выросли хозяева <i class="fn">(3)</i>. Сюда приходят за пиццей, наряжаться не нужно.</p></div><img class="ab-sale" src="img/doodles/skidki.svg" width="335" height="168" alt="Скидки ручкой в меню"></div>
       </div>
       <figure class="ab-chair"><img src="img/doodles/stul.svg" width="324" height="452" alt="Рисунок: стул-моноблок"><span class="fig-n" aria-hidden="true">(3)</span></figure>
     </div>
@@ -1471,8 +1475,9 @@
     }
     return null;
   }
-  window.addEventListener('resize', twGap);
-  window.addEventListener('hashchange', () => requestAnimationFrame(twGap));
+  /* вкладка «О нас» скрыта до перехода (ширина 0) — пересчёт по ResizeObserver, когда колонка получает ширину или меняет её */
+  let twW = -1;
+  new ResizeObserver(([e]) => { const w = Math.round(e.contentRect.width); if (w !== twW){ twW = w; twGap(); } }).observe(document.querySelector('.ab-p'));
   document.fonts && document.fonts.ready.then(twGap);
   function fixOrphans(root){
     const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
