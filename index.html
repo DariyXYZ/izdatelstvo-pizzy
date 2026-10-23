@@ -628,8 +628,8 @@
   .ab-scroll{position:relative}
   .ab-sale{position:absolute;font-size:16px;left:calc(var(--ax) + 15.7em);top:calc(100% - 7em);width:28.7em;height:auto;pointer-events:none}
   @media (max-width:820px){
-    .ab-tw{position:static;display:block;width:30vw;margin:8vw var(--ax) 0 auto}
-    .ab-sale{position:static;display:block;width:70vw;margin:4vw 0 0 12vw}
+    .ab-tw{position:static;display:block;width:21vw;margin:4vw 0 0 var(--ax)}   /* телефон: слева по краю текста, под надписью (макет Дария, 2026-10-24) */
+    .ab-sale{position:relative;left:auto;top:auto;display:block;width:70vw;margin:-17vw 0 0 12vw}   /* надпись поднята: стрелка заходит в последние строки абзаца */
   }
   .ab-chair{position:absolute;left:calc(83.54vw - var(--gut));top:9.1vw;width:10.14vw;margin:0}
   .ab-chair figcaption{position:absolute;right:calc(100% + 56px);top:35.6%;transform:translateY(-50%);white-space:nowrap}
