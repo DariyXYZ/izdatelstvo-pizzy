@@ -624,12 +624,12 @@
   .ab-p .ab-lbl{text-indent:0;margin-bottom:1lh}
   /* машинка в «Концепции» стоит прямо в тексте, строки обтекают её с двух сторон: разрывы в строках — распорки .tw-gap (twGap в JS) */
   .ab-p p.tw{position:relative}
-  .ab-tw{position:absolute;left:57%;top:calc(1lh + .3em);width:6.4em;height:auto}
+  .ab-tw{position:absolute;left:67%;top:1lh;height:3lh;width:4.5lh;object-fit:cover}   /* ровно 3 строки: со 2-й по 4-ю (макет Дария, 2026-10-24) */
   .tw-gap{display:inline-block}
   @media (max-width:820px){
     /* телефон: колонка узкая — обтекание только справа, со 2-й строки (пустая float-распорка высотой в строку) */
     .ab-p p.tw::before{content:"";float:right;width:0;height:calc(1lh + 1px)}   /* +1px: округление lh, иначе первая строка тоже укорачивается */
-    .ab-tw{position:static;float:right;clear:right;margin:.35em 0 .3em .7em}
+    .ab-tw{position:static;float:right;clear:right;width:6.4em;height:auto;margin:.35em 0 .3em .7em}
     .tw-gap{display:none}
   }
   .ab-chair{position:absolute;left:calc(83.54vw - var(--gut));top:9.1vw;width:10.14vw;margin:0}
@@ -1449,7 +1449,7 @@
     p.querySelectorAll('.tw-gap').forEach(s => s.remove());
     p.normalize();
     if (matchMedia('(max-width:820px)').matches || !p.clientWidth) return;
-    const gx = parseFloat(getComputedStyle(p).fontSize) * .7, gy = 2;
+    const gx = parseFloat(getComputedStyle(p).fontSize) * .35, gy = 4;   /* gy: строка задевает картинку больше чем на 4px — глифы выше строки, соседние строки не трогаем */
     for (let k = 0; k < 20; k++){
       const R = im.getBoundingClientRect(), hit = twHit(p, R, gx, gy);
       if (!hit) break;
@@ -1465,7 +1465,7 @@
       for (const m of n.nodeValue.matchAll(/[^ \n\t​]+/g)){
         r.setStart(n, m.index); r.setEnd(n, m.index + m[0].length);
         const b = r.getClientRects()[0];
-        if (b && b.bottom > R.top - gy && b.top < R.bottom + gy && b.right > R.left - gx && b.left < R.right + gx - 1)
+        if (b && b.bottom > R.top + gy && b.top < R.bottom - gy && b.right > R.left - gx && b.left < R.right + gx - 1)
           return { node: n, off: m.index, left: b.left };
       }
     }
