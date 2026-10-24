@@ -1509,6 +1509,7 @@
     zReset();
     menuLabel();
     if (on) { fold(null); drUp = false; fT = null; }
+    clearTimeout(hintT); hintT = on ? setTimeout(hintDr, 1000) : 0;
   }
   /* лист напитков отгибается как бумага: держим точку листа P, она едет за курсором в Q.
      Сгиб — серединный перпендикуляр к PQ; всё по сторону P отражается через него и показывает изнанку.
@@ -1569,7 +1570,7 @@
     if (e.pointerType !== 'touch') return;
     zPts.set(e.pointerId, [e.clientX, e.clientY]);
     if (zPts.size >= 2) { zCancelFold(); zStart(); e.stopPropagation(); e.preventDefault(); }
-    else if (zS > 1.02) { zStart(); zTap = {x: e.clientX, y: e.clientY, t: performance.now(), sheet: !!e.target.closest('#dr, .drf')}; e.stopPropagation(); }
+    else if (zS > 1.02) { zStart(); zTap = {x: e.clientX, y: e.clientY, t: performance.now(), sheet: !!e.target.closest('.stack')}; e.stopPropagation(); }
   }, true);
   sheet.addEventListener('pointermove', e => {
     if (!zPts.has(e.pointerId)) return;
@@ -1590,7 +1591,7 @@
     if (!zPts.has(e.pointerId)) return;
     zPts.delete(e.pointerId);
     if (zG) { e.stopPropagation(); zEnd = performance.now(); }
-    /* в увеличенном меню тап по листу тоже перекидывает его */
+    /* в увеличенном меню тап по доске тоже перекидывает лист */
     if (zG && zG.k === 'pan' && zTap && zTap.sheet && !zPts.size && Math.hypot(e.clientX - zTap.x, e.clientY - zTap.y) < 6 && performance.now() - zTap.t < 400) toggleDr();
     if (!zPts.size) zTap = null;
     zStart();   /* из щипка в прокрутку одним пальцем и обратно */
@@ -1732,6 +1733,26 @@
     kick();
   };
   [dr, drFl].forEach(el => { el.addEventListener('pointerup', drop); el.addEventListener('pointercancel', drop); });
+  /* тап в любом месте доски (основной лист, поля) тоже перекидывает спешалс — гости не догадывались, что лист отгибается (Дарий, 2026-10-25).
+     Сам лист и изнанку обрабатывает grab/drop; «закрыть» и фон вокруг доски — своё */
+  const stack = sheet.querySelector('.stack');
+  let sTap = null;
+  stack.addEventListener('pointerdown', e => {
+    sTap = e.button > 0 || e.target.closest('#dr, .drf') ? null : {x: e.clientX, y: e.clientY, t: performance.now()};
+  });
+  stack.addEventListener('pointerup', e => {
+    if (sTap && Math.hypot(e.clientX - sTap.x, e.clientY - sTap.y) < 6 && performance.now() - sTap.t < 400 && !fDrag) toggleDr();
+    sTap = null;
+  });
+  stack.addEventListener('pointercancel', () => { sTap = null; });
+  /* подсказка: через секунду после открытия доски нижний угол спешалс чуть приподнимается и ложится обратно */
+  var hintT = 0;   /* var: setMenu может сработать раньше этой строки */
+  function hintDr(){
+    if (sheet.hidden || drUp || fDrag || fP || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const w = dr.offsetWidth, h = dr.offsetHeight, P = [w, h];
+    fP = P; fQ = P; fT = [w * .78, h * .91]; kick();
+    setTimeout(() => { if (!fDrag && !drUp && fP === P) { fT = P; kick(); } }, 700);
+  }
   window.addEventListener('resize', () => { if (sheet.hidden) return; if (drUp) setUp(); else fold(null); });
   menubtn.addEventListener('click', () => setMenu(sheet.hidden));
   menux.addEventListener('click', () => setMenu(false));
