@@ -879,7 +879,7 @@
       -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 7.2'%3E%3Cpath d='M-10 3.6Q-5 .9 0 3.6T10 3.6T20 3.6T30 3.6' fill='none' stroke='black' stroke-width='1'/%3E%3C/svg%3E") repeat-x 0 50% / .5em 100%;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 7.2'%3E%3Cpath d='M-10 3.6Q-5 .9 0 3.6T10 3.6T20 3.6T30 3.6' fill='none' stroke='black' stroke-width='1'/%3E%3C/svg%3E") repeat-x 0 50% / .5em 100%}}
   /* знаки акций — мелкой кнопкой «( ! )» / «( % )» размером с «( открыть меню )» в правом верхнем углу вместо булавки;
      при наведении на карточку скобки разъезжаются, как у кнопок (Дарий, 2026-10-16). Сам знак — курсивный Times */
-  #menu .fc.promo .tag{left:auto;right:5cqw;top:4cqw;font-family:var(--serif);font-style:normal;font-size:clamp(20px,1.6vw,28px);line-height:1;color:#fff}
+  #menu .fc.promo .tag{left:50%;right:auto;transform:translateX(-50%);top:4cqw;font-family:var(--serif);font-style:normal;font-size:clamp(20px,1.6vw,28px);line-height:1;color:#fff}   /* по центру верха — угол срезан аркой (Дарий, 2026-10-24) */
   #menu .fc.promo .tag i{font-family:"Times New Roman","Tinos",Times,serif;font-style:italic}
   #menu .fc.promo .tag::before{content:"(\00a0";display:inline-block;position:static;inset:auto;background:none}
   #menu .fc.promo .tag::after{content:"\00a0)";display:inline-block}
