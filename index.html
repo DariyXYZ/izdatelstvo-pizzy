@@ -857,6 +857,9 @@
   #menu .fc{container-type:inline-size}
   /* все снимки ленты — арки: верх полукругом радиусом в полширины кадра, низ прямой (Дарий, 2026-10-24; эллипсы до этого отменены) */
   #menu .fc .im{border-radius:50cqw 50cqw 0 0}
+  /* у пицц кадр вниз (запас сверху есть — исходники 3:4): иначе арка срезает бортик сверху по бокам */
+  #menu .fc:is([data-kind="pizza"],[data-kind="bake"]) .im img{object-position:50% 25%}
+  #menu .fc .im img[src$="inzhir.webp"]{object-position:50% 50%}   /* пицца и так низко — сдвиг срезал бы низ */
   #menu .fc figcaption::before{content:none}
   /* понятная кнопка меню в самом разделе — над фильтром, по центру */
   .mopen-w{margin:calc(-1 * clamp(10px,1.5vw,28px)) 0 calc(2vw + 22px);text-align:center}   /* у .mfilt отрицательный верхний отступ — кнопку держим выше */
