@@ -414,6 +414,12 @@
   .dr,.drf{position:absolute;top:10px;left:50%;height:calc(var(--sw) * 297 / 210);width:calc(var(--sw) * 297 / 210 * 1241 / 3508);
       transform:translateX(-50%) rotate(-2deg);transform-origin:50% 0;z-index:2;touch-action:none}
   .drf{z-index:4;pointer-events:none}
+  /* сам блок листа клики не ловит: где картинка обрезана сгибом, тап проходит на доску (и перекидывает лист) */
+  .dr{pointer-events:none}
+  .dr img{pointer-events:auto}
+  /* увеличенная зона захвата: хвост листа можно взять и чуть ниже/сбоку края, изнанку — в 18px вокруг (Дарий, 2026-10-25) */
+  .drh{position:absolute;left:-24px;right:-24px;bottom:-40px;height:24%;pointer-events:auto;cursor:grab}
+  .drf .flh{fill:none;stroke:transparent;stroke-width:36;stroke-linejoin:round;vector-effect:non-scaling-stroke;pointer-events:stroke;cursor:grab}
   .dr img{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;user-select:none;-webkit-user-drag:none}
   .dr svg,.drf svg{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none}
   .dr .fr{fill:none;stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
@@ -1056,8 +1062,8 @@
         <div class="stack">
           <div class="sheet"><img src="img/menu-main.webp" width="1240" height="1754" alt="Основное меню и бар"></div>
           <svg class="sho" aria-hidden="true"><rect/></svg>
-          <div class="dr" id="dr"><img src="img/menu-specials.webp" width="620" height="1753" alt="Сезонное меню" draggable="false"><svg aria-hidden="true"><polygon class="fr"/></svg></div>
-          <div class="drf" aria-hidden="true"><svg><polygon class="fl"/></svg></div>
+          <div class="dr" id="dr"><i class="drh"></i><img src="img/menu-specials.webp" width="620" height="1753" alt="Сезонное меню" draggable="false"><svg aria-hidden="true"><polygon class="fr"/></svg></div>
+          <div class="drf" aria-hidden="true"><svg><polygon class="flh"/><polygon class="fl"/></svg></div>
         </div>
       </div>
     </div>
@@ -1517,7 +1523,7 @@
      (как на скриншоте Дария: сгиб на ~26% высоты у левого края и ~18% у правого, лист уходит вверх-влево и закрывает кнопку).
      Отпустили — лист доводится в одно из них по доле раскрытия (и по направлению броска), в середине не останавливается */
   const dr = document.getElementById('dr'), drImg = dr.querySelector('img');
-  const drFr = dr.querySelector('.fr'), drFl = sheet.querySelector('.drf .fl');
+  const drFr = dr.querySelector('.fr'), drFl = sheet.querySelector('.drf .fl'), drFlH = sheet.querySelector('.drf .flh'), drH = dr.querySelector('.drh');
   const TH = -2 * Math.PI / 180;
   let fP = null, fQ = null, fDrag = false, drUp = false;
   /* линия сгиба положения «вверх»: от левого края на .11 высоты к правому на .06 (в координатах листа).
@@ -1628,9 +1634,9 @@
         const d = 2 * side(L, X); return [X[0] - d * L.n[0], X[1] - d * L.n[1]];
       });
       drImg.style.clipPath = 'polygon(' + front.map(p => p[0].toFixed(1) + 'px ' + p[1].toFixed(1) + 'px').join(',') + ')';
-      drFr.setAttribute('points', pts(front)); drFl.setAttribute('points', pts(flap));
+      drFr.setAttribute('points', pts(front)); drFl.setAttribute('points', pts(flap)); drFlH.setAttribute('points', pts(flap));
     } else {
-      drImg.style.clipPath = ''; drFr.setAttribute('points', pts(rect)); drFl.setAttribute('points', '');
+      drImg.style.clipPath = ''; drFr.setAttribute('points', pts(rect)); drFl.setAttribute('points', ''); drFlH.setAttribute('points', '');
     }
     fP = P || null; fQ = P ? Q : null;
     return true;
@@ -1669,8 +1675,10 @@
   const kick = () => { if (!fRaf) fRaf = requestAnimationFrame(tick); };
   function grab(e){
     if (e.button > 0) return;
+    if (e.target === drH && drUp) return;   /* лист перекинут — низ пуст, тап уходит доске */
     e.preventDefault();
-    const D = toLocal(e.clientX, e.clientY), L = e.target === drFl && fP && fQ && line(fP, fQ);
+    const D = toLocal(e.clientX, e.clientY), L = (e.target === drFl || e.target === drFlH) && fP && fQ && line(fP, fQ);
+    if (e.target === drH) { D[0] = Math.min(dr.offsetWidth - 1, Math.max(1, D[0])); D[1] = Math.min(dr.offsetHeight - 1, D[1]); }   /* взяли чуть мимо края — держим за край */
     fTap = {x: e.clientX, y: e.clientY, t: performance.now(), far: false};
     if (drUp && !L) { tapOnly = true; e.target.setPointerCapture(e.pointerId); return; }   /* перекинутый лист тянут только за изнанку; край под зажимом — только тап */
     gUp = null;
@@ -1687,6 +1695,8 @@
   }
   drImg.addEventListener('pointerdown', grab);
   drFl.addEventListener('pointerdown', grab);
+  drFlH.addEventListener('pointerdown', grab);
+  drH.addEventListener('pointerdown', grab);
   let fHist = [], gUp = null, fTap = null, tapOnly = false;   /* последние точки жеста — чтобы понять, куда вели лист в момент отпускания */
   const move = e => {
     if (fTap && Math.hypot(e.clientX - fTap.x, e.clientY - fTap.y) > 6) fTap.far = true;
@@ -1703,6 +1713,7 @@
   };
   dr.addEventListener('pointermove', move);
   drFl.addEventListener('pointermove', move);
+  drFlH.addEventListener('pointermove', move);
   /* один тап по листу — сразу в другое положение (Дарий: «чтобы ускорить флоу, если играться нет времени») */
   const isTap = () => fTap && !fTap.far && performance.now() - fTap.t < 400;
   function toggleDr(){
@@ -1732,13 +1743,14 @@
     } else fT = fP;
     kick();
   };
-  [dr, drFl].forEach(el => { el.addEventListener('pointerup', drop); el.addEventListener('pointercancel', drop); });
+  [dr, drFl, drFlH].forEach(el => { el.addEventListener('pointerup', drop); el.addEventListener('pointercancel', drop); });
   /* тап в любом месте доски (основной лист, поля) тоже перекидывает спешалс — гости не догадывались, что лист отгибается (Дарий, 2026-10-25).
      Сам лист и изнанку обрабатывает grab/drop; «закрыть» и фон вокруг доски — своё */
   const stack = sheet.querySelector('.stack');
   let sTap = null;
   stack.addEventListener('pointerdown', e => {
-    sTap = e.button > 0 || e.target.closest('#dr, .drf') ? null : {x: e.clientX, y: e.clientY, t: performance.now()};
+    const own = e.target === drImg || e.target === drFl || e.target === drFlH || (e.target === drH && !drUp);   /* эти тянут лист сами */
+    sTap = e.button > 0 || own ? null : {x: e.clientX, y: e.clientY, t: performance.now()};
   });
   stack.addEventListener('pointerup', e => {
     if (sTap && Math.hypot(e.clientX - sTap.x, e.clientY - sTap.y) < 6 && performance.now() - sTap.t < 400 && !fDrag) toggleDr();
