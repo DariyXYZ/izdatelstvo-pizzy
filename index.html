@@ -968,6 +968,9 @@
   .lbfoot .ar.end{color:var(--ink)}
   .lbfoot .ah{position:relative;top:.1em}   /* в Oswald «<» «>» выше дефиса на .1em — опускаем, чтобы острие было на линии «---» */
   .lbfoot{gap:clamp(18px,2.4vw,32px)}
+  /* ТЕСТ 2026-10-26: ровная сетка ленты (класс .grid ставит JS при GRID = true) */
+  .feed.grid{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));align-items:start}
+  .feed.grid .fc .im{aspect-ratio:3/4}
 </style>
 <style>[hidden]{display:none!important}</style>
 </head>
@@ -1251,6 +1254,8 @@
   /* masonry: число колонок берём из CSS (--cols), высоту карточки — из её пропорции --pin; карточка уходит в самую короткую колонку */
   const feed = document.querySelector('.feed');
   let feedCols = 0, feedW = 0;
+  /* ТЕСТ 2026-10-26: ровная сетка — все снимки 3:4, ряды вровень (Дарий). Откат: GRID = false */
+  const GRID = true;
   const wideMq = matchMedia('(min-width:821px)'), isSm = f => wideMq.matches && f.classList.contains('sm');
   /* фильтр-переключатель: fMode = 'all' | 'promo' | список data-kind через пробел; shown — что сейчас в ленте и в листалке оверлея */
   let fMode = 'all', shown = cards;
@@ -1267,6 +1272,7 @@
   /* низ ленты ровный: недостающую высоту короткой колонки раздаём её карточкам пропорционально их высоте
      (пропорции --pin подобраны так, что добор небольшой) */
   function evenFeed(){
+    if (GRID) return;
     const cols = [...feed.children];
     cols.forEach(c => [...c.children].forEach(f => { f.querySelector('.im').style.aspectRatio = ''; f.style.paddingBlock = ''; }));
     if (!feed.clientWidth) return;
@@ -1318,7 +1324,7 @@
   function placeFeed(n){
     shown = visible();
     const H = new Map(cards.map(c => { const [a, b] = (getComputedStyle(c).getPropertyValue('--pin').trim() || '3/4').split('/').map(Number);
-                                       return [c, (isSm(c) ? b / a * .58 + .32 : b / a) + .04]; }));   /* .04 — зазор; мелкая: 58% ширины + поля 16% */
+                                       return [c, GRID ? 1 : (isSm(c) ? b / a * .58 + .32 : b / a) + .04]; }));   /* .04 — зазор; мелкая: 58% ширины + поля 16% */
     const M = new Map(cards.map(c => [c, {k: c.dataset.kind, t: c.dataset.tone, s: c.dataset.sim || ''}]));   /* метки читаем из DOM один раз */
     const pair = (c, o) => { const a = M.get(c), b = M.get(o); return (a.k === b.k ? 2 : 0) + (a.t === b.t ? .5 : 0) + (a.s && a.s === b.s ? 4 : 0); };
     /* телефон: стыки карточек в соседних колонках не должны совпадать по высоте — всегда сдвижка (Дарий, 2026-10-02) */
@@ -1365,6 +1371,11 @@
       const r = run(look, w, o);
       if (!top || r.total < top.total - 1e-9) top = r;
     })));
+    /* сетка: карточки подряд по рядам (колонки той же раскладки читаем построчно) */
+    feed.classList.toggle('grid', GRID);
+    if (GRID) { const rows = Math.max(...top.spans.map(s => s.length)), out = [];
+      for (let r = 0; r < rows; r++) top.spans.forEach(s => s[r] && out.push(s[r].c));
+      feed.replaceChildren(...out); return; }
     feed.replaceChildren(...top.spans.map(sp => { const col = document.createElement('div'); col.className = 'fcol'; sp.forEach(x => col.appendChild(x.c)); return col; }));
   }
   layFeed();
