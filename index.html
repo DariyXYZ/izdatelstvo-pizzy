@@ -771,7 +771,7 @@
     /* телефон: лого сверху, под ним все четыре кнопки одной строкой (макет «меню-mob.jpg»); нижней панели больше нет */
     :root{--nav:clamp(15px,4.7vw,19px)}
     .hdr,body:has(main[data-tab="home"]) .hdr{grid-template-columns:repeat(4,auto);grid-template-areas:"logo logo logo logo";justify-content:space-between;
-         padding-inline:8px;row-gap:8px}
+         padding-inline:8px;row-gap:2px}   /* кнопки ближе к лого (Дарий, 2026-10-26; было 8px) */
     .hdr .nav a.pb,.hdr .nav .h-lang{grid-area:auto;justify-self:auto;align-self:center;margin:0}
     html body:has(main) .hdr .nav a.hx.pb{display:inline-block}
     .tabbar,body:has(main:not([data-tab="home"])) .tabbar{display:none}
