@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Издательство пиццы</title>
-<link rel="preload" href="fonts/TimesNewRomanVO-Cond.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/TimesNewRomanVO-Cond-nohint.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;1,400;1,700&display=swap">
 <style>
   /* цифры по всему сайту набираются курсивным Times — буквы остаются в своих шрифтах */
@@ -19,14 +19,14 @@
   @font-face{font-family:'Oswald L';src:url(fonts/Oswald-lat.woff2) format('woff2');font-weight:100 900;font-style:normal;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
   @font-face{font-family:'Oswald L';src:url(fonts/Oswald-cyr.woff2) format('woff2');font-weight:100 900;font-style:italic;font-display:swap;unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
   @font-face{font-family:'Oswald L';src:url(fonts/Oswald-lat.woff2) format('woff2');font-weight:100 900;font-style:italic;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-  /* узкий Times — настоящий Times New Roman VO Condensed (кириллица есть; нет ₽ № стрелок — их добирает обычный Times) */
+  /* узкий Times — настоящий Times New Roman VO Condensed (кириллица есть; нет ₽ № стрелок — их добирает обычный Times).
+     Файл без хинтинга: у кириллицы кривые подсказки — на Windows при 125–175% И, П, Ь садились на пиксель ниже Д, Ц (Дарий, 2026-10-26).
+     Исходник с хинтингом — fonts/TimesNewRomanVO-Cond.woff2 */
   @font-face{
     font-family:'Times Cond';
-    src:url(fonts/TimesNewRomanVO-Cond.woff2) format('woff2');
+    src:url(fonts/TimesNewRomanVO-Cond-nohint.woff2) format('woff2');
     font-weight:400;font-style:normal;font-display:block;
   }
-  /* тот же шрифт без хинтинга: у кириллицы кривые подсказки — на Windows при 125–175% И, П, Ь садились на пиксель ниже Д, Ц (Дарий, 2026-10-26) */
-  @font-face{font-family:'Times Cond NH';src:url(fonts/TimesNewRomanVO-Cond-nohint.woff2) format('woff2');font-weight:400;font-style:normal;font-display:block}
   :root{
     --l1:clamp(30px,4vw,56px);
     --bg:#ffffff; --ink:#000000; --mute:#8a8a8a; --off:#c2c2c2; --ph:#ececec; --line:#000;
@@ -825,7 +825,7 @@
     .hdr .logo{justify-self:center;text-align:center;white-space:nowrap}   /* телефон: лого по центру (Дарий, 2026-10-16) */
     .logo .l1,.logo .l2{display:inline}
     .logo .l2{margin-left:.3em}   /* телефон: лого в одну строку (Дарий, 2026-10-21) */
-    .logo .l1,.logo .l2{font-family:'Times Cond NH',var(--serif);font-weight:400;letter-spacing:.05em}}   /* ТЕСТ 2026-10-26: на телефоне лого узким Times, как кнопки (Дарий). Откат — удалить строку */
+    .logo .l1,.logo .l2{font-family:var(--serif);font-weight:400;letter-spacing:.05em}}   /* ТЕСТ 2026-10-26: на телефоне лого узким Times, как кнопки (Дарий). Откат — удалить строку */
 
   /* «О нас»: чертёж фасада крупно по центру, под ним заголовок в три строки с двумя подписями */
   .ab-house{margin:0 auto 0;width:36vw}   /* чуть меньше и выше (Дарий, 2026-10-16, скрин с зелёной рамкой) */
