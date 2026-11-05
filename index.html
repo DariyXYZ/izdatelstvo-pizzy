@@ -2015,7 +2015,8 @@
     const t = box.querySelector(mq.matches ? '.sale-to' : '.sale-to-d');   // телефон: последнее «меню»; комп: «меню» во втором абзаце, стрелка заходит в текст, как в макете
     if (!t || !sale.offsetWidth) return;
     const r = t.getBoundingClientRect(), a = sale.getBoundingClientRect();
-    const dx = Math.max(r.left + r.width / 2 - (a.left + a.width * .14), 4 - a.left), dy = r.bottom + 3 - a.top;   // не за левый край экрана
+    const vw = document.documentElement.clientWidth;
+    const dx = Math.max(Math.min(r.left + r.width / 2 - (a.left + a.width * .14), vw - 8 - a.right), 4 - a.left), dy = r.bottom + 3 - a.top;   // не за края экрана: справа надпись не обрезается и не даёт горизонтальный скролл (Дарий, 2026-11-05) — стрелка тогда может прийтись не на «меню»
     if (mq.matches){   // телефон: по высоте — отступом, чтобы стул (3) уехал ниже, а не под надпись
       sale.style.marginTop = (parseFloat(getComputedStyle(sale).marginTop) + dy).toFixed(1) + 'px';
       sale.style.transform = `translateX(${dx.toFixed(1)}px)`;
