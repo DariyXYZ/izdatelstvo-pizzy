@@ -27,6 +27,8 @@ css='''<style id="soon">
 </style>
 </head>'''
 rep('</head>',css)
+# перевод надписи для ru/en
+rep('const EN_TEXT = {',"const EN_TEXT = {\n    'скоро тут будет сайт':'website coming soon',")
 guard='<script>if(/^#(about|menu|book)/.test(location.hash))history.replaceState(null,"",location.pathname)</script>\n<body>'
 rep('<body>',guard)
 open(dst,'w',encoding='utf-8',newline='').write(s)
