@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /development/
 
 Sitemap: https://izdatelstvo.rest/sitemap.xml
